@@ -12,6 +12,10 @@ namespace PlusOneBuy.Controllers
         {
             return View();
         }
+        public ActionResult privacy()
+        {
+            return View();
+        }
 
         public ActionResult About()
         {

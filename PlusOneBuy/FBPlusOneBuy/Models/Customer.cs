@@ -21,7 +21,8 @@ namespace FBPlusOneBuy.Models
         [StringLength(50)]
         public string CustomerName { get; set; }
 
-        public int? PhoneNumber { get; set; }
+        [StringLength(20)]
+        public string PhoneNumber { get; set; }
 
         [StringLength(100)]
         public string Email { get; set; }

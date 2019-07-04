@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using FBPlusOneBuy.Repositories;
+using Newtonsoft.Json;
 
 namespace FBPlusOneBuy.Controllers
 {
@@ -12,9 +13,18 @@ namespace FBPlusOneBuy.Controllers
         // GET: list
         public ActionResult Index()
         {
-            ProductRepositories productRepositories = new ProductRepositories();
-            var product=productRepositories.GetAll();
+            //OrderRepositories orderRepositories = new OrderRepositories();
+            //var order = orderRepositories.GetAll();
+            //ViewData["Orderlist"] = order;
             return View();
+        }
+        [HttpPost]
+        public ActionResult GetAll()
+        {
+            OrderRepositories orderRepositories = new OrderRepositories();
+            var order = orderRepositories.GetAll();
+            var result = JsonConvert.SerializeObject(order);
+            return Json(result);
         }
     }
 }

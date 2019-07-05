@@ -12,12 +12,18 @@ namespace FBPlusOneBuy.Services
     {
         public List<string> getLiveID(string fanPageName ,string token)
         {
+            //取得前十筆資料
+            var postsNumber = 10;
+            //建立最終回傳的資料型態
             List<string> liveIDList = new List<string>();
-            string url = "https://graph.facebook.com/v3.3/" + fanPageName + "?fields=posts&access_token=" + token;
+            //連接的Url
+            string url = "https://graph.facebook.com/v3.3/" + fanPageName + "?fields=posts.limit(" + postsNumber + ")&access_token=" + token;
+
+            //建立RestClient和請求類型
             var client = new RestClient(url);
             var request = new RestRequest(Method.GET);
 
-            //抓取完整封包
+            //執行並抓取完整封包
             IRestResponse response = client.Execute(request);
             //Console.WriteLine(response.Content);
 

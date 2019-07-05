@@ -24,6 +24,9 @@ namespace FBPlusOneBuy.Repositories
     {
         public List<Datum> data { get; set; }
         public Paging paging { get; set; }
+
+        //Comments裡面可以再包Comments的屬性，意思就是當作這個Comment(留言)的"回覆"，
+        //但由於只能疊帶一層，所以暫時不在此加上Comments的屬性
     }
 
     public class RootObject

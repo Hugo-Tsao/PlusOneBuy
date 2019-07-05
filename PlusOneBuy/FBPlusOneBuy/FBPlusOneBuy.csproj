@@ -217,6 +217,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\FBJsonToCSharp.cs" />
     <Compile Include="Repositories\OrderRepositories.cs" />
+    <Compile Include="Services\CommentFilterService.cs" />
     <Compile Include="Services\FBRequestService.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\OrderList.cs" />

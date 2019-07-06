@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using FBPlusOneBuy.Repositories;
+using FBPlusOneBuy.Services;
 using Newtonsoft.Json;
 
 namespace FBPlusOneBuy.Controllers
@@ -34,6 +35,14 @@ namespace FBPlusOneBuy.Controllers
             var order = orderRepositories.GetAll();
             order = order.Where((x) => x.LiveID == liveID);
             var result = JsonConvert.SerializeObject(order);
+            return Json(result);
+        }
+
+        [HttpPost]
+        public ActionResult GetPlusOneBuyOrders(string liveID,string token,List<string> keywords)
+        {
+            var OrderList = FBRequestService.getNewOrderList(liveID,token,keywords);
+            var result = JsonConvert.SerializeObject(OrderList);
             return Json(result);
         }
     }

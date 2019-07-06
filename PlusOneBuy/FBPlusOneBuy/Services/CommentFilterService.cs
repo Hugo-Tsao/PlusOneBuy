@@ -23,7 +23,7 @@ namespace FBPlusOneBuy.Services
                     var name = FBRequestService.UTF8ConvertToString(data.from.name);
                     order.CustomerName = name;
                     order.Keyword = data.message;
-                    //order.ProductName = ProductName; //暫時寫死，之後用搜索
+                    order.ProductName = "馬桶泡泡洗"; //暫時寫死，之後用搜索
                     order.LiveID = liveID;
                     order.OrderDateTime = DateTime.Now;
                     order.Quantity = 1; //暫時寫死

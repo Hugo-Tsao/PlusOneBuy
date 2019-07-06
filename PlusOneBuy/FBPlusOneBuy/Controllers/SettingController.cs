@@ -16,10 +16,9 @@ namespace FBPlusOneBuy.Controllers
         // GET: Setting
         public ActionResult Index()
         {
-            FBRequestService fBRequestService = new FBRequestService();
             string fanPageName = "justTshirt.tw";
             string token = "EAASxbKYYpHoBAI27CZBoK8ZBzFmJjEMIR30woKcIfDPx4mtljSUOsGxVGsKHmy1JgCay8KTilT9l3nbkSfGzBZC6wVSDUcl3ZAa7C5OyZAv8CV7K0duuyW2jHFGqZCwhIKiM6jPonrHLp7s5UEudWL5UHkT8IuZBGmBTOEHS0IjYZCsYbcQfo3j9";
-            var result=fBRequestService.getLiveID(fanPageName, token);
+            var result=FBRequestService.getLiveID(fanPageName, token);
             ViewData["liveIDList"] = result;
             return View();
         }

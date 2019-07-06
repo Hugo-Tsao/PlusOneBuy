@@ -15,8 +15,8 @@ namespace FBPlusOneBuy.Models
         }
 
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public int LiveID { get; set; }
+        [StringLength(50)]
+        public string LiveID { get; set; }
 
         public int FanPageID { get; set; }
 

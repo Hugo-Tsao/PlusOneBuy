@@ -1,6 +1,8 @@
 ﻿
 @{
     ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    List<string> liveIDList = ViewData["liveIDList"] as List<string>;
 }
 
 <div class="container-fluid">
@@ -8,36 +10,74 @@
         <h1 class="ml-3">PlusOneBuy</h1>
     </div>
 </div>
-<form action="~/Setting/Index" method="post">
+<form action="~/list/Index" method="post">
     <div class="container">
+        <div class="row">
+            <div class="col-3">
+                <div class="dropdown">
+                    <h4 class="mt-3">請選擇直播影片:</h4>
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        直播影片
+                    </button>
+                    <input type="hidden" name="liveID" id="liveID">
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenu">
+                        @for (int i = 0; i < liveIDList.Count; i++)
+                        {
+                            <button class="dropdown-item" type="button">@liveIDList[i]</button>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="row ">
             <div class="col-3">
                 <h4 class="mt-3">設定留言關鍵字:</h4>
+                <input name="ProductName" type="hidden" value="馬桶泡泡洗" />
                 <input type="text" class="form-control" name="keyWord" />
             </div>
         </div>
-        @Html.ActionLink("送出", "Action", "Controller", null, new { @class = "btn btn-primary active mt-3" })
         <button type="submit" class="btn btn-primary mt-3">送出</button>
         <button id="btn_comments">yoyoyoy</button>
     </div>
 </form>
 @section EndJS
 {
+    <script src="~/Assets/js/jquery-3.4.1.min.js"></script>
+    <script>
+        $('.dropdown-item').click(function () {
+            $('#dropdownMenu').text($(this).text())
+            $('#liveID').val($(this).text())
+        })
+        $('button[type="submit"]').click(function () {
+            if ($('#dropdownMenu').text().trim() == "直播影片") {
+                alert("請選擇直播影片")
+                return false;
+            }
+            else if ($('input[name="keyWord"]').val() == "") {
+                alert("請輸入關鍵字")
+                return false;
+            }
+            else {
+                document.form.submit();
+            }
+
+        })
+    </script>
     <script>
         $(function () {
             function getAuth() {
-                    FB.login(function (response) {
-                        if (response.status === 'connected') {
-                            console.log(response.authResponse.accessToken);
+                FB.login(function (response) {
+                    if (response.status === 'connected') {
+                        console.log(response.authResponse.accessToken);
 
-                        }
-                    }, {
-                            auth_type: 'rerequest',
-                            scope: "manage_pages",
-                            return_scopes: true
-                        });
-                }
-            $("#btn_comments").click(function (e) {       
+                    }
+                }, {
+                        auth_type: 'rerequest',
+                        scope: "manage_pages",
+                        return_scopes: true
+                    });
+            }
+            $("#btn_comments").click(function (e) {
                 getAuth();
                 // $.ajax({
                 //     method: "get",
@@ -50,9 +90,8 @@
             })
 
         });
-
     </script>
-    
+
 }
 @section TopJS
 {
@@ -79,3 +118,4 @@
     </script>
     <script async defer src="https://connect.facebook.net/en_US/sdk.js"></script>
 }
+

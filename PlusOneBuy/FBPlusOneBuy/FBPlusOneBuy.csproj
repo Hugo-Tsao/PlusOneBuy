@@ -199,19 +199,12 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201907040137137_InitialDB.cs" />
-    <Compile Include="Migrations\201907040137137_InitialDB.Designer.cs">
-      <DependentUpon>201907040137137_InitialDB.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201907040424533_v1.cs" />
-    <Compile Include="Migrations\201907040424533_v1.Designer.cs">
-      <DependentUpon>201907040424533_v1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
-    <Compile Include="Models\ContextModel.cs" />
+    <Compile Include="Models\Context.cs" />
     <Compile Include="Models\Customer.cs" />
+    <Compile Include="Models\FanPage.cs" />
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\LivePost.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Order.cs" />
     <Compile Include="Models\Product.cs" />
@@ -224,6 +217,7 @@
     <Compile Include="ViewModels\OrderList.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\css\styles.css" />
     <Content Include="Assets\js\jquery-3.4.1.min.js" />
     <Content Include="Content\bootstrap-grid.css" />
     <Content Include="Content\bootstrap-grid.min.css" />
@@ -310,7 +304,6 @@
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Home\Privacy.cshtml" />
-    <Content Include="Views\Setting\Index.cshtml" />
     <Content Include="Scripts\umd\popper.min.js.map" />
     <Content Include="Scripts\umd\popper.js.map" />
     <Content Include="Scripts\umd\popper-utils.min.js.map" />
@@ -322,6 +315,7 @@
     <Content Include="Scripts\popper-utils.js.map" />
     <Content Include="Views\Setting\SelectWord.cshtml" />
     <Content Include="Views\list\Index.cshtml" />
+    <Content Include="Views\Setting\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -330,14 +324,6 @@
     <None Include="packages.config" />
     <Content Include="Scripts\jquery-3.3.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.3.1.min.map" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\201907040137137_InitialDB.resx">
-      <DependentUpon>201907040137137_InitialDB.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201907040424533_v1.resx">
-      <DependentUpon>201907040424533_v1.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="Scripts\index.d.ts" />

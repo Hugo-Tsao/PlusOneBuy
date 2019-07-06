@@ -6,28 +6,24 @@ namespace FBPlusOneBuy.Models
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    public partial class Product
+    public partial class LivePost
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Product()
+        public LivePost()
         {
             Orders = new HashSet<Order>();
         }
 
+        [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public int ProductID { get; set; }
+        public int LiveID { get; set; }
 
-        [Required]
+        public int FanPageID { get; set; }
+
         [StringLength(50)]
-        public string ProductName { get; set; }
+        public string LiveName { get; set; }
 
-        [Column(TypeName = "money")]
-        public decimal? UnitPrice { get; set; }
-
-        public int? Stock { get; set; }
-
-        [StringLength(10)]
-        public string ProductImage { get; set; }
+        public virtual FanPage FanPage { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Order> Orders { get; set; }

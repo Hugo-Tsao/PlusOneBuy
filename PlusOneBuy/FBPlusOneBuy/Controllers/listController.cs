@@ -10,12 +10,19 @@ namespace FBPlusOneBuy.Controllers
 {
     public class listController : Controller
     {
+        [HttpGet]
         // GET: list
         public ActionResult Index()
         {
-            //OrderRepositories orderRepositories = new OrderRepositories();
-            //var order = orderRepositories.GetAll();
-            //ViewData["Orderlist"] = order;
+
+            return View();
+        }
+        [HttpPost]
+        public ActionResult Index(string keyWord, string ProductName, string liveID)
+        {
+            ViewData["keyWord"] = keyWord;
+            ViewData["ProductName"] = ProductName;
+            ViewData["liveID"] = liveID;
             return View();
         }
         [HttpPost]

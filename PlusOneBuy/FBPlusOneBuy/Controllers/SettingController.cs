@@ -5,35 +5,23 @@ using System.Net;
 using System.Web;
 using System.Web.Http.Results;
 using System.Web.Mvc;
+using FBPlusOneBuy.Services;
+using FBPlusOneBuy.Repositories;
+using Newtonsoft.Json;
 
 namespace FBPlusOneBuy.Controllers
 {
     public class SettingController : Controller
     {
         // GET: Setting
-        [HttpGet]
         public ActionResult Index()
         {
+            FBRequestService fBRequestService = new FBRequestService();
+            string fanPageName = "justTshirt.tw";
+            string token = "EAASxbKYYpHoBAI27CZBoK8ZBzFmJjEMIR30woKcIfDPx4mtljSUOsGxVGsKHmy1JgCay8KTilT9l3nbkSfGzBZC6wVSDUcl3ZAa7C5OyZAv8CV7K0duuyW2jHFGqZCwhIKiM6jPonrHLp7s5UEudWL5UHkT8IuZBGmBTOEHS0IjYZCsYbcQfo3j9";
+            var result=fBRequestService.getLiveID(fanPageName, token);
+            ViewData["liveIDList"] = result;
             return View();
-        }
-
-        [HttpPost]
-        public ActionResult Index(string keyWord,string ProductName)
-        {
-            Session["keyWord"] = keyWord;
-            ViewData["ProductName"] = ProductName;
-            /*
-             * 取得ProductName後判斷是否有庫存，如果有，導向+1蒐集頁面，如果沒有，導回此頁面。
-             */
-            return RedirectToAction("SelectWord");
-        }
-
-
-        public ActionResult SelectWord()
-        {
-            var keyWord = Session["keyWord"];
-            ViewData["keyWord"] = keyWord;
-            return new HttpStatusCodeResult(HttpStatusCode.OK);
         }
     }
 }

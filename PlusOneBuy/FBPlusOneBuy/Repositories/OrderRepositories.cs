@@ -13,7 +13,7 @@ namespace FBPlusOneBuy.Repositories
 {
     public class OrderRepositories
     {
-        private string connectionString = ConfigurationManager.ConnectionStrings["ContextModel"].ConnectionString;
+        private string connectionString = ConfigurationManager.ConnectionStrings["Context"].ConnectionString;
         private SqlConnection conn;
         public IEnumerable<OrderList> GetAll()
         {

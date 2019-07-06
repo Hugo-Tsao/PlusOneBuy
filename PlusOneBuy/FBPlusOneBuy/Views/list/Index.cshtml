@@ -1,9 +1,6 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    //var Orderlist = ViewData["Orderlist"] as List<FBPlusOneBuy.ViewModels.OrderList>;
-
 }
 <body>
     <div class="container-fluid">
@@ -37,6 +34,7 @@
 
 @section EndJS
 {
+    <script src="~/Assets/js/jquery-3.4.1.min.js"></script>
     <script>
         $(document).ready(function () {
             GetData();
@@ -49,22 +47,21 @@
                 dataType: "json",
                 cache: false,
                 success: function (Result) {
+                    console.log(Result)
                     $('#ListTable tbody').empty();
                     var json = JSON.parse(Result);
-                    for (var i=0; i < json.length; i++)
-                    {
+                    for (var i = 0; i < json.length; i++) {
                         $('#ListTable').append("<tr><td>" + json[i].OrderID + "</td>" +
                             "<td>" + json[i].CustomerName + "</td>" +
                             "<td>" + json[i].Keyword + "</td>" +
                             "<td>" + json[i].ProductName + "</td>" +
                             "<td>" + json[i].Quantity + "</td>" +
                             "<td>" + json[i].OrderDateTime + "</td></tr>")
-                    }                   
+                    }
                 }
             }).then(function () {
                 setTimeout(GetData, 3000);
             })
         }
-        
     </script>
 }

@@ -41,21 +41,42 @@
 </form>
 @section EndJS
 {
+    <script src="~/Assets/js/jquery-3.4.1.min.js"></script>
+    <script>
+        $('.dropdown-item').click(function () {
+            $('#dropdownMenu').text($(this).text())
+            $('#liveID').val($(this).text())
+        })
+        $('button[type="submit"]').click(function () {
+            if ($('#dropdownMenu').text().trim() == "直播影片") {
+                alert("請選擇直播影片")
+                return false;
+            }
+            else if ($('input[name="keyWord"]').val() == "") {
+                alert("請輸入關鍵字")
+                return false;
+            }
+            else {
+                document.form.submit();
+            }
+
+        })
+    </script>
     <script>
         $(function () {
             function getAuth() {
-                    FB.login(function (response) {
-                        if (response.status === 'connected') {
-                            console.log(response.authResponse.accessToken);
+                FB.login(function (response) {
+                    if (response.status === 'connected') {
+                        console.log(response.authResponse.accessToken);
 
-                        }
-                    }, {
-                            auth_type: 'rerequest',
-                            scope: "manage_pages",
-                            return_scopes: true
-                        });
-                }
-            $("#btn_comments").click(function (e) {       
+                    }
+                }, {
+                        auth_type: 'rerequest',
+                        scope: "manage_pages",
+                        return_scopes: true
+                    });
+            }
+            $("#btn_comments").click(function (e) {
                 getAuth();
                 // $.ajax({
                 //     method: "get",
@@ -68,9 +89,8 @@
             })
 
         });
-
     </script>
-    
+
 }
 @section TopJS
 {
@@ -96,29 +116,5 @@
         }(document, 'script', 'facebook-jssdk'));
     </script>
     <script async defer src="https://connect.facebook.net/en_US/sdk.js"></script>
-}
-@section EndJS
-{
-    <script src="~/Assets/js/jquery-3.4.1.min.js"></script>
-    <script>        
-        $('.dropdown-item').click(function () {
-            $('#dropdownMenu').text($(this).text())
-            $('#liveID').val($(this).text())
-        })
-        $('button[type="submit"]').click(function () {
-            if ($('#dropdownMenu').text().trim() == "直播影片") {
-                alert("請選擇直播影片")
-                return false;
-            }
-            else if ($('input[name="keyWord"]').val() == "") {
-                alert("請輸入關鍵字")
-                return false;
-            }
-            else {
-                document.form.submit();
-            }
-
-        })
-    </script>
 }
 

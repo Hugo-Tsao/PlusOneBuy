@@ -12,35 +12,36 @@ namespace FBPlusOneBuy.Controllers
     {
         public string Get()
         {
-            string hub_mode = "";
-            string hub_challenge = "";
-            string hub_verify_token = "";
+            return "abcdefg";
+            //string hub_mode = "";
+            //string hub_challenge = "";
+            //string hub_verify_token = "";
 
-            try
-            {
-                IEnumerable<KeyValuePair<string, string>> queryString = Request.GetQueryNameValuePairs();
+            //try
+            //{
+            //    IEnumerable<KeyValuePair<string, string>> queryString = Request.GetQueryNameValuePairs();
 
-                foreach (KeyValuePair<string, string> item in queryString)
-                {
-                    switch (item.Key)
-                    {
-                        case "hub.mode":
-                            hub_mode = item.Value;
-                            break;
-                        case "hub.challenge":
-                            hub_challenge = item.Value;
-                            break;
-                        case "hub.verify_token":
-                            hub_verify_token = item.Value;
-                            break;
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-            }
+            //    foreach (KeyValuePair<string, string> item in queryString)
+            //    {
+            //        switch (item.Key)
+            //        {
+            //            case "hub.mode":
+            //                hub_mode = item.Value;
+            //                break;
+            //            case "hub.challenge":
+            //                hub_challenge = item.Value;
+            //                break;
+            //            case "hub.verify_token":
+            //                hub_verify_token = item.Value;
+            //                break;
+            //        }
+            //    }
+            //}
+            //catch (Exception ex)
+            //{
+            //}
 
-            return hub_mode+ hub_challenge + hub_verify_token;
+            //return hub_mode+ hub_challenge + hub_verify_token;
             //string result = Request.Params["hub.challenge"];
             //var resp = new HttpResponseMessage(HttpStatusCode.OK);
             //resp.Content = new StringContent(result, System.Text.Encoding.UTF8, "text/plain");

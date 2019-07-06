@@ -36,40 +36,22 @@
                 <input type="text" class="form-control" name="keyWord" />
             </div>
         </div>
-        <button type="submit" class="btn btn-primary mt-3">送出</button>
-        <button id="btn_comments">yoyoyoy</button>
+        <button id="btn_managePages" class="btn btn-info mt-3">選擇粉絲團</button>
+        <button id="btn_submit" class="btn btn-primary mt-3" disabled>送出</button>
+
     </div>
 </form>
 @section EndJS
 {
     <script src="~/Assets/js/jquery-3.4.1.min.js"></script>
     <script>
-        $('.dropdown-item').click(function () {
-            $('#dropdownMenu').text($(this).text())
-            $('#liveID').val($(this).text())
-        })
-        $('button[type="submit"]').click(function () {
-            if ($('#dropdownMenu').text().trim() == "直播影片") {
-                alert("請選擇直播影片")
-                return false;
-            }
-            else if ($('input[name="keyWord"]').val() == "") {
-                alert("請輸入關鍵字")
-                return false;
-            }
-            else {
-                document.form.submit();
-            }
-
-        })
-    </script>
-    <script>
         $(function () {
             function getAuth() {
+
+
                 FB.login(function (response) {
                     if (response.status === 'connected') {
                         console.log(response.authResponse.accessToken);
-
                     }
                 }, {
                         auth_type: 'rerequest',
@@ -77,19 +59,49 @@
                         return_scopes: true
                     });
             }
-            $("#btn_comments").click(function (e) {
-                getAuth();
-                // $.ajax({
-                //     method: "get",
-                //     url: "https://graph.facebook.com/v3.3/382838899034699_383309385654317",
-                //     data: { fields: "comments", access_token: "EAAMlw9L3q5sBAIWCSFivxia9WInifzwNCMQvL35646fZBUsW6xmksxZCc4NNGw9j7Rgnl9lTp2cUZBJZCSOyH9kdqMqIppkTWZAQXZCBkAhUm618vUPQFKKwcpatdoOmkufjmCBGWrLg4UUhWUEqyir1IuYvK6mQ8uMApnX3gsY4v7OlDxVcZCVv7OZA9Eil1Tbbjr3GkGEZBpwZDZD" }
-                // })
-                //     .done(function (msg) {
-                //         alert("Data Saved: " + msg);
-                //     });
+            $('.dropdown-item').click(function () {
+                $('#dropdownMenu').text($(this).text())
+                $('#liveID').val($(this).text())
+            })
+            $('#btn_managePages').click(function () {
+
+                if ($('#dropdownMenu').text().trim() == "直播影片") {
+                    alert("請選擇直播影片")
+                    return false;
+                }
+                else if ($('input[name="keyWord"]').val() == "") {
+                    alert("請輸入關鍵字")
+                    return false;
+                }
+                else {
+                    $("#btn_submit").removeAttr("disabled");
+                    getAuth();
+                    return false;
+                    //document.form.submit();
+
+                }
+
+            })
+            $('#btn_submit').click(function () {
+
+                if ($('#dropdownMenu').text().trim() == "直播影片") {
+                    alert("請選擇直播影片")
+                    return false;
+                }
+                else if ($('input[name="keyWord"]').val() == "") {
+                    alert("請輸入關鍵字")
+                    return false;
+                }
+                else {
+                    document.form.submit();
+                }
+
             })
 
-        });
+
+
+        })
+
     </script>
 
 }

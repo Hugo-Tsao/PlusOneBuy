@@ -23,7 +23,11 @@ namespace FBPlusOneBuy.Models
 
         public int Quantity { get; set; }
 
+        public int LiveID { get; set; }
+
         public virtual Customer Customer { get; set; }
+
+        public virtual LivePost LivePost { get; set; }
 
         public virtual Product Product { get; set; }
     }

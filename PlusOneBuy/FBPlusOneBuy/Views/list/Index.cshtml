@@ -7,11 +7,14 @@
 }
 <body>
     <div class="container-fluid">
-        <div class="row">
+        <div class="row header">
             <h1 class="ml-3">PlusOneBuy</h1>
         </div>
     </div>
     <div class="container">
+        @Html.Label("liveID", "直播ID:")@ViewData["liveID"]
+        @Html.Label("keyWord", "關鍵字:")@ViewData["keyWord"]
+        @Html.Label("ProductName", "商品名稱:")@ViewData["ProductName"]
         <div id="list" class="row" style="margin: 10px">
             <div class="col-11">
                 <table id="ListTable" class="cell-border compact stripe" style="width:100%">
@@ -25,8 +28,7 @@
                             <th>OrderDateTime</th>
                         </tr>
                     </thead>
-                    <tbody>
-                    </tbody>
+                    <tbody></tbody>
                 </table>
             </div>
         </div>

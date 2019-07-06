@@ -23,6 +23,7 @@ namespace FBPlusOneBuy.Controllers
             ViewData["keyWord"] = keyWord;
             ViewData["ProductName"] = ProductName;
             ViewData["liveID"] = liveID;
+
             return View();
         }
         [HttpPost]

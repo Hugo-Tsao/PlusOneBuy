@@ -1,8 +1,7 @@
-﻿
-@{
+﻿    @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    List<string> liveIDList = ViewData["liveIDList"] as List<string>;
+    Dictionary<string,string> liveIDList = ViewData["liveIDList"] as Dictionary<string,string>;
 }
 
 <div class="container-fluid">
@@ -21,9 +20,9 @@
                     </button>
                     <input type="hidden" name="liveID" id="liveID">
                     <div class="dropdown-menu" aria-labelledby="dropdownMenu">
-                        @for (int i = 0; i < liveIDList.Count; i++)
+                        @foreach (var item in liveIDList)
                         {
-                            <button class="dropdown-item" type="button">@liveIDList[i]</button>
+                             <button class="dropdown-item" type="button" value="@item.Key">@item.Value</button>
                         }
                     </div>
                 </div>
@@ -60,7 +59,7 @@
             }
             $('.dropdown-item').click(function () {
                 $('#dropdownMenu').text($(this).text())
-                $('#liveID').val($(this).text())
+                $('#liveID').val($(this).val())
             })
             $('#btn_managePages').click(function () {
 

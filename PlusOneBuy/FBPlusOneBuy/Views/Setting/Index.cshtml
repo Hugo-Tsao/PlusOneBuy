@@ -22,7 +22,15 @@
                     <div class="dropdown-menu" aria-labelledby="dropdownMenu">
                         @foreach (var item in liveIDList)
                         {
-                             <button class="dropdown-item" type="button" value="@item.Key">@item.Value</button>
+                            if (@item.Value == null)
+                            {
+                                <button class="dropdown-item" type="button" value="@item.Key">@item.Key</button>
+                            }
+                            else
+                            {
+                                <button class="dropdown-item" type="button" value="@item.Key">@item.Value</button>
+                            }
+
                         }
                     </div>
                 </div>

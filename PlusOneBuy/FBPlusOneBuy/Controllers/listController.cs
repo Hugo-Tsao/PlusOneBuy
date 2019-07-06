@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using FBPlusOneBuy.Repositories;
 using FBPlusOneBuy.Services;
 using Newtonsoft.Json;
+using FBPlusOneBuy.Models;
 
 namespace FBPlusOneBuy.Controllers
 {
@@ -24,7 +25,10 @@ namespace FBPlusOneBuy.Controllers
             ViewData["keyWord"] = keyWord;
             ViewData["ProductName"] = ProductName;
             ViewData["liveID"] = liveID;
-
+            ProductRepositories productRepositories = new ProductRepositories();
+            var product = new List<Product>();
+            product=productRepositories.FindByName(ProductName).ToList();
+            ViewData["product"] = product;
             return View();
         }
         [HttpPost]

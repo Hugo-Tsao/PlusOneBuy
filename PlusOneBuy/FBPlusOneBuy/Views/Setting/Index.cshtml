@@ -41,6 +41,64 @@
 </form>
 @section EndJS
 {
+    <script>
+        $(function () {
+            function getAuth() {
+                    FB.login(function (response) {
+                        if (response.status === 'connected') {
+                            console.log(response.authResponse.accessToken);
+
+                        }
+                    }, {
+                            auth_type: 'rerequest',
+                            scope: "manage_pages",
+                            return_scopes: true
+                        });
+                }
+            $("#btn_comments").click(function (e) {       
+                getAuth();
+                // $.ajax({
+                //     method: "get",
+                //     url: "https://graph.facebook.com/v3.3/382838899034699_383309385654317",
+                //     data: { fields: "comments", access_token: "EAAMlw9L3q5sBAIWCSFivxia9WInifzwNCMQvL35646fZBUsW6xmksxZCc4NNGw9j7Rgnl9lTp2cUZBJZCSOyH9kdqMqIppkTWZAQXZCBkAhUm618vUPQFKKwcpatdoOmkufjmCBGWrLg4UUhWUEqyir1IuYvK6mQ8uMApnX3gsY4v7OlDxVcZCVv7OZA9Eil1Tbbjr3GkGEZBpwZDZD" }
+                // })
+                //     .done(function (msg) {
+                //         alert("Data Saved: " + msg);
+                //     });
+            })
+
+        });
+
+    </script>
+    
+}
+@section TopJS
+{
+    <script>
+        window.fbAsyncInit = function () {
+            FB.init({
+                appId: '1320980108059770',
+                cookie: true,
+                xfbml: true,
+                version: 'v3.3'
+            });
+
+            FB.AppEvents.logPageView();
+
+        };
+
+        (function (d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) { return; }
+            js = d.createElement(s); js.id = id;
+            js.src = "https://connect.facebook.net/en_US/sdk.js";
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+    </script>
+    <script async defer src="https://connect.facebook.net/en_US/sdk.js"></script>
+}
+@section EndJS
+{
     <script src="~/Assets/js/jquery-3.4.1.min.js"></script>
     <script>        
         $('.dropdown-item').click(function () {

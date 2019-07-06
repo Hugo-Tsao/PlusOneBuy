@@ -8,12 +8,12 @@ namespace FBPlusOneBuy.Services
 {
     public class CommentFilterService
     {
-        public List<Datum> KeywordFilter(List<Datum> datas)
+        public List<Datum> KeywordFilter(List<string> keywords,List<Datum> datas)
         {
             List<Datum> result = new List<Datum>();
             foreach (var data in datas)
             {
-                if (data.message.Equals("+1"))
+                if (keywords.IndexOf(data.message) != -1)
                 {
                     result.Add(data);
                 }

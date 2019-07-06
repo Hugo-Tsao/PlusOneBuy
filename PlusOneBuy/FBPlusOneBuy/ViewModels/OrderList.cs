@@ -13,5 +13,6 @@ namespace FBPlusOneBuy.ViewModels
         public string ProductName { get; set; }
         public int Quantity { get; set; }
         public DateTime OrderDateTime { get; set; }
+        public string LiveID { get; set; }
     }
 }

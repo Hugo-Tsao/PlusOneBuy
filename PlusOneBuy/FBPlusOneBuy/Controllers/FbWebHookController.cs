@@ -12,35 +12,36 @@ namespace FBPlusOneBuy.Controllers
     {
         public string Get()
         {
-            string hub_mode = "";
-            string hub_challenge = "";
-            string hub_verify_token = "";
+            return "abcdefg";
+            //string hub_mode = "";
+            //string hub_challenge = "";
+            //string hub_verify_token = "";
 
-            try
-            {
-                IEnumerable<KeyValuePair<string, string>> queryString = Request.GetQueryNameValuePairs();
+            //try
+            //{
+            //    IEnumerable<KeyValuePair<string, string>> queryString = Request.GetQueryNameValuePairs();
 
-                foreach (KeyValuePair<string, string> item in queryString)
-                {
-                    switch (item.Key)
-                    {
-                        case "hub.mode":
-                            hub_mode = item.Value;
-                            break;
-                        case "hub.challenge":
-                            hub_challenge = item.Value;
-                            break;
-                        case "hub.verify_token":
-                            hub_verify_token = item.Value;
-                            break;
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-            }
+            //    foreach (KeyValuePair<string, string> item in queryString)
+            //    {
+            //        switch (item.Key)
+            //        {
+            //            case "hub.mode":
+            //                hub_mode = item.Value;
+            //                break;
+            //            case "hub.challenge":
+            //                hub_challenge = item.Value;
+            //                break;
+            //            case "hub.verify_token":
+            //                hub_verify_token = item.Value;
+            //                break;
+            //        }
+            //    }
+            //}
+            //catch (Exception ex)
+            //{
+            //}
 
-            return hub_mode+ hub_challenge + hub_verify_token;
+            //return hub_mode+ hub_challenge + hub_verify_token;
             //string result = Request.Params["hub.challenge"];
             //var resp = new HttpResponseMessage(HttpStatusCode.OK);
             //resp.Content = new StringContent(result, System.Text.Encoding.UTF8, "text/plain");
@@ -62,9 +63,9 @@ namespace FBPlusOneBuy.Controllers
         [Route("api/caaaa")]
         [HttpPost]
         // POST: api/FbWebHook
-        public void Post([FromBody]string value)
+        public IHttpActionResult Post()
         {
-            var httpWebRequest = (HttpWebRequest)WebRequest.Create("http://url");
+            var httpWebRequest = (HttpWebRequest)WebRequest.Create("https://graph.facebook.com/v3.3/me/messages?access_token=EAASxbKYYpHoBAKWHpnQKL30NY7TcJc4REzHzo94C2iBeyRiJs3Ai5cZBlsh3sZBZCz5W4yaPL0WVnym0UWZBLS4jGUffZC14YZAmvKLUYMFgtDbNYZBubMWHCzL8ZBYXBSKWnkZCJguFkTZCu06fqjRJkKKMOYW3MN5SBQW9eA5Kr7qX9LfzAw3ON4uRMpD7M2MaPv8wDrWGwsYQZDZD");
             httpWebRequest.ContentType = "application/json";
             httpWebRequest.Method = "POST";
 
@@ -81,6 +82,7 @@ namespace FBPlusOneBuy.Controllers
             {
                 var result = streamReader.ReadToEnd();
             }
+            return Ok();
         }
 
         // PUT: api/FbWebHook/5

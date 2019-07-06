@@ -43,7 +43,7 @@
             $.ajax({
                 type: 'post',
                 url: '/list/GetAll',
-                data: {},
+                data: {liveID:@ViewData["liveID"]},
                 dataType: "json",
                 cache: false,
                 success: function (Result) {

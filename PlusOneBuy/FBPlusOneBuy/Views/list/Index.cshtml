@@ -9,7 +9,9 @@
         </div>
     </div>
     <div class="container">
+
         @Html.Label("liveID", "直播ID:")@ViewData["liveID"]
+        <input id="live" type="hidden" value="@ViewData["liveID"]">
         @Html.Label("keyWord", "關鍵字:")@ViewData["keyWord"]
         @Html.Label("ProductName", "商品名稱:")@ViewData["ProductName"]
         <div id="list" class="row" style="margin: 10px">
@@ -43,11 +45,10 @@
             $.ajax({
                 type: 'post',
                 url: '/list/GetAll',
-                data: {liveID:@ViewData["liveID"]},
+                data: { liveID:$('#live').val()},
                 dataType: "json",
                 cache: false,
                 success: function (Result) {
-                    console.log(Result)
                     $('#ListTable tbody').empty();
                     var json = JSON.parse(Result);
                     for (var i = 0; i < json.length; i++) {

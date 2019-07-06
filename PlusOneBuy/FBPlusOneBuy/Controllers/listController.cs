@@ -32,7 +32,7 @@ namespace FBPlusOneBuy.Controllers
             ViewData["liveID"] = liveID;
             OrderRepositories orderRepositories = new OrderRepositories();
             var order = orderRepositories.GetAll();
-            order = order.Where(x => x.LiveID == liveID);
+            order = order.Where((x) => x.LiveID == liveID);
             var result = JsonConvert.SerializeObject(order);
             return Json(result);
         }

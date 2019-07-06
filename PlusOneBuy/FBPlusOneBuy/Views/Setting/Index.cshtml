@@ -18,6 +18,7 @@
                     <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         直播影片
                     </button>
+                    <input type="hidden" name="token" value="@ViewData["token"]">
                     <input type="hidden" name="liveID" id="liveID">
                     <div class="dropdown-menu" aria-labelledby="dropdownMenu">
                         @foreach (var item in liveIDList)
@@ -53,8 +54,6 @@
     <script>
         $(function () {
             function getAuth() {
-
-
                 FB.login(function (response) {
                     if (response.status === 'connected') {
                         console.log(response.authResponse.accessToken);

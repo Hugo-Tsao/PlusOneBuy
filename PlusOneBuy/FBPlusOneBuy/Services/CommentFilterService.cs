@@ -10,13 +10,14 @@ namespace FBPlusOneBuy.Services
 {
     public static class CommentFilterService
     {
-        public static List<OrderList> KeywordFilter(List<string> keywords,List<Datum> datas,string liveID)
+        public static List<OrderList> KeywordFilter(string keywords,List<Datum> datas,string liveID)
         {
             var result = new List<OrderList>();
             //List<Datum> result = new List<Datum>();
             foreach (var data in datas)
             {
-                if (keywords.IndexOf(data.message + "+1") != -1)  //+1暫時先寫死
+                //if (keywords.IndexOf(data.message + "+1") != -1)  //+1暫時先寫死
+                if(data.message.Contains(keywords))
                 {
                     var context = new Context();
                     var order = new OrderList();

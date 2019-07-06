@@ -20,8 +20,9 @@ namespace FBPlusOneBuy.Controllers
             return View();
         }
         [HttpPost]
-        public ActionResult Index(string keyWord, string ProductName, string liveID)
+        public ActionResult Index(string token,string keyWord, string ProductName, string liveID)
         {
+            ViewData["token"] = token;
             ViewData["keyWord"] = keyWord;
             ViewData["ProductName"] = ProductName;
             ViewData["liveID"] = liveID;
@@ -31,19 +32,19 @@ namespace FBPlusOneBuy.Controllers
             ViewData["product"] = product;
             return View();
         }
-        [HttpPost]
-        public ActionResult GetAll(string liveID)
-        {
-            ViewData["liveID"] = liveID;
-            OrderRepositories orderRepositories = new OrderRepositories();
-            var order = orderRepositories.GetAll();
-            order = order.Where((x) => x.LiveID == liveID);
-            var result = JsonConvert.SerializeObject(order);
-            return Json(result);
-        }
+        //[HttpPost]
+        //public ActionResult GetAll(string liveID)
+        //{
+        //    ViewData["liveID"] = liveID;
+        //    OrderRepositories orderRepositories = new OrderRepositories();
+        //    var order = orderRepositories.GetAll();
+        //    order = order.Where((x) => x.LiveID == liveID);
+        //    var result = JsonConvert.SerializeObject(order);
+        //    return Json(result);
+        //}
 
         [HttpPost]
-        public ActionResult GetPlusOneBuyOrders(string liveID,string token,List<string> keywords)
+        public ActionResult GetPlusOneBuyOrders(string liveID,string token,string keywords)
         {
             var OrderList = FBRequestService.getNewOrderList(liveID,token,keywords);
             var result = JsonConvert.SerializeObject(OrderList);

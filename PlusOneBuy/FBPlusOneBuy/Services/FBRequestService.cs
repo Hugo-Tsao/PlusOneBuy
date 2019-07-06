@@ -69,7 +69,7 @@ namespace FBPlusOneBuy.Services
         }
 
         //待寫
-        public static List<OrderList> getNewOrderList(string liveID, string token, List<string> keywords)
+        public static List<OrderList> getNewOrderList(string liveID, string token, string keywords)
         {
             var orderList = new List<OrderList>();
             var allComments = getAllComments(liveID, token);

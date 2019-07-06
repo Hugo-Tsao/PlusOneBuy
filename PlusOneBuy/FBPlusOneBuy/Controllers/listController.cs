@@ -23,13 +23,16 @@ namespace FBPlusOneBuy.Controllers
             ViewData["keyWord"] = keyWord;
             ViewData["ProductName"] = ProductName;
             ViewData["liveID"] = liveID;
+
             return View();
         }
         [HttpPost]
-        public ActionResult GetAll()
+        public ActionResult GetAll(string liveID)
         {
+            ViewData["liveID"] = liveID;
             OrderRepositories orderRepositories = new OrderRepositories();
             var order = orderRepositories.GetAll();
+            order = order.Where(x => x.LiveID == liveID);
             var result = JsonConvert.SerializeObject(order);
             return Json(result);
         }

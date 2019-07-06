@@ -46,5 +46,24 @@ namespace FBPlusOneBuy.Services
             }
             return liveIDList;
         }
+
+        //先做一次取全部留言 (預期在1000則留言以內)
+        public List<Datum> getAllComments(string liveID,string token)
+        {
+            var Comments = new List<Datum>();
+            string url = "https://graph.facebook.com/v3.3/" + liveID + "?fields=comments&access_token=" + token;
+
+            var client = new RestClient(url);
+            var request = new RestRequest(Method.GET);
+
+            IRestResponse response = client.Execute(request);
+
+            JavaScriptSerializer js = new JavaScriptSerializer();
+            RootObject data = Newtonsoft.Json.JsonConvert.DeserializeObject<RootObject>(response.Content);
+
+            Comments = data.comments.data;
+
+            return Comments;
+        }
     }
 }

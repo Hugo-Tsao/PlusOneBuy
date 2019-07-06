@@ -1,6 +1,7 @@
 ﻿@{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    var product = ViewData["product"] as List<FBPlusOneBuy.Models.Product>;
 }
 <body>
     <div class="container-fluid">
@@ -15,22 +16,48 @@
         @Html.Label("keyWord", "關鍵字:")@ViewData["keyWord"]
         @Html.Label("ProductName", "商品名稱:")@ViewData["ProductName"]
         <div id="list" class="row" style="margin: 10px">
-            <div class="col-11">
-                <table id="ListTable" class="cell-border compact stripe" style="width:100%">
+            <div class="col-5">
+                <table>
                     <thead>
                         <tr>
-                            <th>OrderID</th>
-                            <th>CustomerName</th>
-                            <th>Keyword</th>
-                            <th>ProductName</th>
-                            <th>Quantity</th>
-                            <th>OrderDateTime</th>
-                        </tr>
+                            <th>商品</th>
+                            <th>關鍵字</th>
+                            <th>價格</th>
+                            <th>庫存</th>
+                        </tr>                   
                     </thead>
-                    <tbody></tbody>
+                    <tbody>
+                        @for (int i = 0; i < product.Count; i++)
+                        {
+                        <tr>
+                            <td>@product[i].ProductName</td>
+                            <td></td>
+                            <td>
+                                @String.Format("{0:N0}",  @product[i].UnitPrice)
+                            </td>
+                            <td>@product[i].Stock</td>
+                        </tr>
+                        }
+
+                    </tbody>
                 </table>
+                </div>
+                <div class="col-7">
+                    <table id="ListTable" class="cell-border compact stripe" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th>OrderID</th>
+                                <th>CustomerName</th>
+                                <th>Keyword</th>
+                                <th>ProductName</th>
+                                <th>Quantity</th>
+                                <th>OrderDateTime</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
             </div>
-        </div>
     </div>
 </body>
 

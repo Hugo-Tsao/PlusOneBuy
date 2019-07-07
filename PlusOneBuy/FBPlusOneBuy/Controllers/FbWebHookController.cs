@@ -64,11 +64,16 @@ namespace FBPlusOneBuy.Controllers
         public string Getapple()
         {
 
-            var sendMsg = new FbSendMessage.SendObject();
-            sendMsg.message.text = "HI";
-            sendMsg.recipient.id = "3032519476788720";
-            var msg = JsonConvert.SerializeObject(sendMsg);
-            return msg;
+            var sendMsg = new FbSendMessage.SendObject()
+            {
+                message=new FbSendMessage.Message { text="HI"},
+                recipient= new FbSendMessage.Recipient { id="12345"}
+            };
+            var result = JsonConvert.SerializeObject(sendMsg);
+            
+            
+            
+            return result;
 
 
         }
@@ -76,27 +81,29 @@ namespace FBPlusOneBuy.Controllers
 
         [HttpPost]
         // POST: api/FbWebHook
-        public string Post()
+        public HttpStatusCode Post()
         {
-            var sendMsg = new FbSendMessage.SendObject();
-            sendMsg.message.text = "HI";
-            sendMsg.recipient.id = "3032519476788720";
-            var msg= JsonConvert.SerializeObject(sendMsg);
-            return msg;
+            var msg = new FbSendMessage.SendObject()
+            {
+                message = new FbSendMessage.Message { text = "HI" },
+                recipient = new FbSendMessage.Recipient { id = "3032519476788720" }
+            };
+            var jsonMsg= JsonConvert.SerializeObject(msg);
 
 
-            //var client = new RestClient("https://graph.facebook.com/v3.3/me/messages?access_token=EAASxbKYYpHoBANiN3ZCn5MHw1Bv7p6O8kSirivuVBUFJoYsVangrQk7Mb2XyKGUjNiPSnXuRQIzpSUx3Ryba6wg1uQeE9JzxZAQjSojZAX0OndZCJ0rXxtgZCUqgGVp6BkSYUtAZA1wbadkjzZClIcQMUToO2nGNqh8LxhrQaZCAtyC2h2aQZBZAtL");
-            //var request = new RestRequest(Method.POST);
-            //request.AddHeader("cache-control", "no-cache");
-            //request.AddHeader("Connection", "keep-alive");
-            //request.AddHeader("content-length", "92");
-            //request.AddHeader("accept-encoding", "gzip, deflate");
-            //request.AddHeader("Host", "graph.facebook.com");
-            //request.AddHeader("Cache-Control", "no-cache");
-            //request.AddHeader("Accept", "*/*");
-            //request.AddHeader("Content-Type", "application/json");
-            //request.AddParameter("undefined", , ParameterType.RequestBody);
-            //IRestResponse response = client.Execute(request);
+            var client = new RestClient("https://graph.facebook.com/v3.3/me/messages?access_token=EAASxbKYYpHoBANiN3ZCn5MHw1Bv7p6O8kSirivuVBUFJoYsVangrQk7Mb2XyKGUjNiPSnXuRQIzpSUx3Ryba6wg1uQeE9JzxZAQjSojZAX0OndZCJ0rXxtgZCUqgGVp6BkSYUtAZA1wbadkjzZClIcQMUToO2nGNqh8LxhrQaZCAtyC2h2aQZBZAtL");
+            var request = new RestRequest(Method.POST);
+            request.AddHeader("cache-control", "no-cache");
+            request.AddHeader("Connection", "keep-alive");
+            request.AddHeader("content-length", "92");
+            request.AddHeader("accept-encoding", "gzip, deflate");
+            request.AddHeader("Host", "graph.facebook.com");
+            request.AddHeader("Cache-Control", "no-cache");
+            request.AddHeader("Accept", "*/*");
+            request.AddHeader("Content-Type", "application/json");
+            request.AddParameter("undefined", jsonMsg, ParameterType.RequestBody);
+            IRestResponse response = client.Execute(request);
+            return response.StatusCode;
 
 
 

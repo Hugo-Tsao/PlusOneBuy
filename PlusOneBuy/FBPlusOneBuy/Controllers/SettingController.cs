@@ -21,10 +21,10 @@ namespace FBPlusOneBuy.Controllers
         }
         public ActionResult FanPageName()
         {
-            return View();  
+            return View();
         }
         [HttpPost]
-        public ActionResult GetFanPageData(string token,string fanPageName)
+        public ActionResult GetFanPageData(string token, string fanPageName)
         {
             Session["fanPageName"] = fanPageName;
             //Session["token"] = token;
@@ -46,6 +46,18 @@ namespace FBPlusOneBuy.Controllers
             ViewData["product"] = product;
 
             return View();
+        }
+
+        [HttpPost]
+        public void SendMsg()
+        {
+
+            List<string> ids = new List<string> { "3032519476788720", "2762673820474754" };
+
+            FBSendMsgService.SendMsg("123", ids);
+
+
+
         }
     }
 }

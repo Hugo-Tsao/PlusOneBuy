@@ -59,6 +59,10 @@
                     <tbody></tbody>
                 </table>
             </div>
+            <div class="col-12 text-center">
+                <button id="btn_send"class="btn btn-dark col-6 ">送出訊息</button>
+            </div>
+
         </div>
     </div>
 </body>
@@ -69,6 +73,16 @@
     <script>
         $(document).ready(function () {
             GetData();
+            $("#btn_send").click(sendMsg);
+            function sendMsg() {
+                $.ajax({
+                type: "POST",
+                url: '@Url.Action("SendMsg", "Setting")',
+                }).done(function (response) {
+                    console.log(response);
+                });
+
+            }
         });
         //function GetData() {
         //    $.ajax({

@@ -22,6 +22,7 @@ namespace FBPlusOneBuy.Services
                 {
                     var context = new Context();
                     var order = new OrderList();
+
                     var name = UTF8ConvertToString(data.from.name);
                     order.CustomerName = name;
                     order.Keyword = data.message;
@@ -51,7 +52,7 @@ namespace FBPlusOneBuy.Services
             {
                 //過濾出經由推播後的時間開始才喊關鍵字的人
                 var PickPosts = CommentFilterService.PostTimeFilter(allComments);
-                if (PickPosts != null)
+                if (PickPosts.Count > 0)
                 {
                     orderList = CommentFilterService.KeywordFilter(keywords, PickPosts, liveID);
                 }

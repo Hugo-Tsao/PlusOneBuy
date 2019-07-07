@@ -1,7 +1,7 @@
 ﻿@{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    var product = ViewData["product"] as List<FBPlusOneBuy.Models.Product>;
+    List<FBPlusOneBuy.Models.Product> products = ViewData["product"] as List<FBPlusOneBuy.Models.Product>;
 }
 <body>
     <div class="container-fluid">
@@ -15,6 +15,7 @@
         @Html.Label("ProductName", "商品名稱:")@ViewData["ProductName"]
         <div id="list" class="row" style="margin: 10px">
             <div class="col-5">
+                <h3>直播商品</h3>
                 <table class="table table-bordered">
                     <thead>
                         <tr>
@@ -25,20 +26,25 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @for (int i = 0; i < product.Count; i++)
+                        @if (products != null)
                         {
-                            <tr>
-                                <td>@product[i].ProductName</td>
-                                <td>@product[i].keyword</td>
-                                <td>@String.Format("{0:N0}", @product[i].UnitPrice)</td>
-                                <td>@product[i].Stock</td>
-                            </tr>
+                            for (int i = 0; i < products.Count; i++)
+                            {
+                                <tr>
+                                    <td>@products[i].ProductName</td>
+                                    <td>@products[i].keyword</td>
+                                    <td>@String.Format("{0:N0}", products[i].UnitPrice)</td>
+                                    <td>@products[i].Stock</td>
+                                </tr>
+                            }
                         }
+
 
                     </tbody>
                 </table>
             </div>
             <div class="col-6">
+                <h3>留言清單</h3>
                 <table id="ListTable" class="table table-hover">
                     <thead>
                         <tr>
@@ -59,7 +65,7 @@
 
 @section EndJS
 {
-    <script src="~/Assets/js/jquery-3.4.1.min.js"></script>
+    @*<script src="~/Assets/js/jquery-3.4.1.min.js"></script>*@
     <script>
         $(document).ready(function () {
             GetData();

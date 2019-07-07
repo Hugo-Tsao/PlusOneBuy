@@ -203,11 +203,13 @@
     <Compile Include="Models\Context.cs" />
     <Compile Include="Models\Customer.cs" />
     <Compile Include="Models\FanPage.cs" />
+    <Compile Include="Models\FbMessage.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\LivePost.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Order.cs" />
     <Compile Include="Models\Product.cs" />
+    <Compile Include="Models\FbSendMessage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\FBJsonToCSharp.cs" />
     <Compile Include="Repositories\OrderRepositories.cs" />

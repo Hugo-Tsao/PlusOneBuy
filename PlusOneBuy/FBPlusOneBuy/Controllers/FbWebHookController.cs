@@ -1,21 +1,25 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using FBPlusOneBuy.Models;
 
 namespace FBPlusOneBuy.Controllers
 {
     public class FbWebHookController : ApiController
     {
+        // GET: api/FbWebHook
         public int Get()
         {          
             string hub_mode = "";
             string hub_challenge = "";
             string hub_verify_token = "";
             string my_verify_token = "abcdedfg";
+            int result = -1;
 
             try
             {
@@ -43,12 +47,10 @@ namespace FBPlusOneBuy.Controllers
             }
             if (hub_verify_token == my_verify_token)
             {
-                return Convert.ToInt32(hub_challenge);
+                result = Convert.ToInt32(hub_challenge);
             }
-            else
-            {
-                return -1;
-            }
+            return result;
+
 
             //return hub_mode+ hub_challenge + hub_verify_token;
             //string result = Request.Params["hub.challenge"];
@@ -57,39 +59,38 @@ namespace FBPlusOneBuy.Controllers
             //return resp;
         }
 
-        // GET: api/FbWebHook
-        //public IEnumerable<string> Get()
-        //{
-        //    return new string[] { "value1", "value2" };
-        //}
-
-        //// GET: api/FbWebHook/5
-        //public string Get(int id)
-        //{
-        //    return "value";
-        //}
+       
         [HttpPost]
         // POST: api/FbWebHook
-        public IHttpActionResult Post()
+        public HttpContent Post()
         {
-            var httpWebRequest = (HttpWebRequest)WebRequest.Create("https://graph.facebook.com/v3.3/me/messages?access_token=EAASxbKYYpHoBAKWHpnQKL30NY7TcJc4REzHzo94C2iBeyRiJs3Ai5cZBlsh3sZBZCz5W4yaPL0WVnym0UWZBLS4jGUffZC14YZAmvKLUYMFgtDbNYZBubMWHCzL8ZBYXBSKWnkZCJguFkTZCu06fqjRJkKKMOYW3MN5SBQW9eA5Kr7qX9LfzAw3ON4uRMpD7M2MaPv8wDrWGwsYQZDZD");
-            httpWebRequest.ContentType = "application/json";
-            httpWebRequest.Method = "POST";
+            var content=Request.Content;
 
-            using (var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
-            {
-                string json = "{\"recipient\":\"3032519476788720\"," +
-                              "\"message\":\"HELLO\"}";
+            return content;
+            
+            var msg = JsonConvert.DeserializeObject<FbMessage>(content.ToString());
+            
+            
 
-                streamWriter.Write(json);
-            }
 
-            var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
-            using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
-            {
-                var result = streamReader.ReadToEnd();
-            }
-            return Ok();
+            //var httpWebRequest = (HttpWebRequest)WebRequest.Create("https://graph.facebook.com/v3.3/me/messages?access_token=EAASxbKYYpHoBAKWHpnQKL30NY7TcJc4REzHzo94C2iBeyRiJs3Ai5cZBlsh3sZBZCz5W4yaPL0WVnym0UWZBLS4jGUffZC14YZAmvKLUYMFgtDbNYZBubMWHCzL8ZBYXBSKWnkZCJguFkTZCu06fqjRJkKKMOYW3MN5SBQW9eA5Kr7qX9LfzAw3ON4uRMpD7M2MaPv8wDrWGwsYQZDZD");
+            //httpWebRequest.ContentType = "application/json";
+            //httpWebRequest.Method = "POST";
+
+            //using (var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
+            //{
+            //    string json = "{\"recipient\":\"3032519476788720\"," +
+            //                  "\"message\":\"HELLO\"}";
+
+            //    streamWriter.Write(json);
+            //}
+
+            //var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
+            //using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
+            //{
+            //    var result = streamReader.ReadToEnd();
+            //}
+            //return Ok();
         }
 
         // PUT: api/FbWebHook/5

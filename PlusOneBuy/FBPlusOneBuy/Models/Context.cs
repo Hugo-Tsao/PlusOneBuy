@@ -33,6 +33,7 @@ namespace FBPlusOneBuy.Models
             modelBuilder.Entity<LivePost>()
                 .HasMany(e => e.Orders)
                 .WithRequired(e => e.LivePost)
+                .HasForeignKey(e => e.LiveID)
                 .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Product>()

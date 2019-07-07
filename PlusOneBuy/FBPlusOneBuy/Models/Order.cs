@@ -23,9 +23,7 @@ namespace FBPlusOneBuy.Models
 
         public int Quantity { get; set; }
 
-        [Required]
-        [StringLength(50)]
-        public string LiveID { get; set; }
+        public int LiveID { get; set; }
 
         public virtual Customer Customer { get; set; }
 

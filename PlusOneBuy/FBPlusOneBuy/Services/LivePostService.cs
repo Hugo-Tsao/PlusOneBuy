@@ -14,7 +14,7 @@ namespace FBPlusOneBuy.Services
             var livepost_repo = new LivePostsRepository();
             var livepost = new LivePost()
             {
-                LiveID = liveID,
+                LivePageID = liveID,
                 //LiveName = liveName,
                 FanPageID = 1, //目前只有一個粉絲團，所以也暫時寫死
                 postTime = DateTime.Now

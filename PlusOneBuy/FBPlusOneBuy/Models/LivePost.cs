@@ -14,9 +14,8 @@ namespace FBPlusOneBuy.Models
             Orders = new HashSet<Order>();
         }
 
-        [Key]
-        [StringLength(50)]
-        public string LiveID { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        public int ID { get; set; }
 
         public int FanPageID { get; set; }
 
@@ -26,6 +25,10 @@ namespace FBPlusOneBuy.Models
         public DateTime postTime { get; set; }
 
         public DateTime? endTime { get; set; }
+
+        [Required]
+        [StringLength(50)]
+        public string LivePageID { get; set; }
 
         public virtual FanPage FanPage { get; set; }
 

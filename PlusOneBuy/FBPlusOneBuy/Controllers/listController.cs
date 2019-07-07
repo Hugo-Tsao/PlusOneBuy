@@ -20,7 +20,10 @@ namespace FBPlusOneBuy.Controllers
         }
         [HttpPost]
         public ActionResult Index(string keyWord, string ProductName, string liveID)
-        {         
+        {
+            //新增直播進資料庫
+            LivePostService.CreateLivePost(liveID);
+
             ViewData["keyWord"] = keyWord;
             ViewData["ProductName"] = ProductName;
             ViewData["liveID"] = liveID;

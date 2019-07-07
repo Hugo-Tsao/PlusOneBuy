@@ -218,6 +218,7 @@
     <Compile Include="Services\CommentFilterService.cs" />
     <Compile Include="Services\FBRequestService.cs" />
     <Compile Include="Services\LivePostService.cs" />
+    <Compile Include="Services\FBSendMsgService.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\OrderList.cs" />
   </ItemGroup>

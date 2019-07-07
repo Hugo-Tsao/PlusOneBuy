@@ -28,7 +28,7 @@ namespace FBPlusOneBuy.Services
                     order.Keyword = data.message;
                     order.ProductName = "馬桶泡泡洗"; //暫時寫死，之後用搜索
                     order.LiveID = liveID;
-                    order.OrderDateTime = DateTime.Now;
+                    order.OrderDateTime = Convert.ToDateTime(data.created_time);
                     order.Quantity = 1; //暫時寫死
                     result.Add(order);
                 }

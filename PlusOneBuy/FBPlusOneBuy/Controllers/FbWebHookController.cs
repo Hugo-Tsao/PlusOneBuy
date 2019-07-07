@@ -94,7 +94,6 @@ namespace FBPlusOneBuy.Controllers
             var client = new RestClient("https://graph.facebook.com/v3.3/me/messages?access_token=EAASxbKYYpHoBANiN3ZCn5MHw1Bv7p6O8kSirivuVBUFJoYsVangrQk7Mb2XyKGUjNiPSnXuRQIzpSUx3Ryba6wg1uQeE9JzxZAQjSojZAX0OndZCJ0rXxtgZCUqgGVp6BkSYUtAZA1wbadkjzZClIcQMUToO2nGNqh8LxhrQaZCAtyC2h2aQZBZAtL");
             var request = new RestRequest(Method.POST);
             request.AddHeader("cache-control", "no-cache");
-            request.AddHeader("Connection", "keep-alive");
             request.AddHeader("content-length", "92");
             request.AddHeader("accept-encoding", "gzip, deflate");
             request.AddHeader("Host", "graph.facebook.com");

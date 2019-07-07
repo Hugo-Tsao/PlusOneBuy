@@ -1,21 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Web;
 using System.Web.Script.Serialization;
 using FBPlusOneBuy.Repositories;
+using FBPlusOneBuy.ViewModels;
 using RestSharp;
 
 namespace FBPlusOneBuy.Services
 {
-    public class FBRequestService
+    public static class FBRequestService
     {
-        public List<string> getLiveID(string fanPageName ,string token)
+        public static Dictionary<string, string> getLiveID(string fanPageName, string token)
         {
             //取得前十筆資料
             var postsNumber = 10;
             //建立最終回傳的資料型態
-            List<string> liveIDList = new List<string>();
+            Dictionary<string, string> liveIDList = new Dictionary<string, string>();
             //連接的Url
             string url = "https://graph.facebook.com/v3.3/" + fanPageName + "?fields=posts.limit(" + postsNumber + ")&access_token=" + token;
 
@@ -41,14 +43,14 @@ namespace FBPlusOneBuy.Services
                 //判斷此post是否是正在直播中的貼文
                 if (item.story != null && item.story.Contains("is live now"))
                 {
-                    liveIDList.Add(item.id);
+                    liveIDList.Add(item.id, item.message);
                 }
             }
             return liveIDList;
         }
 
         //先做一次取全部留言 (預期在1000則留言以內)
-        public List<Datum> getAllComments(string liveID,string token)
+        public static List<Datum> getAllComments(string liveID, string token)
         {
             var Comments = new List<Datum>();
             string url = "https://graph.facebook.com/v3.3/" + liveID + "?fields=comments&access_token=" + token;
@@ -64,6 +66,25 @@ namespace FBPlusOneBuy.Services
             Comments = data.comments.data;
 
             return Comments;
+        }
+
+        //待寫
+        public static List<OrderList> getNewOrderList(string liveID, string token, string keywords)
+        {
+            var orderList = new List<OrderList>();
+            var allComments = getAllComments(liveID, token);
+            if (allComments.Count != 0)
+            {
+                orderList = CommentFilterService.KeywordFilter(keywords, allComments, liveID);
+            }
+            return orderList;
+        }
+
+        public static string UTF8ConvertToString(string word)
+        {
+            byte[] byt = System.Text.UnicodeEncoding.Unicode.GetBytes(word);
+            string result = UnicodeEncoding.Unicode.GetString(byt);
+            return result;
         }
     }
 }

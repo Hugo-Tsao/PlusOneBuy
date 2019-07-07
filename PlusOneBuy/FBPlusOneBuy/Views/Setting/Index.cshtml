@@ -1,8 +1,7 @@
-﻿
-@{
+﻿    @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    List<string> liveIDList = ViewData["liveIDList"] as List<string>;
+    Dictionary<string,string> liveIDList = ViewData["liveIDList"] as Dictionary<string,string>;
 }
 
 <div class="container-fluid">
@@ -19,11 +18,20 @@
                     <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         直播影片
                     </button>
+                    <input type="hidden" name="token" value="@ViewData["token"]">
                     <input type="hidden" name="liveID" id="liveID">
                     <div class="dropdown-menu" aria-labelledby="dropdownMenu">
-                        @for (int i = 0; i < liveIDList.Count; i++)
+                        @foreach (var item in liveIDList)
                         {
-                            <button class="dropdown-item" type="button">@liveIDList[i]</button>
+                            if (@item.Value == null)
+                            {
+                                <button class="dropdown-item" type="button" value="@item.Key">@item.Key</button>
+                            }
+                            else
+                            {
+                                <button class="dropdown-item" type="button" value="@item.Key">@item.Value</button>
+                            }
+
                         }
                     </div>
                 </div>
@@ -46,8 +54,6 @@
     <script>
         $(function () {
             function getAuth() {
-
-
                 FB.login(function (response) {
                     if (response.status === 'connected') {
                         console.log(response.authResponse.accessToken);
@@ -60,7 +66,7 @@
             }
             $('.dropdown-item').click(function () {
                 $('#dropdownMenu').text($(this).text())
-                $('#liveID').val($(this).text())
+                $('#liveID').val($(this).val())
             })
             $('#btn_managePages').click(function () {
 

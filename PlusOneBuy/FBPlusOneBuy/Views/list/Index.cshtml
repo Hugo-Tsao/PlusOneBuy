@@ -1,6 +1,7 @@
 ﻿@{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    var product = ViewData["product"] as List<FBPlusOneBuy.Models.Product>;
 }
 <body>
     <div class="container-fluid">
@@ -13,8 +14,32 @@
         @Html.Label("keyWord", "關鍵字:")@ViewData["keyWord"]
         @Html.Label("ProductName", "商品名稱:")@ViewData["ProductName"]
         <div id="list" class="row" style="margin: 10px">
-            <div class="col-11">
-                <table id="ListTable" class="cell-border compact stripe" style="width:100%">
+            <div class="col-5">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>商品</th>
+                            <th>關鍵字</th>
+                            <th>價格</th>
+                            <th>庫存</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for (int i = 0; i < product.Count; i++)
+                        {
+                            <tr>
+                                <td>@product[i].ProductName</td>
+                                <td>@product[i].keyword</td>
+                                <td>@String.Format("{0:N0}", @product[i].UnitPrice)</td>
+                                <td>@product[i].Stock</td>
+                            </tr>
+                        }
+
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-6">
+                <table id="ListTable" class="table table-hover">
                     <thead>
                         <tr>
                             <th>OrderID</th>
@@ -39,15 +64,37 @@
         $(document).ready(function () {
             GetData();
         });
+        //function GetData() {
+        //    $.ajax({
+        //        type: 'post',
+        //        url: '/list/GetAll',
+        //        data: { liveID:$('#live').val()},
+        //        dataType: "json",
+        //        cache: false,
+        //        success: function (Result) {
+        //            $('#ListTable tbody').empty();
+        //            var json = JSON.parse(Result);
+        //            for (var i = 0; i < json.length; i++) {
+        //                $('#ListTable').append("<tr><td>" + json[i].OrderID + "</td>" +
+        //                    "<td>" + json[i].CustomerName + "</td>" +
+        //                    "<td>" + json[i].Keyword + "</td>" +
+        //                    "<td>" + json[i].ProductName + "</td>" +
+        //                    "<td>" + json[i].Quantity + "</td>" +
+        //                    "<td>" + json[i].OrderDateTime + "</td></tr>")
+        //            }
+        //        }
+        //    }).then(function () {
+        //        setTimeout(GetData, 3000);
+        //    })
+        //}
         function GetData() {
             $.ajax({
                 type: 'post',
-                url: '/list/GetAll',
-                data: {liveID:@ViewData["liveID"]},
+                url: '/list/GetPlusOneBuyOrders',
+                data: { liveID:'@ViewData["liveID"]',token:'@ViewData["token"]',keywords:'@ViewData["keyWord"]'},
                 dataType: "json",
                 cache: false,
                 success: function (Result) {
-                    console.log(Result)
                     $('#ListTable tbody').empty();
                     var json = JSON.parse(Result);
                     for (var i = 0; i < json.length; i++) {

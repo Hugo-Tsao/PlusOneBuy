@@ -18,7 +18,7 @@ namespace FBPlusOneBuy.Repositories
         public IEnumerable<OrderList> GetAll()
         {
             SqlConnection connection = new SqlConnection(connectionString);
-            var sql = @"SELECT o.OrderID,c.CustomerName,o.Keyword,p.ProductName,o.Quantity,o.OrderDateTime FROM Orders o
+            var sql = @"SELECT o.OrderID,c.CustomerName,o.Keyword,p.ProductName,o.Quantity,o.OrderDateTime,o.LiveID FROM Orders o
                             INNER JOIN Customers c ON c.CustomerID =o.CustomerID
                             INNER JOIN Products p ON p.ProductID =o.ProductID";
             return connection.Query<OrderList>(sql);

@@ -20,8 +20,8 @@ namespace FBPlusOneBuy.Repositories
             {
                 try
                 {
-                    string sql = "INSERT INTO LivePosts(LiveID,LiveName,FanPageID) VALUES ( @LiveID,@LiveName,@FanPageID)";
-                    conn.Execute(sql, new { livePost.LiveID, livePost.LiveName, livePost.FanPageID });
+                    string sql = "INSERT INTO LivePosts(LivePageID,LiveName,FanPageID) VALUES ( @LivePageID,@LiveName,@FanPageID)";
+                    conn.Execute(sql, new { livePost.LivePageID, livePost.LiveName, livePost.FanPageID });
                     return true;
                 }
                 catch (Exception e)

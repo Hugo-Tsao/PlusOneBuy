@@ -67,24 +67,5 @@ namespace FBPlusOneBuy.Services
 
             return Comments;
         }
-
-        //待寫
-        public static List<OrderList> getNewOrderList(string liveID, string token, string keywords)
-        {
-            var orderList = new List<OrderList>();
-            var allComments = getAllComments(liveID, token);
-            if (allComments.Count != 0)
-            {
-                orderList = CommentFilterService.KeywordFilter(keywords, allComments, liveID);
-            }
-            return orderList;
-        }
-
-        public static string UTF8ConvertToString(string word)
-        {
-            byte[] byt = System.Text.UnicodeEncoding.Unicode.GetBytes(word);
-            string result = UnicodeEncoding.Unicode.GetString(byt);
-            return result;
-        }
     }
 }

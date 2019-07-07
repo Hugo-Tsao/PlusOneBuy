@@ -60,7 +60,20 @@ namespace FBPlusOneBuy.Controllers
             //return resp;
         }
 
-       
+        [Route("api/abcd")]
+        public string Getapple()
+        {
+
+            var sendMsg = new FbSendMessage.SendObject();
+            sendMsg.message.text = "HI";
+            sendMsg.recipient.id = "3032519476788720";
+            var msg = JsonConvert.SerializeObject(sendMsg);
+            return msg;
+
+
+        }
+
+
         [HttpPost]
         // POST: api/FbWebHook
         public string Post()

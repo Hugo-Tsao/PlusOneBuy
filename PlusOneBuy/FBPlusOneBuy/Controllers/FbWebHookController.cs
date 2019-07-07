@@ -7,6 +7,7 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using FBPlusOneBuy.Models;
+using RestSharp;
 
 namespace FBPlusOneBuy.Controllers
 {
@@ -62,15 +63,30 @@ namespace FBPlusOneBuy.Controllers
        
         [HttpPost]
         // POST: api/FbWebHook
-        public HttpContent Post()
+        public string Post()
         {
-            var content=Request.Content;
+            var sendMsg = new FbSendMessage.SendObject();
+            sendMsg.message.text = "HI";
+            sendMsg.recipient.id = "3032519476788720";
+            var msg= JsonConvert.SerializeObject(sendMsg);
+            return msg;
 
-            return content;
-            
-            var msg = JsonConvert.DeserializeObject<FbMessage>(content.ToString());
-            
-            
+
+            //var client = new RestClient("https://graph.facebook.com/v3.3/me/messages?access_token=EAASxbKYYpHoBANiN3ZCn5MHw1Bv7p6O8kSirivuVBUFJoYsVangrQk7Mb2XyKGUjNiPSnXuRQIzpSUx3Ryba6wg1uQeE9JzxZAQjSojZAX0OndZCJ0rXxtgZCUqgGVp6BkSYUtAZA1wbadkjzZClIcQMUToO2nGNqh8LxhrQaZCAtyC2h2aQZBZAtL");
+            //var request = new RestRequest(Method.POST);
+            //request.AddHeader("cache-control", "no-cache");
+            //request.AddHeader("Connection", "keep-alive");
+            //request.AddHeader("content-length", "92");
+            //request.AddHeader("accept-encoding", "gzip, deflate");
+            //request.AddHeader("Host", "graph.facebook.com");
+            //request.AddHeader("Cache-Control", "no-cache");
+            //request.AddHeader("Accept", "*/*");
+            //request.AddHeader("Content-Type", "application/json");
+            //request.AddParameter("undefined", , ParameterType.RequestBody);
+            //IRestResponse response = client.Execute(request);
+
+
+
 
 
             //var httpWebRequest = (HttpWebRequest)WebRequest.Create("https://graph.facebook.com/v3.3/me/messages?access_token=EAASxbKYYpHoBAKWHpnQKL30NY7TcJc4REzHzo94C2iBeyRiJs3Ai5cZBlsh3sZBZCz5W4yaPL0WVnym0UWZBLS4jGUffZC14YZAmvKLUYMFgtDbNYZBubMWHCzL8ZBYXBSKWnkZCJguFkTZCu06fqjRJkKKMOYW3MN5SBQW9eA5Kr7qX9LfzAw3ON4uRMpD7M2MaPv8wDrWGwsYQZDZD");

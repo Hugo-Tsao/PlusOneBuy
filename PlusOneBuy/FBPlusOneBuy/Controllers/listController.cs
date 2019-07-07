@@ -46,7 +46,7 @@ namespace FBPlusOneBuy.Controllers
         [HttpPost]
         public ActionResult GetPlusOneBuyOrders(string liveID,string token,string keywords)
         {
-            var OrderList = FBRequestService.getNewOrderList(liveID,token,keywords);
+            var OrderList = CommentFilterService.getNewOrderList(liveID,token,keywords);
             var result = JsonConvert.SerializeObject(OrderList);
             return Json(result);
         }

@@ -23,6 +23,10 @@ namespace FBPlusOneBuy.Models
         [StringLength(50)]
         public string LiveName { get; set; }
 
+        public DateTime postTime { get; set; }
+
+        public DateTime? endTime { get; set; }
+
         public virtual FanPage FanPage { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

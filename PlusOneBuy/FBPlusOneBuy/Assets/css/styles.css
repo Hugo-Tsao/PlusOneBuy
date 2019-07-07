@@ -5,3 +5,18 @@ body{
     box-shadow: 0 0 30px 0 rgba(0, 123, 255,0.20);
     height:64px;
 }
+.formtext {
+    padding-left: 10px;
+    border: #ddd 1px solid;
+    width: 30%;
+    height: 40px;
+    margin: 10px;
+    border-color: #17a2b8;
+    border-radius: 5px;
+}
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+

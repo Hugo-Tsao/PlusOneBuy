@@ -78,7 +78,7 @@ namespace FBPlusOneBuy.Controllers
 
         }
 
-
+        [Route("api/zzzzz")]
         [HttpPost]
         // POST: api/FbWebHook
         public HttpStatusCode Post()

@@ -222,6 +222,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\css\styles.css" />
+    <Content Include="Assets\images\91app_developer.png" />
     <Content Include="Assets\js\jquery-3.4.1.min.js" />
     <Content Include="Content\bootstrap-grid.css" />
     <Content Include="Content\bootstrap-grid.min.css" />
@@ -320,6 +321,7 @@
     <Content Include="Views\Setting\SelectWord.cshtml" />
     <Content Include="Views\list\Index.cshtml" />
     <Content Include="Views\Setting\Index.cshtml" />
+    <Content Include="Views\Setting\FanPageName.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

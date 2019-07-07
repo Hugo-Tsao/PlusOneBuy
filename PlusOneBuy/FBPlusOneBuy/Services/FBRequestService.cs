@@ -63,8 +63,10 @@ namespace FBPlusOneBuy.Services
             JavaScriptSerializer js = new JavaScriptSerializer();
             RootObject data = Newtonsoft.Json.JsonConvert.DeserializeObject<RootObject>(response.Content);
 
-            Comments = data.comments.data;
-
+            if (data.comments != null)
+            {
+                Comments = data.comments.data;
+            }
             return Comments;
         }
     }

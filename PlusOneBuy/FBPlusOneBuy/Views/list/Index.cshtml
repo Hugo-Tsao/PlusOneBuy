@@ -10,9 +10,9 @@
         </div>
     </div>
     <div class="container">
-        @Html.Label("liveID", "直播ID:")@ViewData["liveID"]
+        @*@Html.Label("liveID", "直播ID:")@ViewData["liveID"]
         @Html.Label("keyWord", "關鍵字:")@ViewData["keyWord"]
-        @Html.Label("ProductName", "商品名稱:")@ViewData["ProductName"]
+        @Html.Label("ProductName", "商品名稱:")@ViewData["ProductName"]*@
         <div id="list" class="row" style="margin: 10px">
             <div class="col-5">
                 <h3>直播商品</h3>
@@ -97,7 +97,7 @@
             $.ajax({
                 type: 'post',
                 url: '/list/GetPlusOneBuyOrders',
-                data: { liveID:'@ViewData["liveID"]',token:'@ViewData["token"]',keywords:'@ViewData["keyWord"]'},
+                data: { liveID:'@ViewData["liveID"]',keywords:'@ViewData["keyWord"]'},
                 dataType: "json",
                 cache: false,
                 success: function (Result) {

@@ -22,21 +22,27 @@
         <div class="card text-center" style="width: 18rem;">
             <div class="card-body">
                 <h5 class="card-title">FaceBook FanPage</h5>
-                <p class="card-text">Name : justTshirt.tw</p>
-                <button id="btn_managePages" type="button" class="btn btn-info" onclick="getAuth()">登入</button>
+                <p class="card-text">justTshirt.tw</p>
+                <button type="button" class="btn_managePages btn btn-info" onclick="getAuth()">登入</button>
             </div>
         </div>
+        <input type="hidden" id="fanPageName">
     </div>
 </div>
 @section EndJS
 {
     <script>
         $(document).ready(function () {
+            $('.btn_managePages').click(function () {
+                var fanPageName = $(this).siblings("p").text()
+                $('#fanPageName').val(fanPageName)
+                getAuth()
+            })
         });
         function getAuth() {
             FB.login(function (response) {
                 if (response.status === 'connected') {
-                    console.log(response.authResponse.accessToken);
+                    //console.log(response.authResponse.accessToken);
                     GetData(response.authResponse.accessToken)
                 }
             }, {
@@ -46,19 +52,19 @@
                 });
         }
 
-    function GetData(token) {
-        $.ajax({
-            type: "POST",
-            url: "/Setting/GetFanPageData",
-            data: { token: token, fanPageName: "justTshirt.tw" },
-            dataType: 'json',
-            crossDomain: true,
-            cache: false,
-            success: function(data){
-                window.location.href = data;
-            }
-        });
-    }
+        function GetData(token) {
+            $.ajax({
+                type: "POST",
+                url: "/Setting/GetFanPageData",
+                data: { token: token, fanPageName: $('#fanPageName').val() },
+                dataType: 'json',
+                crossDomain: true,
+                cache: false,
+                success: function (data) {
+                    window.location.href = data;
+                }
+            });
+        }
     </script>
 }
 @section TopJS

@@ -11,35 +11,44 @@ namespace FBPlusOneBuy.Controllers
     public class FbWebHookController : ApiController
     {
         public string Get()
-        {
-            return "abcdefg";
-            //string hub_mode = "";
-            //string hub_challenge = "";
-            //string hub_verify_token = "";
+        {          
+            string hub_mode = "";
+            string hub_challenge = "";
+            string hub_verify_token = "";
+            string my_verify_token = "abcdedfg";
 
-            //try
-            //{
-            //    IEnumerable<KeyValuePair<string, string>> queryString = Request.GetQueryNameValuePairs();
+            try
+            {
+                IEnumerable<KeyValuePair<string, string>> queryString = Request.GetQueryNameValuePairs();
 
-            //    foreach (KeyValuePair<string, string> item in queryString)
-            //    {
-            //        switch (item.Key)
-            //        {
-            //            case "hub.mode":
-            //                hub_mode = item.Value;
-            //                break;
-            //            case "hub.challenge":
-            //                hub_challenge = item.Value;
-            //                break;
-            //            case "hub.verify_token":
-            //                hub_verify_token = item.Value;
-            //                break;
-            //        }
-            //    }
-            //}
-            //catch (Exception ex)
-            //{
-            //}
+                foreach (KeyValuePair<string, string> item in queryString)
+                {
+                    switch (item.Key)
+                    {
+                        case "hub.mode":
+                            hub_mode = item.Value;
+                            break;
+                        case "hub.challenge":
+                            hub_challenge = item.Value;
+                            break;
+                        case "hub.verify_token":
+                            hub_verify_token = item.Value;
+                            break;
+                    }
+                }
+                
+            }
+            catch (Exception ex)
+            {
+            }
+            if (hub_verify_token == my_verify_token)
+            {
+                return hub_challenge;
+            }
+            else
+            {
+                return "NO";
+            }
 
             //return hub_mode+ hub_challenge + hub_verify_token;
             //string result = Request.Params["hub.challenge"];
@@ -59,8 +68,6 @@ namespace FBPlusOneBuy.Controllers
         //{
         //    return "value";
         //}
-
-        [Route("api/caaaa")]
         [HttpPost]
         // POST: api/FbWebHook
         public IHttpActionResult Post()

@@ -10,7 +10,7 @@ namespace FBPlusOneBuy.Controllers
 {
     public class FbWebHookController : ApiController
     {
-        public string Get()
+        public int Get()
         {          
             string hub_mode = "";
             string hub_challenge = "";
@@ -43,11 +43,11 @@ namespace FBPlusOneBuy.Controllers
             }
             if (hub_verify_token == my_verify_token)
             {
-                return hub_challenge;
+                return Convert.ToInt32(hub_challenge);
             }
             else
             {
-                return "NO";
+                return -1;
             }
 
             //return hub_mode+ hub_challenge + hub_verify_token;

@@ -42,8 +42,12 @@
         function getAuth() {
             FB.login(function (response) {
                 if (response.status === 'connected') {
+                    FB.api('/' + $('#fanPageName').val() + '?fields=access_token', function (res) {
+                        GetData(res.access_token);
+                        console.log("PAGE=" + res.access_token);
+                    });
                     //console.log(response.authResponse.accessToken);
-                    GetData(response.authResponse.accessToken)
+                    //
                 }
             }, {
                     auth_type: 'rerequest',

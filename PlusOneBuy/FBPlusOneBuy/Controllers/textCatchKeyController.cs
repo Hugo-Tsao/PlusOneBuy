@@ -12,8 +12,8 @@ namespace FBPlusOneBuy.Controllers
         // GET: textCatchKey
         public ActionResult Index()
         {
-            var value = ConfigurationManager.AppSettings["X-API-KEY"];
-            ViewData["key"] = value;
+            //var value = ConfigurationManager.AppSettings["X-API-KEY"];
+            //ViewData["key"] = value;
             return View();
         }
     }

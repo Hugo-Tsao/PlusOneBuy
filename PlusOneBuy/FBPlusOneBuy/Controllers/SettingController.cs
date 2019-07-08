@@ -27,8 +27,8 @@ namespace FBPlusOneBuy.Controllers
         public ActionResult GetFanPageData(string token, string fanPageName)
         {
             Session["fanPageName"] = fanPageName;
-            //Session["token"] = token;
-            Session["token"] = "EAASxbKYYpHoBAI27CZBoK8ZBzFmJjEMIR30woKcIfDPx4mtljSUOsGxVGsKHmy1JgCay8KTilT9l3nbkSfGzBZC6wVSDUcl3ZAa7C5OyZAv8CV7K0duuyW2jHFGqZCwhIKiM6jPonrHLp7s5UEudWL5UHkT8IuZBGmBTOEHS0IjYZCsYbcQfo3j9";
+            Session["token"] = token;
+            //Session["token"] = "EAASxbKYYpHoBAI27CZBoK8ZBzFmJjEMIR30woKcIfDPx4mtljSUOsGxVGsKHmy1JgCay8KTilT9l3nbkSfGzBZC6wVSDUcl3ZAa7C5OyZAv8CV7K0duuyW2jHFGqZCwhIKiM6jPonrHLp7s5UEudWL5UHkT8IuZBGmBTOEHS0IjYZCsYbcQfo3j9";
             return Json(Url.Action("video", "Setting"));
 
         }
@@ -53,8 +53,8 @@ namespace FBPlusOneBuy.Controllers
         {
 
             List<string> ids = new List<string> { "3032519476788720", "2762673820474754" };
-
-            FBSendMsgService.SendMsg("123", ids);
+            string token=(string) Session["token"] ;
+            FBSendMsgService.SendMsg("123", ids,token);
 
 
 

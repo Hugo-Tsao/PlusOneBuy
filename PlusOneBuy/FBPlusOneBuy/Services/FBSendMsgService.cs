@@ -11,8 +11,9 @@ namespace FBPlusOneBuy.Services
 {
     public class FBSendMsgService
     {
-        public static void SendMsg(string text, List<string> ids)
+        public static void SendMsg(string text, List<string> ids,string token)
         {
+            
             foreach (string id in ids)
             {
                 var msg = new FbSendMessage.SendObject()
@@ -21,8 +22,7 @@ namespace FBPlusOneBuy.Services
                     recipient = new FbSendMessage.Recipient { id = id }
                 };
                 var jsonMsg = JsonConvert.SerializeObject(msg);
-
-                var client = new RestClient("https://graph.facebook.com/v3.3/me/messages?access_token=EAASxbKYYpHoBANiN3ZCn5MHw1Bv7p6O8kSirivuVBUFJoYsVangrQk7Mb2XyKGUjNiPSnXuRQIzpSUx3Ryba6wg1uQeE9JzxZAQjSojZAX0OndZCJ0rXxtgZCUqgGVp6BkSYUtAZA1wbadkjzZClIcQMUToO2nGNqh8LxhrQaZCAtyC2h2aQZBZAtL");
+                var client = new RestClient("https://graph.facebook.com/v3.3/me/messages?access_token="+ token);
                 var request = new RestRequest(Method.POST);
                 request.AddHeader("cache-control", "no-cache");
                 request.AddHeader("content-length", "92");

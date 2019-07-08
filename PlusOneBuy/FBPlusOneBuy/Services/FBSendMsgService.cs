@@ -21,8 +21,8 @@ namespace FBPlusOneBuy.Services
                     recipient = new FbSendMessage.Recipient { id = id }
                 };
                 var jsonMsg = JsonConvert.SerializeObject(msg);
-
-                var client = new RestClient("https://graph.facebook.com/v3.3/me/messages?access_token=EAASxbKYYpHoBANiN3ZCn5MHw1Bv7p6O8kSirivuVBUFJoYsVangrQk7Mb2XyKGUjNiPSnXuRQIzpSUx3Ryba6wg1uQeE9JzxZAQjSojZAX0OndZCJ0rXxtgZCUqgGVp6BkSYUtAZA1wbadkjzZClIcQMUToO2nGNqh8LxhrQaZCAtyC2h2aQZBZAtL");
+                string token = "EAASxbKYYpHoBADjSVXOIWYxZAk2tU47ItZCAnO6gFzSpZCugIT1L8nGiZCbOFZCgCXiv2qcyANrqOmDyIFZAeYkO0TM6alFpLy928vJLpMEHHHXjcQD8xv8ZCUIVQ5ZBOrFVjNYZCvZANTIotMUQzVEZCVl1D0snswuYuu5iEahWCl3seE7zgcikk7Y";
+                var client = new RestClient("https://graph.facebook.com/v3.3/me/messages?access_token="+ token);
                 var request = new RestRequest(Method.POST);
                 request.AddHeader("cache-control", "no-cache");
                 request.AddHeader("content-length", "92");

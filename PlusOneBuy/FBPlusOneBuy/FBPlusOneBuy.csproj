@@ -196,6 +196,7 @@
     <Compile Include="Controllers\listController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\SettingController.cs" />
+    <Compile Include="Controllers\textCatchKeyController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -325,6 +326,7 @@
     <Content Include="Views\Setting\Index.cshtml" />
     <Content Include="Views\Setting\FanPageName.cshtml" />
     <Content Include="Views\Setting\Video.cshtml" />
+    <Content Include="Views\textCatchKey\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

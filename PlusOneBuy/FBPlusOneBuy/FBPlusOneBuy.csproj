@@ -216,6 +216,7 @@
     <Compile Include="Repositories\FBJsonToCSharp.cs" />
     <Compile Include="Repositories\LivePostsRepository.cs" />
     <Compile Include="Repositories\OrderRepositories.cs" />
+    <Compile Include="Repositories\ProductList.cs" />
     <Compile Include="Repositories\ProductRepositories.cs" />
     <Compile Include="Services\CommentFilterService.cs" />
     <Compile Include="Services\FBRequestService.cs" />

@@ -53,8 +53,8 @@ namespace FBPlusOneBuy.Controllers
         {
 
             List<string> ids = new List<string> { "3032519476788720", "2762673820474754" };
-
-            FBSendMsgService.SendMsg("123", ids);
+            string token=(string) Session["token"] ;
+            FBSendMsgService.SendMsg("123", ids,token);
 
 
 

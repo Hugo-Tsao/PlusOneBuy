@@ -23,11 +23,22 @@
             <div class="card-body">
                 <h5 class="card-title">FaceBook FanPage</h5>
                 <p class="card-text">justTshirt.tw</p>
-                <button type="button" class="btn_managePages btn btn-info" onclick="getAuth()">登入</button>
+                <button type="button" class="btn_managePages btn btn-info" onclick="getAuth()" name="submit" data-toggle="modal" data-target="#Modal">登入</button>
             </div>
         </div>
         <input type="hidden" id="fanPageName">
+        <div class="modal fade" id="Modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Loading...</h5>
+                        <i class="fa fa-spinner fa-spin" style="font-size:24px"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
+    
 </div>
 @section EndJS
 {

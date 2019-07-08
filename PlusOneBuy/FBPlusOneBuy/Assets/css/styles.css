@@ -12,10 +12,19 @@ img {
 .formtext {
     padding-left: 10px;
     border: #ddd 1px solid;
+    /*width: 30%;*/
+    height: 40px;
+    /*margin: 10px;*/
+    border-color: #17a2b8;
+    border-radius: 5px;
+}
+.Idtext {
+    padding-left: 10px;
+    border: #ddd 1px solid;
     width: 30%;
     height: 40px;
-    margin: 10px;
-    border-color: #17a2b8;
+    margin: 5px;
+    border-color: #6c757d;
     border-radius: 5px;
 }
 .dropdown {

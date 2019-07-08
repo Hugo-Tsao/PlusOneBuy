@@ -13,7 +13,37 @@
 <form action="~/list/index" method="post">
     <div class="container">
         <div class="row mt-3">
-            <div class="col-3"></div>
+            <div class="col-6">
+                <label><strong>挑選商品</strong></label><hr />
+                <small>商品編號 </small>
+                <input class="Idtext" value="" />
+                <button type="button" class="btn btn-secondary"><i class="fas fa-search"></i></button>
+                <br>
+                <label><strong>直播商品</strong></label>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>商品</th>
+                            <th>關鍵字</th>
+                            <th>價格</th>
+                            <th>庫存</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in products)
+                        {
+                            <tr>
+                                <td>@item.ProductName</td>
+                                <td><input class="formtext" name="keyWord" value="@item.keyword" /></td>
+                                <td>@String.Format("{0:N0}", @item.UnitPrice)</td>
+                                <td>@item.Stock</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+
+
+            </div>
             <div class="col">
                 <div class="dropdown">
                     <label>直播影片:</label>
@@ -37,17 +67,8 @@
                     </div>
                 </div>
                 <br>
-                @foreach (var item in products)
-                {
-                    <label>直播商品:</label>
-                    <input type="text" class="formtext ml-4" name="ProductName" value="@item.ProductName">
-                    <br />
-                    <label>留言關鍵字:</label>
-                    <input class="formtext" name="keyWord" value="@item.keyword" /><br>
-                }
                 <button id="btn_submit" class="btn btn-primary mt-3"><i class="far fa-hand-point-right"></i>送出</button>
             </div>
-            <div class="col-3"> </div>
         </div>
     </div>
 </form>

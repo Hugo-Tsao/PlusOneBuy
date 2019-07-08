@@ -19,14 +19,14 @@ namespace FBPlusOneBuy.Controllers
             return View();
         }
         [HttpPost]
-        public ActionResult Index(string keyWord, string ProductName, string liveID)
+        public ActionResult Index(string keyWord, string ProductName, string livePageID)
         {
             //新增直播進資料庫
-            LivePostService.CreateLivePost(liveID);
+            LivePostService.CreateLivePost(livePageID);
 
             ViewData["keyWord"] = keyWord;
             ViewData["ProductName"] = ProductName;
-            ViewData["liveID"] = liveID;
+            ViewData["liveID"] = livePageID;
             ProductRepositories productRepositories = new ProductRepositories();
             var product = new List<Product>();
             product=productRepositories.FindByName(ProductName).ToList();
@@ -45,7 +45,7 @@ namespace FBPlusOneBuy.Controllers
         //}
 
         [HttpPost]
-        public ActionResult GetPlusOneBuyOrders(string liveID,string keywords)
+        public ActionResult GetPlusOneBuyOrders(string livePageID, string keywords)
         {
             string token = Session["token"].ToString();
             //string token =

@@ -36,8 +36,8 @@ namespace FBPlusOneBuy.Repositories
             return true;
         }
 
-        //刪除一筆CartItem
-        internal void DeleCartItem(string salePage_id)
+        //刪除一筆
+        internal void DeleteItem(string salePage_id)
         {
             var item = ProductItems.Find(x => x.Salepage_id == salePage_id);
             ProductItems.Remove(item);

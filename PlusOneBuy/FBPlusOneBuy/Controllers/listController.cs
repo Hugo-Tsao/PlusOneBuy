@@ -19,14 +19,14 @@ namespace FBPlusOneBuy.Controllers
             return View();
         }
         [HttpPost]
-        public ActionResult Index(string keyWord, string ProductName, string liveID)
+        public ActionResult Index(string keyWord, string ProductName, string livePageID)
         {
             //新增直播進資料庫
-            LivePostService.CreateLivePost(liveID);
+            LivePostService.CreateLivePost(livePageID);
 
             ViewData["keyWord"] = keyWord;
             ViewData["ProductName"] = ProductName;
-            ViewData["liveID"] = liveID;
+            ViewData["liveID"] = livePageID;
             ProductRepositories productRepositories = new ProductRepositories();
             var product = new List<Product>();
             product=productRepositories.FindByName(ProductName).ToList();
@@ -45,11 +45,11 @@ namespace FBPlusOneBuy.Controllers
         //}
 
         [HttpPost]
-        public ActionResult GetPlusOneBuyOrders(string liveID,string keywords)
+        public ActionResult GetPlusOneBuyOrders(string livePageID, string keywords)
         {
-            //string token = Session["token"].ToString();
-            string token =
-                "EAASxbKYYpHoBAI27CZBoK8ZBzFmJjEMIR30woKcIfDPx4mtljSUOsGxVGsKHmy1JgCay8KTilT9l3nbkSfGzBZC6wVSDUcl3ZAa7C5OyZAv8CV7K0duuyW2jHFGqZCwhIKiM6jPonrHLp7s5UEudWL5UHkT8IuZBGmBTOEHS0IjYZCsYbcQfo3j9";
+            string token = Session["token"].ToString();
+            //string token =
+            //    "EAASxbKYYpHoBAI27CZBoK8ZBzFmJjEMIR30woKcIfDPx4mtljSUOsGxVGsKHmy1JgCay8KTilT9l3nbkSfGzBZC6wVSDUcl3ZAa7C5OyZAv8CV7K0duuyW2jHFGqZCwhIKiM6jPonrHLp7s5UEudWL5UHkT8IuZBGmBTOEHS0IjYZCsYbcQfo3j9";
             var OrderList = CommentFilterService.getNewOrderList(liveID,token,keywords);
             var result = JsonConvert.SerializeObject(OrderList);
             return Json(result);

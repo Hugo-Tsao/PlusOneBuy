@@ -36,7 +36,7 @@ namespace FBPlusOneBuy.Controllers
         {
             string fanPageName = Session["fanPageName"].ToString();
             string token = Session["token"].ToString();
-            var result = FBRequestService.getLiveID(fanPageName, token);
+            var result = FBRequestService.getLivePageID(fanPageName, token);
             ViewData["liveIDList"] = result;
 
             string ProductName = "馬桶泡泡洗";
@@ -58,6 +58,11 @@ namespace FBPlusOneBuy.Controllers
 
 
 
+        }
+        [HttpPost]
+        public ActionResult save(string ProductName, string liveID,List<string> array)
+        {
+            return View();
         }
     }
 }

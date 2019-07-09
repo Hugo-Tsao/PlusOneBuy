@@ -30,5 +30,15 @@ namespace FBPlusOneBuy.Repositories
                 }
             }
         }
+
+        public int Select(string livePageID)
+        {
+            using (conn = new SqlConnection(connectionString))
+            {
+                string sql = "select ID from LivePosts where LivePageID=@LivePageID and endTime is null";
+                int liveid = conn.QueryFirstOrDefault<int>(sql, new { LivePageID = livePageID });
+                return liveid;
+            }
+        }
     }
 }

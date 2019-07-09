@@ -41,7 +41,7 @@ namespace FBPlusOneBuy.Services
                 //Console.WriteLine(item.id);
 
                 //判斷此post是否是正在直播中的貼文
-                if (item.story != null && item.story.Contains("is live now"))
+                if (item.story != null && (item.story.Contains("is live now") || item.story.Contains("現正直播")))
                 {
                     livePageIDList.Add(item.id, item.message);
                 }
@@ -50,10 +50,10 @@ namespace FBPlusOneBuy.Services
         }
 
         //先做一次取全部留言 (預期在1000則留言以內)
-        public static List<Datum> getAllComments(string liveID, string token)
+        public static List<Datum> getAllComments(string livePageID, string token)
         {
             var Comments = new List<Datum>();
-            string url = "https://graph.facebook.com/v3.3/" + liveID + "?fields=comments&access_token=" + token;
+            string url = "https://graph.facebook.com/v3.3/" + livePageID + "?fields=comments&access_token=" + token;
 
             var client = new RestClient(url);
             var request = new RestRequest(Method.GET);

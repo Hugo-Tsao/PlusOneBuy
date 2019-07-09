@@ -13,9 +13,10 @@ namespace FBPlusOneBuy.Models
         {
             Orders = new HashSet<Order>();
         }
-
+        //我直接改string 需要正規改法要在改過(Jim)
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public int CustomerID { get; set; }
+        [StringLength(30)]
+        public string CustomerID { get; set; }
 
         [Required]
         [StringLength(50)]

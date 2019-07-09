@@ -16,13 +16,17 @@ namespace FBPlusOneBuy.Repositories
 
         public bool SelectCustomer(string custId)
         {
-            string sql = "Select * From Customers Where CustomerID = @CustomerID";
-            var cust = conn.QueryFirstOrDefault<Customer>(sql,new { CustomerID=custId});
-            if (cust == null)
+            using (conn = new SqlConnection(connectionString))
             {
-                return false;
+                string sql = "Select count(*) From Customers Where CustomerID = @CustomerID";
+                int count_result = conn.QueryFirstOrDefault<int>(sql, new { CustomerID = custId });
+                if (count_result == 0)
+                {
+                    return false;
+                }
+                else { return true; }
             }
-            else { return true; }
+            
         }
 
         public void InsertCustomer(List<Customer> customers)

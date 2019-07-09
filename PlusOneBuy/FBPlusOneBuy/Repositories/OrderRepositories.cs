@@ -31,13 +31,13 @@ namespace FBPlusOneBuy.Repositories
 
                 foreach (var order in orders)
                 {
-                    string sql = "INSERT INTO Orders(ProductID, CustomerID, Keyword, OrderDateTime, Quantity) VALUES ( @ProductID, @CustomerID, @Keyword, @OrderDateTime, @Quantity)";
-                    conn.Execute(sql, new { ProductID=productId, order.CustomerID, order.Keyword, order.OrderDateTime, order.Quantity });
+                    string sql = "INSERT INTO Orders(ProductID, CustomerID, Keyword, OrderDateTime, Quantity,LiveID) VALUES ( @ProductID, @CustomerID, @Keyword, @OrderDateTime, @Quantity,@LiveID)";
+                    conn.Execute(sql, new { ProductID=productId, order.CustomerID, order.Keyword, order.OrderDateTime, order.Quantity,order.LiveID });
                 }           
 
             }
         }
-        public DateTime SelectLastOrderComment(string liveId)
+        public DateTime SelectLastOrderComment(int liveId)
         {
             using (conn = new SqlConnection(connectionString))
             {

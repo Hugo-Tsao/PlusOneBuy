@@ -23,13 +23,34 @@ namespace FBPlusOneBuy.Repositories
                             INNER JOIN Products p ON p.ProductID =o.ProductID";
             return connection.Query<OrderList>(sql);
         }
-        public void InsertOrder(Order order)
+        public void InsertOrder(List<OrderList> orders)
         {
             using (conn = new SqlConnection(connectionString))
             {
-                string sql = "INSERT INTO Orders(ProductID, CustomerID, Keyword, OrderDateTime, Quantity) VALUES ( @ProductID, @CustomerID, @Keyword, @OrderDateTime, @Quantity)";
-                conn.Execute(sql, new { order.ProductID,order.CustomerID,order.Keyword,order.OrderDateTime,order.Quantity });
+                string productId = "1";//目前寫死 還需要更改
 
+                foreach (var order in orders)
+                {
+                    string sql = "INSERT INTO Orders(ProductID, CustomerID, Keyword, OrderDateTime, Quantity) VALUES ( @ProductID, @CustomerID, @Keyword, @OrderDateTime, @Quantity)";
+                    conn.Execute(sql, new { ProductID=productId, order.CustomerID, order.Keyword, order.OrderDateTime, order.Quantity });
+                }           
+
+            }
+        }
+        public DateTime SelectLastOrderComment(string liveId)
+        {
+            using (conn = new SqlConnection(connectionString))
+            {
+                string sql = "select top 1 * from Orders where LiveID=@liveId order by OrderDateTime desc ";
+                var lastComment = conn.QueryFirstOrDefault<OrderList>(sql,new { liveId });
+                if (lastComment == null)
+                {
+                    return DateTime.MaxValue;
+                }
+                else
+                {
+                    return lastComment.OrderDateTime;
+                }
             }
         }
     }

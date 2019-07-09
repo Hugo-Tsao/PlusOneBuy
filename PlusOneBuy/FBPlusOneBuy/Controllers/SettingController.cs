@@ -59,5 +59,10 @@ namespace FBPlusOneBuy.Controllers
 
 
         }
+        [HttpPost]
+        public ActionResult save(string ProductName, string liveID,List<string> array)
+        {
+            return View();
+        }
     }
 }

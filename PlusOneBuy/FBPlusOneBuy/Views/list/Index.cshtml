@@ -111,7 +111,7 @@
             $.ajax({
                 type: 'post',
                 url: '/list/GetPlusOneBuyOrders',
-                data: { liveID:'@ViewData["liveID"]',keywords:'@ViewData["keyWord"]'},
+                data: { livePageID:'@ViewData["livePageID"]',keywords:'@ViewData["keyWord"]'},
                 dataType: "json",
                 cache: false,
                 success: function (Result) {

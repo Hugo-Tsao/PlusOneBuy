@@ -22,26 +22,16 @@
                 <label><strong>搜尋清單</strong></label>
                 <button id="AddProduct" type="button" class="btn btn-light border-success" style="right:0;position:absolute">挑選商品<i class="fas fa-plus ml-2"></i></button><br><br>
                 <table id="ProductSearch" class="table table-sm">
-                    @*<thead>
+                    <thead>
                             <tr>
                                 <th>商品</th>
                                 <th>關鍵字</th>
                                 <th>價格</th>
                                 <th>庫存</th>
                             </tr>
-                        </thead>*@
+                        </thead>
                     <tbody>
-                        @*@foreach (var item in products)
-                            {
-                                <tr>
-                                    <td >
-                                        <input type="hidden" class="formtext" name="ProductName" value="@item.ProductName" />@item.ProductName
-                                    </td>
-                                    <td><input class="formtext" name="keyWord" value="@item.keyword" /></td>
-                                    <td>@String.Format("{0:N0}", @item.UnitPrice)</td>
-                                    <td>@item.Stock</td>
-                                </tr>
-                            }*@
+                     
                     </tbody>
                 </table>
 
@@ -81,7 +71,19 @@
                             <th>價格</th>
                         </tr>
                     </thead>
-                    <tbody></tbody>
+                    <tbody>
+                        @foreach (var item in products)
+                        {
+                            <tr>
+                                <td>
+                                    <input type="hidden" class="formtext" name="ProductName" value="@item.ProductName" />@item.ProductName
+                                </td>
+                                <td><input class="formtext" name="keyWord" value="@item.keyword" /></td>
+                                <td>@String.Format("{0:N0}", @item.UnitPrice)</td>
+                                <td>@item.Stock</td>
+                            </tr>
+                        }
+                    </tbody>
                 </table>
                 <br>
                 <button id="btn_submit" class="btn btn-primary mt-3"><i class="far fa-hand-point-right"></i>送出</button>
@@ -97,26 +99,29 @@
     <script>
         $(document).ready(function () {
             var array = []
-                var json = { name: 'A01', keyword: "A01", price: "100" };
-                var json1 = { name: 'A02', keyword: "A01", price: "100" };
+            var json = { name: 'A01', keyword: "A01", price: "100" };
+            var json1 = { name: 'A02', keyword: "A01", price: "100" };
             $('#AddProduct').click(function () {
-                $("input[type=radio]:checked").each(function () {
-                    result = $(this).val();
-                    if (json.name == result) {
-                        $('#ProductList').append(
-                            "<tr><td>" + json.name + "</td><td>" + json.keyword + "</td><td>" + json.price + "</td></tr>")
-                    }
-                    if (json1.name == result) {
-                        $('#ProductList').append(
-                            "<tr><td>" + json1.name + "</td><td>" + json1.keyword + "</td><td>" + json1.price + "</td></tr>")
-                    }
-                    $('#ProductSearch').empty()
-                });
+
+              
+                //$("input[type=radio]:checked").each(function () {
+                //    result = $(this).val();
+                //    if (json.name == result) {
+                //        $('#ProductList').append(
+                //            "<tr><td>" + json.name + "</td><td>" + json.keyword + "</td><td>" + json.price + "</td></tr>")
+                //    }
+                //    if (json1.name == result) {
+                //        $('#ProductList').append(
+                //            "<tr><td>" + json1.name + "</td><td>" + json1.keyword + "</td><td>" + json1.price + "</td></tr>")
+                //    }
+                //    $('#ProductSearch').empty()
+                //});
             })
             $('#ProductSearch').append("<thead><tr><td>挑選</td><td>商品</td><td>關鍵字</td><td>價格</td>")
             $('.dropdown-item').click(function () {
                 $('#dropdownMenu').text($(this).text())
-                $('#liveID').val($(this).val())
+                $('#livePageID').val($(this).val())
+
             })
             $('#btn_submit').click(function () {
                 if ($('#dropdownMenu').text().trim() == "直播影片") {
@@ -133,21 +138,32 @@
                 }
             })
             $('#SearchProduct').click(function () {
+                //  $.ajax({
+                //    type: 'post',
+                //    url: '/Product/GetSKUListByMain',
+                //    data: {Salepage_id:$('#GetProductByid').val() },
+                //    dataType: "json",
+                //    cache: false,
+                //    success: function (Result) {
+                //        console.log(Result)
+                //    }
+                //})
+
                 //$('#ProductList').empty()
-                
-                array.push(json)
-                array.push(json1)
-                if ($('#GetProductByid').val() != null) {
-                    for (var i = 0; i < array.length; i++) {
-                        $('#ProductSearch').append(
-                            "<tr><td>" + "<input type='radio' name='checkproduct' value=" + array[i].name + ">" +
-                            "</td><td>" + array[i].name + "</td><td>" + array[i].keyword + "</td><td>" + array[i].price + "</td></tr>")
-                    }
-                }
-                else {
-                    $('#ProductSearch').empty()
-                    alert("此編號查無商品")
-                }
+
+                //array.push(json)
+                //array.push(json1)
+                //if ($('#GetProductByid').val() != null) {
+                //    for (var i = 0; i < array.length; i++) {
+                //        $('#ProductSearch').append(
+                //            "<tr><td>" + "<input type='radio' name='checkproduct' value=" + array[i].name + ">" +
+                //            "</td><td>" + array[i].name + "</td><td>" + array[i].keyword + "</td><td>" + array[i].price + "</td></tr>")
+                //    }
+                //}
+                //else {
+                //    $('#ProductSearch').empty()
+                //    alert("此編號查無商品")
+                //}
             })
 
         });

@@ -51,18 +51,9 @@ namespace FBPlusOneBuy.Controllers
         [HttpPost]
         public void SendMsg()
         {
-
             List<string> ids = new List<string> { "3032519476788720", "2762673820474754" };
             string token=(string) Session["token"] ;
             FBSendMsgService.SendMsg("123", ids,token);
-
-
-
-        }
-        [HttpPost]
-        public ActionResult save(string ProductName, string liveID,List<string> array)
-        {
-            return View();
         }
     }
 }

@@ -13,45 +13,70 @@ namespace FBPlusOneBuy.Services
     {
         public static List<OrderList> KeywordFilter(string keywords,List<Datum> datas,string liveID)
         {
-            var result = new List<OrderList>();
-            //List<Datum> result = new List<Datum>();
+            var resultOrderList = new List<OrderList>();
+            var custsList = new List<Customer>();
+            var cust_repo = new CustomerRepository();
+            //List<Datum> resultDatum = new List<Datum>();
             foreach (var data in datas)
             {
                 //if (keywords.IndexOf(data.message + "+1") != -1)  //+1暫時先寫死
                 if(data.message.Contains(keywords))
                 {
+                    //resultDatum.Add(data);
+                    
+                    
                     var context = new Context();
                     var order = new OrderList();
 
                     var name = UTF8ConvertToString(data.from.name);
+                    if (!cust_repo.SelectCustomer(data.from.id))
+                    {
+                        var customer = new Customer { CustomerID = Convert.ToInt32(data.from.id), CustomerName = name };
+                        custsList.Add(customer);
+                    }
+                    order.CustomerID =data.from.id;
                     order.CustomerName = name;
                     order.Keyword = data.message;
                     order.ProductName = "馬桶泡泡洗"; //暫時寫死，之後用搜索
                     order.LiveID = liveID;
                     order.OrderDateTime = Convert.ToDateTime(data.created_time);
                     order.Quantity = 1; //暫時寫死
-                    result.Add(order);
+                    resultOrderList.Add(order);
+
                 }
             }
-            return result;
+            cust_repo.InsertCustomer(custsList);
+            return resultOrderList;
         }
 
-        public static List<Datum> PostTimeFilter(List<Datum> comments)
+        public static List<Datum> PostTimeFilter(List<Datum> comments, string liveID)
         {
             Context context = new Context();
             var livePostTime = context.LivePosts.Max(x => x.postTime);
-            comments = comments.Where(x => x.created_time > livePostTime).ToList();
+            //comments = comments.Where(x => x.created_time > livePostTime).ToList();
+            //去Orders Table 看有沒有留言，有的話就抓最後一個留言的時間沒有的話就過濾livePostTime 的時間
+            var order_repo = new OrderRepositories();
+            DateTime selectResult = order_repo.SelectLastOrderComment(liveID);
+            if (selectResult != DateTime.MaxValue)
+            {
+                comments = comments.Where(x => x.created_time > selectResult).ToList();
+            }
+            else
+            {
+                comments = comments.Where(x => x.created_time > livePostTime).ToList();
+            }
+
             return comments;
         }
 
         public static List<OrderList> getNewOrderList(string liveID, string token, string keywords)
         {
-            var orderList = new List<OrderList>();
+            var orderList = new List<OrderList>();            
             var allComments = FBRequestService.getAllComments(liveID, token);
             if (allComments.Count != 0)
             {
                 //過濾出經由推播後的時間開始才喊關鍵字的人
-                var PickPosts = CommentFilterService.PostTimeFilter(allComments);
+                var PickPosts = CommentFilterService.PostTimeFilter(allComments,liveID);
                 if (PickPosts.Count > 0)
                 {
                     orderList = CommentFilterService.KeywordFilter(keywords, PickPosts, liveID);

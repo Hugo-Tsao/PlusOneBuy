@@ -20,8 +20,8 @@ namespace FBPlusOneBuy.Repositories
 
         public int Count => this.ProductItems.Count;
 
-        //新增一筆CartItem
-        private bool AddCartItem(ProductViewModel Item)
+        //新增一筆Product
+        public void AddProduct(ProductViewModel Item)
         {
             var item = new ProductViewModel()
             {
@@ -33,13 +33,12 @@ namespace FBPlusOneBuy.Repositories
             };
 
             ProductItems.Add(item);
-            return true;
         }
 
         //刪除一筆
-        internal void DeleteItem(string salePage_id)
+        public void DeleteProduct(int skuId)
         {
-            var item = ProductItems.Find(x => x.Salepage_id == salePage_id);
+            var item = ProductItems.Find(x => x.SkuId == skuId);
             ProductItems.Remove(item);
         }
 

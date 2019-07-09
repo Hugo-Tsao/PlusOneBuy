@@ -7,8 +7,8 @@ namespace FBPlusOneBuy.ViewModels
 {
     public class ProductViewModel
     {
-        public string Salepage_id { get; set; }
-        public string SkuId { get; set; }
+        public int Salepage_id { get; set; }
+        public int SkuId { get; set; }
         public string ProductName { get; set; }
         public decimal UnitPrice { get; set; }
         public string Keyword { get; set; }

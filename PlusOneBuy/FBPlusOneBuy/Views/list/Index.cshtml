@@ -57,7 +57,8 @@
                 </table>
             </div>
             <div class="col-12 text-center">
-                <button id="btn_endpost" class="btn btn-dark col-6 ">結束本次推播</button>
+                <button id="btn_sentMsg" class="btn btn-primary col-3 ">寄送購物車連結</button>
+                <button id="btn_endpost" class="btn btn-dark col-3 ">結束本次推播</button>
             </div>
 
         </div>
@@ -71,6 +72,7 @@
         $(document).ready(function () {
             GetData();
             $("#btn_endpost").click(endPost);
+            $("#btn_sentMsg").click(sendMsg);
             function endPost() {
                 $.ajax({
                 type: "POST",
@@ -84,7 +86,8 @@
             function sendMsg() {
                 $.ajax({
                 type: "POST",
-                    url: '@Url.Action("SendMsg", "Setting")',
+                    url: '@Url.Action("SendMsgByButton", "list")',
+                    data: {livePageID:'@ViewData["livePageID"]'}
                 }).done(function (response) {
                     console.log(response);
                     

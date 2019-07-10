@@ -226,6 +226,7 @@
     <Compile Include="Services\ProductService.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\CartViewModel.cs" />
+    <Compile Include="ViewModels\MsgTextViewModel.cs" />
     <Compile Include="ViewModels\OrderList.cs" />
     <Compile Include="ViewModels\ProductViewModel.cs" />
   </ItemGroup>

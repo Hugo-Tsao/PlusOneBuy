@@ -7,6 +7,7 @@ using FBPlusOneBuy.Repositories;
 using FBPlusOneBuy.Services;
 using Newtonsoft.Json;
 using FBPlusOneBuy.Models;
+using FBPlusOneBuy.ViewModels;
 
 namespace FBPlusOneBuy.Controllers
 {
@@ -76,6 +77,30 @@ namespace FBPlusOneBuy.Controllers
             var live_repo = new LivePostsRepository();
             int liveid = live_repo.Select(livePageID);
             live_repo.UpdateEndTime(liveid,DateTime.Now);
+        }
+
+        [HttpPost]
+        public void SendMsgByButton(string livePageID)
+        {
+            var live_repo = new LivePostsRepository();
+            int liveid = live_repo.Select(livePageID);
+            var order_repo = new OrderRepositories();
+            //List<string> ids = new List<string> { "3032519476788720", "2762673820474754" };
+            List<MsgTextViewModel> ordersinfo = order_repo.SelectAllOrdersInfo(liveid);
+            string token = (string)Session["token"];
+            var orders = new List<OrderList>();
+            foreach (var orderinfo in ordersinfo)
+            {
+                var order = new OrderList();
+                order.CustomerID = orderinfo.CustomerID;
+                order.CustomerName = orderinfo.CustomerName;
+                order.OrderID = orderinfo.OrderID;
+                order.Product = new ProductViewModel { Salepage_id = orderinfo.ProductPageID, SkuId = orderinfo.ProductID,ProductName=orderinfo.ProductName };
+                order.Quantity = orderinfo.Quantity;
+                orders.Add(order);              
+            }
+            FBSendMsgService.OrderListToSendMsg(orders, token);
+
         }
     }
 }

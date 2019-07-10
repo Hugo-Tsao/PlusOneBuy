@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using FBPlusOneBuy.Models;
+using FBPlusOneBuy.ViewModels;
 using Newtonsoft.Json;
 using RestSharp;
 
@@ -19,7 +20,9 @@ namespace FBPlusOneBuy.Services
                 var msg = new FbSendMessage.SendObject()
                 {
                     message = new FbSendMessage.Message { text = text },
-                    recipient = new FbSendMessage.Recipient { id = id }
+                    recipient = new FbSendMessage.Recipient { id = id },
+                    messaging_type= "MESSAGE_TAG",
+                    tag= "BUSINESS_PRODUCTIVITY"
                 };
                 var jsonMsg = JsonConvert.SerializeObject(msg);
                 var client = new RestClient("https://graph.facebook.com/v3.3/me/messages?access_token="+ token);
@@ -34,13 +37,16 @@ namespace FBPlusOneBuy.Services
                 request.AddParameter("undefined", jsonMsg, ParameterType.RequestBody);
                 IRestResponse response = client.Execute(request);
                 
-
+            }          
+        }
+        public static void OrderListToSendMsg(List<OrderList> orderList, string token)
+        {
+            foreach (var order in orderList)
+            {
+                string msgText = $"{order.CustomerName}你好，感謝您訂購我們的產品!!\r\n{order.ProductName}-數量{order.Quantity}，請點擊下列連結完成接下來的購物流程!";
+                List<string> id = new List<string> { order.CustomerID };
+                FBSendMsgService.SendMsg(msgText, id, token);
             }
-            
-
-
-
-
         }
     }
 }

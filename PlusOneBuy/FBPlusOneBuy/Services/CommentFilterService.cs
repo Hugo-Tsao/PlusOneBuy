@@ -6,6 +6,7 @@ using System.Web;
 using FBPlusOneBuy.Models;
 using FBPlusOneBuy.Repositories;
 using FBPlusOneBuy.ViewModels;
+using FBPlusOneBuy.Services;
 
 namespace FBPlusOneBuy.Services
 {
@@ -35,6 +36,8 @@ namespace FBPlusOneBuy.Services
                         var customer = new Customer { CustomerID = data.from.id, CustomerName = name };
                         custsList.Add(customer);
                     }
+
+                   
                     order.CustomerID =data.from.id;
                     order.CustomerName = name;
                     order.Keyword = data.message;
@@ -43,7 +46,7 @@ namespace FBPlusOneBuy.Services
                     order.OrderDateTime = Convert.ToDateTime(data.created_time);
                     order.Quantity = 1; //暫時寫死
                     resultOrderList.Add(order);
-
+                    
                 }
             }
             cust_repo.InsertCustomer(custsList);
@@ -84,11 +87,13 @@ namespace FBPlusOneBuy.Services
                 {
                     orderList = CommentFilterService.KeywordFilter(keywords, PickPosts, livePageID);
                     var order_repo = new OrderRepositories();
-                    order_repo.InsertOrder(orderList);
+                    order_repo.InsertOrder(orderList);                   
                 }
             }
             return orderList;
         }
+       
+
 
         public static string UTF8ConvertToString(string word)
         {

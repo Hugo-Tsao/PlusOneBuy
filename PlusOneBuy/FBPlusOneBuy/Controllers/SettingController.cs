@@ -39,12 +39,6 @@ namespace FBPlusOneBuy.Controllers
             var result = FBRequestService.getLivePageID(fanPageName, token);
             ViewData["liveIDList"] = result;
 
-            string ProductName = "馬桶泡泡洗";
-            ProductRepositories productRepositories = new ProductRepositories();
-            List<Product> product = new List<Product>();
-            product = productRepositories.FindByName(ProductName).ToList();
-            ViewData["product"] = product;
-
             return View();
         }
 

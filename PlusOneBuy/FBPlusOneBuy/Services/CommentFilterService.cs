@@ -43,8 +43,8 @@ namespace FBPlusOneBuy.Services
                         order.Product.Salepage_id = item.Salepage_id;
                         order.Product.SkuId = item.SkuId;
                         order.Product.ProductName = item.ProductName;
-                        order.LiveID = live_repo.Select(livePageID); //需要把end_time 判斷補上
-                        order.OrderDateTime = Convert.ToDateTime(data.created_time);
+                        order.LiveID = live_repo.Select(livePageID);
+                        order.OrderDateTime = data.created_time;
                         order.Quantity = 1; //因為目前只有+1，所以暫時寫死
                         resultOrderList.Add(order);
                         break;

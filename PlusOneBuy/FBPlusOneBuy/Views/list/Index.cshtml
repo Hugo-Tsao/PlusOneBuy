@@ -74,6 +74,12 @@
                     data: {livePageID:'@ViewData["livePageID"]'}
                 }).done(function (response) {
                     console.log(response);
+
+                });
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("ClearProducts", "Product")',
+                }).done(function (response) {
                     window.location.href='@Url.Action("FanPageName", "Setting")'
                 });
             }
@@ -102,7 +108,7 @@
                             "<td>" + json[i].Keyword + "</td>" +
                             "<td>" + json[i].Product.ProductName + "</td>" +
                             "<td>" + json[i].Quantity + "</td>" +
-                            "<td>" + json[i].OrderDateTime.substring(0,10)+"<br>"+json[i].OrderDateTime.substring(12,19) + "</td></tr>")
+                            "<td>" + json[i].OrderDateTime.substring(0,10)+"<br>"+json[i].OrderDateTime.substring(11,19) + "</td></tr>")
                     }
                 }
             }).then(function () {

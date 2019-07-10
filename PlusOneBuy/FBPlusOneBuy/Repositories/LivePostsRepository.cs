@@ -40,5 +40,14 @@ namespace FBPlusOneBuy.Repositories
                 return liveid;
             }
         }
+        public void UpdateEndTime(int liveid ,DateTime endTime)
+        {
+            using (conn = new SqlConnection(connectionString))
+            {
+                string sql = "UPDATE LivePosts SET endTime=@endTime WHERE ID=@liveid; ";
+                conn.Execute(sql, new { endTime, liveid });
+
+            }
+        }
     }
 }

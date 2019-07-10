@@ -57,7 +57,7 @@
                 </table>
             </div>
             <div class="col-12 text-center">
-                <button id="btn_send" class="btn btn-dark col-6 ">送出訊息</button>
+                <button id="btn_endpost" class="btn btn-dark col-6 ">結束本次推播</button>
             </div>
 
         </div>
@@ -70,15 +70,25 @@
     <script>
         $(document).ready(function () {
             GetData();
-            $("#btn_send").click(sendMsg);
+            $("#btn_endpost").click(endPost);
+            function endPost() {
+                $.ajax({
+                type: "POST",
+                    url: '@Url.Action("SetPostEndtime", "list")',
+                    data: {livePageID:'@ViewData["livePageID"]'}
+                }).done(function (response) {
+                    console.log(response);
+                    window.location.href='@Url.Action("FanPageName", "Setting")'
+                });
+            }
             function sendMsg() {
                 $.ajax({
                 type: "POST",
-                url: '@Url.Action("SendMsg", "Setting")',
+                    url: '@Url.Action("SendMsg", "Setting")',
                 }).done(function (response) {
                     console.log(response);
+                    
                 });
-
             }
         });
         function GetData() {
@@ -95,7 +105,7 @@
                         $('#ListTable').append("<tr><td>" + json[i].OrderID + "</td>" +
                             "<td>" + json[i].CustomerName + "</td>" +
                             "<td>" + json[i].Keyword + "</td>" +
-                            "<td>" + json[i].ProductName + "</td>" +
+                            "<td>" + json[i].Product.ProductName + "</td>" +
                             "<td>" + json[i].Quantity + "</td>" +
                             "<td>" + json[i].OrderDateTime + "</td></tr>")
                     }

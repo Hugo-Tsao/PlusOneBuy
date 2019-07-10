@@ -4,6 +4,8 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using FBPlusOneBuy.Models;
+using FBPlusOneBuy.ViewModels;
+using Microsoft.Owin.Security.Provider;
 using Newtonsoft.Json;
 using RestSharp;
 
@@ -41,6 +43,34 @@ namespace FBPlusOneBuy.Services
 
 
 
+        }
+
+        public static string getAddToCartLink(int salepage_id,int skuId,int qty)
+        {
+            string link = string.Empty;
+            link = "https://shop8.91dev.tw/v2/ShoppingCart/BatchInsert?data=";
+            CartViewModel[] data = new CartViewModel[]
+            {
+                new CartViewModel()
+                {
+                    salepage_id = salepage_id,
+                    sku_id = skuId,
+                    qty = qty
+                }
+            };
+            var JsonData = Newtonsoft.Json.JsonConvert.SerializeObject(data);
+            var EncodeData = getUrlEncode(JsonData);
+            link += EncodeData;
+            return link;
+        }
+
+        internal static string getUrlEncode(string JsonData)
+        {
+            return WebUtility.UrlEncode(JsonData);
+        }
+        internal static string getUrlDecode(string str)
+        {
+            return WebUtility.UrlDecode(str);
         }
     }
 }

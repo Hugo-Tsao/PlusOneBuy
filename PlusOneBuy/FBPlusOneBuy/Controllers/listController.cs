@@ -45,12 +45,13 @@ namespace FBPlusOneBuy.Controllers
         //}
 
         [HttpPost]
-        public ActionResult GetPlusOneBuyOrders(string livePageID, string keywords)
+        public ActionResult GetPlusOneBuyOrders(string livePageID)
         {
             string token = Session["token"].ToString();
             //string token =
             //    "EAASxbKYYpHoBAI27CZBoK8ZBzFmJjEMIR30woKcIfDPx4mtljSUOsGxVGsKHmy1JgCay8KTilT9l3nbkSfGzBZC6wVSDUcl3ZAa7C5OyZAv8CV7K0duuyW2jHFGqZCwhIKiM6jPonrHLp7s5UEudWL5UHkT8IuZBGmBTOEHS0IjYZCsYbcQfo3j9";
-            var OrderList = CommentFilterService.getNewOrderList(livePageID, token, keywords);
+            var products = ProductService.GetCurrentProducts().ProductItems;
+            var OrderList = CommentFilterService.getNewOrderList(livePageID, token, products);
             var result = JsonConvert.SerializeObject(OrderList);
             return Json(result);
         }

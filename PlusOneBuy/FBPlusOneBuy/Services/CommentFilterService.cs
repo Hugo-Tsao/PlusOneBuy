@@ -11,7 +11,7 @@ namespace FBPlusOneBuy.Services
 {
     public static class CommentFilterService
     {
-        public static List<OrderList> KeywordFilter(string keywords,List<Datum> datas,string livePageID)
+        public static List<OrderList> KeywordFilter(List<ProductViewModel> products,List<Datum> datas,string livePageID)
         {
             var resultOrderList = new List<OrderList>();
             var custsList = new List<Customer>();
@@ -19,31 +19,34 @@ namespace FBPlusOneBuy.Services
             //List<Datum> resultDatum = new List<Datum>();
             foreach (var data in datas)
             {
-                //if (keywords.IndexOf(data.message + "+1") != -1)  //+1暫時先寫死
-                if(data.message.Contains(keywords))
+                foreach (var item in products)
                 {
-                    //resultDatum.Add(data);
-                    
-                    
-                    var context = new Context();
-                    var order = new OrderList();
-                    var live_repo = new LivePostsRepository();
-
-                    var name = UTF8ConvertToString(data.from.name);
-                    if (!cust_repo.SelectCustomer(data.from.id))
+                    string completeKeyword = item.Keyword + "+1"; //+1暫時先寫死
+                    if (data.message == completeKeyword)  
                     {
-                        var customer = new Customer { CustomerID = data.from.id, CustomerName = name };
-                        custsList.Add(customer);
-                    }
-                    order.CustomerID =data.from.id;
-                    order.CustomerName = name;
-                    order.Keyword = data.message;
-                    order.ProductName = "馬桶泡泡洗"; //暫時寫死，之後用搜索
-                    order.LiveID = live_repo.Select(livePageID); //需要把end_time 判斷補上
-                    order.OrderDateTime = Convert.ToDateTime(data.created_time);
-                    order.Quantity = 1; //暫時寫死
-                    resultOrderList.Add(order);
+                        //resultDatum.Add(data);
+                        var context = new Context();
+                        var order = new OrderList();
+                        var live_repo = new LivePostsRepository();
 
+                        var name = UTF8ConvertToString(data.from.name);
+                        if (!cust_repo.SelectCustomer(data.from.id))
+                        {
+                            var customer = new Customer { CustomerID = data.from.id, CustomerName = name };
+                            custsList.Add(customer);
+                        }
+                        order.CustomerID = data.from.id;
+                        order.CustomerName = name;
+                        order.Keyword = data.message;
+                        order.Product.Salepage_id = item.Salepage_id;
+                        order.Product.SkuId = item.SkuId;
+                        order.Product.ProductName = item.ProductName;
+                        order.LiveID = live_repo.Select(livePageID); //需要把end_time 判斷補上
+                        order.OrderDateTime = Convert.ToDateTime(data.created_time);
+                        order.Quantity = 1; //因為目前只有+1，所以暫時寫死
+                        resultOrderList.Add(order);
+                        break;
+                    }
                 }
             }
             cust_repo.InsertCustomer(custsList);
@@ -72,7 +75,7 @@ namespace FBPlusOneBuy.Services
             return comments;
         }
 
-        public static List<OrderList> getNewOrderList(string livePageID, string token, string keywords)
+        public static List<OrderList> getNewOrderList(string livePageID, string token, List<ProductViewModel> products)
         {
             var orderList = new List<OrderList>();            
             var allComments = FBRequestService.getAllComments(livePageID, token);
@@ -82,7 +85,7 @@ namespace FBPlusOneBuy.Services
                 var PickPosts = CommentFilterService.PostTimeFilter(allComments, livePageID);
                 if (PickPosts.Count > 0)
                 {
-                    orderList = CommentFilterService.KeywordFilter(keywords, PickPosts, livePageID);
+                    orderList = CommentFilterService.KeywordFilter(products, PickPosts, livePageID);
                     var order_repo = new OrderRepositories();
                     order_repo.InsertOrder(orderList);
                 }

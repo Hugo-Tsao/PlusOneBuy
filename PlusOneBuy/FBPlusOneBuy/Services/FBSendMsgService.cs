@@ -44,15 +44,11 @@ namespace FBPlusOneBuy.Services
         {
             foreach (var order in orderList)
             {
-                string msgText = $"{order.CustomerName}你好，感謝您訂購我們的產品!!\r\n{order.Product.ProductName}-數量{order.Quantity}，請點擊下列連結完成接下來的購物流程!";
+                var link = getAddToCartLink(order.Product.Salepage_id, order.Product.SkuId, order.Quantity);
+                string msgText = $"{order.CustomerName}你好，感謝您訂購我們的產品!!\r\n{order.Product.ProductName}-數量{order.Quantity}，請點擊下列連結完成接下來的購物流程!{link}";
                 List<string> id = new List<string> { order.CustomerID };
                 FBSendMsgService.SendMsg(msgText, id, token);
             }
-            
-
-
-
-
         }
 
         public static string getAddToCartLink(int salepage_id,int skuId,int qty)

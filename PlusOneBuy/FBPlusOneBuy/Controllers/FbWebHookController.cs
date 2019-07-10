@@ -45,6 +45,7 @@ namespace FBPlusOneBuy.Controllers
             }
             catch (Exception ex)
             {
+                Console.WriteLine(ex);
             }
             if (hub_verify_token == my_verify_token)
             {

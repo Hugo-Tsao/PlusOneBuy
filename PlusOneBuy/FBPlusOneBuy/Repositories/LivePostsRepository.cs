@@ -26,6 +26,7 @@ namespace FBPlusOneBuy.Repositories
                 }
                 catch (Exception e)
                 {
+                    Console.WriteLine(e);
                     return false;
                 }
             }

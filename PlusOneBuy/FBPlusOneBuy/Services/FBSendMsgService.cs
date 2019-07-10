@@ -44,7 +44,7 @@ namespace FBPlusOneBuy.Services
         {
             foreach (var order in orderList)
             {
-                string msgText = $"{order.CustomerName}你好，感謝您訂購我們的產品!!\r\n{order.ProductName}-數量{order.Quantity}，請點擊下列連結完成接下來的購物流程!";
+                string msgText = $"{order.CustomerName}你好，感謝您訂購我們的產品!!\r\n{order.Product.ProductName}-數量{order.Quantity}，請點擊下列連結完成接下來的購物流程!";
                 List<string> id = new List<string> { order.CustomerID };
                 FBSendMsgService.SendMsg(msgText, id, token);
             }

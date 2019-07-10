@@ -6,6 +6,7 @@ using System.Web;
 using FBPlusOneBuy.Models;
 using FBPlusOneBuy.Repositories;
 using FBPlusOneBuy.ViewModels;
+using FBPlusOneBuy.Services;
 
 namespace FBPlusOneBuy.Services
 {
@@ -87,11 +88,13 @@ namespace FBPlusOneBuy.Services
                 {
                     orderList = CommentFilterService.KeywordFilter(products, PickPosts, livePageID);
                     var order_repo = new OrderRepositories();
-                    order_repo.InsertOrder(orderList);
+                    order_repo.InsertOrder(orderList);                   
                 }
             }
             return orderList;
         }
+       
+
 
         public static string UTF8ConvertToString(string word)
         {

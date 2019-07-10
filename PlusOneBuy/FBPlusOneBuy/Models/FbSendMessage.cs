@@ -11,6 +11,8 @@ namespace FBPlusOneBuy.Models
         {
             public Recipient recipient { get; set; }
             public Message message { get; set; }
+            public string messaging_type { get; set; }
+            public string tag { get; set; }
         }
         public class Recipient
         {

@@ -41,7 +41,7 @@ namespace FBPlusOneBuy.Services
                 //Console.WriteLine(item.id);
 
                 //判斷此post是否是正在直播中的貼文
-                if (item.story != null && (item.story.Contains("is live now") || item.story.Contains("現正直播")))
+                if (item.story != null && (item.story.Contains("is live now") || item.story.Contains("現正直播") || item.story.Contains("正在直播")))
                 {
                     livePageIDList.Add(item.id, item.message);
                 }

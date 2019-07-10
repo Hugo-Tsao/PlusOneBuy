@@ -28,6 +28,7 @@ namespace FBPlusOneBuy.Services
                         //resultDatum.Add(data);
                         var context = new Context();
                         var order = new OrderList();
+                        order.Product = new ProductViewModel();
                         var live_repo = new LivePostsRepository();
 
                         var name = UTF8ConvertToString(data.from.name);

@@ -27,12 +27,11 @@ namespace FBPlusOneBuy.Repositories
         {
             using (conn = new SqlConnection(connectionString))
             {
-                string productId = "1";//目前寫死 還需要更改
-
+                
                 foreach (var order in orders)
                 {
                     string sql = "INSERT INTO Orders(ProductID, CustomerID, Keyword, OrderDateTime, Quantity,LiveID) VALUES ( @ProductID, @CustomerID, @Keyword, @OrderDateTime, @Quantity,@LiveID)";
-                    conn.Execute(sql, new { ProductID=productId, order.CustomerID, order.Keyword, order.OrderDateTime, order.Quantity,order.LiveID });
+                    conn.Execute(sql, new { ProductID=order.Product.SkuId, order.CustomerID, order.Keyword, order.OrderDateTime, order.Quantity,order.LiveID });
                 }           
 
             }

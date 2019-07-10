@@ -18,7 +18,7 @@ namespace FBPlusOneBuy.Controllers
             List<ProductSKUList_Data> data = new List<ProductSKUList_Data>();
             ProductSKUList store = ProductService.GetSKUListByMain(salepage_id);
             data = store.Data;
-            if (data.Count != 0)
+            if (data != null)
             {
                 return Json(store);
             }
@@ -63,5 +63,12 @@ namespace FBPlusOneBuy.Controllers
         //    Store store = ProductService.GetStock(salepage_id, SkuId);
         //    return Json(store);
         //}
+        [HttpPost]
+        public ActionResult ClearProducts()
+        {
+
+            ProductService.ClearProducts();
+            return Json("OK");
+        }
     }
 }

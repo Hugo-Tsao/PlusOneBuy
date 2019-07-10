@@ -6,6 +6,8 @@ using System.Configuration;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
+using FBPlusOneBuy.ViewModels;
+using Microsoft.Owin.Security.Provider;
 
 namespace FBPlusOneBuy.Repositories
 {
@@ -15,10 +17,33 @@ namespace FBPlusOneBuy.Repositories
         public IEnumerable<Product> FindByName(string productName)
         {
             SqlConnection connection = new SqlConnection(connectionString);
-            var sql = "SELECT * FROM Products WHERE ProductName = @productName";
-            var result = connection.QueryMultiple(sql, new { productName });
+            var sql = "SELECT * FROM Products WHERE ProductName = @ProductName";
+            var result = connection.QueryMultiple(sql, new { ProductName = productName });
             var products = result.Read<Product>().ToList();
             return products;
+        }
+
+        public bool SelectProduct(int skuId)
+        {
+            using (var conn = new SqlConnection(connectionString))
+            {
+                string sql = "Select count(*) From Products Where ProductID = @ProductID";
+                int count_result = conn.QueryFirstOrDefault<int>(sql, new {ProductID = skuId});
+                if (count_result == 0)
+                {
+                    return false;
+                }
+                else { return true; }
+            }
+        }
+
+        public void InsertProduct(ProductViewModel pvm)
+        {
+            using (var conn = new SqlConnection(connectionString))
+            {
+                string sql = "INSERT INTO Products(ProductID, ProductPageID, UnitPrice, ProductName) VALUES ( @SkuId, @Salepage_id, @UnitPrice,@ProductName)";
+                conn.Execute(sql, new { pvm.SkuId, pvm.Salepage_id, pvm.UnitPrice,pvm.ProductName });
+            }
         }
     }
 }

@@ -23,6 +23,16 @@ namespace FBPlusOneBuy.Controllers
         {
             //新增直播進資料庫
             LivePostService.CreateLivePost(livePageID);
+            //新增商品進資料庫
+            ProductRepositories product_repo = new ProductRepositories();
+            var products = ProductService.GetCurrentProducts().ProductItems;
+            foreach (var item in products)
+            {
+                if (!product_repo.SelectProduct(item.SkuId))
+                {
+                    product_repo.InsertProduct(item);
+                }
+            }
 
             ViewData["keyWord"] = keyWord;
             ViewData["ProductName"] = ProductName;

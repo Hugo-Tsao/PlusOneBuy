@@ -1,8 +1,10 @@
-﻿@{
+﻿@using FBPlusOneBuy.Services;
+@{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
     Dictionary<string, string> liveIDList = ViewData["liveIDList"] as Dictionary<string, string>;
     List<FBPlusOneBuy.Models.Product> products = ViewData["product"] as List<FBPlusOneBuy.Models.Product>;
+    //var Products = ProductService.GetCurrentProducts();
 }
 
 <div class="container-fluid">
@@ -16,23 +18,13 @@
             <div class="col-6">
                 <label><strong>挑選商品</strong></label><hr />
                 <small>商品編號 </small>
-                <input id="GetProductByid" class="Idtext" value="A01" />
+                <input id="GetProductByid" class="Idtext" value="" />
                 <button id="SearchProduct" type="button" class="btn btn-secondary"><i class="fas fa-search"></i></button>
                 <br><br>
                 <label><strong>搜尋清單</strong></label>
                 <button id="AddProduct" type="button" class="btn btn-light border-success" style="right:0;position:absolute">挑選商品<i class="fas fa-plus ml-2"></i></button><br><br>
                 <table id="ProductSearch" class="table table-sm">
-                    <thead>
-                            <tr>
-                                <th>商品</th>
-                                <th>關鍵字</th>
-                                <th>價格</th>
-                                <th>庫存</th>
-                            </tr>
-                        </thead>
-                    <tbody>
-                     
-                    </tbody>
+                    <tbody></tbody>
                 </table>
 
 
@@ -80,9 +72,20 @@
                                 </td>
                                 <td><input class="formtext" name="keyWord" value="@item.keyword" /></td>
                                 <td>@String.Format("{0:N0}", @item.UnitPrice)</td>
-                                <td>@item.Stock</td>
                             </tr>
                         }
+
+                        @*@if (Products.ProductItems.Count != 0)
+                        {
+                            for (var i = 0; i < Products.ProductItems.Count; i++)
+                            {
+                                <tr>
+                                    <td>@Products.ProductItems[i].ProductName</td>
+                                    <td>@Products.ProductItems[i].Keyword</td>
+                                    <td>@Products.ProductItems[i].UnitPrice</td>
+                                </tr>
+                            }
+                        }*@
                     </tbody>
                 </table>
                 <br>
@@ -97,27 +100,8 @@
 {
 
     <script>
+        var json;
         $(document).ready(function () {
-            var array = []
-            var json = { name: 'A01', keyword: "A01", price: "100" };
-            var json1 = { name: 'A02', keyword: "A01", price: "100" };
-            $('#AddProduct').click(function () {
-
-              
-                //$("input[type=radio]:checked").each(function () {
-                //    result = $(this).val();
-                //    if (json.name == result) {
-                //        $('#ProductList').append(
-                //            "<tr><td>" + json.name + "</td><td>" + json.keyword + "</td><td>" + json.price + "</td></tr>")
-                //    }
-                //    if (json1.name == result) {
-                //        $('#ProductList').append(
-                //            "<tr><td>" + json1.name + "</td><td>" + json1.keyword + "</td><td>" + json1.price + "</td></tr>")
-                //    }
-                //    $('#ProductSearch').empty()
-                //});
-            })
-            $('#ProductSearch').append("<thead><tr><td>挑選</td><td>商品</td><td>關鍵字</td><td>價格</td>")
             $('.dropdown-item').click(function () {
                 $('#dropdownMenu').text($(this).text())
                 $('#livePageID').val($(this).val())
@@ -138,36 +122,56 @@
                 }
             })
             $('#SearchProduct').click(function () {
-                //  $.ajax({
-                //    type: 'post',
-                //    url: '/Product/GetSKUListByMain',
-                //    data: {Salepage_id:$('#GetProductByid').val() },
-                //    dataType: "json",
-                //    cache: false,
-                //    success: function (Result) {
-                //        console.log(Result)
-                //    }
-                //})
-
-                //$('#ProductList').empty()
-
-                //array.push(json)
-                //array.push(json1)
-                //if ($('#GetProductByid').val() != null) {
-                //    for (var i = 0; i < array.length; i++) {
-                //        $('#ProductSearch').append(
-                //            "<tr><td>" + "<input type='radio' name='checkproduct' value=" + array[i].name + ">" +
-                //            "</td><td>" + array[i].name + "</td><td>" + array[i].keyword + "</td><td>" + array[i].price + "</td></tr>")
-                //    }
-                //}
-                //else {
-                //    $('#ProductSearch').empty()
-                //    alert("此編號查無商品")
-                //}
+                $('#ProductSearch').empty()
+                $('#ProductSearch').append("<thead><tr><td>Pick</td><td>SkuId</td><td>KeyWord</td>")
+                //5019445
+                $.ajax({
+                    type: 'post',
+                    url: '/Product/GetSKUListByMain',
+                    data: { Salepage_id: $('#GetProductByid').val() },
+                    dataType: "json",
+                    cache: false,
+                    success: function (Result) {
+                       
+                        json = JSON.stringify(Result);
+                        json = JSON.parse(json);
+                        for (var i = 0; i < json.Data.length; i++) {
+                            $('#ProductSearch').append("<tr><td>" +
+                                "<input type='radio' name='checkproduct' value='" + json.Data[i].SkuId + "'>" +
+                                "</td><td>" + json.Data[i].SkuId + "</td><td>" + json.Data[i].OuterId + "</td></tr>")
+                        }
+                    }
+                })
             })
-
         });
 
-
+        $('#AddProduct').on('click', PickProduct);
+        function PickProduct() {
+            $("input[type=radio]:checked").each(function () {
+                SkuId = $(this).val();
+                var outerId = json.Data.find(function (element) {
+                    return element.SkuId == SkuId;
+                }).OuterId;             
+                GetProduct( $('#GetProductByid').val(), SkuId,outerId)
+            });
+        }
+        function GetProduct(Salepage_id, SkuId, OuterId) {
+            $.ajax({
+                type: 'post',
+                url: '/Product/GetMain',
+                data: { Salepage_id: Salepage_id, SkuId: SkuId,Keyword:OuterId },
+                dataType: "json",
+                cache: false,
+                success: function (result) {
+                    //console.log(result)
+                    var json = JSON.stringify(result);
+                    json = JSON.parse(json);
+                    console.log(json.Data.Title)
+                    $('#ProductList').append("<tr><td>" + json.Data.Title + "</td><td>" + OuterId + "</td><td>"
+                        + json.Data.Price + "</td></tr>")      
+                }
+            })
+        }
     </script>
 }
+

@@ -21,6 +21,7 @@ namespace FBPlusOneBuy.Controllers
         [HttpPost]
         public ActionResult Index(string keyWord, string ProductName, string livePageID)
         {
+            var Products = ProductService.GetCurrentProducts();
             //新增直播進資料庫
             LivePostService.CreateLivePost(livePageID);
 

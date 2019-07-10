@@ -81,29 +81,6 @@
 
             }
         });
-        //function GetData() {
-        //    $.ajax({
-        //        type: 'post',
-        //        url: '/list/GetAll',
-        //        data: { liveID:$('#live').val()},
-        //        dataType: "json",
-        //        cache: false,
-        //        success: function (Result) {
-        //            $('#ListTable tbody').empty();
-        //            var json = JSON.parse(Result);
-        //            for (var i = 0; i < json.length; i++) {
-        //                $('#ListTable').append("<tr><td>" + json[i].OrderID + "</td>" +
-        //                    "<td>" + json[i].CustomerName + "</td>" +
-        //                    "<td>" + json[i].Keyword + "</td>" +
-        //                    "<td>" + json[i].ProductName + "</td>" +
-        //                    "<td>" + json[i].Quantity + "</td>" +
-        //                    "<td>" + json[i].OrderDateTime + "</td></tr>")
-        //            }
-        //        }
-        //    }).then(function () {
-        //        setTimeout(GetData, 3000);
-        //    })
-        //}
         function GetData() {
             $.ajax({
                 type: 'post',

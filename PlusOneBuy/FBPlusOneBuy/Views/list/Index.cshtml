@@ -99,7 +99,7 @@
                 dataType: "json",
                 cache: false,
                 success: function (Result) {
-                    $('#ListTable tbody').empty();
+                    //$('#ListTable tbody').empty();
                     var json = JSON.parse(Result);
                     for (var i = 0; i < json.length; i++) {
                         $('#ListTable').append("<tr><td>" + json[i].OrderID + "</td>" +

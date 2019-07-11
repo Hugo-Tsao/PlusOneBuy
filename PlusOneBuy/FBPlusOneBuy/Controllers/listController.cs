@@ -20,10 +20,10 @@ namespace FBPlusOneBuy.Controllers
             return View();
         }
         [HttpPost]
-        public ActionResult Index(string keyWord, string ProductName, string livePageID)
+        public ActionResult Index(string livePageID,string liveName)
         {
             //新增直播進資料庫
-            LivePostService.CreateLivePost(livePageID);
+            LivePostService.CreateLivePost(livePageID,liveName);
             //新增商品進資料庫
             ProductRepositories product_repo = new ProductRepositories();
             var products = ProductService.GetCurrentProducts().ProductItems;

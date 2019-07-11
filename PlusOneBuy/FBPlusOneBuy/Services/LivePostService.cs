@@ -9,7 +9,7 @@ namespace FBPlusOneBuy.Services
 {
     public static class LivePostService
     {
-        public static void CreateLivePost(string livePageID/*, string liveName, string fanPageName*/)
+        public static void CreateLivePost(string livePageID, string liveName/*, string fanPageName*/)
         {
             Context context = new Context();
             //var fanPageID = context.FanPages.FirstOrDefault(x => x.FanPageName == fanPageName);
@@ -17,8 +17,8 @@ namespace FBPlusOneBuy.Services
             var livepost = new LivePost()
             {
                 LivePageID = livePageID,
-                //LiveName = liveName,
-                
+                LiveName = liveName,
+
                 FanPageID = 1, //目前只有一個粉絲團，所以也暫時寫死，之後可選粉絲團後改fanPageID
                 postTime = DateTime.Now
             };

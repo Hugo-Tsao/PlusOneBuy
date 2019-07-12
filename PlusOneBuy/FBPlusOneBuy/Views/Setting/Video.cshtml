@@ -3,7 +3,7 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
     Dictionary<string, string> liveIDList = ViewData["liveIDList"] as Dictionary<string, string>;
-    List<FBPlusOneBuy.Models.Product> products = ViewData["product"] as List<FBPlusOneBuy.Models.Product>;
+    var Products = ProductService.GetCurrentProducts();
 
 }
 
@@ -15,7 +15,7 @@
 <form action="~/list/index" method="post">
     <div class="container">
         <div class="row mt-3">
-            <div class="col-5">
+            <div class="col-4">
                 <label><strong>挑選商品</strong></label><hr />
                 <small>商品編號 </small>
                 <input id="GetProductByid" class="Idtext" value="" />
@@ -26,13 +26,12 @@
                 <table id="ProductSearch" class="table table-sm">
                     <thead>
                         <tr>
-                        <th>挑選</th>
-                        <th>編號</th>
-                        <th>關鍵字</th>
-                    </tr>
+                            <th>挑選</th>
+                            <th>編號</th>
+                            <th>關鍵字</th>
+                        </tr>
                     </thead>
-                    <tbody>                     
-                    </tbody>
+                    <tbody></tbody>
                 </table>
             </div>
             <div class="col">
@@ -43,7 +42,6 @@
                     <button class="btn border-info dropdown-toggle ml-4" type="button" id="dropdownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         直播影片
                     </button>
-                    <input type="hidden" name="livePageID" id="livePageID">
                     <div class="dropdown-menu" aria-labelledby="dropdownMenu">
                         @foreach (var item in liveIDList)
                         {
@@ -57,6 +55,8 @@
                             }
 
                         }
+                        <input type="hidden" name="livePageID" id="livePageID">
+                        <input type="hidden" name="liveName" id="liveName">
                     </div>
                 </div>
                 <br><br>
@@ -67,9 +67,29 @@
                             <th>商品</th>
                             <th>關鍵字</th>
                             <th>價格</th>
+                            <th>修改關鍵字</th>
                         </tr>
                     </thead>
                     <tbody>
+                        @if (Products.ProductItems.Count != 0)
+                        {
+                            for (var i = 0; i < Products.ProductItems.Count; i++)
+                            {
+                                <tr>
+                                    <td>@Products.ProductItems[i].ProductName</td>
+                                    <td>
+                                        <input type="text" class="formtext" id="@Products.ProductItems[i].SkuId" value="@Products.ProductItems[i].Keyword">
+
+                                    </td>
+                                    <td>@Products.ProductItems[i].UnitPrice</td>
+                                    <td>
+                                        <button type="button" name="checkKetword" class="btn btn-light" value="@Products.ProductItems[i].SkuId">
+                                            <i class="fas fa-check"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            }
+                        }
                     </tbody>
                 </table>
                 <br>
@@ -83,53 +103,85 @@
     <script>
         var json;
         $(document).ready(function () {
-            $('.dropdown-item').click(function () {
-                $('#dropdownMenu').text($(this).text())
-                $('#livePageID').val($(this).val())
-            })
-            $('#btn_submit').click(function () {
-                if ($('#dropdownMenu').text().trim() == "直播影片") {
-                    alert("請選擇直播影片")
-                    return false;
-                }
-                else if ($('input[name="keyWord"]').val() == "") {
-                    alert("請輸入關鍵字")
-                    return false;
-                }
-                else {
-                    $("input").prop("disabled", false);
-                    document.form.onsubmit();
+        });
+        $('button[name="checkKetword"]').click(function () {
+            var keyword = $(this).val()
+            $.ajax({
+                type: 'post',
+                url: '/Product/UpdateKeyword',
+                data: { skuId: $(this).val(), keyword: $('#' + keyword).val() },
+                success: function () {
+                    alert("修改成功!!")
                 }
             })
-            $('#SearchProduct').click(function () {
-                $('#ProductSearch tbody').empty()
-                $.ajax({
-                    type: 'post',
-                    url: '/Product/GetSKUListByMain',
-                    data: { Salepage_id: $('#GetProductByid').val() },
-                    dataType: "json",
-                    cache: false,
-                    success: function (Result) {             
-                        json = JSON.stringify(Result);
-                        json = JSON.parse(json);
+
+        })
+        $('.dropdown-item').click(function () {
+            $('#dropdownMenu').text($(this).text())
+            $('#livePageID').val($(this).val())
+            if ($(this).val() != $(this).text()) {
+                $('#liveName').val($(this).text())
+            }
+
+        })
+        $('#btn_submit').click(function () {
+            if ($('#dropdownMenu').text().trim() == "直播影片") {
+                alert("請選擇直播影片")
+                return false;
+            }
+            else {
+                document.form.onsubmit();
+            }
+        })
+        $('#SearchProduct').click(function () {
+            $('#ProductSearch tbody').empty()
+            $.ajax({
+                type: 'post',
+                url: '/Product/GetSKUListByMain',
+                data: { Salepage_id: $('#GetProductByid').val() },
+                dataType: "json",
+                cache: false,
+                success: function (Result) {
+                    json = JSON.stringify(Result);
+                    json = JSON.parse(json);
+                    if (json != "") {
                         for (var i = 0; i < json.Data.length; i++) {
                             $('#ProductSearch').append("<tr><td>" +
                                 "<input type='radio' name='checkproduct' value='" + json.Data[i].SkuId + "'>" +
                                 "</td><td>" + json.Data[i].SkuId + "</td><td>" + json.Data[i].OuterId + "</td></tr>")
                         }
                     }
-                })
+                    else {
+                        alert("查無此商品編號")
+                    }
+                }
             })
-        });
+        })
         $('#AddProduct').on('click', PickProduct);
         function PickProduct() {
             $("input[type=radio]:checked").each(function () {
                 SkuId = $(this).val();
                 var outerId = json.Data.find(function (element) {
                     return element.SkuId == SkuId;
-                }).OuterId;             
-                GetProduct($('#GetProductByid').val(), SkuId, outerId)
-                
+                }).OuterId;
+                var item = "";
+                $('button[name="checkKetword"]').each(function (i, n) {
+                    if ($(n).val() == SkuId) {
+                        item = "heveitem"
+                    }
+                    else if ($(n).val() != SkuId) {
+                        item = "noitem"
+                    }
+                })
+                if (item == "heveitem") {
+                    alert("此商品已在直播清單")
+                }
+                else if (item == "noitem") {
+                    GetProduct($('#GetProductByid').val(), SkuId, outerId)
+                }
+                else {
+                    GetProduct($('#GetProductByid').val(), SkuId, outerId)
+                }
             });
             $('#GetProductByid').val('')
             $('#ProductSearch tbody').empty()
@@ -138,14 +190,17 @@
             $.ajax({
                 type: 'post',
                 url: '/Product/GetMain',
-                data: { Salepage_id: Salepage_id, SkuId: SkuId,Keyword:OuterId },
+                data: { Salepage_id: Salepage_id, SkuId: SkuId, Keyword: OuterId },
                 dataType: "json",
                 cache: false,
                 success: function (result) {
                     var json = JSON.stringify(result);
                     json = JSON.parse(json);
-                    $('#ProductList').append("<tr><td>" + json.Data.Title + "</td><td>" + OuterId + "</td><td>"
-                        + json.Data.Price + "</td></tr>")      
+
+                    $('#ProductList').append("<tr><td>" + json.Data.Title + "</td><td>" +
+                        "<input type='text' class='formtext' id='" + SkuId + "' value='" + OuterId + "'>" + "</td><td>"
+                        + json.Data.Price + "</td>" + "<td><button type='button' class='btn btn-light' name='checkKetword' value='" + SkuId + "'><i class='fas fa-check'></i></button></td>" + "</tr>")
+
                 }
             })
         }

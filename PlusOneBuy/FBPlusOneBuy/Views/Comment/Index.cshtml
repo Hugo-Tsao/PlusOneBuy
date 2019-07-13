@@ -1,0 +1,176 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid">
+    <div class="row header">
+        <img src="~/Assets/images/91app_developer.png" />
+    </div>
+</div>
+<div class="container">
+    <div class="dropdown mt-3 mb-2">
+        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            直播影片
+        </button>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+            <button class="dropdown-item" type="button">跳樓大拍賣</button>
+            <button class="dropdown-item" type="button">老闆不再家</button>
+            <button class="dropdown-item" type="button">數量有限出清</button>
+        </div>
+    </div><br />
+    <span>直播名稱:</span><span id="livename">跳樓大拍賣</span><br />
+    <span>商品名稱:</span> <span>馬桶泡泡洗</span><br/>
+    <span>開始時間:</span><span>2019-07-11 05:21:33.110</span><br />
+    <span>結束時間:</span><span>2019-07-11 05:26:35.900</span>
+    <div id="list" class="row" style="margin: 10px">
+        <div class="col-11">
+            <table id="myTable" class="cell-border compact stripe" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Keyword</th>
+                        <th>Product</th>
+                        <th>Qty</th>
+                        <th>Time</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="item in items">
+                        <td>{{item.ID}}</td>
+                        <td>{{item.Name}}</td>
+                        <td>{{item.Keyword}}</td>
+                        <td>{{item.Product}}</td>
+                        <td>{{item.Qty}}</td>
+                        <td>{{item.Time}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section EndJS
+{
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.min.js"
+            integrity="sha256-chlNFSVx3TdcQ2Xlw7SvnbLAavAQLO0Y/LBiWX04viY=" crossorigin="anonymous"></script>
+    <!-- DataTable -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script>
+        $('.dropdown-item').click(function () {
+            $('#livename').text($(this).text())
+        })
+
+        var json =
+        {
+            items: [
+                {
+                    ID: 1,
+                    Name: "Eric",
+                    Keyword: "+1",
+                    Product: "馬桶泡泡洗",
+                    Qty: "1",
+                    Time: "2019/07/03 12:03:01",
+                },
+                {
+                    ID: 2,
+                    Name: "Amy",
+                    Keyword: "+1",
+                    Product: "馬桶泡泡洗",
+                    Qty: "1",
+                    Time: "2019/07/03 12:32:01",
+                },
+                {
+                    ID: 3,
+                    Name: "David",
+                    Keyword: "+1",
+                    Product: "馬桶泡泡洗",
+                    Qty: "1",
+                    Time: "2019/07/03 12:38:01",
+                },
+                {
+                    ID: 4,
+                    Name: "Eric",
+                    Keyword: "+1",
+                    Product: "馬桶泡泡洗",
+                    Qty: "1",
+                    Time: "2019/07/03 12:39:01",
+                }, {
+                    ID: 4,
+                    Name: "Eric",
+                    Keyword: "+1",
+                    Product: "馬桶泡泡洗",
+                    Qty: "1",
+                    Time: "2019/07/03 12:39:01",
+                }, {
+                    ID: 4,
+                    Name: "Eric",
+                    Keyword: "+1",
+                    Product: "馬桶泡泡洗",
+                    Qty: "1",
+                    Time: "2019/07/03 12:39:01",
+                }, {
+                    ID: 4,
+                    Name: "Eric",
+                    Keyword: "+1",
+                    Product: "馬桶泡泡洗",
+                    Qty: "1",
+                    Time: "2019/07/03 12:39:01",
+                }, {
+                    ID: 4,
+                    Name: "Eric",
+                    Keyword: "+1",
+                    Product: "馬桶泡泡洗",
+                    Qty: "1",
+                    Time: "2019/07/03 12:39:01",
+                }, {
+                    ID: 4,
+                    Name: "Eric",
+                    Keyword: "+1",
+                    Product: "馬桶泡泡洗",
+                    Qty: "1",
+                    Time: "2019/07/03 12:39:01",
+                }, {
+                    ID: 4,
+                    Name: "Eric",
+                    Keyword: "+1",
+                    Product: "馬桶泡泡洗",
+                    Qty: "1",
+                    Time: "2019/07/03 12:39:01",
+                }, {
+                    ID: 4,
+                    Name: "Eric",
+                    Keyword: "+1",
+                    Product: "馬桶泡泡洗",
+                    Qty: "1",
+                    Time: "2019/07/03 12:39:01",
+                }, {
+                    ID: 4,
+                    Name: "Eric",
+                    Keyword: "+1",
+                    Product: "馬桶泡泡洗",
+                    Qty: "1",
+                    Time: "2019/07/03 12:39:01",
+                }
+            ]
+        };
+        function Binding() {
+            new Vue(
+                {
+                    el: '#list',
+                    data: json
+                }
+            );
+        }
+
+        $(document).ready(function () {
+            Binding();
+            $('#myTable').DataTable({
+                "info": false, "bLengthChange": false, "pageLength": 10
+            });
+        });
+    </script>
+}

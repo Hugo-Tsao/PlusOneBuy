@@ -191,6 +191,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\CommentController.cs" />
     <Compile Include="Controllers\FbWebHookController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\listController.cs" />
@@ -333,6 +334,7 @@
     <Content Include="Views\Setting\Index.cshtml" />
     <Content Include="Views\Setting\FanPageName.cshtml" />
     <Content Include="Views\Setting\Video.cshtml" />
+    <Content Include="Views\Comment\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

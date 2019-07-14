@@ -46,37 +46,45 @@
             <div class="col">
                 <label><strong>直播設定</strong></label>
                 <hr><br>
-                <div class="dropdown">
-                    <label>直播影片:</label>
-                    <button class="btn border-info dropdown-toggle ml-4" type="button" id="dropdownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        直播影片
-                    </button>
-                    <div id="videomenu" class="dropdown-menu" aria-labelledby="dropdownMenu">
-                        @foreach (var item in liveIDList)
-                        {
-                            if (item.Value == null)
-                            {
-                                <button class="dropdown-item" type="button" value="@item.Key">@item.Key</button>
-                            }
-                            else
-                            {
-                                <button class="dropdown-item" type="button" value="@item.Key">@item.Value</button>
-                            }
+                    <div class="row mb-4">
+                        <div class="col">
+                            <div class="dropdown">
+                                <label>直播影片:</label>
+                                <button class="btn border-info dropdown-toggle ml-4" type="button" id="dropdownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    直播影片
+                                </button>
+                                <div id="videomenu" class="dropdown-menu" aria-labelledby="dropdownMenu">
+                                    @foreach (var item in liveIDList)
+                                    {
+                                        if (item.Value == null)
+                                        {
+                                            <button class="dropdown-item" type="button" value="@item.Key">@item.Key</button>
+                                        }
+                                        else
+                                        {
+                                            <button class="dropdown-item" type="button" value="@item.Key">@item.Value</button>
+                                        }
 
-                        }
-                        <input type="hidden" name="livePageID" id="livePageID">
-                        <input type="hidden" name="liveName" id="liveName">
+                                    }
+                                    <input type="hidden" name="livePageID" id="livePageID">
+                                    <input type="hidden" name="liveName" id="liveName">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <label>留言關鍵字:</label>
+                            <input type="text" class="formtext" value="+1" />
+                        </div>
                     </div>
-                </div>
-                <br><br>
-                <label><strong>直播商品</strong></label>
+
+                <label><strong>直播商品清單</strong></label>
                 <table class="table" id="ProductList">
                     <thead>
                         <tr>
                             <th>商品</th>
                             <th>關鍵字</th>
                             <th>價格</th>
-                            <th>修改關鍵字</th>
+                            <th>修改確認</th>
                         </tr>
                     </thead>
                     <tbody>

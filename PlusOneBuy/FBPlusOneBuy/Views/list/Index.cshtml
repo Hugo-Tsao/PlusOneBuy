@@ -10,6 +10,16 @@
         </div>
     </div>
     <div class="container-fluid">
+        <div class="row mt-3">
+            <div class="col-9">
+            </div>
+            <div class="col">
+                <button id="btn_sentMsg" class="btn btn-primary ">寄送購物車連結</button>
+                <button id="btn_endpost" class="btn btn-dark ">結束本次推播</button><br />
+                <span>人數:</span><span id="num">0</span>
+                <span>收單金額:</span><span id="money">0</span>
+            </div>
+        </div>
         <div id="list" class="row" style="margin: 10px">
             <div class="col-5">
                 <h3>直播商品</h3>
@@ -54,10 +64,8 @@
                 </table>
             </div>
             <div class="col-12 text-center">
-                <button id="btn_sentMsg" class="btn btn-primary col-3 ">寄送購物車連結</button>
-                <button id="btn_endpost" class="btn btn-dark col-3 ">結束本次推播</button>
+              
             </div>
-
         </div>
     </div>
 </body>
@@ -96,6 +104,7 @@
                 });
             }
         });
+        var num = 0
         function GetData() {
             $.ajax({
                 type: 'post',
@@ -104,18 +113,24 @@
                 dataType: "json",
                 cache: false,
                 success: function (Result) {
-                    //$('#ListTable tbody').empty();
                     var json = JSON.parse(Result);
-                    for (var i = 0; i < json.length; i++) {
+                    console.log(json)
+                    for (var i = 0; i < json.length; i++) {                     
                         $('#ListTable').append("<tr><td>" + json[i].CustomerName + "</td>" +
                             "<td>" + json[i].Keyword + "</td>" +
                             "<td>" + json[i].Product.ProductName + "</td>" +
                             "<td>" + json[i].Quantity + "</td>" +
-                            "<td>" + json[i].OrderDateTime.substring(0,10)+"<br>"+json[i].OrderDateTime.substring(11,19) + "</td></tr>")
+                            "<td>" + json[i].OrderDateTime.substring(0, 10) + "<br>" + json[i].OrderDateTime.substring(11, 19) + "</td></tr>")
+                        num = num + 1;
+
                     }
+
                 }
             }).then(function () {
                 setTimeout(GetData, 3000);
+                $('#num').text(num)
+                var all=num*1190
+                $('#money').text(all)
             })
         }
     </script>

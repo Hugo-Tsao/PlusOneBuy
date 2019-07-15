@@ -82,5 +82,16 @@ namespace FBPlusOneBuy.Controllers
             ProductService.ClearProducts();
             return Json("OK");
         }
+
+        [HttpPost]
+        public ActionResult DeleteProduct(int skuId)
+        {
+            if (ProductService.DeleteProduct(skuId))
+            {
+                return Json("OK");
+            }
+
+            return Json("Failed");
+        }
     }
 }

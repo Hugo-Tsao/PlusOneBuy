@@ -40,6 +40,20 @@ namespace FBPlusOneBuy.Services
             HttpContext.Current.Session.Abandon();
         }
 
+        public static bool DeleteProduct(int skuId)
+        {
+            var productList = GetCurrentProducts();
+            if (productList.ProductItems.Any(x => x.SkuId == skuId))
+            {
+                productList.DeleteProduct(skuId);
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
         public static bool UpdateKeyword(int skuId,string keyword)
         {
             var productList = GetCurrentProducts();

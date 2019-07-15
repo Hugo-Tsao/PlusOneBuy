@@ -67,6 +67,7 @@ namespace FBPlusOneBuy.Services
             var JsonData = Newtonsoft.Json.JsonConvert.SerializeObject(data);
             var EncodeData = getUrlEncode(JsonData);
             link += EncodeData;
+            link = ShortenLink(link);
             return link;
         }
 
@@ -77,6 +78,15 @@ namespace FBPlusOneBuy.Services
         internal static string getUrlDecode(string str)
         {
             return WebUtility.UrlDecode(str);
+        }
+        internal static string ShortenLink(string link)
+        {
+            var client = new RestClient("https://api-ssl.bitly.com/v3/shorten?login=o_3888efs55q&apiKey=R_ef7f0de73a5343d1a45acd9c93ce3d9d&longUrl="+link+"&format=txt");
+            var request = new RestRequest(Method.POST);
+            request.AddHeader("cache-control", "no-cache");
+            request.AddHeader("Content-Type", "application/json");
+            IRestResponse response = client.Execute(request);
+            return response.Content.ToString();
         }
     }
 }

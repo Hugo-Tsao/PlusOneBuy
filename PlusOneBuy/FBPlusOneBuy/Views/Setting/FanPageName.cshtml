@@ -44,11 +44,11 @@
 {
     <script>
         $(document).ready(function () {
-            $('.btn_managePages').click(function () {
-                var fanPageName = $(this).siblings("p").text()
-                $('#fanPageName').val(fanPageName)
-                getAuth()
-            })
+            $('.btn_managePages').click(function() {
+                var fanPageName = $(this).siblings("p").text();
+                $('#fanPageName').val(fanPageName);
+                getAuth();
+            });
         });
         function getAuth() {
             FB.login(function (response) {

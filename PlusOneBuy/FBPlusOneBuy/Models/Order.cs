@@ -8,12 +8,13 @@ namespace FBPlusOneBuy.Models
 
     public partial class Order
     {
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int OrderID { get; set; }
 
         public int ProductID { get; set; }
 
-        public int CustomerID { get; set; }
+        [Required]
+        [StringLength(30)]
+        public string CustomerID { get; set; }
 
         [Required]
         [StringLength(50)]

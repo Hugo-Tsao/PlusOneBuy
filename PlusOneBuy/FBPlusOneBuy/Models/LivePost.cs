@@ -30,6 +30,9 @@ namespace FBPlusOneBuy.Models
         [StringLength(50)]
         public string LivePageID { get; set; }
 
+        [Column(TypeName = "money")]
+        public decimal? Amount { get; set; }
+
         public virtual FanPage FanPage { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

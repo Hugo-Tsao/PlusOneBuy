@@ -14,6 +14,8 @@ namespace FBPlusOneBuy.Controllers
         // GET: Comment
         public ActionResult Index()
         {
+            var current_liveposts = CommentListService.ListLivePosts();
+            ViewData["Live"] = current_liveposts;
             return View();
         }
         [HttpPost]

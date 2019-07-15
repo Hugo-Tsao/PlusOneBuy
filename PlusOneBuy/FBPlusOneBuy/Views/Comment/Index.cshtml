@@ -15,11 +15,12 @@
             直播影片
         </button>
         <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-            <button class="dropdown-item" type="button">跳樓大拍賣</button>
+            <button class="dropdown-item" type="button" value="123">跳樓大拍賣</button>
             <button class="dropdown-item" type="button">老闆不再家</button>
             <button class="dropdown-item" type="button">數量有限出清</button>
         </div>
     </div><br />
+          <button id="testa">測直播重複</button><button id="testb">測留言</button>
     <span>直播名稱:</span><span id="livename">跳樓大拍賣</span><br />
     <span>商品名稱:</span> <span>馬桶泡泡洗</span><br/>
     <span>開始時間:</span><span>2019-07-11 05:21:33.110</span><br />
@@ -62,6 +63,30 @@
     <script>
         $('.dropdown-item').click(function () {
             $('#livename').text($(this).text())
+        })
+        $('#testa').click(function () {
+            $.ajax({
+                type: "POST",
+                url: "/Comment/GetAllListPosts",
+                crossDomain: true,
+                cache: false,
+                success: function (data) {
+                    
+                }
+            });
+        })
+        $('#testb').click(function () {
+            $.ajax({
+                type: "POST",
+                url: "/Comment/GetAllComments",
+                data: {livePageId:"382838899034699_639998919839353"},
+                    dataType: 'json',
+                crossDomain: true,
+                cache: false,
+                success: function (data) {
+                    
+                }
+            });
         })
 
         var json =

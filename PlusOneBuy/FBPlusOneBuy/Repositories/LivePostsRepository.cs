@@ -22,7 +22,7 @@ namespace FBPlusOneBuy.Repositories
                 try
                 {
                     string sql = "INSERT INTO LivePosts(LivePageID,LiveName,postTime,FanPageID) VALUES ( @LivePageID,@LiveName,@postTime,@FanPageID)";
-                    conn.Execute(sql, new { livePost.LivePageID, livePost.LiveName,livePost.postTime, livePost.FanPageID });
+                    conn.Execute(sql, new { livePost.LivePageID, livePost.LiveName, livePost.postTime, livePost.FanPageID });
                     return true;
                 }
                 catch (Exception e)
@@ -60,12 +60,12 @@ namespace FBPlusOneBuy.Repositories
                 return liveposts;
             }
         }
-        public void UpdateEndTime(int liveid ,DateTime endTime)
+        public void UpdatePost(int liveid, int qtyOfOrders, decimal amount, DateTime endTime)
         {
             using (conn = new SqlConnection(connectionString))
             {
-                string sql = "UPDATE LivePosts SET endTime=@endTime WHERE ID=@liveid; ";
-                conn.Execute(sql, new { endTime, liveid });
+                string sql = "UPDATE LivePosts SET endTime=@endTime,QtyOfOrders=@qtyOfOrders,Amount=@amount WHERE ID=@liveid; ";
+                conn.Execute(sql, new { endTime, qtyOfOrders, amount, liveid });
 
             }
         }

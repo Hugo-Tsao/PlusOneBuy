@@ -6,6 +6,7 @@ using System.Web;
 using System.Web.Services;
 using FBPlusOneBuy.Models;
 using FBPlusOneBuy.Repositories;
+using FBPlusOneBuy.ViewModels;
 using RestSharp;
 
 namespace FBPlusOneBuy.Services
@@ -94,6 +95,27 @@ namespace FBPlusOneBuy.Services
             IRestResponse response = client.Execute(request);
 
             ProductMain store = Newtonsoft.Json.JsonConvert.DeserializeObject<ProductMain>(response.Content);
+
+            return store;
+        }
+
+        public static ProductCategory GetSKUList(ProductCategoryViewModel pcvm)
+        {
+            var JsonPCVM = Newtonsoft.Json.JsonConvert.SerializeObject(pcvm);
+            var client = new RestClient("https://api.91app.com/ec/V1/SalePage/GetSKUList");
+            var request = new RestRequest(Method.POST);
+            request.AddHeader("cache-control", "no-cache");
+            request.AddHeader("Connection", "keep-alive");
+            request.AddHeader("Content-Length", "193");
+            request.AddHeader("Accept-Encoding", "gzip, deflate");
+            request.AddHeader("Host", "api.91app.com");
+            request.AddHeader("Cache-Control", "no-cache");
+            request.AddHeader("x-api-key", keyValue);
+            request.AddHeader("Content-Type", "application/json");
+            request.AddParameter("undefined", JsonPCVM, ParameterType.RequestBody);
+            IRestResponse response = client.Execute(request);
+
+            ProductCategory store = Newtonsoft.Json.JsonConvert.DeserializeObject<ProductCategory>(response.Content);
 
             return store;
         }

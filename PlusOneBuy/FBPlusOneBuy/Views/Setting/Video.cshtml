@@ -23,8 +23,8 @@
                     </button>
                     <div id="searchtype" class="dropdown-menu" aria-labelledby="videodropdownMenu">
                         <h6 class="dropdown-header">搜尋方式 </h6>
-                        <button class="dropdown-item" type="button">商品編號</button>
-                        <button class="dropdown-item" type="button">類別編號</button>
+                        <button class="dropdown-item" type="button" value="salepage_id">商品編號</button>
+                        <button class="dropdown-item" type="button" value="shopCategoryId">類別編號</button>
                     </div>
                 </div>
                 <input id="GetProductByid" class="Idtext border-info" value="" />
@@ -124,9 +124,9 @@
 @section EndJS
 {
     <script>
-    $(document).ready(function () {
+        $(document).ready(function () {
             var json;
-            
+
             $('#videomenu').children('.dropdown-item').click(function () {
                 $('#dropdownMenu').text($(this).text())
                 $('#livePageID').val($(this).val())
@@ -136,6 +136,7 @@
             })
             $('#searchtype').children('.dropdown-item').click(function () {
                 $('#videodropdownMenu').text($(this).text())
+                $('#videodropdownMenu').val($(this).val())
             })
             $('#btn_submit').click(function () {
                 if ($('#dropdownMenu').text().trim() == "直播影片") {
@@ -146,22 +147,24 @@
                     document.form.onsubmit();
                 }
             })
-            $('#SearchProduct').click(function () {
+        $('#SearchProduct').click(function () {
+            
                 $('#ProductSearch tbody').empty()
                 $.ajax({
                     type: 'post',
                     url: '/Product/GetSKUListByMain',
-                    data: { Salepage_id: $('#GetProductByid').val() },
+                    data: {FilterType: $('#videodropdownMenu').val(), id_value: $('#GetProductByid').val() },
                     dataType: "json",
                     cache: false,
                     success: function (Result) {
                         json = JSON.stringify(Result);
                         json = JSON.parse(json);
+                        console.log(json)
                         if (json != "") {
-                            for (var i = 0; i < json.Data.length; i++) {
+                            for (var i = 0; i < json.length; i++) {
                                 $('#ProductSearch').append("<tr><td>" +
-                                    "<input type='radio' name='checkproduct' value='" + json.Data[i].SkuId + "'>" +
-                                    "</td><td>" + json.Data[i].SkuId + "</td><td>" + json.Data[i].OuterId + "</td></tr>")
+                                    "<input type='radio' name='checkproduct' value='" + json[i].SkuId + "'>" +
+                                    "</td><td>" + json[i].SkuId + "</td><td>" + json[i].OuterId + "</td></tr>")
                             }
                         }
                         else {
@@ -174,7 +177,7 @@
             function PickProduct() {
                 $("input[type=radio]:checked").each(function () {
                     SkuId = $(this).val();
-                    var outerId = json.Data.find(function (element) {
+                    var outerId = json.find(function (element) {
                         return element.SkuId == SkuId;
                     }).OuterId;
                     var item = "";

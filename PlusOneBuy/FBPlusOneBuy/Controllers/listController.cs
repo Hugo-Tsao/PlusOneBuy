@@ -20,7 +20,7 @@ namespace FBPlusOneBuy.Controllers
             return View();
         }
         [HttpPost]
-        public ActionResult Index(string livePageID,string liveName)
+        public ActionResult Index(string livePageID,string liveName,string keywordPattern)
         {
             //新增直播進資料庫
             LivePostService.CreateLivePost(livePageID,liveName);
@@ -36,18 +36,18 @@ namespace FBPlusOneBuy.Controllers
             }
             ViewData["products"] = products;
             ViewData["livePageID"] = livePageID;
-
+            ViewData["keywordPattern"] = keywordPattern;
             return View();
         }
 
         [HttpPost]
-        public ActionResult GetPlusOneBuyOrders(string livePageID)
+        public ActionResult GetPlusOneBuyOrders(string livePageID,string keywordPattern)
         {
             string token = Session["token"].ToString();
             //string token =
             //    "EAASxbKYYpHoBAI27CZBoK8ZBzFmJjEMIR30woKcIfDPx4mtljSUOsGxVGsKHmy1JgCay8KTilT9l3nbkSfGzBZC6wVSDUcl3ZAa7C5OyZAv8CV7K0duuyW2jHFGqZCwhIKiM6jPonrHLp7s5UEudWL5UHkT8IuZBGmBTOEHS0IjYZCsYbcQfo3j9";
             var products = ProductService.GetCurrentProducts().ProductItems;
-            var OrderList = CommentFilterService.getNewOrderList(livePageID, token, products);
+            var OrderList = CommentFilterService.getNewOrderList(livePageID, token, products,keywordPattern);
             if (OrderList.Count > 0)
             {
                 FBSendMsgService.OrderListToSendMsg(OrderList, token);

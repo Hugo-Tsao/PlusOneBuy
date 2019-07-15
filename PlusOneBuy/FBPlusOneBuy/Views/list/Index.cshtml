@@ -16,9 +16,7 @@
             <div class="col">
                 <button id="btn_sentMsg" class="btn btn-primary ">寄送購物車連結</button>
                 <button id="btn_endpost" class="btn btn-dark ">結束本次推播</button><br />
-                <span>人數:</span><span id="num">0</span>
-                <span>收單金額:</span><span id="money">0</span>
-                <span>成交金額:</span><span >0</span>
+
             </div>
         </div>
         <div id="list" class="row" style="margin: 10px">
@@ -27,8 +25,8 @@
                 <table class="table">
                     <thead>
                         <tr>
-                            <th>商品</th>
-                            <th>關鍵字</th>
+                            <th>商品名稱</th>
+                            <th>商品關鍵字</th>
                             <th>價格</th>
                         </tr>
                     </thead>
@@ -50,23 +48,30 @@
                 </table>
             </div>
             <div class="col-7">
-                <h3>留言清單</h3>
-                <table id="ListTable" class="table table-hover">
-                    <thead>
-                        <tr>
-                            <th>顧客</th>
-                            <th>關鍵字</th>
-                            <th>商品名稱</th>
-                            <th>數量</th>
-                            <th>留言時間</th>
-                        </tr>
-                    </thead>
-                    <tbody></tbody>
-                </table>
-            </div>
-            <div class="col-12 text-center">
-              
-            </div>
+                <div class="row">
+                    <div class="col"> <h3>留言清單</h3></div>
+                    <div class="col">
+                        <span>留言關鍵字:@ViewData["keywordPattern"]</span>
+                        <span>人數:</span><span id="num">0</span>
+                        <span>收單金額:</span><span id="money">0</span>
+                        <span>成交金額:</span><span>0</span>
+                    </div>
+                    <div class="col-12">
+                        <table id="ListTable" class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>顧客名稱</th>
+                                    <th>關鍵字</th>
+                                    <th>商品名稱</th>
+                                    <th>數量</th>
+                                    <th>留言時間</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                    </div>                
+                </div>
         </div>
     </div>
 </body>
@@ -111,19 +116,18 @@
             $.ajax({
                 type: 'post',
                 url: '/list/GetPlusOneBuyOrders',
-                data: { livePageID:'@ViewData["livePageID"]'},
+                data: { livePageID:'@ViewData["livePageID"]',keywordPattern:'@ViewData["keywordPattern"]'},
                 dataType: "json",
                 cache: false,
                 success: function (Result) {
-                    var json = JSON.parse(Result);
-                    console.log(json)
-                    for (var i = 0; i < json.length; i++) {                     
+                    var json = JSON.parse(Result);           
+                    for (var i = 0; i < json.length; i++) {      
+                        var newTime = new Date(json[i].OrderDateTime);
                         $('#ListTable').append("<tr><td>" + json[i].CustomerName + "</td>" +
                             "<td>" + json[i].Keyword + "</td>" +
                             "<td>" + json[i].Product.ProductName + "</td>" +
                             "<td>" + json[i].Quantity + "</td>" +
-                            "<td>" + json[i].OrderDateTime.substring(0, 10) + "<br>" + json[i].OrderDateTime.substring(11, 19) + "</td></tr>")
-                        console.log(json[i].Product.UnitPrice)
+                            "<td>" + newTime.toLocaleString() + "</td></tr>")
                         money=money+json[i].Product.UnitPrice
                         num = num + 1;
 

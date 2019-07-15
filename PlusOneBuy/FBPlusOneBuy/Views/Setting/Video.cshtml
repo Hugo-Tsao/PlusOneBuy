@@ -18,7 +18,7 @@
             <div class="col-4">
                 <label><strong>挑選商品</strong></label><hr />
                 <div class="dropdown">
-                    <button class="btn btn-secondary dropdown-toggle" type="button" id="videodropdownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <button class="btn border-info dropdown-toggle" type="button" id="videodropdownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         搜尋方式
                     </button>
                     <div id="searchtype" class="dropdown-menu" aria-labelledby="videodropdownMenu">
@@ -27,17 +27,17 @@
                         <button class="dropdown-item" type="button">類別編號</button>
                     </div>
                 </div>
-                <input id="GetProductByid" class="Idtext" value="" />
+                <input id="GetProductByid" class="Idtext border-info" value="" />
                 <button id="SearchProduct" type="button" class="btn btn-secondary"><i class="fas fa-search"></i></button>
                 <br><br>
                 <label><strong>搜尋清單</strong></label>
-                <button id="AddProduct" type="button" class="btn btn-light border-success" style="right:0;position:absolute">挑選商品<i class="fas fa-plus ml-2"></i></button><br><br>
+                <button id="AddProduct" type="button" class="btn btn-light border-info" style="right:20px;position:absolute">挑選商品<i class="fas fa-plus ml-2"></i></button><br><br>
                 <table id="ProductSearch" class="table table-sm">
                     <thead>
                         <tr>
                             <th>挑選</th>
-                            <th>編號</th>
-                            <th>關鍵字</th>
+                            <th>商品編號</th>
+                            <th>商品關鍵字</th>
                         </tr>
                     </thead>
                     <tbody></tbody>
@@ -73,7 +73,7 @@
                         </div>
                         <div class="col">
                             <label>留言關鍵字:</label>
-                            <input type="text" class="formtext" value="+1" />
+                            <input type="text" class="formtext" name="keywordPattern" value="+1" />
                         </div>
                     </div>
 
@@ -81,8 +81,9 @@
                 <table class="table" id="ProductList">
                     <thead>
                         <tr>
-                            <th>商品</th>
-                            <th>關鍵字</th>
+                            <th>刪除</th>
+                            <th>商品名稱</th>
+                            <th>商品關鍵字</th>
                             <th>價格</th>
                             <th>修改確認</th>
                         </tr>
@@ -93,6 +94,11 @@
                             for (var i = 0; i < Products.ProductItems.Count; i++)
                             {
                                 <tr>
+                                    <td>
+                                        <button type="button" name="delProduct" class="btn btn-light" value="@Products.ProductItems[i].SkuId">
+                                            <i class="far fa-trash-alt"></i>
+                                        </button>
+                                    </td>
                                     <td>@Products.ProductItems[i].ProductName</td>
                                     <td>
                                         <input type="text" class="formtext" id="@Products.ProductItems[i].SkuId" value="@Products.ProductItems[i].Keyword">
@@ -100,7 +106,7 @@
                                     </td>
                                     <td>@Products.ProductItems[i].UnitPrice</td>
                                     <td>
-                                        <button type="button" name="checkKeyword" onclick="checkKeyword" class="btn btn-light" value="@Products.ProductItems[i].SkuId">
+                                        <button type="button" name="checkKeyword" class="btn btn-light" value="@Products.ProductItems[i].SkuId">
                                             <i class="fas fa-check"></i>
                                         </button>
                                     </td>
@@ -118,7 +124,7 @@
 @section EndJS
 {
     <script>
-        $(document).ready(function () {
+    $(document).ready(function () {
             var json;
             
             $('#videomenu').children('.dropdown-item').click(function () {
@@ -164,7 +170,7 @@
                     }
                 })
             })
-            $('#AddProduct').on('click', PickProduct);
+            $('#AddProduct').on('click', PickProduct)
             function PickProduct() {
                 $("input[type=radio]:checked").each(function () {
                     SkuId = $(this).val();
@@ -204,18 +210,17 @@
                         var json = JSON.stringify(result);
                         json = JSON.parse(json);
 
-                        $('#ProductList').append("<tr><td>" + json.Data.Title + "</td><td>" +
-                            "<input type='text' class='formtext' id='" + SkuId + "' value='" + OuterId + "'>" + "</td><td>"
-                            + json.Data.Price + "</td>" + "<td><button type='button' class='btn btn-light' name='checkKeyword' onclick='checkKeyword' value='" + SkuId + "'><i class='fas fa-check'></i></button></td>" + "</tr>")
+                        $('#ProductList').append("<tr><td>" +"<button type='button' name='delProduct' class='btn btn-light' value='"+SkuId+"'><i class='far fa-trash-alt'></i></button></td>"+"<td>" + json.Data.Title + "</td><td>" +
+                            "<input type='text' class='formtext' id='" + SkuId + "' value='" + OuterId + "'>" +
+                            "</td><td>" + json.Data.Price + "</td>" +
+                            "<td><button type='button' class='btn btn-light' name='checkKeyword' value='" + SkuId + "'><i class='fas fa-check'></i></button></td>" + "</tr>")
 
                     }
                 })
             }
-
-            //$('button[name="checkKeyword"]').on('click',checkKeyword)
-            $('button[name="checkKeyword"]').on('click', checkKeyword);
-            function checkKeyword() {
-                var keyword = $(this).val()
+    })
+    $('body').on("click", 'button[name="checkKeyword"]', function () {
+         var keyword = $(this).val()
                 $.ajax({
                     type: 'post',
                     url: '/Product/UpdateKeyword',
@@ -224,9 +229,8 @@
                         alert("修改成功!!")
                     }
                 })
-            }
-        })
-
+    });
+    
     </script>
 }
 

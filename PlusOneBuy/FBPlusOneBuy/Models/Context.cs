@@ -45,6 +45,11 @@ namespace FBPlusOneBuy.Models
                 .HasForeignKey(e => e.LiveID)
                 .WillCascadeOnDelete(false);
 
+            modelBuilder.Entity<LivePost>()
+                .HasMany(e => e.SalesOrders)
+                .WithOptional(e => e.LivePost)
+                .HasForeignKey(e => e.LiveID);
+
             modelBuilder.Entity<Order>()
                 .Property(e => e.CustomerID)
                 .IsUnicode(false);
@@ -65,6 +70,10 @@ namespace FBPlusOneBuy.Models
             modelBuilder.Entity<SalesOrder>()
                 .Property(e => e.CustomerID)
                 .IsUnicode(false);
+
+            modelBuilder.Entity<SalesOrder>()
+                .Property(e => e.Total)
+                .HasPrecision(19, 4);
         }
     }
 }

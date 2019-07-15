@@ -12,6 +12,7 @@ namespace FBPlusOneBuy.Models
         public Product()
         {
             Orders = new HashSet<Order>();
+            SalesOrders = new HashSet<SalesOrder>();
         }
 
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
@@ -21,7 +22,6 @@ namespace FBPlusOneBuy.Models
         [StringLength(50)]
         public string ProductName { get; set; }
 
-        [Column(TypeName = "money")]
         public decimal? UnitPrice { get; set; }
 
         public int? Stock { get; set; }
@@ -36,5 +36,8 @@ namespace FBPlusOneBuy.Models
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Order> Orders { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<SalesOrder> SalesOrders { get; set; }
     }
 }

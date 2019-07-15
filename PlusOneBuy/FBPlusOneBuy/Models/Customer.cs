@@ -12,6 +12,7 @@ namespace FBPlusOneBuy.Models
         public Customer()
         {
             Orders = new HashSet<Order>();
+            SalesOrders = new HashSet<SalesOrder>();
         }
         //我直接改string 需要正規改法要在改過(Jim)
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
@@ -33,5 +34,8 @@ namespace FBPlusOneBuy.Models
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Order> Orders { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<SalesOrder> SalesOrders { get; set; }
     }
 }

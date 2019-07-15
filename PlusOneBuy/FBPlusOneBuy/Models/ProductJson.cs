@@ -60,4 +60,12 @@ namespace FBPlusOneBuy.Models
         public ProductMain_Data Data { get; set; }
         public object ErrorMessage { get; set; }
     }
+
+    public class ProductCategory
+    {
+        public string ErrorId { get; set; }
+        public string Status { get; set; }
+        public List<ProductSKUList_Data> Data { get; set; }
+        public object ErrorMessage { get; set; }
+    }
 }

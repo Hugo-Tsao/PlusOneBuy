@@ -48,6 +48,7 @@ namespace FBPlusOneBuy.Services
                         order.Product.Salepage_id = item.Salepage_id;
                         order.Product.SkuId = item.SkuId;
                         order.Product.ProductName = item.ProductName;
+                        order.Product.UnitPrice = item.UnitPrice;
                         order.LiveID = live_repo.Select(livePageID);
                         order.OrderDateTime = data.created_time;
                         order.Quantity = 1; //因為目前只有+1，所以暫時寫死

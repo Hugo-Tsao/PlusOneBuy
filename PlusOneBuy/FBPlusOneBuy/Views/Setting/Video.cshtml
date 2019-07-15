@@ -100,7 +100,7 @@
                                     </td>
                                     <td>@Products.ProductItems[i].UnitPrice</td>
                                     <td>
-                                        <button type="button" name="checkKetword" class="btn btn-light" value="@Products.ProductItems[i].SkuId">
+                                        <button type="button" name="checkKeyword" onclick="checkKeyword" class="btn btn-light" value="@Products.ProductItems[i].SkuId">
                                             <i class="fas fa-check"></i>
                                         </button>
                                     </td>
@@ -118,109 +118,115 @@
 @section EndJS
 {
     <script>
-        var json;
-        $('button[name="checkKetword"]').click(function () {
-            var keyword = $(this).val()
-            $.ajax({
-                type: 'post',
-                url: '/Product/UpdateKeyword',
-                data: { skuId: $(this).val(), keyword: $('#' + keyword).val() },
-                success: function () {
-                    alert("修改成功!!")
+        $(document).ready(function () {
+            var json;
+            
+            $('#videomenu').children('.dropdown-item').click(function () {
+                $('#dropdownMenu').text($(this).text())
+                $('#livePageID').val($(this).val())
+                if ($(this).val() != $(this).text()) {
+                    $('#liveName').val($(this).text())
                 }
             })
-
-        })
-        $('#videomenu').children('.dropdown-item').click(function () {
-            $('#dropdownMenu').text($(this).text())
-            $('#livePageID').val($(this).val())
-            if ($(this).val() != $(this).text()) {
-                $('#liveName').val($(this).text())
-            }
-        })
-        $('#searchtype').children('.dropdown-item').click(function () {
-            $('#videodropdownMenu').text($(this).text())
-        })
-        $('#btn_submit').click(function () {
-            if ($('#dropdownMenu').text().trim() == "直播影片") {
-                alert("請選擇直播影片")
-                return false;
-            }
-            else {
-                document.form.onsubmit();
-            }
-        })
-        $('#SearchProduct').click(function () {
-            $('#ProductSearch tbody').empty()
-            $.ajax({
-                type: 'post',
-                url: '/Product/GetSKUListByMain',
-                data: { Salepage_id: $('#GetProductByid').val() },
-                dataType: "json",
-                cache: false,
-                success: function (Result) {
-                    json = JSON.stringify(Result);
-                    json = JSON.parse(json);
-                    if (json != "") {
-                        for (var i = 0; i < json.Data.length; i++) {
-                            $('#ProductSearch').append("<tr><td>" +
-                                "<input type='radio' name='checkproduct' value='" + json.Data[i].SkuId + "'>" +
-                                "</td><td>" + json.Data[i].SkuId + "</td><td>" + json.Data[i].OuterId + "</td></tr>")
-                        }
-                    }
-                    else {
-                        alert("查無此商品編號")
-                    }
-                }
+            $('#searchtype').children('.dropdown-item').click(function () {
+                $('#videodropdownMenu').text($(this).text())
             })
-        })
-        $('#AddProduct').on('click', PickProduct);
-        function PickProduct() {
-            $("input[type=radio]:checked").each(function () {
-                SkuId = $(this).val();
-                var outerId = json.Data.find(function (element) {
-                    return element.SkuId == SkuId;
-                }).OuterId;
-                var item = "";
-                $('button[name="checkKetword"]').each(function (i, n) {
-                    if ($(n).val() == SkuId) {
-                        item = "heveitem"
-                    }
-                    else if ($(n).val() != SkuId) {
-                        item = "noitem"
-                    }
-                })
-                if (item == "heveitem") {
-                    alert("此商品已在直播清單")
-                }
-                else if (item == "noitem") {
-                    GetProduct($('#GetProductByid').val(), SkuId, outerId)
+            $('#btn_submit').click(function () {
+                if ($('#dropdownMenu').text().trim() == "直播影片") {
+                    alert("請選擇直播影片")
+                    return false;
                 }
                 else {
-                    GetProduct($('#GetProductByid').val(), SkuId, outerId)
-                }
-            });
-            $('#GetProductByid').val('')
-            $('#ProductSearch tbody').empty()
-        }
-        function GetProduct(Salepage_id, SkuId, OuterId) {
-            $.ajax({
-                type: 'post',
-                url: '/Product/GetMain',
-                data: { Salepage_id: Salepage_id, SkuId: SkuId, Keyword: OuterId },
-                dataType: "json",
-                cache: false,
-                success: function (result) {
-                    var json = JSON.stringify(result);
-                    json = JSON.parse(json);
-
-                    $('#ProductList').append("<tr><td>" + json.Data.Title + "</td><td>" +
-                        "<input type='text' class='formtext' id='" + SkuId + "' value='" + OuterId + "'>" + "</td><td>"
-                        + json.Data.Price + "</td>" + "<td><button type='button' class='btn btn-light' name='checkKetword' value='" + SkuId + "'><i class='fas fa-check'></i></button></td>" + "</tr>")
-
+                    document.form.onsubmit();
                 }
             })
-        }
+            $('#SearchProduct').click(function () {
+                $('#ProductSearch tbody').empty()
+                $.ajax({
+                    type: 'post',
+                    url: '/Product/GetSKUListByMain',
+                    data: { Salepage_id: $('#GetProductByid').val() },
+                    dataType: "json",
+                    cache: false,
+                    success: function (Result) {
+                        json = JSON.stringify(Result);
+                        json = JSON.parse(json);
+                        if (json != "") {
+                            for (var i = 0; i < json.Data.length; i++) {
+                                $('#ProductSearch').append("<tr><td>" +
+                                    "<input type='radio' name='checkproduct' value='" + json.Data[i].SkuId + "'>" +
+                                    "</td><td>" + json.Data[i].SkuId + "</td><td>" + json.Data[i].OuterId + "</td></tr>")
+                            }
+                        }
+                        else {
+                            alert("查無此商品編號")
+                        }
+                    }
+                })
+            })
+            $('#AddProduct').on('click', PickProduct);
+            function PickProduct() {
+                $("input[type=radio]:checked").each(function () {
+                    SkuId = $(this).val();
+                    var outerId = json.Data.find(function (element) {
+                        return element.SkuId == SkuId;
+                    }).OuterId;
+                    var item = "";
+                    $('button[name="checkKetword"]').each(function (i, n) {
+                        if ($(n).val() == SkuId) {
+                            item = "heveitem"
+                        }
+                        else if ($(n).val() != SkuId) {
+                            item = "noitem"
+                        }
+                    })
+                    if (item == "heveitem") {
+                        alert("此商品已在直播清單")
+                    }
+                    else if (item == "noitem") {
+                        GetProduct($('#GetProductByid').val(), SkuId, outerId)
+                    }
+                    else {
+                        GetProduct($('#GetProductByid').val(), SkuId, outerId)
+                    }
+                });
+                $('#GetProductByid').val('')
+                $('#ProductSearch tbody').empty()
+            }
+            function GetProduct(Salepage_id, SkuId, OuterId) {
+                $.ajax({
+                    type: 'post',
+                    url: '/Product/GetMain',
+                    data: { Salepage_id: Salepage_id, SkuId: SkuId, Keyword: OuterId },
+                    dataType: "json",
+                    cache: false,
+                    success: function (result) {
+                        var json = JSON.stringify(result);
+                        json = JSON.parse(json);
+
+                        $('#ProductList').append("<tr><td>" + json.Data.Title + "</td><td>" +
+                            "<input type='text' class='formtext' id='" + SkuId + "' value='" + OuterId + "'>" + "</td><td>"
+                            + json.Data.Price + "</td>" + "<td><button type='button' class='btn btn-light' name='checkKeyword' onclick='checkKeyword' value='" + SkuId + "'><i class='fas fa-check'></i></button></td>" + "</tr>")
+
+                    }
+                })
+            }
+
+            //$('button[name="checkKeyword"]').on('click',checkKeyword)
+            $('button[name="checkKeyword"]').on('click', checkKeyword);
+            function checkKeyword() {
+                var keyword = $(this).val()
+                $.ajax({
+                    type: 'post',
+                    url: '/Product/UpdateKeyword',
+                    data: { skuId: $(this).val(), keyword: $('#' + keyword).val() },
+                    success: function () {
+                        alert("修改成功!!")
+                    }
+                })
+            }
+        })
+
     </script>
 }
 

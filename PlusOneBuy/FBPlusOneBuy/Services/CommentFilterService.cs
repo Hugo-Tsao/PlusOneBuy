@@ -12,17 +12,21 @@ namespace FBPlusOneBuy.Services
 {
     public static class CommentFilterService
     {
-        public static List<OrderList> KeywordFilter(List<ProductViewModel> products,List<Datum> datas,string livePageID)
+        public static List<OrderList> KeywordFilter(List<ProductViewModel> products,List<Datum> datas,string livePageID,string keywordPattern)
         {
             var resultOrderList = new List<OrderList>();
             var custsList = new List<Customer>();
             var cust_repo = new CustomerRepository();
             //List<Datum> resultDatum = new List<Datum>();
+            if (keywordPattern == null)
+            {
+                keywordPattern = "+1";
+            }
             foreach (var data in datas)
             {
                 foreach (var item in products)
                 {
-                    string completeKeyword = item.Keyword + "+1"; //+1暫時先寫死
+                    string completeKeyword = item.Keyword + keywordPattern;
                     if (data.message == completeKeyword)  
                     {
                         //resultDatum.Add(data);
@@ -31,6 +35,7 @@ namespace FBPlusOneBuy.Services
                         order.Product = new ProductViewModel();
                         var live_repo = new LivePostsRepository();
 
+                        
                         var name = UTF8ConvertToString(data.from.name);
                         if (!cust_repo.SelectCustomer(data.from.id))
                         {
@@ -77,7 +82,7 @@ namespace FBPlusOneBuy.Services
             return comments;
         }
 
-        public static List<OrderList> getNewOrderList(string livePageID, string token, List<ProductViewModel> products)
+        public static List<OrderList> getNewOrderList(string livePageID, string token, List<ProductViewModel> products,string keywordPattern)
         {
             var orderList = new List<OrderList>();            
             var allComments = FBRequestService.getAllComments(livePageID, token);
@@ -87,7 +92,7 @@ namespace FBPlusOneBuy.Services
                 var PickPosts = CommentFilterService.PostTimeFilter(allComments, livePageID);
                 if (PickPosts.Count > 0)
                 {
-                    orderList = CommentFilterService.KeywordFilter(products, PickPosts, livePageID);
+                    orderList = CommentFilterService.KeywordFilter(products, PickPosts, livePageID,keywordPattern);
                     var order_repo = new OrderRepositories();
                     order_repo.InsertOrder(orderList);                   
                 }
@@ -99,9 +104,16 @@ namespace FBPlusOneBuy.Services
 
         public static string UTF8ConvertToString(string word)
         {
-            byte[] byt = System.Text.UnicodeEncoding.Unicode.GetBytes(word);
-            string result = UnicodeEncoding.Unicode.GetString(byt);
-            return result;
+            if (word == null)
+            {
+                return null;
+            }
+            else
+            {
+                byte[] byt = System.Text.UnicodeEncoding.Unicode.GetBytes(word);
+                string result = UnicodeEncoding.Unicode.GetString(byt);
+                return result;
+            }
         }
     }
 }

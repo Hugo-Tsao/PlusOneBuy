@@ -197,6 +197,7 @@
     <Compile Include="Controllers\listController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
+    <Compile Include="Controllers\SalesOrderController.cs" />
     <Compile Include="Controllers\SettingController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -221,12 +222,14 @@
     <Compile Include="Repositories\OrderRepositories.cs" />
     <Compile Include="Repositories\ProductList.cs" />
     <Compile Include="Repositories\ProductRepositories.cs" />
+    <Compile Include="Repositories\SalesOrderRepositories.cs" />
     <Compile Include="Services\CommentFilterService.cs" />
     <Compile Include="Services\CommentListService.cs" />
     <Compile Include="Services\FBRequestService.cs" />
     <Compile Include="Services\LivePostService.cs" />
     <Compile Include="Services\FBSendMsgService.cs" />
     <Compile Include="Services\ProductService.cs" />
+    <Compile Include="Services\SalesOrderListService.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\CartViewModel.cs" />
     <Compile Include="ViewModels\CommentListViewModel.cs" />
@@ -235,6 +238,7 @@
     <Compile Include="ViewModels\OrderList.cs" />
     <Compile Include="ViewModels\ProductCategoryViewModel.cs" />
     <Compile Include="ViewModels\ProductViewModel.cs" />
+    <Compile Include="ViewModels\SalesOrderViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\css\styles.css" />
@@ -344,6 +348,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\Product\" />
+    <Folder Include="Views\SalesOrder\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -70,8 +70,7 @@ namespace FBPlusOneBuy.Services
 
         }
 
-        //internal static string keyValue = ConfigurationManager.AppSettings["X-API-KEY"];
-        internal static string keyValue = "aMExtXp2XM3D0wwbRQUR99lHC2eRuAu1WJDPbveh";
+        internal static string keyValue = ConfigurationManager.AppSettings["X-API-KEY"];
 
 
         public static ProductSKUList GetSKUListByMain(int salepage_id)

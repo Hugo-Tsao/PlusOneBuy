@@ -210,9 +210,9 @@
                     dataType: "json",
                     cache: false,
                     success: function (result) {
+                        console.log(result)
                         var json = JSON.stringify(result);
                         json = JSON.parse(json);
-
                         $('#ProductList').append("<tr><td>" +"<button type='button' name='delProduct' class='btn btn-light' value='"+SkuId+"'><i class='far fa-trash-alt'></i></button></td>"+"<td>" + json.Data.Title + "</td><td>" +
                             "<input type='text' class='formtext' id='" + SkuId + "' value='" + OuterId + "'>" +
                             "</td><td>" + json.Data.Price + "</td>" +
@@ -233,7 +233,19 @@
                     }
                 })
     });
-    
+
+     $('body').on("click", 'button[name="delProduct"]', function () {
+         console.log($(this).val())
+                $.ajax({
+                    type: 'post',
+                    url: '/Product/DeleteProduct',
+                    data: { skuId: $(this).val()},
+                    success: function () {
+                        alert("刪除成功!!")
+                        window.location.reload()
+                    }
+                })
+    });
     </script>
 }
 

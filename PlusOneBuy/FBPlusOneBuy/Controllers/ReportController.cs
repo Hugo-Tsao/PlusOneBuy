@@ -14,10 +14,18 @@ namespace FBPlusOneBuy.Controllers
         {
             return View();
         }
+        [HttpPost]
         public ActionResult SalesOrderList(string livepageId)
         {
             var salesOrderVM = SalesOrderListService.ListSalesOrders(livepageId);
             return View(salesOrderVM);
         }
+        //[HttpPost]
+        //public ActionResult RealTimeTotalAndSalesOrders(string livepageId)
+        //{
+
+        //    var totalAndSalesOrders = SalesOrderListService.GetTotalAndSalesOrders(livepageId);
+        //    return View(totalAndSalesOrders);
+        //}
     }
 }

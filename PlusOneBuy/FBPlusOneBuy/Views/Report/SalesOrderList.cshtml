@@ -16,35 +16,38 @@
 </div>
 
 <div class="container">
+    <h2>銷售清單</h2>
     <div class="row mt-3">
-        <h2>銷售清單</h2>
+        <div class="col">
+            <span>直播名稱: @Model.livename</span>
+            <span>成交數量: @Model.salesOrderNum</span>
+            <span>成交金額 @String.Format("{0:N0}", Model.total)</span>
+        </div>
     </div>
-    <div id="list" class="row" style="margin: 10px">
-        <div class="col-11">
+    <div class="row">
+        <div class="col">
             <table id="myTable" class="cell-border compact stripe" style="width:100%">
                 <thead>
                     <tr>
-                        <th>編號</th>
-                        <th>產品編號</th>
-                        <th>客戶編號</th>
+                        <th>銷售編號</th>
+                        <th>產品名稱</th>
+                        <th>客戶名稱</th>
                         <th>成立時間</th>
                         <th>數量</th>
-                        <th>直播編號</th>
                         <th>總額</th>
                     </tr>
                 </thead>
                 <tbody>
                     @for (var i = 0; i < Model.salesOrders.Count; i++)
                     {
-                    <tr>
-                        <td>@Model.salesOrders[i].SalesOrderID</td>
-                        <td>@Model.salesOrders[i].ProductID</td>
-                        <td>@Model.salesOrders[i].CustomerID</td>
-                        <td>@Model.salesOrders[i].CheckoutDateTime</td>
-                        <td>@Model.salesOrders[i].Quantity</td>
-                        <td>@Model.salesOrders[i].LiveID</td>
-                        <td>@Model.salesOrders[i].Total</td>
-                    </tr>
+                        <tr>
+                            <td>@Model.salesOrders[i].SalesOrderID</td>
+                            <td>@Model.salesOrders[i].ProductName</td>
+                            <td>@Model.salesOrders[i].CustomerName</td>
+                            <td>@Model.salesOrders[i].CheckoutDateTime</td>
+                            <td>@Model.salesOrders[i].Quantity</td>
+                            <td>@String.Format("{0:N0}", Model.total)</td>
+                        </tr>
 
                     }
                 </tbody>

@@ -10,18 +10,18 @@ namespace FBPlusOneBuy.Models
     {
         public int SalesOrderID { get; set; }
 
-        public int? ProductID { get; set; }
+        public int ProductID { get; set; }
 
         [StringLength(30)]
         public string CustomerID { get; set; }
 
-        public DateTime? CheckoutDateTime { get; set; }
+        public DateTime CheckoutDateTime { get; set; }
 
-        public int? Quantity { get; set; }
+        public int Quantity { get; set; }
 
-        public int? LiveID { get; set; }
+        public int LiveID { get; set; }
 
-        public decimal? Total { get; set; }
+        public decimal Total { get; set; }
 
         public virtual Customer Customer { get; set; }
 

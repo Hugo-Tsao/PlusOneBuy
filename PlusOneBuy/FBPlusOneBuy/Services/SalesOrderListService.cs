@@ -9,17 +9,34 @@ namespace FBPlusOneBuy.Services
 {
     public class SalesOrderListService
     {
-        public static SalesOrderViewModel ListSalesOrders(int liveId)
+        public static SalesOrderViewModel ListSalesOrders(string livepageId)
         {
             var salesorder_repo = new SalesOrderRepositories();
-            var salesOrders = salesorder_repo.Select(liveId);
+            var live_repo = new LivePostsRepository();
+            List<int> liveids = live_repo.SelectIds(livepageId);
+            var salesOrders = salesorder_repo.Select(liveids);
 
             var salesOrderVM = new SalesOrderViewModel()
             {
                 salesOrders = salesOrders,
-                salesOrderNum=salesOrders.Count
+                salesOrderNum=salesOrders.Count,
+                total = salesOrders.Sum(x => x.Total)
             };
             return salesOrderVM;
+        }
+        public static TotalAndSalesOrders GetTotalAndSalesOrders(string livepageId)
+        {
+            var salesorder_repo = new SalesOrderRepositories();
+            var live_repo = new LivePostsRepository();
+            int liveid = live_repo.Select(livepageId);
+            var salesOrders = salesorder_repo.Select(liveid);
+
+            var totalAndSalesOrders = new TotalAndSalesOrders()
+            {
+                salesOrderNum = salesOrders.Count,
+                total = salesOrders.Sum(x => x.Total)
+            };
+            return totalAndSalesOrders;
 
         }
     }

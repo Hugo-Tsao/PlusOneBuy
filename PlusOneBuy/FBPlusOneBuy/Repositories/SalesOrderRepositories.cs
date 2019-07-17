@@ -14,11 +14,20 @@ namespace FBPlusOneBuy.Repositories
     {
         private string connectionString = ConfigurationManager.ConnectionStrings["Context"].ConnectionString;
         private SqlConnection conn;
+        public List<SalesOrder> Select(List<int> liveIds)
+        {
+            using (conn = new SqlConnection(connectionString))
+            {
+                string sql = "select * from SalesOrders where LiveID IN @liveIds";
+                var query_result = conn.Query<SalesOrder>(sql, new { liveIds }).ToList();
+                return query_result;
+            }
+        }
         public List<SalesOrder> Select(int liveId)
         {
             using (conn = new SqlConnection(connectionString))
             {
-                string sql = "select * from SalesOrders where LiveID=@liveId";
+                string sql = "select * from SalesOrders where LiveID =@liveId";
                 var query_result = conn.Query<SalesOrder>(sql, new { liveId }).ToList();
                 return query_result;
             }

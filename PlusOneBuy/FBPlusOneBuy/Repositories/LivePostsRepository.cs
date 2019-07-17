@@ -42,6 +42,15 @@ namespace FBPlusOneBuy.Repositories
                 return liveid;
             }
         }
+        public List<int> SelectIds(string livePageID)
+        {
+            using (conn = new SqlConnection(connectionString))
+            {
+                string sql = "select ID from LivePosts where LivePageID=@livePageID";
+                List<int> liveids = conn.Query<int>(sql, new { LivePageID = livePageID }).ToList();
+                return liveids;
+            }
+        }
         public List<CommentListViewModel> SelectComments(string livePageID)
         {
             using (conn = new SqlConnection(connectionString))

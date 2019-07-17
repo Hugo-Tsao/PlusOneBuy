@@ -78,11 +78,13 @@ namespace FBPlusOneBuy.Repositories
                 return liveposts;
             }
         }
-        public void UpdatePost(int liveid, int qtyOfOrders, decimal amount, DateTime endTime)
+        public void UpdatePost(string livePageID, int qtyOfOrders, decimal amount, DateTime endTime)
         {
             using (conn = new SqlConnection(connectionString))
             {
-                string sql = "UPDATE LivePosts SET endTime=@endTime,QtyOfOrders=@qtyOfOrders,Amount=@amount WHERE ID=@liveid; ";
+                var live_repo = new LivePostsRepository();
+                int liveid = live_repo.Select(livePageID);
+                string sql = "UPDATE LivePosts SET endTime=@endTime,QtyOfOrders=@qtyOfOrders,Amount=@amount WHERE ID=@liveid ";
                 conn.Execute(sql, new { endTime, qtyOfOrders, amount, liveid });
 
             }

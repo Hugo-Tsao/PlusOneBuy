@@ -56,11 +56,13 @@ namespace FBPlusOneBuy.Controllers
             return Json(result);
         }
         [HttpPost]
-        public void SetPostEndtime(string livePageID, int QtyOfOrders, decimal Amount)
+        public void SetPostEndtime(string livePageID)
         {
+            OrderRepositories o_repo = new OrderRepositories();
+            decimal Amount = o_repo.GetAmount(livePageID);
+            int QtyOfOrders = o_repo.GetQtyOfOrders(livePageID);
             var live_repo = new LivePostsRepository();
-            int liveid = live_repo.Select(livePageID);
-            live_repo.UpdatePost(liveid, QtyOfOrders, Amount, DateTime.Now);
+            live_repo.UpdatePost(livePageID, QtyOfOrders, Amount, DateTime.Now);
         }
 
         [HttpPost]

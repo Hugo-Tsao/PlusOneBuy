@@ -13,9 +13,10 @@ namespace FBPlusOneBuy.Controllers
         public ActionResult GetROIOrderInfo(string livePageId)
         {
             OrderRepositories o_repo = new OrderRepositories();
-            var Amount = o_repo.GetAmount(livePageId);
-            var Qty = o_repo.GetQtyOfOrders(livePageId);
-            return Json("");
+            var amount = o_repo.GetAmount(livePageId);
+            var qty = o_repo.GetQtyOfOrders(livePageId);
+            var Order = new { Amount=amount,Qty=qty };
+            return Json(Order, JsonRequestBehavior.AllowGet);
         }
     }
 }

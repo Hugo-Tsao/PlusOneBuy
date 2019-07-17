@@ -62,5 +62,31 @@ namespace FBPlusOneBuy.Repositories
                 return orders.ToList();
             }
         }
+
+        public decimal GetAmount(string livePageId)
+        {
+            using (conn = new SqlConnection(connectionString))
+            {
+                LivePostsRepository live_repo = new LivePostsRepository();
+                var liveId = live_repo.Select(livePageId);
+                string sql =
+                    "select SUM(p.UnitPrice) as Amount from Products p inner join Orders o on o.ProductID = p.ProductID where o.LiveID = @liveId";
+                decimal amount = conn.Query<decimal>(sql, new { liveId }).FirstOrDefault();
+                return amount;
+            }
+        }
+
+        public int GetQtyOfOrders(string livePageId)
+        {
+            using (conn = new SqlConnection(connectionString))
+            {
+                LivePostsRepository live_repo = new LivePostsRepository();
+                var liveId = live_repo.Select(livePageId);
+                string sql =
+                    "select COUNT(OrderID) as Count from Orders o WHERE o.LiveID = @liveId";
+                int QtyOfOrders = conn.Query<int>(sql, new { liveId }).FirstOrDefault();
+                return QtyOfOrders;
+            }
+        }
     }
 }

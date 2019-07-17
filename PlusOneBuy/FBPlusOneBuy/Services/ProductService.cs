@@ -75,13 +75,13 @@ namespace FBPlusOneBuy.Services
 
         public static ProductSKUList GetSKUListByMain(int salepage_id)
         {
-            var client = new RestClient("https://api.91app.com/ec/V1/SalePage/GetSKUListByMain");
+            var client = new RestClient("https://apigw.qa.91dev.tw/ec/V1/SalePage/GetSKUListByMain");
             var request = new RestRequest(Method.POST);
             request.AddHeader("cache-control", "no-cache");
             request.AddHeader("Connection", "keep-alive");
             request.AddHeader("Content-Length", "21");
             request.AddHeader("Accept-Encoding", "gzip, deflate");
-            request.AddHeader("Host", "api.91app.com");
+            request.AddHeader("Host", "apigw.qa.91dev.tw");
             request.AddHeader("Cache-Control", "no-cache");
             request.AddHeader("x-api-key", keyValue);
             request.AddHeader("Content-Type", "application/json");
@@ -95,13 +95,13 @@ namespace FBPlusOneBuy.Services
 
         public static ProductMain GetMain(int salepage_id)
         {
-            var client = new RestClient("https://api.91app.com/ec/V1/SalePage/GetMain");
+            var client = new RestClient("https://apigw.qa.91dev.tw/ec/V1/SalePage/GetMain");
             var request = new RestRequest(Method.POST);
             request.AddHeader("cache-control", "no-cache");
             request.AddHeader("Connection", "keep-alive");
             request.AddHeader("Content-Length", "21");
             request.AddHeader("Accept-Encoding", "gzip, deflate");
-            request.AddHeader("Host", "api.91app.com");
+            request.AddHeader("Host", "apigw.qa.91dev.tw");
             request.AddHeader("Cache-Control", "no-cache");
             request.AddHeader("x-api-key", keyValue);
             request.AddHeader("Content-Type", "application/json");
@@ -116,13 +116,13 @@ namespace FBPlusOneBuy.Services
         public static ProductCategory GetSKUList(ProductCategoryViewModel pcvm)
         {
             var JsonPCVM = Newtonsoft.Json.JsonConvert.SerializeObject(pcvm);
-            var client = new RestClient("https://api.91app.com/ec/V1/SalePage/GetSKUList");
+            var client = new RestClient("https://apigw.qa.91dev.tw/ec/V1/SalePage/GetSKUList");
             var request = new RestRequest(Method.POST);
             request.AddHeader("cache-control", "no-cache");
             request.AddHeader("Connection", "keep-alive");
             request.AddHeader("Content-Length", "193");
             request.AddHeader("Accept-Encoding", "gzip, deflate");
-            request.AddHeader("Host", "api.91app.com");
+            request.AddHeader("Host", "apigw.qa.91dev.tw");
             request.AddHeader("Cache-Control", "no-cache");
             request.AddHeader("x-api-key", keyValue);
             request.AddHeader("Content-Type", "application/json");

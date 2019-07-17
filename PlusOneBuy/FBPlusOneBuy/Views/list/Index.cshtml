@@ -199,30 +199,35 @@
                             "<td>" + json[i].Product.ProductName + "</td>" +
                             "<td>" + json[i].Quantity + "</td>" +
                             "<td>" + newTime.toLocaleString() + "</td></tr>")
-                        money=money+json[i].Product.UnitPrice
-                        num = num + 1;
+                        money=json[i].Product.UnitPrice
 
                     }
 
                 }
             }).then(function () {
+                console.log(money)
                 setTimeout(GetData, 3000);
                 setTimeout(GetSaleOrder, 3000);
-                $('#num').text(num)
-                $('#money').text(money)
             })
         }
 
-        function GetSaleOrder() {
+         function GetSaleOrder() {
             $.ajax({
                 type: "GET",
                     url: '@Url.Action("GetROIOrderInfo", "list")',
                     data: {livePageId:'@ViewData["livePageID"]'}
-            }).done(function (response) {
-                //var json = JSON.parse(response)
-                console.log(response)
-                //$('#Ordernum').text(json.salesOrderNum)
-                //$('#Ordermoney').text(json.total)              
+            }).done(function (order) {
+                $('#num').text(order.Qty)
+                $('#money').text(order.Amount)
+                if (order.Qty > 2) {
+                    $('#Ordernum').text(1)
+                    $('#Ordermoney').text(1*money)   
+                }
+                else if (order.Qty > 4) {
+                    $('#Ordernum').text(3)
+                    $('#Ordermoney').text(3*money)   
+                }
+          
                 });
         }
     </script>

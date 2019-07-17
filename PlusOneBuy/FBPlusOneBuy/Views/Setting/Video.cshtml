@@ -102,6 +102,8 @@
                                     <td>@Products.ProductItems[i].ProductName</td>
                                     <td>
                                         <input type="text" class="formtext" id="@Products.ProductItems[i].SkuId" value="@Products.ProductItems[i].Keyword">
+                                        
+                                        
 
                                     </td>
                                     <td>@Products.ProductItems[i].UnitPrice</td>
@@ -126,7 +128,6 @@
     <script>
         $(document).ready(function () {
             var json;
-
             $('#videomenu').children('.dropdown-item').click(function () {
                 $('#dropdownMenu').text($(this).text())
                 $('#livePageID').val($(this).val())
@@ -148,7 +149,6 @@
                 }
             })
             $('#SearchProduct').click(function () {
-
                 $('#ProductSearch tbody').empty()
                 $.ajax({
                     type: 'post',
@@ -159,7 +159,6 @@
                     success: function (Result) {
                         json = JSON.stringify(Result);
                         json = JSON.parse(json);
-                        console.log(json)
                         if (json != "") {
                             for (var i = 0; i < json.length; i++) {
                                 $('#ProductSearch').append("<tr><td>" +
@@ -176,16 +175,22 @@
             $('#AddProduct').on('click', PickProduct)
             function PickProduct() {
                 $("input[type=radio]:checked").each(function () {
+
                     SkuId = $(this).val();
                     var outerId = json.find(function (element) {
                         return element.SkuId == SkuId;
                     }).OuterId;
+                    var Salepage_id = json.find(function (element) {
+                        return element.SkuId == SkuId;
+                    }).Id;
                     var item = "";
-                    $('button[name="checkKetword"]').each(function (i, n) {
+                    $('button[name="checkKeyword"]').each(function (i, n) {
                         if ($(n).val() == SkuId) {
+
                             item = "heveitem"
                         }
                         else if ($(n).val() != SkuId) {
+                            
                             item = "noitem"
                         }
                     })
@@ -193,10 +198,10 @@
                         alert("此商品已在直播清單")
                     }
                     else if (item == "noitem") {
-                        GetProduct($('#GetProductByid').val(), SkuId, outerId)
+                        GetProduct(Salepage_id, SkuId, outerId)
                     }
-                    else {
-                        GetProduct($('#GetProductByid').val(), SkuId, outerId)
+                    else  {
+                        GetProduct(Salepage_id, SkuId, outerId)
                     }
                 });
                 $('#GetProductByid').val('')
@@ -210,9 +215,9 @@
                     dataType: "json",
                     cache: false,
                     success: function (result) {
-                        console.log(result)
                         var json = JSON.stringify(result);
                         json = JSON.parse(json);
+
                         $('#ProductList').append("<tr><td>" + "<button type='button' name='delProduct' class='btn btn-light' value='" + SkuId + "'><i class='far fa-trash-alt'></i></button></td>" + "<td>" + json.Data.Title + "</td><td>" +
                             "<input type='text' class='formtext' id='" + SkuId + "' value='" + OuterId + "'>" +
                             "</td><td>" + json.Data.Price + "</td>" +

@@ -14,7 +14,7 @@ namespace FBPlusOneBuy.Controllers
         {
             return View();
         }
-        [HttpPost]
+
         public ActionResult SalesOrderList(string livepageId)
         {
             var salesOrderVM = SalesOrderListService.ListSalesOrders(livepageId);

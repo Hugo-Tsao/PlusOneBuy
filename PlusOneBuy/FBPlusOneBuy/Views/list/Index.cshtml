@@ -10,55 +10,69 @@
                 <img src="~/Assets/images/91app_developer.png" />
             </div>
         </div>
-        <div class="container">
-            <div class="row">
-                <div class="col-2"></div>
+        <div class="container bg-light shadow ">
+            <div class="row p-3 mt-2">
+                <div class="col"></div>
                 <div class="col-2">
-                    <div class="card border-secondary shadow py-2 ">
+                    <div class="card border-secondary shadow  ">
                         <div class="row no-gutters align-items-center">
                             <div class="col m-3">
                                 <div class="text-md font-weight-bold text-primary text-uppercase mb-1">觀看人數</div>
                                 <div class="h1 mb-0 font-weight-bold text-gray">0</div>
                             </div>
                             <div class="col-auto m-2">
-                                <i class="fas fa-eye fa-2x text-gray"></i>
+                                <i class="fas fa-eye fa-2x "></i>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="col-2">
-                    <div class="card border-primary shadow py-2">
+                    <div class="card border-primary shadow">
                         <div class="row no-gutters align-items-center">
                             <div class="col m-3">
                                 <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">收單人數</div>
-                                <div class="h1 mb-0 font-weight-bold text-gray" id="num">0
+                                <div class="h1 mb-0 font-weight-bold text-gray" id="num">
+                                    0
                                 </div>
                             </div>
                             <div class="col-auto m-2">
-                                <i class="fas fa-users fa-2x text-gray"></i>
+                                <i class="fas fa-users fa-2x "></i>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="col-2">
-                    <div class="card border-warning shadow py-2">
+                    <div class="card border-warning shadow">
                         <div class="row no-gutters align-items-center">
                             <div class="col m-3">
                                 <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">收單金額</div>
                                 <div class="h1 mb-0 font-weight-bold text-gray" id="money">0</div>
                             </div>
                             <div class="col-auto m-2">
-                                <i class="fas fa-dollar-sign fa-2x text-gray"></i>
+                                <i class="fas fa-dollar-sign fa-2x "></i>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="col-2">
-                    <div class="card border-success shadow py-2">
+                    <div class="card border-success shadow">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col m-3">
+                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">成交數</div>
+                                <div class="h1 mb-0 font-weight-bold text-gray">0</div>
+                            </div>
+                            <div class="col-auto m-2">
+                                <i class="fas fa-sort-amount-up fa-2x"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-2 ">
+                    <div class="card border-success shadow">
                         <div class="row no-gutters align-items-center">
                             <div class="col m-3">
                                 <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">成交金額</div>
-                                <div class="h1 mb-0 font-weight-bold text-gray">0</div>
+                                <div class="h1 mb-0 font-weight-bold ">0</div>
                             </div>
                             <div class="col-auto m-2">
                                 <i class="fas fa-coins fa-2x text-gray"></i>
@@ -66,8 +80,9 @@
                         </div>
                     </div>
                 </div>
+                <div class="col"></div>
             </div>
-        </div>
+            </div>
         <div class="container-fluid">
             <div class="row mt-3">
                 <div class="col-9">
@@ -192,9 +207,21 @@
                 }
             }).then(function () {
                 setTimeout(GetData, 3000);
+                setTimeout(GetSaleOrder, 3000);
                 $('#num').text(num)
                 $('#money').text(money)
             })
         }
+
+        @*function GetSaleOrder() {
+            $.ajax({
+                type: "POST",
+                    url: '@Url.Action("RealTimeTotalAndSalesOrders", "SalesOrder")',
+                    data: {livePageID:'@ViewData["livePageID"]'}
+                }).done(function (response) {
+                    console.log(response);
+                    
+                });
+        }*@
     </script>
 }

@@ -198,6 +198,7 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\OrdersController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
+    <Compile Include="Controllers\ReportController.cs" />
     <Compile Include="Controllers\SalesOrderController.cs" />
     <Compile Include="Controllers\SettingController.cs" />
     <Compile Include="Global.asax.cs">
@@ -345,12 +346,13 @@
     <Content Include="Views\Setting\FanPageName.cshtml" />
     <Content Include="Views\Setting\Video.cshtml" />
     <Content Include="Views\Comment\Index.cshtml" />
+    <Content Include="Views\SalesOrder\Index.cshtml" />
+    <Content Include="Views\Report\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\Orders\" />
     <Folder Include="Views\Product\" />
-    <Folder Include="Views\SalesOrder\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

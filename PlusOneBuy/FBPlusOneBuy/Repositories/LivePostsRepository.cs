@@ -78,5 +78,15 @@ namespace FBPlusOneBuy.Repositories
 
             }
         }
+
+        public DateTime GetMaxPostTime(string livePageId)
+        {
+            using (conn = new SqlConnection(connectionString))
+            {
+                string sql = "select MAX(postTime) as postTime from LivePosts where LivePageID = @livePageId";
+                DateTime postTime = conn.Query<DateTime>(sql, new { livePageId }).FirstOrDefault();
+                return postTime;
+            }
+        }
     }
 }

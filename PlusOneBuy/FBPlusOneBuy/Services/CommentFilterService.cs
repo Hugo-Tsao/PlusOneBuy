@@ -63,8 +63,10 @@ namespace FBPlusOneBuy.Services
 
         public static List<Datum> PostTimeFilter(List<Datum> comments, string livePageID)
         {
-            Context context = new Context();
-            var livePostTime = context.LivePosts.Max(x => x.postTime);
+            //Context context = new Context();
+            //var livePostTime = context.LivePosts.Max(x => x.postTime);
+            LivePostsRepository livePost_repo = new LivePostsRepository();
+            var livePostTime = livePost_repo.GetMaxPostTime(livePageID);
             //comments = comments.Where(x => x.created_time > livePostTime).ToList();
             //去Orders Table 看有沒有留言，有的話就抓最後一個留言的時間沒有的話就過濾livePostTime 的時間
             var order_repo = new OrderRepositories();

@@ -78,8 +78,8 @@ namespace FBPlusOneBuy.Controllers
         [HttpPost]
         public ActionResult ClearProducts()
         {
-
             ProductService.ClearProducts();
+            Session["token"] = "";
             return Json("OK");
         }
 

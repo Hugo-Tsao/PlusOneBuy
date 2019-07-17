@@ -71,8 +71,13 @@ namespace FBPlusOneBuy.Repositories
                 var liveId = live_repo.Select(livePageId);
                 string sql =
                     "select SUM(p.UnitPrice) as Amount from Products p inner join Orders o on o.ProductID = p.ProductID where o.LiveID = @liveId";
-                decimal amount = conn.Query<decimal>(sql, new { liveId }).FirstOrDefault();
-                return amount;
+                 decimal? amount = conn.QueryFirstOrDefault<decimal?>(sql, new {liveId});
+                 decimal result = 0;
+                if (amount != null)
+                {
+                    result = (decimal)amount;
+                }
+                return result;
             }
         }
 
@@ -84,8 +89,8 @@ namespace FBPlusOneBuy.Repositories
                 var liveId = live_repo.Select(livePageId);
                 string sql =
                     "select COUNT(OrderID) as Count from Orders o WHERE o.LiveID = @liveId";
-                int QtyOfOrders = conn.Query<int>(sql, new { liveId }).FirstOrDefault();
-                return QtyOfOrders;
+                int result = conn.QueryFirstOrDefault<int>(sql, new { liveId });
+                return result;
             }
         }
     }

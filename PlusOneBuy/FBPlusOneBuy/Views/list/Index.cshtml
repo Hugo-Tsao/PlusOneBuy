@@ -215,13 +215,14 @@
 
         function GetSaleOrder() {
             $.ajax({
-                type: "POST",
-                    url: '@Url.Action("RealTimeTotalAndSalesOrders", "SalesOrder")',
-                    data: {livePageID:'@ViewData["livePageID"]'}
+                type: "GET",
+                    url: '@Url.Action("GetROIOrderInfo", "list")',
+                    data: {livePageId:'@ViewData["livePageID"]'}
             }).done(function (response) {
-                var json = JSON.parse(response)
-                $('#Ordernum').text(json.salesOrderNum)
-                $('#Ordermoney').text(json.total)              
+                //var json = JSON.parse(response)
+                console.log(response)
+                //$('#Ordernum').text(json.salesOrderNum)
+                //$('#Ordermoney').text(json.total)              
                 });
         }
     </script>

@@ -199,7 +199,6 @@
     <Compile Include="Controllers\OrdersController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Controllers\ReportController.cs" />
-    <Compile Include="Controllers\SalesOrderController.cs" />
     <Compile Include="Controllers\SettingController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -340,7 +339,6 @@
     <Content Include="Scripts\popper.js.map" />
     <Content Include="Scripts\popper-utils.min.js.map" />
     <Content Include="Scripts\popper-utils.js.map" />
-    <Content Include="Views\Setting\SelectWord.cshtml" />
     <Content Include="Views\list\Index.cshtml" />
     <Content Include="Views\Setting\Index.cshtml" />
     <Content Include="Views\Setting\FanPageName.cshtml" />

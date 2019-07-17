@@ -46,36 +46,36 @@
             <div class="col">
                 <label><strong>直播設定</strong></label>
                 <hr><br>
-                    <div class="row mb-4">
-                        <div class="col">
-                            <div class="dropdown">
-                                <label>直播影片:</label>
-                                <button class="btn border-info dropdown-toggle ml-4" type="button" id="dropdownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    直播影片
-                                </button>
-                                <div id="videomenu" class="dropdown-menu" aria-labelledby="dropdownMenu">
-                                    @foreach (var item in liveIDList)
+                <div class="row mb-4">
+                    <div class="col">
+                        <div class="dropdown">
+                            <label>直播影片:</label>
+                            <button class="btn border-info dropdown-toggle ml-4" type="button" id="dropdownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                直播影片
+                            </button>
+                            <div id="videomenu" class="dropdown-menu" aria-labelledby="dropdownMenu">
+                                @foreach (var item in liveIDList)
+                                {
+                                    if (item.Value == null)
                                     {
-                                        if (item.Value == null)
-                                        {
-                                            <button class="dropdown-item" type="button" value="@item.Key">@item.Key</button>
-                                        }
-                                        else
-                                        {
-                                            <button class="dropdown-item" type="button" value="@item.Key">@item.Value</button>
-                                        }
-
+                                        <button class="dropdown-item" type="button" value="@item.Key">@item.Key</button>
                                     }
-                                    <input type="hidden" name="livePageID" id="livePageID">
-                                    <input type="hidden" name="liveName" id="liveName">
-                                </div>
+                                    else
+                                    {
+                                        <button class="dropdown-item" type="button" value="@item.Key">@item.Value</button>
+                                    }
+
+                                }
+                                <input type="hidden" name="livePageID" id="livePageID">
+                                <input type="hidden" name="liveName" id="liveName">
                             </div>
                         </div>
-                        <div class="col">
-                            <label>留言關鍵字:</label>
-                            <input type="text" class="formtext" name="keywordPattern" value="+1" />
-                        </div>
                     </div>
+                    <div class="col">
+                        <label>留言關鍵字:</label>
+                        <input type="text" class="formtext" name="keywordPattern" value="+1" />
+                    </div>
+                </div>
 
                 <label><strong>直播商品清單</strong></label>
                 <table class="table" id="ProductList">
@@ -147,13 +147,13 @@
                     document.form.onsubmit();
                 }
             })
-        $('#SearchProduct').click(function () {
-            
+            $('#SearchProduct').click(function () {
+
                 $('#ProductSearch tbody').empty()
                 $.ajax({
                     type: 'post',
                     url: '/Product/GetSKUListByMain',
-                    data: {FilterType: $('#videodropdownMenu').val(), id_value: $('#GetProductByid').val() },
+                    data: { FilterType: $('#videodropdownMenu').val(), id_value: $('#GetProductByid').val() },
                     dataType: "json",
                     cache: false,
                     success: function (Result) {
@@ -210,10 +210,10 @@
                     dataType: "json",
                     cache: false,
                     success: function (result) {
+                        console.log(result)
                         var json = JSON.stringify(result);
                         json = JSON.parse(json);
-
-                        $('#ProductList').append("<tr><td>" +"<button type='button' name='delProduct' class='btn btn-light' value='"+SkuId+"'><i class='far fa-trash-alt'></i></button></td>"+"<td>" + json.Data.Title + "</td><td>" +
+                        $('#ProductList').append("<tr><td>" + "<button type='button' name='delProduct' class='btn btn-light' value='" + SkuId + "'><i class='far fa-trash-alt'></i></button></td>" + "<td>" + json.Data.Title + "</td><td>" +
                             "<input type='text' class='formtext' id='" + SkuId + "' value='" + OuterId + "'>" +
                             "</td><td>" + json.Data.Price + "</td>" +
                             "<td><button type='button' class='btn btn-light' name='checkKeyword' value='" + SkuId + "'><i class='fas fa-check'></i></button></td>" + "</tr>")
@@ -221,19 +221,31 @@
                     }
                 })
             }
-    })
-    $('body').on("click", 'button[name="checkKeyword"]', function () {
-         var keyword = $(this).val()
-                $.ajax({
-                    type: 'post',
-                    url: '/Product/UpdateKeyword',
-                    data: { skuId: $(this).val(), keyword: $('#' + keyword).val() },
-                    success: function () {
-                        alert("修改成功!!")
-                    }
-                })
-    });
-    
+        })
+        $('body').on("click", 'button[name="checkKeyword"]', function () {
+            var keyword = $(this).val()
+            $.ajax({
+                type: 'post',
+                url: '/Product/UpdateKeyword',
+                data: { skuId: $(this).val(), keyword: $('#' + keyword).val() },
+                success: function () {
+                    alert("修改成功!!")
+                }
+            })
+        });
+
+        $('body').on("click", 'button[name="delProduct"]', function () {
+            console.log($(this).val())
+            $.ajax({
+                type: 'post',
+                url: '/Product/DeleteProduct',
+                data: { skuId: $(this).val() },
+                success: function () {
+                    alert("刪除成功!!")
+                    window.location.reload()
+                }
+            })
+        });
     </script>
 }
 

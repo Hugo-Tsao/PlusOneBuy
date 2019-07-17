@@ -15,12 +15,14 @@ namespace FBPlusOneBuy.Services
             var live_repo = new LivePostsRepository();
             List<int> liveids = live_repo.SelectIds(livepageId);
             var salesOrders = salesorder_repo.Select(liveids);
+            string name = live_repo.SelectLiveName(livepageId);
 
             var salesOrderVM = new SalesOrderViewModel()
             {
                 salesOrders = salesOrders,
                 salesOrderNum=salesOrders.Count,
-                total = salesOrders.Sum(x => x.Total)
+                total = salesOrders.Sum(x => x.Total),
+                livename=name
             };
             return salesOrderVM;
         }

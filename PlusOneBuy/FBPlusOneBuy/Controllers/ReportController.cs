@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FBPlusOneBuy.Services;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -12,6 +13,11 @@ namespace FBPlusOneBuy.Controllers
         public ActionResult Index()
         {
             return View();
+        }
+        public ActionResult SalesOrderList(string livepageId)
+        {
+            var salesOrderVM = SalesOrderListService.ListSalesOrders(livepageId);
+            return View(salesOrderVM);
         }
     }
 }

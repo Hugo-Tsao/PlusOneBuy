@@ -1,0 +1,69 @@
+﻿@model FBPlusOneBuy.ViewModels.SalesOrderViewModel
+@{
+    ViewBag.Title = "SalesOrderList";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="container-fluid">
+    <div class="row header">
+        <img src="~/Assets/images/91app_developer.png" />
+    </div>
+</div>
+
+<div class="container">
+    <div class="row mt-3">
+        <h2>銷售清單</h2>
+    </div>
+    <div id="list" class="row" style="margin: 10px">
+        <div class="col-11">
+            <table id="myTable" class="cell-border compact stripe" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>編號</th>
+                        <th>產品編號</th>
+                        <th>客戶編號</th>
+                        <th>成立時間</th>
+                        <th>數量</th>
+                        <th>直播編號</th>
+                        <th>總額</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (var i = 0; i < Model.salesOrders.Count; i++)
+                    {
+                    <tr>
+                        <td>@Model.salesOrders[i].SalesOrderID</td>
+                        <td>@Model.salesOrders[i].ProductID</td>
+                        <td>@Model.salesOrders[i].CustomerID</td>
+                        <td>@Model.salesOrders[i].CheckoutDateTime</td>
+                        <td>@Model.salesOrders[i].Quantity</td>
+                        <td>@Model.salesOrders[i].LiveID</td>
+                        <td>@Model.salesOrders[i].Total</td>
+                    </tr>
+
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+@section EndJS
+{
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.min.js"
+            integrity="sha256-chlNFSVx3TdcQ2Xlw7SvnbLAavAQLO0Y/LBiWX04viY=" crossorigin="anonymous"></script>
+    <!-- DataTable -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script>
+    $(document).ready(function () {
+    $('#myTable').DataTable({
+    "info": false, "bLengthChange": false, "pageLength": 10
+    });
+    });
+    </script>
+}

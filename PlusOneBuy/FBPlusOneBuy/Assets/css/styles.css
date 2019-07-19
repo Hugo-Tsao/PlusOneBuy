@@ -1,20 +1,48 @@
-body{
+html,body{
+    height:100%;
     font-family: "Microsoft JhengHei";
 }
-img {
-    max-width: 16%;
-    height: auto;
-}
-.header{
+
+
+.header {
     box-shadow: 0 0 30px 0 rgba(0, 123, 255,0.20);
-    height:64px;
+    background-color: rgba(227, 229, 231, 1);
+    height: 10%;
 }
+.header img {
+    width: 20%;
+}
+/*nav*/
+.nav_ {
+    background-color: rgba(238, 239, 240, 1);
+    margin: 0;
+    padding: 0;
+}
+.nav-item {
+    margin:10px;
+}
+.active {
+    color: black;
+}
+
+ul li:hover > ul {
+    display: block;
+
+}
+
+.nav a:hover {
+    color: whitesmoke;
+    background-color: darkgray;
+}
+
+.content {
+    background-color: rgba(238, 239, 240, 0.5);
+}
+
 .formtext {
     padding-left: 10px;
     border: #ddd 1px solid;
-    /*width: 30%;*/
     height: 40px;
-    /*margin: 10px;*/
     border-color: #17a2b8;
     border-radius: 5px;
 }
@@ -35,4 +63,6 @@ img {
     margin:10px;
     width:180px;
 }
+
+
 

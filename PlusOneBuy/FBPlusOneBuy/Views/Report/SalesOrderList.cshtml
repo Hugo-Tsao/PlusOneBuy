@@ -9,14 +9,13 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<div class="container-fluid">
-    <div class="row header">
-        <img src="~/Assets/images/91app_developer.png" />
-    </div>
-</div>
+<span class="h4 font-weight-normal text-muted">報告</span>
+<span>/</span>
+<a class="h4 font-weight-normal text-muted" href="@Url.Action("Index","Report")">直播清單</a>
+<span>/</span>
+<span class="h4 font-weight-normal text-muted">銷售清單</span>
 
 <div class="container">
-    <h2>銷售清單</h2>
     <div class="row mt-3">
         <div class="col">
             <span>直播名稱: @Model.livename</span>
@@ -63,10 +62,10 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
     <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
     <script>
-    $(document).ready(function () {
-    $('#myTable').DataTable({
-    "info": false, "bLengthChange": false, "pageLength": 10
-    });
-    });
+        $(document).ready(function () {
+            $('#myTable').DataTable({
+                "info": false, "bLengthChange": false, "pageLength": 10
+            });
+        });
     </script>
 }

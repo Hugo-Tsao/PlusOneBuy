@@ -1,62 +1,49 @@
 ﻿
 @{
-    ViewBag.Title = "Index";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/Main_Layout.cshtml";
 }
-<div class="container-fluid">
-    <div class="row header">
-        <img src="~/Assets/images/91app_developer.png" />
-    </div>
-</div>
-
-<div class="container">
-    <div class="row mt-3">
-        <h2>直播清單</h2>
-    </div>
-    <div id="list" class="row" style="margin: 10px">
-        <div class="col-11">
-            <table id="myTable" class="cell-border compact stripe" style="width:100%">
-                <thead>
-                    <tr>
-                        <th>編號</th>
-                        <th>直播名稱</th>
-                        <th>開始時間</th>
-                        <th>結束時間</th>
-                        <th>收單數</th>
-                        <th>收單金額</th>
-                        <th>留言訂單</th>
-                        <th>銷售單</th>
-                        <th>ROI</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>跳樓大拍賣</td>
-                        <td>2019-07-15 18:22:00.033</td>
-                        <td>2019-07-15 19:22:00.033</td>
-                        <td>10</td>
-                        <td>7777</td>
-                        <td><a href="#">...</a></td>
-                        <td><a href="@Url.Action("SalesOrderList","Report",new { livepageId="382838899034699_631072840739696"})">...</a></td>
-                        <td><a href="#">...</a></td>
-                    </tr>
-                    <tr>
-                        <td>2</td>
-                        <td>跳樓大拍賣</td>
-                        <td>2019-07-15 18:22:00.033</td>
-                        <td>2019-07-15 19:22:00.033</td>
-                        <td>12</td>
-                        <td>8777</td>
-                        <td><a href="#">...</a></td>
-                        <td><a href="#">...</a></td>
-                        <td><a href="#">...</a></td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-</div>
+<span class="h4 font-weight-normal text-muted">報告</span>
+<span>/</span>
+<span class="h4 font-weight-normal text-muted">直播清單</span>
+<table id="myTable" class="cell-border compact stripe" style="width:100%">
+    <thead>
+        <tr>
+            <th>編號</th>
+            <th>直播名稱</th>
+            <th>開始時間</th>
+            <th>結束時間</th>
+            <th>收單數</th>
+            <th>收單金額</th>
+            <th>留言訂單</th>
+            <th>銷售單</th>
+            <th>ROI</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>1</td>
+            <td>跳樓大拍賣</td>
+            <td>2019-07-15 18:22:00.033</td>
+            <td>2019-07-15 19:22:00.033</td>
+            <td>10</td>
+            <td>7777</td>
+            <td><a href="#">...</a></td>
+            <td><a href="@Url.Action("SalesOrderList","Report",new { livepageId="382838899034699_631072840739696"})">...</a></td>
+            <td><a href="#">...</a></td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td>跳樓大拍賣</td>
+            <td>2019-07-15 18:22:00.033</td>
+            <td>2019-07-15 19:22:00.033</td>
+            <td>12</td>
+            <td>8777</td>
+            <td><a href="#">...</a></td>
+            <td><a href="#">...</a></td>
+            <td><a href="#">...</a></td>
+        </tr>
+    </tbody>
+</table>
 @section EndJS
 {
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.min.js"
@@ -65,10 +52,10 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
     <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
     <script>
-    $(document).ready(function () {
-    $('#myTable').DataTable({
-    "info": false, "bLengthChange": false, "pageLength": 10
-    });
-    });
+        $(document).ready(function () {
+            $('#myTable').DataTable({
+                "info": false, "bLengthChange": false, "pageLength": 10
+            });
+        });
     </script>
 }

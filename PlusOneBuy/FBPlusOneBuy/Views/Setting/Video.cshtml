@@ -1,125 +1,122 @@
 ﻿@using FBPlusOneBuy.Services;
 @{
-    ViewBag.Title = "Index";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/Main_Layout.cshtml";
     Dictionary<string, string> liveIDList = ViewData["liveIDList"] as Dictionary<string, string>;
     var Products = ProductService.GetCurrentProducts();
 
 }
+<span class="h4 font-weight-normal text-muted">設定直播</span>
+<span>/</span>
+<a class="h4 font-weight-normal text-muted" href="@Url.Action("FanPageName","Setting")">粉絲團</a>
+<span>/</span>
+<span class="h4 font-weight-normal text-muted">商品</span>
 
-<div class="container-fluid">
-    <div class="row header">
-        <img src="~/Assets/images/91app_developer.png" />
-    </div>
-</div>
 <form action="~/list/index" method="post">
-    <div class="container">
-        <div class="row mt-3">
-            <div class="col-4">
-                <label><strong>挑選商品</strong></label><hr />
-                <div class="dropdown">
-                    <button class="btn border-info dropdown-toggle" type="button" id="videodropdownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        搜尋方式
-                    </button>
-                    <div id="searchtype" class="dropdown-menu" aria-labelledby="videodropdownMenu">
-                        <h6 class="dropdown-header">搜尋方式 </h6>
-                        <button class="dropdown-item" type="button" value="salepage_id">商品編號</button>
-                        <button class="dropdown-item" type="button" value="shopCategoryId">類別編號</button>
-                    </div>
+    <div class="row mt-3">
+        <div class="col-4">
+            <label><strong>挑選商品</strong></label><hr />
+            <div class="dropdown">
+                <button class="btn border-info dropdown-toggle" type="button" id="videodropdownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    搜尋方式
+                </button>
+                <div id="searchtype" class="dropdown-menu" aria-labelledby="videodropdownMenu">
+                    <h6 class="dropdown-header">搜尋方式 </h6>
+                    <button class="dropdown-item" type="button" value="salepage_id">商品編號</button>
+                    <button class="dropdown-item" type="button" value="shopCategoryId">類別編號</button>
                 </div>
-                <input id="GetProductByid" class="Idtext border-info" value="" />
-                <button id="SearchProduct" type="button" class="btn btn-secondary"><i class="fas fa-search"></i></button>
-                <br><br>
-                <label><strong>搜尋清單</strong></label>
-                <button id="AddProduct" type="button" class="btn btn-light border-info" style="right:20px;position:absolute">挑選商品<i class="fas fa-plus ml-2"></i></button><br><br>
-                <table id="ProductSearch" class="table table-sm">
-                    <thead>
-                        <tr>
-                            <th>挑選</th>
-                            <th>商品編號</th>
-                            <th>商品關鍵字</th>
-                        </tr>
-                    </thead>
-                    <tbody></tbody>
-                </table>
             </div>
-            <div class="col">
-                <label><strong>直播設定</strong></label>
-                <hr><br>
-                <div class="row mb-4">
-                    <div class="col">
-                        <div class="dropdown">
-                            <label>直播影片:</label>
-                            <button class="btn border-info dropdown-toggle ml-4" type="button" id="dropdownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                直播影片
-                            </button>
-                            <div id="videomenu" class="dropdown-menu" aria-labelledby="dropdownMenu">
-                                @foreach (var item in liveIDList)
+            <input id="GetProductByid" class="Idtext border-info" value="" />
+            <button id="SearchProduct" type="button" class="btn btn-secondary"><i class="fas fa-search"></i></button>
+            <br><br>
+            <label><strong>搜尋清單</strong></label>
+            <button id="AddProduct" type="button" class="btn btn-light border-info" style="right:20px;position:absolute">挑選商品<i class="fas fa-plus ml-2"></i></button><br><br>
+            <table id="ProductSearch" class="table table-sm">
+                <thead>
+                    <tr>
+                        <th>挑選</th>
+                        <th>商品編號</th>
+                        <th>商品關鍵字</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+        <div class="col">
+            <label><strong>直播設定</strong></label>
+            <hr><br>
+            <div class="row mb-4">
+                <div class="col">
+                    <div class="dropdown">
+                        <label>直播影片:</label>
+                        <button class="btn border-info dropdown-toggle ml-4" type="button" id="dropdownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            直播影片
+                        </button>
+                        <div id="videomenu" class="dropdown-menu" aria-labelledby="dropdownMenu">
+                            @foreach (var item in liveIDList)
+                            {
+                                if (item.Value == null)
                                 {
-                                    if (item.Value == null)
-                                    {
-                                        <button class="dropdown-item" type="button" value="@item.Key">@item.Key</button>
-                                    }
-                                    else
-                                    {
-                                        <button class="dropdown-item" type="button" value="@item.Key">@item.Value</button>
-                                    }
-
+                                    <button class="dropdown-item" type="button" value="@item.Key">@item.Key</button>
                                 }
-                                <input type="hidden" name="livePageID" id="livePageID">
-                                <input type="hidden" name="liveName" id="liveName">
-                            </div>
+                                else
+                                {
+                                    <button class="dropdown-item" type="button" value="@item.Key">@item.Value</button>
+                                }
+
+                            }
+                            <input type="hidden" name="livePageID" id="livePageID">
+                            <input type="hidden" name="liveName" id="liveName">
                         </div>
                     </div>
-                    <div class="col">
-                        <label>留言關鍵字:</label>
-                        <input type="text" class="formtext" name="keywordPattern" value="+1" />
-                    </div>
                 </div>
-
-                <label><strong>直播商品清單</strong></label>
-                <table class="table" id="ProductList">
-                    <thead>
-                        <tr>
-                            <th>刪除</th>
-                            <th>商品名稱</th>
-                            <th>商品關鍵字</th>
-                            <th>價格</th>
-                            <th>修改確認</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @if (Products.ProductItems.Count != 0)
-                        {
-                            for (var i = 0; i < Products.ProductItems.Count; i++)
-                            {
-                                <tr>
-                                    <td>
-                                        <button type="button" name="delProduct" class="btn btn-light" value="@Products.ProductItems[i].SkuId">
-                                            <i class="far fa-trash-alt"></i>
-                                        </button>
-                                    </td>
-                                    <td>@Products.ProductItems[i].ProductName</td>
-                                    <td>
-                                        <input type="text" class="formtext" id="@Products.ProductItems[i].SkuId" value="@Products.ProductItems[i].Keyword">
-                                        
-                                        
-
-                                    </td>
-                                    <td>@Products.ProductItems[i].UnitPrice</td>
-                                    <td>
-                                        <button type="button" name="checkKeyword" class="btn btn-light" value="@Products.ProductItems[i].SkuId">
-                                            <i class="fas fa-check"></i>
-                                        </button>
-                                    </td>
-                                </tr>
-                            }
-                        }
-                    </tbody>
-                </table>
-                <br>
-                <button id="btn_submit" class="btn btn-primary mt-3"><i class="far fa-hand-point-right"></i>送出</button>
+                <div class="col">
+                    <label>留言關鍵字:</label>
+                    <input type="text" class="formtext" name="keywordPattern" value="+1" />
+                </div>
             </div>
+
+            <label><strong>直播商品清單</strong></label>
+            <table class="table" id="ProductList">
+                <thead>
+                    <tr>
+                        <th>刪除</th>
+                        <th>商品名稱</th>
+                        <th>商品關鍵字</th>
+                        <th>價格</th>
+                        <th>修改確認</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Products.ProductItems.Count != 0)
+                    {
+                        for (var i = 0; i < Products.ProductItems.Count; i++)
+                        {
+                            <tr>
+                                <td>
+                                    <button type="button" name="delProduct" class="btn btn-light" value="@Products.ProductItems[i].SkuId">
+                                        <i class="far fa-trash-alt"></i>
+                                    </button>
+                                </td>
+                                <td>@Products.ProductItems[i].ProductName</td>
+                                <td>
+                                    <input type="text" class="formtext" id="@Products.ProductItems[i].SkuId" value="@Products.ProductItems[i].Keyword">
+
+
+
+                                </td>
+                                <td>@Products.ProductItems[i].UnitPrice</td>
+                                <td>
+                                    <button type="button" name="checkKeyword" class="btn btn-light" value="@Products.ProductItems[i].SkuId">
+                                        <i class="fas fa-check"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+            <br>
+            <button id="btn_submit" class="btn btn-primary mt-3"><i class="far fa-hand-point-right"></i>送出</button>
         </div>
     </div>
 </form>
@@ -190,7 +187,7 @@
                             item = "heveitem"
                         }
                         else if ($(n).val() != SkuId) {
-                            
+
                             item = "noitem"
                         }
                     })
@@ -200,7 +197,7 @@
                     else if (item == "noitem") {
                         GetProduct(Salepage_id, SkuId, outerId)
                     }
-                    else  {
+                    else {
                         GetProduct(Salepage_id, SkuId, outerId)
                     }
                 });

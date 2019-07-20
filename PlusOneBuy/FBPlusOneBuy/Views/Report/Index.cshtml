@@ -2,18 +2,19 @@
 @{
     Layout = "~/Views/Shared/Main_Layout.cshtml";
     List<FBPlusOneBuy.ViewModels.ReportViewModel> Report = ViewData.Model as List<FBPlusOneBuy.ViewModels.ReportViewModel>;
+    List<FBPlusOneBuy.ViewModels.ReportViewModel> tempReports = new List<FBPlusOneBuy.ViewModels.ReportViewModel>();
 }
 <span class="h4 font-weight-normal text-muted">報告</span>
 <span>/</span>
 <span class="h4 font-weight-normal text-muted"><strong>直播清單</strong></span>
 <br /><br />
-<label>進階搜尋</label><br/>
+<label>進階搜尋</label><br />
 <label>從:</label>
-<input type="date"/>
+<input type="date" id="starting_date" />
 <label>到:</label>
-<input type="date" />
-<button type="button" class="btn btn-outline-secondary"><i class="fas fa-search"></i></button>
-<table id="myTable" class="cell-border compact stripe" style="width:100%">
+<input type="date" id="ending_date" />
+<button type="button" class="btn btn-outline-secondary" id="btn_date_searching"><i class="fas fa-search"></i></button>
+<table id="myTable" class="cell-border compact stripe" style="width:100%;">
     <thead>
         <tr>
             <th>編號</th>
@@ -35,7 +36,7 @@
                 <td>@Report[i].ID</td>
                 <td>@Report[i].LivePageID</td>
                 <td>@Report[i].LiveName</td>
-                <td>@Report[i].postTime</td>
+                <td>@Report[i].postTime.ToString("yyyy/MM/dd HH:mm:ss")</td>
                 <td>@Report[i].endTime</td>
                 <td>@Report[i].QtyOfOrders</td>
                 <td>$@String.Format("{0:N0}", Report[i].Amount)</td>
@@ -53,11 +54,80 @@
     <!-- DataTable -->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
     <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+
     <script>
+        
         $(document).ready(function () {
             $('#myTable').DataTable({
                 "info": false, "bLengthChange": false, "pageLength": 15
             });
+            ;
+            $('#btn_date_searching').on("click", function () {
+                var start_date = $('#starting_date').val();
+                var end_date = $('#ending_date').val();
+
+                var table = $('#myTable').DataTable();
+                $.fn.dataTableExt.afnFiltering.push(
+                    function (oSettings, aData, iDataIndex) {
+                        var dateStart = +parseDateValue($("#starting_date").val());
+                        var dateEnd = +parseDateValue($("#ending_date").val());
+                        // aData represents the table structure as an array of columns, so the script access the date value
+                        // in the first column of the table via aData[0]
+                        var evalDate = +parseDateValue(aData[3]);
+                        console.log(evalDate);
+                        console.log("dateStart=" + dateStart + ",dateEnd=" + dateEnd + ",evalDate=" + evalDate)
+
+
+                        if (evalDate >= dateStart && evalDate <= dateEnd) {
+                            console.log("有符合")
+                            return true;
+                        }
+                        else {
+                            console.log("沒有符合")
+                            return false;
+                        }
+
+                    });
+
+                // Function for converting a mm/dd/yyyy date value into a numeric string for comparison (example 08/12/2010 becomes 20100812
+                function parseDateValue(rawDate) {
+                    if (rawDate.includes("/")) {
+                        var dateArray = rawDate.split("/");
+                        var noNeedTime = dateArray[2].split(' ');
+
+                        var parsedDate = dateArray[0] + dateArray[1] + noNeedTime[0];
+                        console.log("[0]=" + dateArray[0] + "[1]=" + dateArray[1] + "[2]=" + dateArray[2]+"/////")
+
+                    }
+                    else {
+                        var dateArray = rawDate.split("-");
+                        var parsedDate = dateArray[0] + dateArray[1] + dateArray[2];
+                        console.log("[0]=" + dateArray[0] + "[1]=" + dateArray[1] + "[2]=" + dateArray[2])
+
+                    }
+
+                    
+                    return parsedDate;
+                }
+
+                //table.clear().draw();
+                //table.search('來喔').draw();
+                table.draw();
+
+
+                //var innerHtml
+
+
+
+
+
+
+
+
+            })
+
+            //var a = $('#myTable tbody').html();
+            //console.log(a);
         });
     </script>
 }

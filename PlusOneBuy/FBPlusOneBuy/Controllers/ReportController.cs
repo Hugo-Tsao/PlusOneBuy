@@ -41,8 +41,14 @@ namespace FBPlusOneBuy.Controllers
              ViewData.Model = orders;
             return View();
         }
-        public ActionResult ROIOrderList(string livepageId)
+        public ActionResult ROIOrderList(int liveId)
         {
+            //缺少觀看人數欄位(因為有問題)
+            //缺少成單量和成單價(還不知道如何完成下單)
+            //所以暫時一樣用ReportViewModel
+            LivePostsRepository livePost_repo = new LivePostsRepository();
+            ViewData.Model = livePost_repo.GetLivePost(liveId);
+
             return View();
         }
     }

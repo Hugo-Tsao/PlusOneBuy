@@ -100,12 +100,12 @@ namespace FBPlusOneBuy.Repositories
             }
         }
 
-        public List<LivePostViewModel> GetAllLivePosts()
+        public List<ReportViewModel> GetAllLivePosts()
         {
             using (conn = new SqlConnection(connectionString))
             {
                 string sql = "SELECT ID, LiveName, postTime, endTime, LivePageID, Amount,  QtyOfOrders FROM LivePosts";
-                List<LivePostViewModel> result = conn.Query<LivePostViewModel>(sql).ToList();
+                var result = conn.Query<ReportViewModel>(sql).ToList().ToList();
                 return result;
             }
         }

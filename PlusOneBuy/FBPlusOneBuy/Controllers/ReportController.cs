@@ -17,7 +17,6 @@ namespace FBPlusOneBuy.Controllers
             ViewData.Model = livePost_repo.GetAllLivePosts();
             return View();
         }
-
         public ActionResult SalesOrderList(string livepageId)
         {
             var salesOrderVM = SalesOrderListService.ListSalesOrders(livepageId);

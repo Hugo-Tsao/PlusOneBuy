@@ -5,7 +5,7 @@ using System.Web;
 
 namespace FBPlusOneBuy.ViewModels
 {
-    public class ListPostViewModel
+    public class ReportViewModel
     {
         public int ID { get; set; }
         public string LiveName { get; set; }

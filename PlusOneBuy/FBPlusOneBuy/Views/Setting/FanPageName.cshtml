@@ -48,7 +48,7 @@
                 if (response.status === 'connected') {
                     FB.api('/' + $('#fanPageName').val() + '?fields=access_token', function (res) {
                         GetData(res.access_token);
-                        //console.log("PAGE=" + res.access_token);
+                        console.log("PAGE=" + res.access_token);
                     });
                 }
             }, {
@@ -76,10 +76,6 @@
 @section TopJS
 {
     <script>
-        var ts = new Date();
-        x = ts.toISOString()
-
-        console.log(ts.toLocaleString());
 
         window.fbAsyncInit = function () {
             FB.init({

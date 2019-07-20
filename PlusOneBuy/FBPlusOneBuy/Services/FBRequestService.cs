@@ -7,7 +7,6 @@ using System.Web.Script.Serialization;
 using FBPlusOneBuy.Repositories;
 using FBPlusOneBuy.ViewModels;
 using RestSharp;
-using FBPlusOneBuy.ViewModels;
 
 namespace FBPlusOneBuy.Services
 {

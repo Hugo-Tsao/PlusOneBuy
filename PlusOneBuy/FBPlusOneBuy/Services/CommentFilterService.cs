@@ -35,7 +35,10 @@ namespace FBPlusOneBuy.Services
                         order.Product = new ProductViewModel();
                         var live_repo = new LivePostsRepository();
 
-                        
+                        if (data.from.name == null)
+                        {
+                            break;
+                        }
                         var name = UTF8ConvertToString(data.from.name);
                         if (!cust_repo.SelectCustomer(data.from.id))
                         {

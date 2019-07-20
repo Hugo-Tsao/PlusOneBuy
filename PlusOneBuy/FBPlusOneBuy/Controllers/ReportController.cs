@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using FBPlusOneBuy.Repositories;
+using FBPlusOneBuy.ViewModels;
 
 namespace FBPlusOneBuy.Controllers
 {
@@ -30,12 +31,24 @@ namespace FBPlusOneBuy.Controllers
         //    return View(totalAndSalesOrders);
         //}
 
-        public ActionResult CommentsOrderList(string livepageId)
+        public ActionResult CommentsOrderList(int liveId)
         {
+            LivePostsRepository livePost_repo = new LivePostsRepository();
+             ViewData["LivePost"] = livePost_repo.GetLivePost(liveId);
+
+             OrderRepositories order_repo = new OrderRepositories();
+             List<CommentOrderLIstViewModel> orders = order_repo.GetOrders(liveId);
+             ViewData.Model = orders;
             return View();
         }
-        public ActionResult ROIOrderList(string livepageId)
+        public ActionResult ROIOrderList(int liveId)
         {
+            //缺少觀看人數欄位(因為有問題)
+            //缺少成單量和成單價(還不知道如何完成下單)
+            //所以暫時一樣用ReportViewModel
+            LivePostsRepository livePost_repo = new LivePostsRepository();
+            ViewData.Model = livePost_repo.GetLivePost(liveId);
+
             return View();
         }
     }

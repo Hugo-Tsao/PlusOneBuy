@@ -93,5 +93,15 @@ namespace FBPlusOneBuy.Repositories
                 return result;
             }
         }
+
+        public List<CommentOrderLIstViewModel> GetOrders(int liveId)
+        {
+            using (conn = new SqlConnection(connectionString))
+            {
+                string sql = "SELECT o.OrderID, c.CustomerName, p.ProductName, p.UnitPrice, o.Quantity, o.OrderDateTime FROM Orders o INNER JOIN Products p ON p.ProductID = o.ProductID INNER JOIN Customers c ON c.CustomerID = o.CustomerID WHERE o.LiveID = @liveId";
+                List<CommentOrderLIstViewModel>  orders = conn.Query<CommentOrderLIstViewModel>(sql, new { liveId }).ToList();
+                return orders;
+            }
+        }
     }
 }

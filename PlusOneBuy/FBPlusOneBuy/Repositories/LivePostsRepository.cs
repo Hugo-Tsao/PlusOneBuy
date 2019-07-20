@@ -47,7 +47,7 @@ namespace FBPlusOneBuy.Repositories
             using (conn = new SqlConnection(connectionString))
             {
                 string sql = "select ID from LivePosts where LivePageID=@livePageID";
-                List<int> liveids = conn.Query<int>(sql, new {livePageID }).ToList();
+                List<int> liveids = conn.Query<int>(sql, new { livePageID }).ToList();
                 return liveids;
             }
         }
@@ -105,7 +105,16 @@ namespace FBPlusOneBuy.Repositories
             using (conn = new SqlConnection(connectionString))
             {
                 string sql = "SELECT ID, LiveName, postTime, endTime, LivePageID, Amount,  QtyOfOrders FROM LivePosts";
-                var result = conn.Query<ReportViewModel>(sql).ToList().ToList();
+                var result = conn.Query<ReportViewModel>(sql).ToList();
+                return result;
+            }
+        }
+        public ReportViewModel GetLivePost(int liveId)
+        {
+            using (conn = new SqlConnection(connectionString))
+            {
+                string sql = "SELECT ID, LiveName, postTime, endTime, LivePageID, Amount,  QtyOfOrders FROM LivePosts WHERE ID = @liveId";
+                var result = conn.QueryFirstOrDefault<ReportViewModel>(sql, new { liveId });
                 return result;
             }
         }

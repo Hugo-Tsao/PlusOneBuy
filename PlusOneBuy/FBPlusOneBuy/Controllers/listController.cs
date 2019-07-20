@@ -98,13 +98,13 @@ namespace FBPlusOneBuy.Controllers
             return Json(Order, JsonRequestBehavior.AllowGet);
         }
 
-        [HttpPost]
-        public int GetLiveVideoViews(string livePageID)
+        [HttpGet]
+        public ActionResult GetLiveVideoViews(string livePageID)
         {
             string token = Session["token"].ToString();
             int views=FBRequestService.GetLiveVideoViews(livePageID, token);
 
-            return views;
+            return Json(views, JsonRequestBehavior.AllowGet);
         }
     }
 }

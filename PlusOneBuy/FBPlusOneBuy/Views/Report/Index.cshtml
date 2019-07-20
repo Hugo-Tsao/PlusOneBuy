@@ -1,10 +1,18 @@
 ﻿
 @{
     Layout = "~/Views/Shared/Main_Layout.cshtml";
+    List<FBPlusOneBuy.ViewModels.ReportViewModel> Report = ViewData.Model as List<FBPlusOneBuy.ViewModels.ReportViewModel>;
 }
 <span class="h4 font-weight-normal text-muted">報告</span>
 <span>/</span>
 <span class="h4 font-weight-normal text-muted"><strong>直播清單</strong></span>
+<br /><br />
+<label>進階搜尋</label><br/>
+<label>從:</label>
+<input type="date"/>
+<label>到:</label>
+<input type="date" />
+<button type="button" class="btn btn-outline-secondary"><i class="fas fa-search"></i></button>
 <table id="myTable" class="cell-border compact stripe" style="width:100%">
     <thead>
         <tr>
@@ -21,30 +29,21 @@
         </tr>
     </thead>
     <tbody>
-        <tr>
-            <td>1</td>
-            <td>382838899034699_631072840739696</td>
-            <td>跳樓大拍賣</td>
-            <td>2019-07-15 18:22:00.033</td>
-            <td>2019-07-15 19:22:00.033</td>
-            <td>10</td>
-            <td>7777</td>
-            <td><a href="@Url.Action("CommentsOrderList","Report")">...</a></td>
-            <td><a href="@Url.Action("SalesOrderList","Report",new { livepageId="382838899034699_631072840739696"})">...</a></td>
-            <td><a href="@Url.Action("ROIOrderList","Report")">...</a></td>
-        </tr>
-        <tr>
-            <td>2</td>
-            <td>382838899034699_631072840739696</td>
-            <td>跳樓大拍賣</td>
-            <td>2019-07-15 18:22:00.033</td>
-            <td>2019-07-15 19:22:00.033</td>
-            <td>12</td>
-            <td>8777</td>
-            <td><a href="#">...</a></td>
-            <td><a href="#">...</a></td>
-            <td><a href="#">...</a></td>
-        </tr>
+        @for (var i = 0; i < Report.Count; i++)
+        {
+            <tr>
+                <td>@Report[i].ID</td>
+                <td>@Report[i].LivePageID</td>
+                <td>@Report[i].LiveName</td>
+                <td>@Report[i].postTime</td>
+                <td>@Report[i].endTime</td>
+                <td>@Report[i].QtyOfOrders</td>
+                <td>$@String.Format("{0:N0}", Report[i].Amount)</td>
+                <td><a href="@Url.Action("CommentsOrderList","Report")">...</a></td>
+                <td><a href="@Url.Action("SalesOrderList","Report",new { livepageId="382838899034699_631072840739696"})">...</a></td>
+                <td><a href="@Url.Action("ROIOrderList","Report")">...</a></td>
+            </tr>
+        }
     </tbody>
 </table>
 @section EndJS
@@ -57,7 +56,7 @@
     <script>
         $(document).ready(function () {
             $('#myTable').DataTable({
-                "info": false, "bLengthChange": false, "pageLength": 10
+                "info": false, "bLengthChange": false, "pageLength": 15
             });
         });
     </script>

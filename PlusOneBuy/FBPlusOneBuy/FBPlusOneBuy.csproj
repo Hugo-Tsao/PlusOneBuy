@@ -233,6 +233,7 @@
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\CartViewModel.cs" />
     <Compile Include="ViewModels\CommentListViewModel.cs" />
+    <Compile Include="ViewModels\FBLiveVideoJsonToCSharp.cs" />
     <Compile Include="ViewModels\LivePostViewModel.cs" />
     <Compile Include="ViewModels\MsgTextViewModel.cs" />
     <Compile Include="ViewModels\OrderList.cs" />
@@ -346,6 +347,8 @@
     <Content Include="Views\Report\Index.cshtml" />
     <Content Include="Views\Report\SalesOrderList.cshtml" />
     <Content Include="Views\Shared\Main_Layout.cshtml" />
+    <Content Include="Views\Report\CommentsOrderList.cshtml" />
+    <Content Include="Views\Report\ROIOrderList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -30,5 +30,14 @@ namespace FBPlusOneBuy.Controllers
         //    var totalAndSalesOrders = SalesOrderListService.GetTotalAndSalesOrders(livepageId);
         //    return View(totalAndSalesOrders);
         //}
+
+        public ActionResult CommentsOrderList(string livepageId)
+        {
+            return View();
+        }
+        public ActionResult ROIOrderList(string livepageId)
+        {
+            return View();
+        }
     }
 }

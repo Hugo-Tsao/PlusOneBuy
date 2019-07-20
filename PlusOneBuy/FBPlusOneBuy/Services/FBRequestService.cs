@@ -7,6 +7,7 @@ using System.Web.Script.Serialization;
 using FBPlusOneBuy.Repositories;
 using FBPlusOneBuy.ViewModels;
 using RestSharp;
+using FBPlusOneBuy.ViewModels;
 
 namespace FBPlusOneBuy.Services
 {
@@ -68,6 +69,31 @@ namespace FBPlusOneBuy.Services
                 Comments = data.comments.data;
             }
             return Comments;
+        }
+
+        public static int GetLiveVideoViews(string livePageID,string token)
+        {
+            string videoid;
+            string[] pageid_and_videoid = livePageID.Split('_');
+            videoid = pageid_and_videoid[1];
+            var liveVideos = new List<LiveVideoDatum>();
+            string url = "https://graph.facebook.com/v3.3/me/live_videos?fields=status,description,creation_time,live_views,video&access_token=" + token;
+
+            var client = new RestClient(url);
+            var request = new RestRequest(Method.GET);
+
+            IRestResponse response = client.Execute(request);
+
+            JavaScriptSerializer js = new JavaScriptSerializer();
+            LiveVideoRoot livedatas = Newtonsoft.Json.JsonConvert.DeserializeObject<LiveVideoRoot>(response.Content);
+
+            if (livedatas.data != null)
+            {
+                liveVideos = livedatas.data;
+                //Comments = data.comments.data;
+            }
+            int views = liveVideos.FirstOrDefault(x => x.video.id == videoid).live_views;
+            return views;
         }
     }
 }

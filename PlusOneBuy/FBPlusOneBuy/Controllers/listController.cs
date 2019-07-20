@@ -36,7 +36,7 @@ namespace FBPlusOneBuy.Controllers
             }
             ViewData["products"] = products;
             ViewData["livePageID"] = livePageID;
-            ViewData["keywordPattern"] = keywordPattern;
+            ViewData["keywordPattern"] = keywordPattern;            
             return View();
         }
 
@@ -96,6 +96,15 @@ namespace FBPlusOneBuy.Controllers
             var qty = o_repo.GetQtyOfOrders(livePageId);
             var Order = new { Amount = amount, Qty = qty };
             return Json(Order, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public int GetLiveVideoViews(string livePageID)
+        {
+            string token = Session["token"].ToString();
+            int views=FBRequestService.GetLiveVideoViews(livePageID, token);
+
+            return views;
         }
     }
 }

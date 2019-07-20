@@ -1,48 +1,61 @@
-﻿
+﻿@model List<FBPlusOneBuy.ViewModels.ReportViewModel>
 @{
     Layout = "~/Views/Shared/Main_Layout.cshtml";
-    List<FBPlusOneBuy.ViewModels.ReportViewModel> Report = ViewData.Model as List<FBPlusOneBuy.ViewModels.ReportViewModel>;
 }
 <span class="h4 font-weight-normal text-muted">報告</span>
 <span>/</span>
 <span class="h4 font-weight-normal text-muted"><strong>直播清單</strong></span>
 <br /><br />
-<label>進階搜尋</label><br/>
+<label>進階搜尋</label><br />
 <label>從:</label>
-<input type="date"/>
+<input type="date" />
 <label>到:</label>
 <input type="date" />
 <button type="button" class="btn btn-outline-secondary"><i class="fas fa-search"></i></button>
 <table id="myTable" class="cell-border compact stripe" style="width:100%">
     <thead>
         <tr>
-            <th>編號</th>
-            <th>直播編號</th>
-            <th>直播名稱</th>
-            <th>開始時間</th>
-            <th>結束時間</th>
-            <th>收單數</th>
-            <th>收單金額</th>
+            <th>@Html.DisplayNameFor(model => model.FirstOrDefault().ID)</th>
+            <th>@Html.DisplayNameFor(model => model.FirstOrDefault().LivePageID)</th>
+            <th>@Html.DisplayNameFor(model => model.FirstOrDefault().LiveName)</th>
+            <th>@Html.DisplayNameFor(model => model.FirstOrDefault().postTime)</th>
+            <th>@Html.DisplayNameFor(model => model.FirstOrDefault().endTime)</th>
+            <th>@Html.DisplayNameFor(model => model.FirstOrDefault().QtyOfOrders)</th>
+            <th>@Html.DisplayNameFor(model => model.FirstOrDefault().Amount)</th>
             <th>留言訂單</th>
             <th>銷售單</th>
             <th>ROI</th>
         </tr>
     </thead>
     <tbody>
-        @for (var i = 0; i < Report.Count; i++)
+        @foreach (var item in Model)
         {
-            <tr>
-                <td>@Report[i].ID</td>
-                <td>@Report[i].LivePageID</td>
-                <td>@Report[i].LiveName</td>
-                <td>@Report[i].postTime</td>
-                <td>@Report[i].endTime</td>
-                <td>@Report[i].QtyOfOrders</td>
-                <td>$@String.Format("{0:N0}", Report[i].Amount)</td>
-                <td><a href="@Url.Action("CommentsOrderList","Report")">...</a></td>
-                <td><a href="@Url.Action("SalesOrderList","Report",new { livepageId="382838899034699_631072840739696"})">...</a></td>
-                <td><a href="@Url.Action("ROIOrderList","Report")">...</a></td>
-            </tr>
+        <tr>
+            <td>
+                @Html.DisplayFor(model => item.ID)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.LivePageID)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.LiveName)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.postTime)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.endTime)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.QtyOfOrders)
+            </td>
+            <td>
+                $@Html.DisplayFor(model => item.Amount)
+            </td>
+            <td>@Html.ActionLink("...", "CommentsOrderList", new { liveId = item.ID })</td>
+            <td>@Html.ActionLink("...", "SalesOrderList", new { liveId = item.ID })</td>
+            <td>@Html.ActionLink("...", "ROIOrderList", new { liveId = item.ID })</td>
+        </tr>
         }
     </tbody>
 </table>

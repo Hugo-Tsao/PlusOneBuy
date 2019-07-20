@@ -1,7 +1,8 @@
-﻿
+﻿@model List<FBPlusOneBuy.ViewModels.CommentOrderLIstViewModel>
 @{
     ViewBag.Title = "CommentsOrderList";
     Layout = "~/Views/Shared/Main_Layout.cshtml";
+    FBPlusOneBuy.ViewModels.ReportViewModel LivePost = ViewData["LivePost"] as FBPlusOneBuy.ViewModels.ReportViewModel;
 }
 <span class="h4 font-weight-normal text-muted">報告</span>
 <span>/</span>
@@ -11,34 +12,53 @@
 
 <div class="row mt-3">
     <div class="col">
-        <span>直播編號:382838899034699_631072840739696</span>
-        <span>直播名稱:跳樓大拍賣</span><br/>
-        <span>開始時間:2019-07-15 18:22:00.033</span>
-        <span>結束時間:2019-07-15 19:22:00.033</span><br/>
-        <span>收單數量:123</span>
-        <span>收單金額:7777</span>
+        <span>直播編號:@LivePost.LivePageID</span>
+        <span>直播名稱:@LivePost.LiveName</span><br />
+        <span>開始時間:@LivePost.postTime</span>
+        <span>結束時間:@LivePost.endTime</span><br />
+        <span>收單數量:@LivePost.QtyOfOrders</span>
+        <span>收單金額:@LivePost.Amount</span>
     </div>
 </div>
 <table id="myTable" class="cell-border compact stripe" style="width:100%">
     <thead>
         <tr>
-            <th>訂單編號</th>
-            <th>顧客名稱</th>
-            <th>商品名稱</th>
-            <th>數量</th>
-            <th>關鍵字</th>
-            <th>留言時間</th>
+            <th>@Html.DisplayNameFor(model => model.FirstOrDefault().OrderID)</th>
+            <th>@Html.DisplayNameFor(model => model.FirstOrDefault().CustomerName)</th>
+            <th>@Html.DisplayNameFor(model => model.FirstOrDefault().ProductName)</th>
+            <th>@Html.DisplayNameFor(model => model.FirstOrDefault().Quantity)</th>
+            <th>@Html.DisplayNameFor(model => model.FirstOrDefault().UnitPrice)</th>
+            <th>@Html.DisplayNameFor(model => model.FirstOrDefault().Amount)</th>
+            <th>@Html.DisplayNameFor(model => model.FirstOrDefault().OrderDateTime)</th>
         </tr>
     </thead>
     <tbody>
+        @foreach (var item in Model)
+        {
         <tr>
-            <td>1</td>
-            <td>Eric</td>
-            <td>泡泡洗</td>
-            <td>1</td>
-            <td>A+1</td>
-            <td>2019-07-17 11:52:27.000</td>
+            <td>
+                @Html.DisplayFor(model => item.OrderID)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.CustomerName)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.ProductName)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.Quantity)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.UnitPrice)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.Amount)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.OrderDateTime)
+            </td>
         </tr>
+        }
 
     </tbody>
 </table>

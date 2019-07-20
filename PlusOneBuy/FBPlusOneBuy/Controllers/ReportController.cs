@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using FBPlusOneBuy.Repositories;
 
 namespace FBPlusOneBuy.Controllers
 {
@@ -12,6 +13,8 @@ namespace FBPlusOneBuy.Controllers
         // GET: Report
         public ActionResult Index()
         {
+            LivePostsRepository livePost_repo = new LivePostsRepository();
+            ViewData.Model = livePost_repo.GetAllLivePosts();
             return View();
         }
 

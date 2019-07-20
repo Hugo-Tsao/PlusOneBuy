@@ -1,29 +1,22 @@
 ﻿@model FBPlusOneBuy.ViewModels.SalesOrderViewModel
 @{
     ViewBag.Title = "SalesOrderList";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/Main_Layout.cshtml";
 }
 
-
-@{
-    ViewBag.Title = "Index";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
 <span class="h4 font-weight-normal text-muted">報告</span>
 <span>/</span>
 <a class="h4 font-weight-normal text-muted" href="@Url.Action("Index","Report")">直播清單</a>
 <span>/</span>
-<span class="h4 font-weight-normal text-muted">銷售清單</span>
-
-<div class="container">
-    <div class="row mt-3">
+<span class="h4 font-weight-normal text-muted"><strong>銷售清單</strong></span>
+<div class="row">
         <div class="col">
             <span>直播名稱: @Model.livename</span>
             <span>成交數量: @Model.salesOrderNum</span>
             <span>成交金額 @String.Format("{0:N0}", Model.total)</span>
         </div>
     </div>
-    <div class="row">
+<div class="row">
         <div class="col">
             <table id="myTable" class="cell-border compact stripe" style="width:100%">
                 <thead>
@@ -53,7 +46,7 @@
             </table>
         </div>
     </div>
-</div>
+
 @section EndJS
 {
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.min.js"

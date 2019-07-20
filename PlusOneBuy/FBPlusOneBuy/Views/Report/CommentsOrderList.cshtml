@@ -1,0 +1,59 @@
+﻿
+@{
+    ViewBag.Title = "CommentsOrderList";
+    Layout = "~/Views/Shared/Main_Layout.cshtml";
+}
+<span class="h4 font-weight-normal text-muted">報告</span>
+<span>/</span>
+<a class="h4 font-weight-normal text-muted" href="@Url.Action("Index","Report")">直播清單</a>
+<span>/</span>
+<span class="h4 font-weight-normal text-muted"><strong>留言訂單</strong></span>
+
+<div class="row mt-3">
+    <div class="col">
+        <span>直播編號:382838899034699_631072840739696</span>
+        <span>直播名稱:跳樓大拍賣</span><br/>
+        <span>開始時間:2019-07-15 18:22:00.033</span>
+        <span>結束時間:2019-07-15 19:22:00.033</span><br/>
+        <span>收單數量:123</span>
+        <span>收單金額:7777</span>
+    </div>
+</div>
+<table id="myTable" class="cell-border compact stripe" style="width:100%">
+    <thead>
+        <tr>
+            <th>訂單編號</th>
+            <th>顧客名稱</th>
+            <th>商品名稱</th>
+            <th>數量</th>
+            <th>關鍵字</th>
+            <th>留言時間</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>1</td>
+            <td>Eric</td>
+            <td>泡泡洗</td>
+            <td>1</td>
+            <td>A+1</td>
+            <td>2019-07-17 11:52:27.000</td>
+        </tr>
+
+    </tbody>
+</table>
+@section EndJS
+{
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.min.js"
+            integrity="sha256-chlNFSVx3TdcQ2Xlw7SvnbLAavAQLO0Y/LBiWX04viY=" crossorigin="anonymous"></script>
+    <!-- DataTable -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#myTable').DataTable({
+                "info": false, "bLengthChange": false, "pageLength": 10
+            });
+        });
+    </script>
+}

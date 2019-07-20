@@ -346,6 +346,8 @@
     <Content Include="Views\Report\Index.cshtml" />
     <Content Include="Views\Report\SalesOrderList.cshtml" />
     <Content Include="Views\Shared\Main_Layout.cshtml" />
+    <Content Include="Views\Report\CommentsOrderList.cshtml" />
+    <Content Include="Views\Report\ROIOrderList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

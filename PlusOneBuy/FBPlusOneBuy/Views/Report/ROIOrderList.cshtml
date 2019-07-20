@@ -1,0 +1,54 @@
+﻿
+@{
+    ViewBag.Title = "ROIOrderList";
+    Layout = "~/Views/Shared/Main_Layout.cshtml";
+}
+<span class="h4 font-weight-normal text-muted">報告</span>
+<span>/</span>
+<a class="h4 font-weight-normal text-muted" href="@Url.Action("Index","Report")">直播清單</a>
+<span>/</span>
+<span class="h4 font-weight-normal text-muted"><strong>ROI</strong></span>
+<div class="row mt-3">
+    <div class="col">
+
+    </div>
+    <div class="col-6">
+        <span class="badge badge-pill badge-warning">直播</span>
+        <hr>
+        <h3><span class="badge badge-light">直播編號:</span><span class="badge badge-light">382838899034699_631072840739696</span></h3>
+        <h3><span class="badge badge-light">直播名稱:</span><span class="badge badge-light">跳樓大拍賣</span></h3>
+        <h3><span class="badge badge-light">開始時間:</span><span class="badge badge-light">2019-07-15 18:22:00.033</span></h3>
+        <h3><span class="badge badge-light">結束時間:</span><span class="badge badge-light">2019-07-15 19:22:00.033</span></h3>
+        <span class="badge badge-pill badge-success">商品</span>
+        <hr>
+        <h3><span class="badge badge-light">商品名稱:</span><span class="badge badge-light">泡泡喜</span></h3>
+        <h3><span class="badge badge-light">價格:</span><span class="badge badge-light">$100</span></h3>
+        <span class="badge badge-pill badge-primary">數據</span>
+        <hr>
+        <h3><span class="badge badge-light">觀看人數:</span><span class="badge badge-light">32</span></h3>
+        <h3><span class="badge badge-light">收單數量:</span><span class="badge badge-light">15</span></h3>
+        <h3><span class="badge badge-light">收單金額:</span><span class="badge badge-light">$5000</span></h3>
+        <h3><span class="badge badge-light">成單數量:</span><span class="badge badge-light">7</span></h3>
+        <h3><span class="badge badge-light">成單金額:</span><span class="badge badge-light">$2300</span></h3>
+        <h3><span class="badge badge-light">ROI:</span><span class="badge badge-light">40%</span></h3>
+    </div>
+    <div class="col">
+
+    </div>
+</div>
+@section EndJS
+{
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.min.js"
+            integrity="sha256-chlNFSVx3TdcQ2Xlw7SvnbLAavAQLO0Y/LBiWX04viY=" crossorigin="anonymous"></script>
+    <!-- DataTable -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#myTable').DataTable({
+                "searching": false,"info": false, "bLengthChange": false, "pageLength": 10
+            });
+        });
+    </script>
+}
+

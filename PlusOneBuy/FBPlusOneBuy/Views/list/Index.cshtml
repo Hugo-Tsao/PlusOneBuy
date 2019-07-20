@@ -211,13 +211,14 @@
             }).done(function (order) {
                 $('#num').text(order.Qty)
                 $('#money').text(order.Amount)
-                if (order.Qty > 2) {
-                    $('#Ordernum').text(1)
-                    $('#Ordermoney').text(1*money)
+
+                if (order.Qty > 4) {
+                     $('#Ordernum').text(3)
+                     $('#Ordermoney').text(3*money)
                 }
-                else if (order.Qty > 4) {
-                    $('#Ordernum').text(3)
-                    $('#Ordermoney').text(3*money)
+                if (order.Qty > 2) {
+                     $('#Ordernum').text(1)
+                     $('#Ordermoney').text(1*money)
                 }
 
                 });

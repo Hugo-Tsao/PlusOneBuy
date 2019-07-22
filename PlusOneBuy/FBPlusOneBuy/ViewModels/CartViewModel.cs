@@ -10,6 +10,5 @@ namespace FBPlusOneBuy.ViewModels
         public int salepage_id { get; set; }
         public int sku_id { get; set; }
         public int qty { get; set; }
-        public string act { get; set; }
     }
 }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using FBPlusOneBuy.Models;
+using FBPlusOneBuy.Repositories;
 using FBPlusOneBuy.ViewModels;
 using Microsoft.Owin.Security.Provider;
 using Newtonsoft.Json;
@@ -40,21 +41,23 @@ namespace FBPlusOneBuy.Services
                 
             }          
         }
-        public static void OrderListToSendMsg(List<OrderList> orderList, string token)
+        public static void OrderListToSendMsg(string livePageId, List<OrderList> orderList, string token)
         {
+            LivePostsRepository livePost_repo = new LivePostsRepository();
+            var liveId = livePost_repo.Select(livePageId);
             foreach (var order in orderList)
             {
-                var link = getAddToCartLink(order.Product.Salepage_id, order.Product.SkuId, order.Quantity);
+                var link = getAddToCartLink(liveId,order.Product.Salepage_id, order.Product.SkuId, order.Quantity);
                 string msgText = $"{order.CustomerName}你好，感謝您訂購我們的產品!!\r\n{order.Product.ProductName}-數量{order.Quantity}，請點擊下列連結完成接下來的購物流程!{link}";
                 List<string> id = new List<string> { order.CustomerID };
                 FBSendMsgService.SendMsg(msgText, id, token);
             }
         }
 
-        public static string getAddToCartLink(int salepage_id,int skuId,int qty)
+        public static string getAddToCartLink(int liveKey ,int salepage_id,int skuId,int qty)
         {
             string link = string.Empty;
-            link = "http://64.selfshop.qa.91dev.tw/v2/ShoppingCart/BatchInsert?data=";
+            link = "http://64.selfshop.qa.91dev.tw/v2/ShoppingCart/BatchInsert?&data=";
             CartViewModel[] data = new CartViewModel[]
             {
                 new CartViewModel()

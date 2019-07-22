@@ -53,7 +53,7 @@ namespace FBPlusOneBuy.Controllers
                 var OrderList = CommentFilterService.getNewOrderList(livePageID, token, products, keywordPattern);
                 if (OrderList.Count > 0)
                 {
-                    FBSendMsgService.OrderListToSendMsg(OrderList, token);
+                    FBSendMsgService.OrderListToSendMsg(livePageID,OrderList, token);
                 }
 
                 var result = JsonConvert.SerializeObject(OrderList);
@@ -107,7 +107,7 @@ namespace FBPlusOneBuy.Controllers
                 order.Quantity = orderinfo.Quantity;
                 orders.Add(order);
             }
-            FBSendMsgService.OrderListToSendMsg(orders, token);
+            FBSendMsgService.OrderListToSendMsg(livePageID,orders, token);
 
         }
         [HttpGet]

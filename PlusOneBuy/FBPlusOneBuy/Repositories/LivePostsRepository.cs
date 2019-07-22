@@ -78,18 +78,17 @@ namespace FBPlusOneBuy.Repositories
                 return liveposts;
             }
         }
-        public void UpdatePost(string livePageID, int qtyOfOrders, decimal amount, DateTime endTime)
+        public void UpdatePost(string livePageID, int qtyOfOrders, decimal amount, DateTime endTime, int maxViews)
         {
             using (conn = new SqlConnection(connectionString))
             {
                 var live_repo = new LivePostsRepository();
                 int liveid = live_repo.Select(livePageID);
-                string sql = "UPDATE LivePosts SET endTime=@endTime,QtyOfOrders=@qtyOfOrders,Amount=@amount WHERE ID=@liveid ";
-                conn.Execute(sql, new { endTime, qtyOfOrders, amount, liveid });
+                string sql = "UPDATE LivePosts SET endTime=@endTime,QtyOfOrders=@qtyOfOrders,Amount=@amount,MaxViwes=@maxViews WHERE ID=@liveid ";
+                conn.Execute(sql, new { endTime, qtyOfOrders, amount, maxViews, liveid });
 
             }
         }
-
         public DateTime GetMaxPostTime(string livePageId)
         {
             using (conn = new SqlConnection(connectionString))
@@ -115,6 +114,16 @@ namespace FBPlusOneBuy.Repositories
             {
                 string sql = "SELECT ID, LiveName, postTime, endTime, LivePageID, Amount,  QtyOfOrders FROM LivePosts WHERE ID = @liveId";
                 var result = conn.QueryFirstOrDefault<ReportViewModel>(sql, new { liveId });
+                return result;
+            }
+        }
+
+        public List<SalesOrderList> SaleOrder(int liveId)
+        {
+            using (conn = new SqlConnection(connectionString))
+            {
+                string sql = "SELECT Quantity,  Total FROM SalesOrders WHERE LiveID = @liveId";
+                var result = conn.Query<SalesOrderList>(sql, new { liveId }).ToList();
                 return result;
             }
         }

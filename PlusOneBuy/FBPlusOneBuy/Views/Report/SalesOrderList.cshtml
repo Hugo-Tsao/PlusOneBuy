@@ -10,11 +10,12 @@
 <span>/</span>
 <span class="h4 font-weight-normal text-muted"><strong>銷售清單</strong></span>
 <div class="row">
-        <div class="col">
-            <span>直播名稱: @Model.livename</span>
-            <span>成交數量: @Model.salesOrderNum</span>
-            <span>成交金額 @String.Format("{0:N0}", Model.total)</span>
-        </div>
+    <div class="col">
+        <span>直播編號: @ViewData["livepageId"] </span>
+        <span>直播名稱: @Model.livename</span><br/>
+        <span>成交數量: @Model.salesOrderNum</span>
+        <span>成交總額:$ @String.Format("{0:N0}", Model.total)</span>
+    </div>
     </div>
 <div class="row">
         <div class="col">
@@ -38,7 +39,7 @@
                             <td>@Model.salesOrders[i].CustomerName</td>
                             <td>@Model.salesOrders[i].CheckoutDateTime</td>
                             <td>@Model.salesOrders[i].Quantity</td>
-                            <td>@String.Format("{0:N0}", Model.total)</td>
+                            <td>$@String.Format("{0:N0}", @Model.salesOrders[i].Total)</td>
                         </tr>
 
                     }

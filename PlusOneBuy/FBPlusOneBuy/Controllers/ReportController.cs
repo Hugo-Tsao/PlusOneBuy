@@ -20,6 +20,11 @@ namespace FBPlusOneBuy.Controllers
         }
         public ActionResult SalesOrderList(string livepageId)
         {
+            if (livepageId == null)
+            {
+                return RedirectToAction("Index");
+            }
+            ViewData["livepageId"] = livepageId;
             var salesOrderVM = SalesOrderListService.ListSalesOrders(livepageId);
             return View(salesOrderVM);
         }
@@ -49,6 +54,9 @@ namespace FBPlusOneBuy.Controllers
             LivePostsRepository livePost_repo = new LivePostsRepository();
             ViewData.Model = livePost_repo.GetLivePost(liveId);
 
+            //var SaleOrder = livePost_repo.SaleOrder(liveId);
+            //SaleOrder.
+            //ViewData["Sales"]
             return View();
         }
     }

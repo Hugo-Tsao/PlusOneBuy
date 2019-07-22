@@ -17,6 +17,8 @@ namespace FBPlusOneBuy.ViewModels
         [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd HH:mm:ss}")]
         public DateTime postTime { get; set; }
         [Display(Name = "結束時間")]
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd HH:mm:ss}")]
         public DateTime? endTime { get; set; }
         [Display(Name = "直播編號")]
         public string LivePageID { get; set; }

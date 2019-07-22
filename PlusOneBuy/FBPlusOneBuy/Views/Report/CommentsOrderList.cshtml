@@ -17,7 +17,7 @@
         <span>開始時間:@LivePost.postTime</span>
         <span>結束時間:@LivePost.endTime</span><br />
         <span>收單數量:@LivePost.QtyOfOrders</span>
-        <span>收單金額:@LivePost.Amount</span>
+        <span>收單金額:@String.Format("{0:N0}", @LivePost.Amount)</span>
     </div>
 </div>
 <table id="myTable" class="cell-border compact stripe" style="width:100%">

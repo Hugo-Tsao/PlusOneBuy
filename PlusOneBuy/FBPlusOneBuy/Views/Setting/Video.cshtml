@@ -1,11 +1,11 @@
-﻿ @using FBPlusOneBuy.Services;
+﻿@using FBPlusOneBuy.Services;
 @{
     Layout = "~/Views/Shared/Main_Layout.cshtml";
     Dictionary<string, string> liveIDList = ViewData["liveIDList"] as Dictionary<string, string>;
     var Products = ProductService.GetCurrentProducts();
 
 }
-<span class="h4 font-weight-normal text-muted">設定直播</span>
+<span class="h4 font-weight-normal text-muted">設定直播推播</span>
 <span>/</span>
 <a class="h4 font-weight-normal text-muted" href="@Url.Action("FanPageName","Setting")">粉絲團</a>
 <span>/</span>
@@ -22,7 +22,7 @@
                 </button>
                 <div id="searchtype" class="dropdown-menu" aria-labelledby="videodropdownMenu">
                     <h6 class="dropdown-header">搜尋方式 </h6>
-                    <button class="dropdown-item" type="button" value="salepage_id" >商品編號</button>
+                    <button class="dropdown-item" type="button" value="salepage_id">商品編號</button>
                     <button class="dropdown-item" type="button" value="shopCategoryId">類別編號</button>
                 </div>
             </div>
@@ -31,16 +31,20 @@
             <br><br>
             <label><strong>搜尋清單</strong></label>
             <button id="AddProduct" type="button" class="btn btn-light border-info" style="right:20px;position:absolute">挑選商品<i class="fas fa-plus ml-2"></i></button><br><br>
-            <table id="ProductSearch" class="table table-sm">
+            <table id="ProductSearch" class="table table-sm paginated">
                 <thead>
                     <tr>
-                        <th>挑選</th>
-                        <th>商品編號</th>
-                        <th>商品關鍵字</th>
+                        <th>Pick</th>
+                        <th>SkuId</th>
+                        <th>OuterId</th>
                     </tr>
                 </thead>
                 <tbody></tbody>
             </table>
+            <ul class="pagination justify-content-center" style="display:none">
+                <li class="page-item"><a id="left" class="page-link"><i class="fas fa-chevron-left"></i></a></li>
+                <li class="page-item"><a id="right" class="page-link"><i class="fas fa-chevron-right"></i></a></li>
+            </ul>
         </div>
         <div class="col">
             <label><strong>直播設定</strong></label>
@@ -58,11 +62,11 @@
                             {
                                 if (item.Value == null)
                                 {
-                                    <button class="dropdown-item" type="button" style="white-space: nowrap;overflow: hidden;text-overflow: ellipsis;" value="@item.Key" >@item.Key</button>
+                                    <button class="dropdown-item" type="button" style="white-space: nowrap;overflow: hidden;text-overflow: ellipsis;" value="@item.Key">@item.Key</button>
                                 }
                                 else
                                 {
-                                    <button class="dropdown-item" type="button" style="white-space: nowrap;overflow: hidden;text-overflow: ellipsis;"value="@item.Key">@item.Value</button>
+                                    <button class="dropdown-item" type="button" style="white-space: nowrap;overflow: hidden;text-overflow: ellipsis;" value="@item.Key">@item.Value</button>
                                 }
 
                             }
@@ -139,16 +143,12 @@
 </div>
 @section EndJS
 {
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
     <script>
         $(document).ready(function () {
-        $('.dropdown-menu').dropdown()
             var json;
-            $('#videomenu').children('.dropdown-item').each(function (i, n) {
-                console.log($(n).val().length)
-            })
-
             $('#videomenu').children('.dropdown-item').click(function () {
-                console.log($(this).val())
                 $('#dropdownMenu').text($(this).text())
                 $('#livePageID').val($(this).val())
                 if ($(this).val() != $(this).text()) {
@@ -171,6 +171,7 @@
             })
             $('#SearchProduct').click(function () {
                 $('#ProductSearch tbody').empty()
+
                 $.ajax({
                     type: 'post',
                     url: '/Product/GetSKUListByMain',
@@ -178,17 +179,23 @@
                     dataType: "json",
                     cache: false,
                     success: function (Result) {
+
                         json = JSON.stringify(Result);
                         json = JSON.parse(json);
+
                         if (json != "") {
+
                             for (var i = 0; i < json.length; i++) {
                                 $('#ProductSearch').append("<tr><td>" +
                                     "<input type='radio' name='checkproduct' value='" + json[i].SkuId + "'>" +
                                     "</td><td>" + json[i].SkuId + "</td><td>" + json[i].OuterId + "</td></tr>")
                             }
+                            pagination(json.length);
+                            //var oos = { "info": false, "bLengthChange": false, "pageLength": 15, "destroy": true, "searching": false,  }
+                            //$('#ProductSearch').DataTable(oos);
                         }
                         else {
-                            $("#modaltext").text("查無此商品編號")
+                            $("#modaltext").text("查無此編號")
                             $("#modal").modal();
                         }
                     }
@@ -196,6 +203,7 @@
             })
             $('#AddProduct').on('click', PickProduct)
             function PickProduct() {
+
                 $("input[type=radio]:checked").each(function () {
 
                     SkuId = $(this).val();
@@ -223,13 +231,16 @@
                     }
                     else if (item == "noitem") {
                         GetProduct(Salepage_id, SkuId, outerId)
+                        $('.pagination').css('display','none')
                     }
                     else {
                         GetProduct(Salepage_id, SkuId, outerId)
                     }
                 });
+
                 $('#GetProductByid').val('')
                 $('#ProductSearch tbody').empty()
+
             }
             function GetProduct(Salepage_id, SkuId, OuterId) {
                 $.ajax({
@@ -241,8 +252,7 @@
                     success: function (result) {
                         var json = JSON.stringify(result);
                         json = JSON.parse(json);
-
-                        $('#ProductList').append("<tr><td>" + "<button type='button' name='delProduct' class='btn btn-light' value='" + SkuId + "'><i class='far fa-trash-alt'></i></button></td>" + "<td>" + json.Data.Title + "</td><td>" +
+                        $('#ProductList').append("<tr id='" + SkuId + "'>" + "<td><button type='button' name='delProduct' class='btn btn-light' value='" + SkuId + "'><i class='far fa-trash-alt'></i></button></td>" + "<td>" + json.Data.Title + "</td><td>" +
                             "<input type='text' class='formtext' id='" + SkuId + "' value='" + OuterId + "'>" +
                             "</td><td>" + json.Data.Price + "</td>" +
                             "<td><button type='button' class='btn btn-light' name='checkKeyword' value='" + SkuId + "'><i class='fas fa-check'></i></button></td>" + "</tr>")
@@ -265,18 +275,46 @@
         });
 
         $('body').on("click", 'button[name="delProduct"]', function () {
-            console.log($(this).val())
             $.ajax({
                 type: 'post',
                 url: '/Product/DeleteProduct',
                 data: { skuId: $(this).val() },
-                success: function () {
+                success: function (skuId) {
                     $("#modaltext").text("刪除成功!!")
                     $("#modal").modal();
-                    window.location.reload()
+                    $('#' + skuId).remove()
                 }
             })
         });
+        function pagination(length) {
+            $('.pagination').css('display','')
+            $('table.paginated').each(function () {
+                var currentPage = 0;
+                var numPerPage = 10;
+                var maxPage = length / 20
+                var $table = $(this);
+                $table.bind('repaginate', function () {
+                    $table.find('tbody tr').hide().slice(currentPage * numPerPage, (currentPage + 1) * numPerPage).show();
+                });
+                $table.trigger('repaginate');
+                var $pager = $('.pagination');
+                $('#left').bind('click', function () {
+                    currentPage = currentPage - 1;
+                    if (currentPage = -1) {
+                        currentPage = 0
+                    }
+                    $table.trigger('repaginate');
+                }).appendTo($pager);
+
+                $('#right').bind('click', function () {
+                    currentPage = currentPage + 1;
+                    if (currentPage >= maxPage) {
+                        currentPage = maxPage
+                    }
+                    $table.trigger('repaginate');
+                }).appendTo($pager);
+            });
+        }
     </script>
 }
 

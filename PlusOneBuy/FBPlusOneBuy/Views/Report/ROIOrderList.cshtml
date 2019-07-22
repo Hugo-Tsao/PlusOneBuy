@@ -55,8 +55,17 @@
             <span class="badge badge-light">$@String.Format("{0:N0}", SaleOrders.Total)</span>
         </h3>
         @{
-            decimal? ROI =SaleOrders.Total / Model.Amount;
-            ROI=Math.Round((decimal)ROI, 2);
+            decimal? ROI = 0;
+            if (SaleOrders.Total != 0 && Model.Amount != 0)
+            {
+                ROI = SaleOrders.Total / Model.Amount;
+                ROI = Math.Round((decimal)ROI, 2);
+            }
+            else
+            {
+                ROI = 0;
+            }
+
         }
         <h3><span class="badge badge-light">ROI(成/收)</span><span class="badge badge-light">@ROI%</span></h3>
 

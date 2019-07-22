@@ -34,6 +34,8 @@ namespace FBPlusOneBuy.Models
 
         public int? QtyOfOrders { get; set; }
 
+        public int? MaxViwes { get; set; }
+
         public virtual FanPage FanPage { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

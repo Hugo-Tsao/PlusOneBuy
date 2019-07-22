@@ -78,18 +78,17 @@ namespace FBPlusOneBuy.Repositories
                 return liveposts;
             }
         }
-        public void UpdatePost(string livePageID, int qtyOfOrders, decimal amount, DateTime endTime)
+        public void UpdatePost(string livePageID, int qtyOfOrders, decimal amount, DateTime endTime, int maxViews)
         {
             using (conn = new SqlConnection(connectionString))
             {
                 var live_repo = new LivePostsRepository();
                 int liveid = live_repo.Select(livePageID);
-                string sql = "UPDATE LivePosts SET endTime=@endTime,QtyOfOrders=@qtyOfOrders,Amount=@amount WHERE ID=@liveid ";
-                conn.Execute(sql, new { endTime, qtyOfOrders, amount, liveid });
+                string sql = "UPDATE LivePosts SET endTime=@endTime,QtyOfOrders=@qtyOfOrders,Amount=@amount,MaxViwes=@maxViews WHERE ID=@liveid ";
+                conn.Execute(sql, new { endTime, qtyOfOrders, amount, maxViews, liveid });
 
             }
         }
-
         public DateTime GetMaxPostTime(string livePageId)
         {
             using (conn = new SqlConnection(connectionString))
@@ -104,7 +103,7 @@ namespace FBPlusOneBuy.Repositories
         {
             using (conn = new SqlConnection(connectionString))
             {
-                string sql = "SELECT ID, LiveName, postTime, endTime, LivePageID, Amount,  QtyOfOrders FROM LivePosts";
+                string sql = "SELECT ID, LiveName, postTime, endTime, LivePageID, Amount,  QtyOfOrders FROM LivePosts ORDER BY ID DESC";
                 var result = conn.Query<ReportViewModel>(sql).ToList();
                 return result;
             }

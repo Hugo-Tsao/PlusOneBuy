@@ -8,11 +8,19 @@
 <span class="h4 font-weight-normal text-muted"><strong>直播清單</strong></span>
 <br /><br />
 <label>進階搜尋</label><br />
-<label>從:</label>
-<input type="date" id="starting_date" />
+<label>開始日期從:</label>
+<input type="date" id="start_date_min" />
 <label>到:</label>
-<input type="date" id="ending_date" />
-<button type="button" class="btn btn-outline-secondary" id="btn_date_searching"><i class="fas fa-search"></i></button>
+<input type="date" id="start_date_max" />
+<button type="button" class="btn btn-outline-secondary" id="btn_startdate_searching"><i class="fas fa-search"></i></button>
+<br />
+<br />
+<label>結束日期從:</label>
+<input type="date" id="end_date_min" />
+<label>到:</label>
+<input type="date" id="end_date_max" />
+<button type="button" class="btn btn-outline-secondary" id="btn_enddate_searching"><i class="fas fa-search"></i></button>
+<button type="button" class="btn btn-outline-secondary" id="btn_reset">RESET</button>
 <table id="myTable" class="cell-border compact stripe" style="width:100%;">
     <thead>
         <tr>
@@ -31,32 +39,32 @@
     <tbody>
         @foreach (var item in Model)
         {
-        <tr>
-            <td>
-                @Html.DisplayFor(model => item.ID)
-            </td>
-            <td>
-                @Html.DisplayFor(model => item.LivePageID)
-            </td>
-            <td>
-                @Html.DisplayFor(model => item.LiveName)
-            </td>
-            <td>
-                @Html.DisplayFor(model => item.postTime)
-            </td>
-            <td>
-                @Html.DisplayFor(model => item.endTime)
-            </td>
-            <td>
-                @Html.DisplayFor(model => item.QtyOfOrders)
-            </td>
-            <td>
-                $@Html.DisplayFor(model => item.Amount)
-            </td>
-            <td>@Html.ActionLink("...", "CommentsOrderList", new { liveId = item.ID })</td>
-            <td>@Html.ActionLink("...", "SalesOrderList", new { livepageId = item.LivePageID })</td>
-            <td>@Html.ActionLink("...", "ROIOrderList", new { liveId = item.ID })</td>
-        </tr>
+            <tr>
+                <td>
+                    @Html.DisplayFor(model => item.ID)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => item.LivePageID)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => item.LiveName)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => item.postTime)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => item.endTime)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => item.QtyOfOrders)
+                </td>
+                <td>
+                    $@Html.DisplayFor(model => item.Amount)
+                </td>
+                <td>@Html.ActionLink("...", "CommentsOrderList", new { liveId = item.ID })</td>
+                <td>@Html.ActionLink("...", "SalesOrderList", new { liveId = item.ID })</td>
+                <td>@Html.ActionLink("...", "ROIOrderList", new { liveId = item.ID })</td>
+            </tr>
         }
     </tbody>
 </table>
@@ -72,24 +80,28 @@
             $('#myTable').DataTable({
                 "info": false, "bLengthChange": false, "pageLength": 15
             });
-            ;
-            $('#btn_date_searching').on("click", function () {
-                var start_date = $('#starting_date').val();
-                var end_date = $('#ending_date').val();
+            $('#btn_reset').on("click", function () {
+                var table = $('#myTable').DataTable();
+                $.fn.dataTableExt.afnFiltering.length = 0;
+                table.draw();
+            })
+            
+            $('#btn_startdate_searching').on("click", function () {
+                $.fn.dataTableExt.afnFiltering.length = 0;
 
                 var table = $('#myTable').DataTable();
                 $.fn.dataTableExt.afnFiltering.push(
                     function (oSettings, aData, iDataIndex) {
-                        var dateStart = +parseDateValue($("#starting_date").val());
-                        var dateEnd = +parseDateValue($("#ending_date").val());
+                        var startMin = +parseDateValue($("#start_date_min").val());
+                        var startMax = +parseDateValue($("#start_date_max").val());
                         // aData represents the table structure as an array of columns, so the script access the date value
                         // in the first column of the table via aData[0]
                         var evalDate = +parseDateValue(aData[3]);
                         console.log(evalDate);
-                        console.log("dateStart=" + dateStart + ",dateEnd=" + dateEnd + ",evalDate=" + evalDate)
+                        console.log("startMin=" + startMin + ",startMax=" + startMax + ",evalDate=" + evalDate)
 
 
-                        if (evalDate >= dateStart && evalDate <= dateEnd) {
+                        if (evalDate >= startMin && evalDate <= startMax) {
                             console.log("有符合")
                             return true;
                         }
@@ -100,45 +112,63 @@
 
                     });
 
-                // Function for converting a mm/dd/yyyy date value into a numeric string for comparison (example 08/12/2010 becomes 20100812
-                function parseDateValue(rawDate) {
-                    if (rawDate.includes("/")) {
-                        var dateArray = rawDate.split("/");
-                        var noNeedTime = dateArray[2].split(' ');
+                table.draw();
+            })
+            $('#btn_enddate_searching').on("click", function () {
+                $.fn.dataTableExt.afnFiltering.length = 0;
 
-                        var parsedDate = dateArray[0] + dateArray[1] + noNeedTime[0];
-                        console.log("[0]=" + dateArray[0] + "[1]=" + dateArray[1] + "[2]=" + dateArray[2]+"/////")
+                var table = $('#myTable').DataTable();
+                $.fn.dataTableExt.afnFiltering.push(
+                    function (oSettings, aData, iDataIndex) {
 
-                    }
-                    else {
-                        var dateArray = rawDate.split("-");
-                        var parsedDate = dateArray[0] + dateArray[1] + dateArray[2];
-                        console.log("[0]=" + dateArray[0] + "[1]=" + dateArray[1] + "[2]=" + dateArray[2])
+                        var endMin = +parseDateValue($("#end_date_min").val());
+                        var endMax = +parseDateValue($("#end_date_max").val());
+                        // aData represents the table structure as an array of columns, so the script access the date value
+                        // in the first column of the table via aData[0]
+                        var evalDate = +parseDateValue(aData[4]);
+                        console.log(evalDate);
+                        console.log("endMin=" + endMin + ",endMax=" + endMax + ",evalDate=" + evalDate)
 
-                    }
 
-                    
-                    return parsedDate;
-                }
+                        if (evalDate >= endMin && evalDate <= endMax) {
+                            console.log("有符合")
+                            return true;
+                        }
+                        else {
+                            console.log("沒有符合")
+                            return false;
+                        }
+
+                    });
+
 
                 //table.clear().draw();
                 //table.search('來喔').draw();
                 table.draw();
-
-
                 //var innerHtml
-
-
-
-
-
-
-
-
             })
+            // Function for converting a mm/dd/yyyy date value into a numeric string for comparison (example 08/12/2010 becomes 20100812
+            function parseDateValue(rawDate) {
+                if (rawDate.includes("/")) {
+                    var dateArray = rawDate.split("/");
+                    var noNeedTime = dateArray[2].split(' ');
 
-            //var a = $('#myTable tbody').html();
-            //console.log(a);
+                    var parsedDate = dateArray[0] + dateArray[1] + noNeedTime[0];
+                    console.log("[0]=" + dateArray[0] + "[1]=" + dateArray[1] + "[2]=" + dateArray[2] + "/////")
+
+                }
+                else {
+                    var dateArray = rawDate.split("-");
+                    var parsedDate = dateArray[0] + dateArray[1] + dateArray[2];
+                    console.log("[0]=" + dateArray[0] + "[1]=" + dateArray[1] + "[2]=" + dateArray[2])
+
+                }
+
+                return parsedDate;
+            }
+
+
+
         });
     </script>
 }

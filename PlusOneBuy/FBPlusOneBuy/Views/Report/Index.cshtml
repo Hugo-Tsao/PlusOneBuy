@@ -62,7 +62,7 @@
                     $@Html.DisplayFor(model => item.Amount)
                 </td>
                 <td>@Html.ActionLink("...", "CommentsOrderList", new { liveId = item.ID })</td>
-                <td>@Html.ActionLink("...", "SalesOrderList", new { liveId = item.ID })</td>
+                <td>@Html.ActionLink("...", "SalesOrderList", new { livepageId = item.LivePageID })</td>
                 <td>@Html.ActionLink("...", "ROIOrderList", new { liveId = item.ID })</td>
             </tr>
         }
@@ -78,7 +78,7 @@
     <script>
         $(document).ready(function () {
             $('#myTable').DataTable({
-                "info": false, "bLengthChange": false, "pageLength": 15
+                "info": false, "bLengthChange": false, "pageLength": 15,"order": [[ 0, "desc" ]]
             });
             $('#btn_reset').on("click", function () {
                 var table = $('#myTable').DataTable();

@@ -2,10 +2,11 @@
 @{
     ViewBag.Title = "ROIOrderList";
     Layout = "~/Views/Shared/Main_Layout.cshtml";
+    var SaleOrders = ViewData["SaleOrder"] as FBPlusOneBuy.ViewModels.SalesOrderList;
 }
 <span class="h4 font-weight-normal text-muted">報告</span>
 <span>/</span>
-<a class="h4 font-weight-normal text-muted" href="@Url.Action("Index","Report")">直播清單</a>
+<a class="h4 font-weight-normal text-muted" href="@Url.Action("Index", "Report")">直播清單</a>
 <span>/</span>
 <span class="h4 font-weight-normal text-muted"><strong>ROI</strong></span>
 <div class="row mt-3">
@@ -15,24 +16,51 @@
     <div class="col-6">
         <span class="badge badge-pill badge-warning">直播</span>
         <hr>
-        <h3><span class="badge badge-light">@Html.DisplayNameFor(model => model.LivePageID)</span>
-        <span class="badge badge-light">@Html.DisplayFor(model => model.LivePageID)</span></h3>      
-        <h3><span class="badge badge-light">@Html.DisplayNameFor(model => model.LiveName)</span>
-        <span class="badge badge-light">@Html.DisplayFor(model => model.LiveName)</span></h3>
-        <h3><span class="badge badge-light">@Html.DisplayNameFor(model => model.postTime)</span>
-        <span class="badge badge-light">@Html.DisplayFor(model => model.postTime)</span></h3>
-        <h3><span class="badge badge-light">@Html.DisplayNameFor(model => model.endTime)</span>
-        <span class="badge badge-light">@Html.DisplayFor(model => model.endTime)</span></h3>
+        <h3>
+            <span class="badge badge-light">@Html.DisplayNameFor(model => model.LivePageID)</span>
+            <span class="badge badge-light">@Html.DisplayFor(model => model.LivePageID)</span>
+        </h3>
+        <h3>
+            <span class="badge badge-light">@Html.DisplayNameFor(model => model.LiveName)</span>
+            <span class="badge badge-light">@Html.DisplayFor(model => model.LiveName)</span>
+        </h3>
+        <h3>
+            <span class="badge badge-light">@Html.DisplayNameFor(model => model.postTime)</span>
+            <span class="badge badge-light">@Html.DisplayFor(model => model.postTime)</span>
+        </h3>
+        <h3>
+            <span class="badge badge-light">@Html.DisplayNameFor(model => model.endTime)</span>
+            <span class="badge badge-light">@Html.DisplayFor(model => model.endTime)</span>
+        </h3>
         <span class="badge badge-pill badge-primary">數據</span>
         <hr>
-        <h3><span class="badge badge-light">觀看人數:</span><span class="badge badge-light">0</span></h3>
-        <h3><span class="badge badge-light">@Html.DisplayNameFor(model => model.QtyOfOrders)</span>
-        <span class="badge badge-light">@Html.DisplayFor(model => model.QtyOfOrders)</span></h3>
-        <h3><span class="badge badge-light">@Html.DisplayNameFor(model => model.Amount)</span>
-        <span class="badge badge-light">$@Html.DisplayFor(model => model.Amount)</span></h3>
-        <h3><span class="badge badge-light">成單數量:</span><span class="badge badge-light">0</span></h3>
-        <h3><span class="badge badge-light">成單金額:</span><span class="badge badge-light">$0</span></h3>
-        <h3><span class="badge badge-light">ROI:</span><span class="badge badge-light">0%</span></h3>
+        <h3>
+            <span class="badge badge-light">@Html.DisplayNameFor(model => model.MaxViews)</span>
+            <span class="badge badge-light">@Html.DisplayFor(model => model.MaxViews)</span>
+        </h3>
+        <h3>
+            <span class="badge badge-light">@Html.DisplayNameFor(model => model.QtyOfOrders)</span>
+            <span class="badge badge-light">@Html.DisplayFor(model => model.QtyOfOrders)</span>
+        </h3>
+        <h3>
+            <span class="badge badge-light">@Html.DisplayNameFor(model => model.Amount)</span>
+            <span class="badge badge-light">$@Html.DisplayFor(model => model.Amount)</span>
+        </h3>
+        <h3>
+            <span class="badge badge-light">成單數量</span>
+            <span class="badge badge-light">@SaleOrders.Quantity</span>
+        </h3>
+        <h3>
+            <span class="badge badge-light">成單金額</span>
+            <span class="badge badge-light">$@String.Format("{0:N0}", SaleOrders.Total)</span>
+        </h3>
+        @{
+            decimal? ROI =SaleOrders.Total / Model.Amount;
+            ROI=Math.Round((decimal)ROI, 2);
+        }
+        <h3><span class="badge badge-light">ROI(成/收)</span><span class="badge badge-light">@ROI%</span></h3>
+
+
     </div>
     <div class="col">
 

@@ -54,9 +54,8 @@ namespace FBPlusOneBuy.Controllers
             LivePostsRepository livePost_repo = new LivePostsRepository();
             ViewData.Model = livePost_repo.GetLivePost(liveId);
 
-            //var SaleOrder = livePost_repo.SaleOrder(liveId);
-            //SaleOrder.
-            //ViewData["Sales"]
+            var SaleOrder = livePost_repo.SaleOrder(liveId);
+            ViewData["SaleOrder"] = SaleOrder;
             return View();
         }
     }

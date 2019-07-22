@@ -27,5 +27,7 @@ namespace FBPlusOneBuy.ViewModels
         public decimal? Amount { get; set; }
         [Display(Name = "收單數量")]
         public int? QtyOfOrders { get; set; }
+        [Display(Name = "觀看人數")]
+        public int MaxViews { get; set; }
     }
 }

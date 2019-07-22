@@ -62,7 +62,7 @@
                     $@Html.DisplayFor(model => item.Amount)
                 </td>
                 <td>@Html.ActionLink("...", "CommentsOrderList", new { liveId = item.ID })</td>
-                <td>@Html.ActionLink("...", "SalesOrderList", new { liveId = item.ID })</td>
+                <td>@Html.ActionLink("...", "SalesOrderList", new { livepageId = item.LivePageID })</td>
                 <td>@Html.ActionLink("...", "ROIOrderList", new { liveId = item.ID })</td>
             </tr>
         }

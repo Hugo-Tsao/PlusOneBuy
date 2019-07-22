@@ -34,7 +34,7 @@ namespace FBPlusOneBuy.Models
 
         public int? QtyOfOrders { get; set; }
 
-        public int? MaxViwes { get; set; }
+        public int? MaxViews { get; set; }
 
         public virtual FanPage FanPage { get; set; }
 

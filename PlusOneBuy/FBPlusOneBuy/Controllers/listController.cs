@@ -62,7 +62,8 @@ namespace FBPlusOneBuy.Controllers
             decimal Amount = o_repo.GetAmount(livePageID);
             int QtyOfOrders = o_repo.GetQtyOfOrders(livePageID);
             var live_repo = new LivePostsRepository();
-            live_repo.UpdatePost(livePageID, QtyOfOrders, Amount, DateTime.Now);
+            int views = (int)Session["views"];
+            live_repo.UpdatePost(livePageID, QtyOfOrders, Amount, DateTime.Now, views);
         }
 
         [HttpPost]
@@ -103,6 +104,17 @@ namespace FBPlusOneBuy.Controllers
         {
             string token = Session["token"].ToString();
             int views=FBRequestService.GetLiveVideoViews(livePageID, token);
+            if (Session["views"] == null)
+            {
+                Session["views"] = views;
+            }
+            else
+            {
+                if ((int)Session["views"] < views)
+                {
+                    Session["views"] = views;
+                }
+            }
 
             return Json(views, JsonRequestBehavior.AllowGet);
         }

@@ -103,7 +103,7 @@ namespace FBPlusOneBuy.Repositories
         {
             using (conn = new SqlConnection(connectionString))
             {
-                string sql = "SELECT ID, LiveName, postTime, endTime, LivePageID, Amount,  QtyOfOrders FROM LivePosts";
+                string sql = "SELECT ID, LiveName, postTime, endTime, LivePageID, Amount,  QtyOfOrders FROM LivePosts ORDER BY ID DESC";
                 var result = conn.Query<ReportViewModel>(sql).ToList();
                 return result;
             }

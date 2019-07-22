@@ -34,6 +34,10 @@ namespace FBPlusOneBuy.Controllers
         }
         public ActionResult Video()
         {
+            if (Session["fanPageName"] == null)
+            {
+                return Redirect("FanPageName");
+            }
             string fanPageName = Session["fanPageName"].ToString();
             string token = Session["token"].ToString();
             var result = FBRequestService.getLivePageID(fanPageName, token);

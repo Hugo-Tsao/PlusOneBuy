@@ -117,5 +117,15 @@ namespace FBPlusOneBuy.Repositories
                 return result;
             }
         }
+
+        public List<SalesOrderList> SaleOrder(int liveId)
+        {
+            using (conn = new SqlConnection(connectionString))
+            {
+                string sql = "SELECT Quantity,  Total FROM SalesOrders WHERE LiveID = @liveId";
+                var result = conn.Query<SalesOrderList>(sql, new { liveId }).ToList();
+                return result;
+            }
+        }
     }
 }

@@ -57,7 +57,7 @@ namespace FBPlusOneBuy.Services
         public static string getAddToCartLink(int liveKey ,int salepage_id,int skuId,int qty)
         {
             string link = string.Empty;
-            link = "http://64.selfshop.qa.91dev.tw/v2/ShoppingCart/BatchInsert?&data=";
+            link = "http://64.selfshop.qa.91dev.tw/v2/ShoppingCart/BatchInsert?data=";
             CartViewModel[] data = new CartViewModel[]
             {
                 new CartViewModel()

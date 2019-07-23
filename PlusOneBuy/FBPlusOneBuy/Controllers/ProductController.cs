@@ -88,7 +88,7 @@ namespace FBPlusOneBuy.Controllers
         {
             if (ProductService.DeleteProduct(skuId))
             {
-                return Json("OK");
+                return Json(skuId);
             }
 
             return Json("Failed");

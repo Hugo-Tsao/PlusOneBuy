@@ -61,7 +61,7 @@ namespace FBPlusOneBuy.Controllers
             }
             catch (Exception e)
             {
-                DateTime date = DateTime.Now;
+                DateTime date = DateTime.UtcNow.AddHours(8);
                 string today = date.ToString("yyyy-MM-dd");
                 string now = date.ToString("yyyy-MM-dd HH:mm:ss");
                 if (!Directory.Exists("C:\\log"))
@@ -84,7 +84,7 @@ namespace FBPlusOneBuy.Controllers
             int QtyOfOrders = o_repo.GetQtyOfOrders(livePageID);
             var live_repo = new LivePostsRepository();
             int views = (int)Session["views"];
-            live_repo.UpdatePost(livePageID, QtyOfOrders, Amount, DateTime.Now, views);
+            live_repo.UpdatePost(livePageID, QtyOfOrders, Amount, DateTime.UtcNow.AddHours(8), views);
         }
 
         [HttpPost]
@@ -123,6 +123,7 @@ namespace FBPlusOneBuy.Controllers
         [HttpGet]
         public ActionResult GetLiveVideoViews(string livePageID)
         {
+            Session["views"] = null;
             try
             {
                 string token = Session["token"].ToString();
@@ -144,7 +145,7 @@ namespace FBPlusOneBuy.Controllers
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                return Json((int)Session["views"]);
+                return Json(0);
             }
             
         }

@@ -20,7 +20,7 @@ namespace FBPlusOneBuy.Services
                 LiveName = liveName,
 
                 FanPageID = 1, //目前只有一個粉絲團，所以也暫時寫死，之後可選粉絲團後改fanPageID
-                postTime = DateTime.Now
+                postTime = DateTime.UtcNow.AddHours(8)
             };
             livepost_repo.Create(livepost);
         }

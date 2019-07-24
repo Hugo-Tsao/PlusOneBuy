@@ -59,7 +59,7 @@
             if (SaleOrders.Total != 0 && Model.Amount != 0)
             {
                 ROI = SaleOrders.Total / Model.Amount;
-                ROI = Math.Round((decimal)ROI, 2);
+                ROI = Math.Round((decimal)ROI*100,0);
             }
             else
             {

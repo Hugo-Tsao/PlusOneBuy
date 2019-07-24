@@ -61,7 +61,7 @@ namespace FBPlusOneBuy.Controllers
             }
             catch (Exception e)
             {
-                DateTime date = DateTime.UtcNow.AddHours(08);
+                DateTime date = DateTime.Now;
                 string today = date.ToString("yyyy-MM-dd");
                 string now = date.ToString("yyyy-MM-dd HH:mm:ss");
                 if (!Directory.Exists("C:\\log"))
@@ -84,7 +84,7 @@ namespace FBPlusOneBuy.Controllers
             int QtyOfOrders = o_repo.GetQtyOfOrders(livePageID);
             var live_repo = new LivePostsRepository();
             int views = (int)Session["views"];
-            live_repo.UpdatePost(livePageID, QtyOfOrders, Amount, DateTime.UtcNow.AddHours(08), views);
+            live_repo.UpdatePost(livePageID, QtyOfOrders, Amount, DateTime.Now, views);
         }
 
         [HttpPost]

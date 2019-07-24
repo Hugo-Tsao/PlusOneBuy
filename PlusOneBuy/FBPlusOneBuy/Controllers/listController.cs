@@ -145,7 +145,7 @@ namespace FBPlusOneBuy.Controllers
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                return Json(0);
+                return Json(0,JsonRequestBehavior.AllowGet);
             }
             
         }

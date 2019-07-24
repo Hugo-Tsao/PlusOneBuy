@@ -44,8 +44,8 @@ namespace FBPlusOneBuy.Controllers
         [HttpPost]
         public ActionResult GetPlusOneBuyOrders(string livePageID, string keywordPattern)
         {
-            try
-            {
+            //try
+            //{
                 string token = Session["token"].ToString();
                 //string token =
                 //    "EAASxbKYYpHoBAI27CZBoK8ZBzFmJjEMIR30woKcIfDPx4mtljSUOsGxVGsKHmy1JgCay8KTilT9l3nbkSfGzBZC6wVSDUcl3ZAa7C5OyZAv8CV7K0duuyW2jHFGqZCwhIKiM6jPonrHLp7s5UEudWL5UHkT8IuZBGmBTOEHS0IjYZCsYbcQfo3j9";
@@ -58,23 +58,23 @@ namespace FBPlusOneBuy.Controllers
 
                 var result = JsonConvert.SerializeObject(OrderList);
                 return Json(result);
-            }
-            catch (Exception e)
-            {
-                DateTime date = DateTime.UtcNow.AddHours(8);
-                string today = date.ToString("yyyy-MM-dd");
-                string now = date.ToString("yyyy-MM-dd HH:mm:ss");
-                if (!Directory.Exists("C:\\log"))
-                {
-                    Directory.CreateDirectory("C:\\log\\");
-                }
+            //}
+            //catch (Exception e)
+            //{
+            //    DateTime date = DateTime.UtcNow.AddHours(8);
+            //    string today = date.ToString("yyyy-MM-dd");
+            //    string now = date.ToString("yyyy-MM-dd HH:mm:ss");
+            //    if (!Directory.Exists("C:\\log"))
+            //    {
+            //        Directory.CreateDirectory("C:\\log\\");
+            //    }
 
-                string nowPath = "C:\\log\\" + today + ".txt";
+            //    string nowPath = "C:\\log\\" + today + ".txt";
 
-                System.IO.File.AppendAllText("C:\\log\\" + today + ".txt", "\r\n" + now + " : " + e);
+            //    System.IO.File.AppendAllText("C:\\log\\" + today + ".txt", "\r\n" + now + " : " + e);
 
-                return Json("error");
-            }
+            //    return Json("error");
+            //}
         }
         [HttpPost]
         public void SetPostEndtime(string livePageID)

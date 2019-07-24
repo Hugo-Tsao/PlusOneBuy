@@ -22,28 +22,51 @@
             <table id="myTable" class="cell-border compact stripe" style="width:100%">
                 <thead>
                     <tr>
-                        <th>銷售編號</th>
-                        <th>產品名稱</th>
-                        <th>客戶名稱</th>
-                        <th>成立時間</th>
-                        <th>數量</th>
-                        <th>總額</th>
+                        <th>@Html.DisplayNameFor(model => model.salesOrders.FirstOrDefault().SalesOrderID)</th>
+                        <th>@Html.DisplayNameFor(model => model.salesOrders.FirstOrDefault().ProductName)</th>
+                        <th>@Html.DisplayNameFor(model => model.salesOrders.FirstOrDefault().CustomerName)</th>
+                        <th>@Html.DisplayNameFor(model => model.salesOrders.FirstOrDefault().CheckoutDateTime)</th>
+                        <th>@Html.DisplayNameFor(model => model.salesOrders.FirstOrDefault().Quantity)</th>
+                        <th>@Html.DisplayNameFor(model => model.salesOrders.FirstOrDefault().Total)</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @for (var i = 0; i < Model.salesOrders.Count; i++)
+                    @foreach (var item in Model.salesOrders)
                     {
-                        <tr>
-                            <td>@Model.salesOrders[i].SalesOrderID</td>
-                            <td>@Model.salesOrders[i].ProductName</td>
-                            <td>@Model.salesOrders[i].CustomerName</td>
-                            <td>@Model.salesOrders[i].CheckoutDateTime</td>
-                            <td>@Model.salesOrders[i].Quantity</td>
-                            <td>$@String.Format("{0:N0}", @Model.salesOrders[i].Total)</td>
-                        </tr>
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(model => item.SalesOrderID)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => item.ProductName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => item.CustomerName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => item.CheckoutDateTime)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => item.Quantity)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => item.Total)
+                        </td>
+                    </tr>
+                            }
+                            @*@for (var i = 0; i < Model.salesOrders.Count; i++)
+                {
+                    <tr>
+                        <td>@Model.salesOrders[i].SalesOrderID</td>
+                        <td>@Model.salesOrders[i].ProductName</td>
+                        <td>@Model.salesOrders[i].CustomerName</td>
+                        <td>@Model.salesOrders[i].CheckoutDateTime</td>
+                        <td>@Model.salesOrders[i].Quantity</td>
+                        <td>$@String.Format("{0:N0}", @Model.salesOrders[i].Total)</td>
+                    </tr>
 
-                    }
-                </tbody>
+                }*@
+                    </tbody>
             </table>
         </div>
     </div>

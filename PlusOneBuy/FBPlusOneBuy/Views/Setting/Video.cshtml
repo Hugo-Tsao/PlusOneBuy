@@ -13,7 +13,7 @@
 
 <form action="~/list/index" method="post">
     <div class="row mt-3">
-        <div class="col-4">
+        <div class="col-sm-auto">
             <label><strong>挑選商品</strong></label><hr />
             <div class="dropdown">
                 <button class="btn border-info dropdown-toggle" type="button" id="videodropdownMenu" data-toggle="dropdown" value="salepage_id"
@@ -53,7 +53,7 @@
                 <div class="col">
                     <div class="dropdown">
                         <label>直播影片:</label>
-                        <button class="btn border-info dropdown-toggle" type="button" id="dropdownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="width:300px;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">
+                        <button class="btn border-info dropdown-toggle" type="button" id="dropdownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="width:240px;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">
                             直播影片
                         </button>
                         <div id="videomenu" class="dropdown-menu" aria-labelledby="dropdownMenu" style="width:80%">
@@ -155,10 +155,12 @@
                     $('#liveName').val($(this).text())
                 }
             })
+            //商品類別
             $('#searchtype').children('.dropdown-item').click(function () {
                 $('#videodropdownMenu').text($(this).text())
                 $('#videodropdownMenu').val($(this).val())
             })
+            
             $('#btn_submit').click(function () {
                 if ($('#dropdownMenu').text().trim() == "直播影片") {
                     $("#modaltext").text("請選擇直播影片!!")
@@ -169,6 +171,7 @@
                     document.form.onsubmit();
                 }
             })
+            //搜尋商品
             $('#SearchProduct').click(function () {
                 $('#ProductSearch tbody').empty()
 
@@ -190,9 +193,10 @@
                                     "<input type='radio' name='checkproduct' value='" + json[i].SkuId + "'>" +
                                     "</td><td>" + json[i].SkuId + "</td><td>" + json[i].OuterId + "</td></tr>")
                             }
-                            pagination(json.length);
-                            //var oos = { "info": false, "bLengthChange": false, "pageLength": 15, "destroy": true, "searching": false,  }
-                            //$('#ProductSearch').DataTable(oos);
+
+                            if (json.length > 10) {
+                                pagination(json.length);
+                            }
                         }
                         else {
                             $("#modaltext").text("查無此編號")
@@ -201,6 +205,7 @@
                     }
                 })
             })
+            //加入商品
             $('#AddProduct').on('click', PickProduct)
             function PickProduct() {
 
@@ -261,6 +266,7 @@
                 })
             }
         })
+        //修改關鍵字
         $('body').on("click", 'button[name="checkKeyword"]', function () {
             var keyword = $(this).val()
             $.ajax({
@@ -273,7 +279,7 @@
                 }
             })
         });
-
+        //刪除商品
         $('body').on("click", 'button[name="delProduct"]', function () {
             $.ajax({
                 type: 'post',
@@ -286,6 +292,7 @@
                 }
             })
         });
+        //搜尋分頁
         function pagination(length) {
             $('.pagination').css('display','')
             $('table.paginated').each(function () {

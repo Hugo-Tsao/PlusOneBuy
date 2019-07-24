@@ -30,6 +30,11 @@ namespace FBPlusOneBuy.Models
                 .WithRequired(e => e.Customer)
                 .WillCascadeOnDelete(false);
 
+            modelBuilder.Entity<Customer>()
+                .HasMany(e => e.SalesOrders)
+                .WithRequired(e => e.Customer)
+                .WillCascadeOnDelete(false);
+
             modelBuilder.Entity<FanPage>()
                 .HasMany(e => e.LivePosts)
                 .WithRequired(e => e.FanPage)
@@ -47,8 +52,9 @@ namespace FBPlusOneBuy.Models
 
             modelBuilder.Entity<LivePost>()
                 .HasMany(e => e.SalesOrders)
-                .WithOptional(e => e.LivePost)
-                .HasForeignKey(e => e.LiveID);
+                .WithRequired(e => e.LivePost)
+                .HasForeignKey(e => e.LiveID)
+                .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Order>()
                 .Property(e => e.CustomerID)
@@ -64,6 +70,11 @@ namespace FBPlusOneBuy.Models
 
             modelBuilder.Entity<Product>()
                 .HasMany(e => e.Orders)
+                .WithRequired(e => e.Product)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Product>()
+                .HasMany(e => e.SalesOrders)
                 .WithRequired(e => e.Product)
                 .WillCascadeOnDelete(false);
 

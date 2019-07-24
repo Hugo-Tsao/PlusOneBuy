@@ -22,10 +22,10 @@ namespace FBPlusOneBuy.ViewModels
         public DateTime? endTime { get; set; }
         [Display(Name = "直播編號")]
         public string LivePageID { get; set; }
-        [Display(Name = "收單金額")]
+        [Display(Name = "訂單金額")]
         [DisplayFormat(DataFormatString = "{0:N0}")]
         public decimal? Amount { get; set; }
-        [Display(Name = "收單數量")]
+        [Display(Name = "訂單數量")]
         public int? QtyOfOrders { get; set; }
         [Display(Name = "觀看人數")]
         public int MaxViews { get; set; }

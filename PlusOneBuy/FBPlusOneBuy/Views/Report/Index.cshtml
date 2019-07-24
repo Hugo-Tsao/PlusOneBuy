@@ -22,21 +22,21 @@
 <button type="button" class="btn btn-outline-secondary" id="btn_enddate_searching"><i class="fas fa-search"></i></button>
 <button type="button" class="btn btn-outline-secondary" id="btn_reset">RESET</button>
 <table id="myTable" class="cell-border compact stripe" style="width:100%;">
-    <thead>
+    <thead style="font-size:12px;">
         <tr>
-            <th>@Html.DisplayNameFor(model => model.FirstOrDefault().ID)</th>
-            <th>@Html.DisplayNameFor(model => model.FirstOrDefault().LivePageID)</th>
-            <th>@Html.DisplayNameFor(model => model.FirstOrDefault().LiveName)</th>
-            <th>@Html.DisplayNameFor(model => model.FirstOrDefault().postTime)</th>
-            <th>@Html.DisplayNameFor(model => model.FirstOrDefault().endTime)</th>
-            <th>@Html.DisplayNameFor(model => model.FirstOrDefault().QtyOfOrders)</th>
-            <th>@Html.DisplayNameFor(model => model.FirstOrDefault().Amount)</th>
-            <th>留言訂單</th>
-            <th>銷售單</th>
-            <th>ROI</th>
+            <th >@Html.DisplayNameFor(model => model.FirstOrDefault().ID)</th>
+            <th >@Html.DisplayNameFor(model => model.FirstOrDefault().LivePageID)</th>
+            <th >@Html.DisplayNameFor(model => model.FirstOrDefault().LiveName)</th>
+            <th >@Html.DisplayNameFor(model => model.FirstOrDefault().postTime)</th>
+            <th >@Html.DisplayNameFor(model => model.FirstOrDefault().endTime)</th>
+            <th >@Html.DisplayNameFor(model => model.FirstOrDefault().QtyOfOrders)</th>
+            <th >@Html.DisplayNameFor(model => model.FirstOrDefault().Amount)</th>
+            <th >訂單</th>
+            <th >成單</th>
+            <th >ROI</th>
         </tr>
     </thead>
-    <tbody>
+    <tbody style="font-size:14px;">
         @foreach (var item in Model)
         {
             <tr>

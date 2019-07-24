@@ -123,21 +123,30 @@ namespace FBPlusOneBuy.Controllers
         [HttpGet]
         public ActionResult GetLiveVideoViews(string livePageID)
         {
-            string token = Session["token"].ToString();
-            int views=FBRequestService.GetLiveVideoViews(livePageID, token);
-            if (Session["views"] == null)
+            try
             {
-                Session["views"] = views;
-            }
-            else
-            {
-                if ((int)Session["views"] < views)
+                string token = Session["token"].ToString();
+                int views = FBRequestService.GetLiveVideoViews(livePageID, token);
+                if (Session["views"] == null)
                 {
                     Session["views"] = views;
                 }
-            }
+                else
+                {
+                    if ((int) Session["views"] < views)
+                    {
+                        Session["views"] = views;
+                    }
+                }
 
-            return Json(views, JsonRequestBehavior.AllowGet);
+                return Json(views, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return Json((int)Session["views"]);
+            }
+            
         }
     }
 }

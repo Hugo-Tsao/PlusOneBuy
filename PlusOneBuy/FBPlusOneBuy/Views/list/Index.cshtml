@@ -79,26 +79,30 @@
 </div>
 <div class="container-fluid">
     <div class="row mt-3">
-        <div class="col-9">
+        <div class="col-8">
         </div>
         <div class="col">
             <button id="btn_sentMsg" class="btn btn-primary ">寄送購物車連結</button>
+        </div>
+        <div class="col">
             <form method="post" action="/list/SetPostEndtime">
                 <input name="livePageID" value="@ViewData["livePageID"]" type="hidden" />
                 <button type="submit" id="btn_endpost" class="btn btn-dark ">結束本次推播</button><br />
             </form>
-
         </div>
     </div>
-    <div id="list" class="row" style="margin: 10px">
+    <div class="row">
         <div class="col-5">
             <h3>直播商品</h3>
-            <table class="table">
+            <table class="table" style="font-size:14px;">
                 <thead>
                     <tr>
-                        <th>商品名稱</th>
-                        <th>商品關鍵字</th>
+                        <th>名稱</th>
+                        <th>規格</th>
+                        <th>關鍵字</th>
                         <th>價格</th>
+                        <th>數量</th>
+                        <th>剩餘</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -108,8 +112,11 @@
                         {
                             <tr>
                                 <td>@products[i].ProductName</td>
+                                <td>@products[i].SkuName</td>
                                 <td>@products[i].Keyword</td>
                                 <td>@String.Format("{0:N0}", products[i].UnitPrice)</td>
+                                <td>@products[i].Qty</td>
+                                <td>0</td>
                             </tr>
                         }
                     }
@@ -118,7 +125,7 @@
                 </tbody>
             </table>
         </div>
-        <div class="col-7">
+        <div class="col">
             <div class="row">
                 <div class="col"> <h3>留言清單</h3></div>
                 <div class="col">
@@ -141,6 +148,7 @@
             </div>
         </div>
     </div>
+
 </div>
 
 @section EndJS

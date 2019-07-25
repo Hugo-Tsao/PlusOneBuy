@@ -51,6 +51,8 @@ namespace FBPlusOneBuy.Models
         public object Height { get; set; }
         public object Weight { get; set; }
         public string StatusDef { get; set; }
+        public int SellingQty { get; set; }
+        public string SkuName { get; set; }
     }
 
     public class ProductMain
@@ -67,5 +69,22 @@ namespace FBPlusOneBuy.Models
         public string Status { get; set; }
         public List<ProductSKUList_Data> Data { get; set; }
         public object ErrorMessage { get; set; }
+    }
+    public class ProductStock
+    {
+        public string ErrorId { get; set; }
+        public string Status { get; set; }
+        public List<ProductStock_Data> Data { get; set; }
+        public object ErrorMessage { get; set; }
+    }
+    public class ProductStock_Data
+    {
+        public int Id { get; set; }
+        public string Title { get; set; }
+        public int SkuId { get; set; }
+        public string SkuName { get; set; }
+        public string OuterId { get; set; }
+        public int SellingQty { get; set; }
+
     }
 }

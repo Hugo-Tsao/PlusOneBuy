@@ -13,14 +13,18 @@ namespace FBPlusOneBuy.Controllers
     public class ProductController : Controller
     {
         [HttpPost]
-        public ActionResult GetSKUListByMain(string FilterType,int id_value)
+        public ActionResult GetSKUListByMain(string FilterType, int id_value)
         {
-            List<ProductSKUList_Data> data = new List<ProductSKUList_Data>();
+            //List<ProductSKUList_Data> data = new List<ProductSKUList_Data>();
+            List<ProductStock_Data> data = new List<ProductStock_Data>();
 
             if (FilterType == "salepage_id")
             {
-                ProductSKUList store = ProductService.GetSKUListByMain(id_value);
+                //ProductSKUList store = ProductService.GetSKUListByMain(id_value);
+                //data = store.Data;
+                ProductStock store = ProductService.GetStock(id_value);
                 data = store.Data;
+
 
             }
             else if (FilterType == "shopCategoryId")
@@ -28,7 +32,7 @@ namespace FBPlusOneBuy.Controllers
                 ProductCategoryViewModel pcvm = new ProductCategoryViewModel();
                 pcvm.ShopCategoryId = id_value;
                 ProductCategory pc = ProductService.GetSKUList(pcvm);
-                data = pc.Data;
+                //data = pc.Data;
             }
             if (data != null)
             {

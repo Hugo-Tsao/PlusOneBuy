@@ -85,7 +85,7 @@
             <button id="btn_sentMsg" class="btn btn-primary ">寄送購物車連結</button>
             <form method="post" action="/list/SetPostEndtime">
                 <input name="livePageID" value="@ViewData["livePageID"]" type="hidden" />
-                <button type="submit" id="btn_endpost" class="btn btn-dark ">結束本次推播</button><br/>
+                <button type="submit" id="btn_endpost" class="btn btn-dark ">結束本次推播</button><br />
             </form>
 
         </div>
@@ -174,7 +174,7 @@
             console.log(response);
 
         });
-        
+
         }*@
         function sendMsg() {
             $.ajax({
@@ -186,9 +186,9 @@
 
             });
         }
-    });
-        var num = 0
-        var money=0
+        });
+        var num = 0;
+        var money = 0;
         function GetData() {
             $.ajax({
                 type: 'post',
@@ -199,14 +199,16 @@
                 success: function (Result) {
                     console.log(Result);
                     var json = JSON.parse(Result);
+                    
                     for (var i = 0; i < json.length; i++) {
-                        var newTime = new Date(json[i].OrderDateTime);
+                        var Time = json[i].OrderDateTime
+                        var newDate = Time.substring(0,10)+ " " +Time.substring(11,19);
                         $('#ListTable').append("<tr><td>" + json[i].CustomerName + "</td>" +
                             "<td>" + json[i].Keyword + "</td>" +
                             "<td>" + json[i].Product.ProductName + "</td>" +
                             "<td>" + json[i].Quantity + "</td>" +
-                            "<td>" + newTime.toLocaleString() + "</td></tr>")
-                        money=json[i].Product.UnitPrice
+                            "<td>" + newDate + "</td></tr>");
+                        money = json[i].Product.UnitPrice;
                     }
                 },
                 error: function () {

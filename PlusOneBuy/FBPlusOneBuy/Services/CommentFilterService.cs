@@ -33,6 +33,8 @@ namespace FBPlusOneBuy.Services
                         {
                             break;
                         }
+                        var name = UTF8ConvertToString(data.from.name);
+
                         if (!cust_repo.SelectCustomer(data.from.id))
                         {
                             var customer = new Customer { CustomerID = data.from.id, CustomerName = name };
@@ -40,7 +42,6 @@ namespace FBPlusOneBuy.Services
                         }
                         var live_repo = new LivePostsRepository();
                         var order = new OrderList();
-                        var name = UTF8ConvertToString(data.from.name);
                         order.CustomerID = data.from.id;
                         order.CustomerName = name;
                         order.Keyword = data.message;

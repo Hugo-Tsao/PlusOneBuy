@@ -7,6 +7,7 @@ using System.Web.Mvc;
 using FBPlusOneBuy.Models;
 using FBPlusOneBuy.Services;
 using FBPlusOneBuy.ViewModels;
+using Microsoft.Ajax.Utilities;
 
 namespace FBPlusOneBuy.Controllers
 {
@@ -32,7 +33,18 @@ namespace FBPlusOneBuy.Controllers
                 ProductCategoryViewModel pcvm = new ProductCategoryViewModel();
                 pcvm.ShopCategoryId = id_value;
                 ProductCategory pc = ProductService.GetSKUList(pcvm);
-                //data = pc.Data;
+                var result = pc.Data.DistinctBy(x => x.Id);
+                foreach (var products in result)
+                {
+                    ProductStock stock = ProductService.GetStock(products.Id);
+                    if (stock.Data != null)
+                    {
+                        foreach (var item in stock.Data)
+                        {
+                            data.Add(item);
+                        }
+                    }
+                }
             }
             if (data != null)
             {

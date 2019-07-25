@@ -12,7 +12,7 @@ namespace FBPlusOneBuy.Services
 {
     public static class CommentFilterService
     {
-        public static List<OrderList> KeywordFilter(List<ProductViewModel> products,List<Datum> datas,string livePageID,string keywordPattern)
+        public static List<OrderList> KeywordFilter(List<ProductViewModel> products, List<Datum> datas, string livePageID, string keywordPattern)
         {
             var resultOrderList = new List<OrderList>();
             var custsList = new List<Customer>();
@@ -27,7 +27,7 @@ namespace FBPlusOneBuy.Services
                 foreach (var item in products)
                 {
                     string completeKeyword = item.Keyword + keywordPattern;
-                    if (data.message == completeKeyword)  
+                    if (data.message == completeKeyword)
                     {
                         //resultDatum.Add(data);
                         var context = new Context();
@@ -78,34 +78,34 @@ namespace FBPlusOneBuy.Services
             DateTime selectResult = order_repo.SelectLastOrderComment(liveid); //SQL 要改
             if (selectResult != DateTime.MaxValue)
             {
-                comments = comments.Where(x => x.created_time > selectResult).ToList();
+                comments = comments.Where(x => DateTime.Compare(x.created_time, selectResult) > 0).ToList();
             }
             else
             {
-                comments = comments.Where(x => x.created_time > livePostTime).ToList();
+                comments = comments.Where(x => DateTime.Compare(x.created_time, livePostTime) > 0).ToList();
             }
 
             return comments;
         }
 
-        public static List<OrderList> getNewOrderList(string livePageID, string token, List<ProductViewModel> products,string keywordPattern)
+        public static List<OrderList> getNewOrderList(string livePageID, string token, List<ProductViewModel> products, string keywordPattern)
         {
-            var orderList = new List<OrderList>();            
+            var orderList = new List<OrderList>();
             var allComments = FBRequestService.getAllComments(livePageID, token);
             if (allComments.Count != 0)
             {
                 //過濾出經由推播後的時間開始才喊關鍵字的人
-                //var PickPosts = CommentFilterService.PostTimeFilter(allComments, livePageID);
-                //if (PickPosts.Count > 0)
-                //{
-                    orderList = CommentFilterService.KeywordFilter(products, allComments, livePageID,keywordPattern);
-                    var order_repo = new OrderRepositories();
-                    order_repo.InsertOrder(orderList);                   
-                //}
+                var PickPosts = CommentFilterService.PostTimeFilter(allComments, livePageID);
+                if (PickPosts.Count > 0)
+                {
+                    orderList = CommentFilterService.KeywordFilter(products, PickPosts, livePageID, keywordPattern);
+                var order_repo = new OrderRepositories();
+                order_repo.InsertOrder(orderList);
+                }
             }
             return orderList;
         }
-       
+
 
 
         public static string UTF8ConvertToString(string word)

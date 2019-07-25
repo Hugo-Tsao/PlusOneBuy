@@ -95,13 +95,13 @@ namespace FBPlusOneBuy.Services
             if (allComments.Count != 0)
             {
                 //過濾出經由推播後的時間開始才喊關鍵字的人
-                var PickPosts = CommentFilterService.PostTimeFilter(allComments, livePageID);
-                if (PickPosts.Count > 0)
-                {
-                    orderList = CommentFilterService.KeywordFilter(products, PickPosts, livePageID,keywordPattern);
+                //var PickPosts = CommentFilterService.PostTimeFilter(allComments, livePageID);
+                //if (PickPosts.Count > 0)
+                //{
+                    orderList = CommentFilterService.KeywordFilter(products, allComments, livePageID,keywordPattern);
                     var order_repo = new OrderRepositories();
                     order_repo.InsertOrder(orderList);                   
-                }
+                //}
             }
             return orderList;
         }

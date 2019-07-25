@@ -197,6 +197,7 @@
                 dataType: "json",
                 cache: false,
                 success: function (Result) {
+                    console.log(Result);
                     var json = JSON.parse(Result);
                     for (var i = 0; i < json.length; i++) {
                         var newTime = new Date(json[i].OrderDateTime);
@@ -206,9 +207,10 @@
                             "<td>" + json[i].Quantity + "</td>" +
                             "<td>" + newTime.toLocaleString() + "</td></tr>")
                         money=json[i].Product.UnitPrice
-
                     }
-
+                },
+                error: function () {
+                    alert("error");
                 }
             }).then(function () {
                 setTimeout(GetLiveVideoViews, 10000);

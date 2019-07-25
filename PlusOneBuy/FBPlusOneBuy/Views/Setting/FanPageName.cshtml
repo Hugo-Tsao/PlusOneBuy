@@ -61,8 +61,7 @@
                             let fanPageid = this.value;
                             let fanPageName = $(this).parent().find('p').html();
                             FB.api('/' + fanPageid + '?fields=access_token', function (res) {
-                                alert(res.access_token);
-                                GetDataNew(res.access_token, fanPageid);
+                                GetDataNew(res.access_token, fanPageid,fanPageName);
                                 //console.log("PAGE=" + res.access_token);
                             });
 
@@ -79,12 +78,12 @@
                 });
         }
 
-        function GetDataNew(token, fanPageid) {
+        function GetDataNew(token, fanPageid,fanPageName) {
 
             $.ajax({
                 type: "POST",
                 url: "/Setting/GetFanPageData",
-                data: { token: token, fanPageName: fanPageid },
+                data: { token: token,fanpageid:fanPageid,fanpagename:fanPageName},
                 dataType: 'json',
                 crossDomain: true,
                 cache: false,

@@ -12,14 +12,14 @@ namespace FBPlusOneBuy.Services
 {
     public static class FBRequestService
     {
-        public static Dictionary<string, string> getLivePageID(string fanPageName, string token)
+        public static Dictionary<string, string> getLivePageID(string token)
         {
             //取得前十筆資料
             var postsNumber = 10;
             //建立最終回傳的資料型態
             Dictionary<string, string> livePageIDList = new Dictionary<string, string>();
             //連接的Url
-            string url = "https://graph.facebook.com/v3.3/" + fanPageName + "?fields=posts.limit(" + postsNumber + ")&access_token=" + token;
+            string url = "https://graph.facebook.com/v3.3/me?fields=posts.limit(" + postsNumber + ")&access_token=" + token;
 
             //建立RestClient和請求類型
             var client = new RestClient(url);

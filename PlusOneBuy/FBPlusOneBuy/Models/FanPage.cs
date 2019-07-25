@@ -15,7 +15,7 @@ namespace FBPlusOneBuy.Models
         }
 
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public int FanPageID { get; set; }
+        public string FanPageID { get; set; }
 
         [Required]
         [StringLength(50)]

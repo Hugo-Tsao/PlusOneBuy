@@ -23,8 +23,9 @@ namespace FBPlusOneBuy.Controllers
         [HttpPost]
         public ActionResult Index(string livePageID, string liveName, string keywordPattern)
         {
+            string fanpageid = (string)Session["FanPageID"];
             //新增直播進資料庫
-            LivePostService.CreateLivePost(livePageID, liveName);
+            LivePostService.CreateLivePost(livePageID, liveName, fanpageid);
             //新增商品進資料庫
             ProductRepositories product_repo = new ProductRepositories();
             var products = ProductService.GetCurrentProducts().ProductItems;

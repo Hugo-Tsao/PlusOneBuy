@@ -13,14 +13,26 @@ namespace FBPlusOneBuy.Controllers
     public class ProductController : Controller
     {
         [HttpPost]
-        public ActionResult GetSKUListByMain(int salepage_id)
+        public ActionResult GetSKUListByMain(string FilterType,int id_value)
         {
             List<ProductSKUList_Data> data = new List<ProductSKUList_Data>();
-            ProductSKUList store = ProductService.GetSKUListByMain(salepage_id);
-            data = store.Data;
+
+            if (FilterType == "salepage_id")
+            {
+                ProductSKUList store = ProductService.GetSKUListByMain(id_value);
+                data = store.Data;
+
+            }
+            else if (FilterType == "shopCategoryId")
+            {
+                ProductCategoryViewModel pcvm = new ProductCategoryViewModel();
+                pcvm.ShopCategoryId = id_value;
+                ProductCategory pc = ProductService.GetSKUList(pcvm);
+                data = pc.Data;
+            }
             if (data != null)
             {
-                return Json(store);
+                return Json(data);
             }
             else
             {
@@ -63,12 +75,16 @@ namespace FBPlusOneBuy.Controllers
         //    Store store = ProductService.GetStock(salepage_id, SkuId);
         //    return Json(store);
         //}
-        [HttpPost]
-        public ActionResult ClearProducts()
-        {
 
-            ProductService.ClearProducts();
-            return Json("OK");
+        [HttpPost]
+        public ActionResult DeleteProduct(int skuId)
+        {
+            if (ProductService.DeleteProduct(skuId))
+            {
+                return Json(skuId);
+            }
+
+            return Json("Failed");
         }
     }
 }

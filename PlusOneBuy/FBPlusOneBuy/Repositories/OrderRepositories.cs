@@ -62,5 +62,46 @@ namespace FBPlusOneBuy.Repositories
                 return orders.ToList();
             }
         }
+
+        public decimal GetAmount(string livePageId)
+        {
+            using (conn = new SqlConnection(connectionString))
+            {
+                LivePostsRepository live_repo = new LivePostsRepository();
+                var liveId = live_repo.Select(livePageId);
+                string sql =
+                    "select SUM(p.UnitPrice) as Amount from Products p inner join Orders o on o.ProductID = p.ProductID where o.LiveID = @liveId";
+                 decimal? amount = conn.QueryFirstOrDefault<decimal?>(sql, new {liveId});
+                 decimal result = 0;
+                if (amount != null)
+                {
+                    result = (decimal)amount;
+                }
+                return result;
+            }
+        }
+
+        public int GetQtyOfOrders(string livePageId)
+        {
+            using (conn = new SqlConnection(connectionString))
+            {
+                LivePostsRepository live_repo = new LivePostsRepository();
+                var liveId = live_repo.Select(livePageId);
+                string sql =
+                    "select COUNT(OrderID) as Count from Orders o WHERE o.LiveID = @liveId";
+                int result = conn.QueryFirstOrDefault<int>(sql, new { liveId });
+                return result;
+            }
+        }
+
+        public List<CommentOrderLIstViewModel> GetOrders(int liveId)
+        {
+            using (conn = new SqlConnection(connectionString))
+            {
+                string sql = "SELECT o.OrderID, c.CustomerName, p.ProductName, p.UnitPrice, o.Quantity, o.OrderDateTime FROM Orders o INNER JOIN Products p ON p.ProductID = o.ProductID INNER JOIN Customers c ON c.CustomerID = o.CustomerID WHERE o.LiveID = @liveId";
+                List<CommentOrderLIstViewModel>  orders = conn.Query<CommentOrderLIstViewModel>(sql, new { liveId }).ToList();
+                return orders;
+            }
+        }
     }
 }

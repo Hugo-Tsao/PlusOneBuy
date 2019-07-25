@@ -1,0 +1,153 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var Livelist = ViewData["Live"] as List<FBPlusOneBuy.ViewModels.LivePostViewModel>;
+}
+
+
+<div class="container-fluid">
+    <div class="row header">
+        <img src="~/Assets/images/91app_developer.png" />
+    </div>
+</div>
+<div class="container">
+    <div class="dropdown mt-3 mb-2">
+        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            直播影片
+        </button>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+            @for (var i = 0; i < Livelist.Count; i++)
+            {
+                <button class="dropdown-item" type="button" value="@Livelist[i].LivePageID">@Livelist[i].LiveName</button>
+            }
+        </div>
+    </div>
+    <button id="searchlive" type="button" class="btn border-secondary"><i class="fas fa-search"></i></button>
+    <br />
+    @*<button id="testa">測直播重複</button><button id="testb">測留言</button>*@
+    <span>直播名稱:</span><span id="livename"></span><br />
+    <span>商品名稱:</span> <span id="ProductsName"></span><br />
+    <span>開始時間:</span><span id="postTime"></span><br />
+    <span>結束時間:</span><span id="endTime"></span>
+    <div id="list" class="row" style="margin: 10px">
+        <div class="col-11">
+            <table id="myTable" class="cell-border compact stripe" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Keyword</th>
+                        <th>Product</th>
+                        <th>Qty</th>
+                        <th>Time</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="item in items">
+                        <td>{{item.ID}}</td>
+                        <td>{{item.Name}}</td>
+                        <td>{{item.Keyword}}</td>
+                        <td>{{item.Product}}</td>
+                        <td>{{item.Qty}}</td>
+                        <td>{{item.Time}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section EndJS
+{
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.min.js"
+            integrity="sha256-chlNFSVx3TdcQ2Xlw7SvnbLAavAQLO0Y/LBiWX04viY=" crossorigin="anonymous"></script>
+    <!-- DataTable -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script>
+        $('.dropdown-item').click(function () {
+           
+            $.ajax({
+                type: "POST",
+                url: "/Comment/GetAllComments",
+                data: { livePageId: $(this).val() },
+                dataType: 'json',
+                success: function (data) {
+                    
+                    var json = JSON.parse(data)
+                    //console.log(json.comments)
+                    $('#livename').text(json.postInfos.LiveName)
+                    $('#ProductsName').text(json.postInfos.ProductsName)
+                    $('#postTime').text(json.postInfos.postTime)
+                    $('#endTime').text(json.postInfos.endTime)
+
+                    var js = { items: [] }
+                    for (var i = 0; i < json.comments.length; i++) {
+                        var x = {
+                            ID: json.comments[i].OrderID,
+                            Name: json.comments[i].CustomerName,
+                            Keyword: json.comments[i].Keyword,
+                            Product: json.comments[i].ProductName,
+                            Qty: json.comments[i].Quantity,
+                            Time: json.comments[i].OrderDateTime,
+                        }
+                          js.items.push(x)
+                    }
+                    console.log(js.items)
+                    new Vue(
+                        {
+                            el: '#myTable',
+                            data: js
+                        }
+                    );
+
+                }
+            });
+        })
+        $('#searchlive').click(function () {
+            $.ajax({
+                type: "POST",
+                url: "/Comment/GetAllComments",
+                data: { livePageId: "382838899034699_639998919839353" },
+                dataType: 'json',
+                crossDomain: true,
+                cache: false,
+                success: function (data) {
+                    var json = JSON.parse(data)
+                    console.log(json)
+                }
+            });
+        })
+
+        //var json =
+        //{
+        //    items:
+        //        [
+        //            {
+        //                ID: 1,
+        //                Name: "Eric",
+        //                Keyword: "+1",
+        //                Product: "馬桶泡泡洗",
+        //                Qty: "1",
+        //                Time: "2019/07/03 12:03:01",
+        //            },
+        //        ]
+        //};
+        //function Binding() {
+        //    new Vue(
+        //        {
+        //            el: '#list',
+        //            data: json
+        //        }
+        //    );
+        //}
+
+        $(document).ready(function () {
+            //Binding();
+            $('#myTable').DataTable({
+                "info": false, "bLengthChange": false, "pageLength": 10
+            });
+        });
+    </script>
+}

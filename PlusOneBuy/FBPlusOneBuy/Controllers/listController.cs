@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -20,10 +21,10 @@ namespace FBPlusOneBuy.Controllers
             return View();
         }
         [HttpPost]
-        public ActionResult Index(string keyWord, string ProductName, string livePageID)
+        public ActionResult Index(string livePageID, string liveName, string keywordPattern)
         {
             //新增直播進資料庫
-            LivePostService.CreateLivePost(livePageID);
+            LivePostService.CreateLivePost(livePageID, liveName);
             //新增商品進資料庫
             ProductRepositories product_repo = new ProductRepositories();
             var products = ProductService.GetCurrentProducts().ProductItems;
@@ -36,31 +37,54 @@ namespace FBPlusOneBuy.Controllers
             }
             ViewData["products"] = products;
             ViewData["livePageID"] = livePageID;
-
+            ViewData["keywordPattern"] = keywordPattern;            
             return View();
         }
 
         [HttpPost]
-        public ActionResult GetPlusOneBuyOrders(string livePageID)
+        public ActionResult GetPlusOneBuyOrders(string livePageID, string keywordPattern)
         {
-            string token = Session["token"].ToString();
-            //string token =
-            //    "EAASxbKYYpHoBAI27CZBoK8ZBzFmJjEMIR30woKcIfDPx4mtljSUOsGxVGsKHmy1JgCay8KTilT9l3nbkSfGzBZC6wVSDUcl3ZAa7C5OyZAv8CV7K0duuyW2jHFGqZCwhIKiM6jPonrHLp7s5UEudWL5UHkT8IuZBGmBTOEHS0IjYZCsYbcQfo3j9";
-            var products = ProductService.GetCurrentProducts().ProductItems;
-            var OrderList = CommentFilterService.getNewOrderList(livePageID, token, products);
-            if (OrderList.Count > 0)
-            {
-                FBSendMsgService.OrderListToSendMsg(OrderList, token);
-            }
-            var result = JsonConvert.SerializeObject(OrderList);
-            return Json(result);
+            //try
+            //{
+                string token = Session["token"].ToString();
+                var products = ProductService.GetCurrentProducts().ProductItems;
+                var OrderList = CommentFilterService.getNewOrderList(livePageID, token, products, keywordPattern);
+                if (OrderList.Count > 0)
+                {
+                    FBSendMsgService.OrderListToSendMsg(livePageID,OrderList, token);
+                }
+
+                var result = JsonConvert.SerializeObject(OrderList);
+                return Json(result);
+            //}
+            //catch (Exception e)
+            //{
+            //    DateTime date = DateTime.UtcNow.AddHours(8);
+            //    string today = date.ToString("yyyy-MM-dd");
+            //    string now = date.ToString("yyyy-MM-dd HH:mm:ss");
+            //    if (!Directory.Exists("C:\\log"))
+            //    {
+            //        Directory.CreateDirectory("C:\\log\\");
+            //    }
+
+            //    string nowPath = "C:\\log\\" + today + ".txt";
+
+            //    System.IO.File.AppendAllText("C:\\log\\" + today + ".txt", "\r\n" + now + " : " + e);
+
+            //    return Json("error");
+            //}
         }
         [HttpPost]
-        public void SetPostEndtime(string livePageID)
+        public ActionResult SetPostEndtime(string livePageID)
         {
+            OrderRepositories o_repo = new OrderRepositories();
+            decimal Amount = o_repo.GetAmount(livePageID);
+            int QtyOfOrders = o_repo.GetQtyOfOrders(livePageID);
             var live_repo = new LivePostsRepository();
-            int liveid = live_repo.Select(livePageID);
-            live_repo.UpdateEndTime(liveid,DateTime.Now);
+            int views = (int)Session["views"];
+            live_repo.UpdatePost(livePageID, QtyOfOrders, Amount, DateTime.UtcNow.AddHours(8), views);
+            Session.Abandon();
+            return RedirectToAction("Index", "Report");
         }
 
         [HttpPost]
@@ -79,12 +103,51 @@ namespace FBPlusOneBuy.Controllers
                 order.CustomerID = orderinfo.CustomerID;
                 order.CustomerName = orderinfo.CustomerName;
                 order.OrderID = orderinfo.OrderID;
-                order.Product = new ProductViewModel { Salepage_id = orderinfo.ProductPageID, SkuId = orderinfo.ProductID,ProductName=orderinfo.ProductName };
+                order.Product = new ProductViewModel { Salepage_id = orderinfo.ProductPageID, SkuId = orderinfo.ProductID, ProductName = orderinfo.ProductName };
                 order.Quantity = orderinfo.Quantity;
-                orders.Add(order);              
+                orders.Add(order);
             }
-            FBSendMsgService.OrderListToSendMsg(orders, token);
+            FBSendMsgService.OrderListToSendMsg(livePageID,orders, token);
 
+        }
+        [HttpGet]
+        public ActionResult GetROIOrderInfo(string livePageId)
+        {
+            OrderRepositories o_repo = new OrderRepositories();
+            var amount = o_repo.GetAmount(livePageId);
+            var qty = o_repo.GetQtyOfOrders(livePageId);
+            var Order = new { Amount = amount, Qty = qty };
+            return Json(Order, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public ActionResult GetLiveVideoViews(string livePageID)
+        {
+            Session["views"] = null;
+            try
+            {
+                string token = Session["token"].ToString();
+                int views = FBRequestService.GetLiveVideoViews(livePageID, token);
+                if (Session["views"] == null)
+                {
+                    Session["views"] = views;
+                }
+                else
+                {
+                    if ((int) Session["views"] < views)
+                    {
+                        Session["views"] = views;
+                    }
+                }
+
+                return Json(views, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return Json(0,JsonRequestBehavior.AllowGet);
+            }
+            
         }
     }
 }

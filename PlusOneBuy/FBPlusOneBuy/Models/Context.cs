@@ -17,11 +17,21 @@ namespace FBPlusOneBuy.Models
         public virtual DbSet<LivePost> LivePosts { get; set; }
         public virtual DbSet<Order> Orders { get; set; }
         public virtual DbSet<Product> Products { get; set; }
+        public virtual DbSet<SalesOrder> SalesOrders { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Customer>()
+                .Property(e => e.CustomerID)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<Customer>()
                 .HasMany(e => e.Orders)
+                .WithRequired(e => e.Customer)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Customer>()
+                .HasMany(e => e.SalesOrders)
                 .WithRequired(e => e.Customer)
                 .WillCascadeOnDelete(false);
 
@@ -31,10 +41,24 @@ namespace FBPlusOneBuy.Models
                 .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<LivePost>()
+                .Property(e => e.Amount)
+                .HasPrecision(19, 4);
+
+            modelBuilder.Entity<LivePost>()
                 .HasMany(e => e.Orders)
                 .WithRequired(e => e.LivePost)
                 .HasForeignKey(e => e.LiveID)
                 .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<LivePost>()
+                .HasMany(e => e.SalesOrders)
+                .WithRequired(e => e.LivePost)
+                .HasForeignKey(e => e.LiveID)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Order>()
+                .Property(e => e.CustomerID)
+                .IsUnicode(false);
 
             modelBuilder.Entity<Product>()
                 .Property(e => e.UnitPrice)
@@ -48,6 +72,19 @@ namespace FBPlusOneBuy.Models
                 .HasMany(e => e.Orders)
                 .WithRequired(e => e.Product)
                 .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Product>()
+                .HasMany(e => e.SalesOrders)
+                .WithRequired(e => e.Product)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<SalesOrder>()
+                .Property(e => e.CustomerID)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<SalesOrder>()
+                .Property(e => e.Total)
+                .HasPrecision(19, 4);
         }
     }
 }

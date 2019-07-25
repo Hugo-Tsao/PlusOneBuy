@@ -1,121 +1,254 @@
 ﻿@{
     ViewBag.Title = "Index";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/Main_Layout.cshtml";
     List<FBPlusOneBuy.ViewModels.ProductViewModel> products = ViewData["products"] as List<FBPlusOneBuy.ViewModels.ProductViewModel>;
 }
-<body>
-    <div class="container-fluid">
-        <div class="row header">
-            <img src="~/Assets/images/91app_developer.png" />
+
+<div class="container bg-light shadow ">
+    <div class="row p-3 mt-2">
+        <div class="col"></div>
+        <div class="col-2">
+            <div class="card border-secondary shadow  ">
+                <div class="row no-gutters align-items-center">
+                    <div class="col m-3">
+                        <div class="text-md font-weight-bold text-primary text-uppercase mb-1">觀看人數</div>
+                        <div class="h1 mb-0 font-weight-bold text-gray" id="views">0</div>
+                    </div>
+                    <div class="col-auto m-2">
+                        <i class="fas fa-eye fa-2x "></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-2">
+            <div class="card border-primary shadow">
+                <div class="row no-gutters align-items-center">
+                    <div class="col m-3">
+                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">收單數量</div>
+                        <div class="h1 mb-0 font-weight-bold text-gray" id="num">
+                            0
+                        </div>
+                    </div>
+                    <div class="col-auto m-2">
+                        <i class="fas fa-users fa-2x "></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-2">
+            <div class="card border-warning shadow">
+                <div class="row no-gutters align-items-center">
+                    <div class="col m-3">
+                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">收單金額</div>
+                        <div class="h1 mb-0 font-weight-bold text-gray" id="money">0</div>
+                    </div>
+                    <div class="col-auto m-2">
+                        <i class="fas fa-dollar-sign fa-2x "></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-2">
+            <div class="card border-success shadow">
+                <div class="row no-gutters align-items-center">
+                    <div class="col m-3">
+                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">成交數量</div>
+                        <div class="h1 mb-0 font-weight-bold text-gray" id="Ordernum">0</div>
+                    </div>
+                    <div class="col-auto m-2">
+                        <div><i class="fas fa-sort-amount-up fa-2x"></i></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-2 ">
+            <div class="card border-danger shadow">
+                <div class="row no-gutters align-items-center">
+                    <div class="col m-3">
+                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">成交金額</div>
+                        <div class="h1 mb-0 font-weight-bold " id="Ordermoney">0</div>
+                    </div>
+                    <div class="col-auto m-2">
+                        <i class="fas fa-coins fa-2x text-gray"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col"></div>
+    </div>
+</div>
+<div class="container-fluid">
+    <div class="row mt-3">
+        <div class="col-9">
+        </div>
+        <div class="col">
+            <button id="btn_sentMsg" class="btn btn-primary ">寄送購物車連結</button>
+            <form method="post" action="/list/SetPostEndtime">
+                <input name="livePageID" value="@ViewData["livePageID"]" type="hidden" />
+                <button type="submit" id="btn_endpost" class="btn btn-dark ">結束本次推播</button><br />
+            </form>
+
         </div>
     </div>
-    <div class="container-fluid">
-        <div id="list" class="row" style="margin: 10px">
-            <div class="col-5">
-                <h3>直播商品</h3>
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>商品</th>
-                            <th>關鍵字</th>
-                            <th>價格</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @if (products != null)
+    <div id="list" class="row" style="margin: 10px">
+        <div class="col-5">
+            <h3>直播商品</h3>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>商品名稱</th>
+                        <th>商品關鍵字</th>
+                        <th>價格</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (products != null)
+                    {
+                        for (int i = 0; i < products.Count; i++)
                         {
-                            for (int i = 0; i < products.Count; i++)
-                            {
-                                <tr>
-                                    <td>@products[i].ProductName</td>
-                                    <td>@products[i].Keyword</td>
-                                    <td>@String.Format("{0:N0}", products[i].UnitPrice)</td>
-                                </tr>
-                            }
+                            <tr>
+                                <td>@products[i].ProductName</td>
+                                <td>@products[i].Keyword</td>
+                                <td>@String.Format("{0:N0}", products[i].UnitPrice)</td>
+                            </tr>
                         }
+                    }
 
 
-                    </tbody>
-                </table>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-7">
+            <div class="row">
+                <div class="col"> <h3>留言清單</h3></div>
+                <div class="col">
+                    <span>留言關鍵字:@ViewData["keywordPattern"]</span>
+                </div>
+                <div class="col-12">
+                    <table id="ListTable" class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>顧客名稱</th>
+                                <th>關鍵字</th>
+                                <th>商品名稱</th>
+                                <th>數量</th>
+                                <th>留言時間</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
             </div>
-            <div class="col-7">
-                <h3>留言清單</h3>
-                <table id="ListTable" class="table table-hover">
-                    <thead>
-                        <tr>
-                            <th>顧客</th>
-                            <th>關鍵字</th>
-                            <th>商品名稱</th>
-                            <th>數量</th>
-                            <th>留言時間</th>
-                        </tr>
-                    </thead>
-                    <tbody></tbody>
-                </table>
-            </div>
-            <div class="col-12 text-center">
-                <button id="btn_sentMsg" class="btn btn-primary col-3 ">寄送購物車連結</button>
-                <button id="btn_endpost" class="btn btn-dark col-3 ">結束本次推播</button>
-            </div>
-
         </div>
     </div>
-</body>
+</div>
 
 @section EndJS
 {
     <script>
-        $(document).ready(function () {
+        $(document).ready(function() {
             GetData();
-            $("#btn_endpost").click(endPost);
+            //$("#btn_endpost").click(endPost);
             $("#btn_sentMsg").click(sendMsg);
-            function endPost() {
-                $.ajax({
-                type: "POST",
-                    url: '@Url.Action("SetPostEndtime", "list")',
-                    data: {livePageID:'@ViewData["livePageID"]'}
-                }).done(function (response) {
-                    console.log(response);
 
-                });
+            @*function endPost() {
                 $.ajax({
                     type: "POST",
-                    url: '@Url.Action("ClearProducts", "Product")',
-                }).done(function (response) {
-                    window.location.href='@Url.Action("FanPageName", "Setting")'
-                });
-            }
-            function sendMsg() {
-                $.ajax({
-                type: "POST",
-                    url: '@Url.Action("SendMsgByButton", "list")',
-                    data: {livePageID:'@ViewData["livePageID"]'}
-                }).done(function (response) {
-                    console.log(response);
-                    
-                });
-            }
+                    url: '@Url.Action("SetPostEndtime", "list")',
+                    data: { livePageID: '@ViewData["livePageID"]' },
+                    success: function() {
+                        alert("success");
+                        $.ajax({
+                            type: "POST",
+                            url: '@Url.Action("ClearProducts", "Product")',
+                        }).done(function(response) {
+                            window.location.href = '@Url.Action("FanPageName", "Setting")';
+                        });
+                    },
+                    error: function() {
+                        alert("error");
+                    }
+
+            }).done(function(response) {
+            alert("done");
+            console.log(response);
+
         });
+
+        }*@
+        function sendMsg() {
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("SendMsgByButton", "list")',
+                data: { livePageID: '@ViewData["livePageID"]' }
+            }).done(function(response) {
+                console.log(response);
+
+            });
+        }
+        });
+        var num = 0;
+        var money = 0;
         function GetData() {
             $.ajax({
                 type: 'post',
                 url: '/list/GetPlusOneBuyOrders',
-                data: { livePageID:'@ViewData["livePageID"]'},
+                data: { livePageID:'@ViewData["livePageID"]',keywordPattern:'@ViewData["keywordPattern"]'},
                 dataType: "json",
                 cache: false,
                 success: function (Result) {
-                    //$('#ListTable tbody').empty();
+                    console.log(Result);
                     var json = JSON.parse(Result);
+                    
                     for (var i = 0; i < json.length; i++) {
+                        var Time = json[i].OrderDateTime
+                        var newDate = Time.substring(0,10)+ " " +Time.substring(11,19);
                         $('#ListTable').append("<tr><td>" + json[i].CustomerName + "</td>" +
                             "<td>" + json[i].Keyword + "</td>" +
                             "<td>" + json[i].Product.ProductName + "</td>" +
                             "<td>" + json[i].Quantity + "</td>" +
-                            "<td>" + json[i].OrderDateTime.substring(0,10)+"<br>"+json[i].OrderDateTime.substring(11,19) + "</td></tr>")
+                            "<td>" + newDate + "</td></tr>");
+                        money = json[i].Product.UnitPrice;
                     }
+                },
+                error: function () {
+                    alert("error");
                 }
             }).then(function () {
+                setTimeout(GetLiveVideoViews, 10000);
                 setTimeout(GetData, 3000);
+                setTimeout(GetROIOrderInfo, 3000);
+
+            })
+        }
+
+        function GetROIOrderInfo() {
+            $.ajax({
+                type: "GET",
+                    url: '@Url.Action("GetROIOrderInfo", "list")',
+                    data: {livePageId:'@ViewData["livePageID"]'}
+            }).done(function (order) {
+                $('#num').text(order.Qty)
+                $('#money').text(order.Amount)
+
+                if (order.Qty > 4) {
+                     $('#Ordernum').text(3)
+                     $('#Ordermoney').text(3*money)
+                }
+                if (order.Qty > 2) {
+                     $('#Ordernum').text(1)
+                     $('#Ordermoney').text(1*money)
+                }
+
+                });
+        }
+        function GetLiveVideoViews() {
+            $.ajax({
+                type: "GET",
+                url: '@Url.Action("GetLiveVideoViews","list")',
+                data: { livePageID: '@ViewData["livePageID"]' }
+            }).done(function (views) {
+                $('#views').text(views)
             })
         }
     </script>

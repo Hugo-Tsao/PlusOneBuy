@@ -1,0 +1,88 @@
+﻿@model FBPlusOneBuy.ViewModels.SalesOrderViewModel
+@{
+    ViewBag.Title = "SalesOrderList";
+    Layout = "~/Views/Shared/Main_Layout.cshtml";
+}
+
+<span class="h4 font-weight-normal text-muted">報告</span>
+<span>/</span>
+<a class="h4 font-weight-normal text-muted" href="@Url.Action("Index","Report")">直播清單</a>
+<span>/</span>
+<span class="h4 font-weight-normal text-muted"><strong>銷售清單</strong></span>
+<div class="row">
+    <div class="col">
+        <span>直播編號: @ViewData["livepageId"] </span>
+        <span>直播名稱: @Model.livename</span><br/>
+        <span>成交數量: @Model.salesOrderNum</span>
+        <span>成交總額:$ @String.Format("{0:N0}", Model.total)</span>
+    </div>
+    </div>
+<div class="row">
+        <div class="col">
+            <table id="myTable" class="cell-border compact stripe" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>@Html.DisplayNameFor(model => model.salesOrders.FirstOrDefault().SalesOrderID)</th>
+                        <th>@Html.DisplayNameFor(model => model.salesOrders.FirstOrDefault().ProductName)</th>
+                        <th>@Html.DisplayNameFor(model => model.salesOrders.FirstOrDefault().CustomerName)</th>
+                        <th>@Html.DisplayNameFor(model => model.salesOrders.FirstOrDefault().CheckoutDateTime)</th>
+                        <th>@Html.DisplayNameFor(model => model.salesOrders.FirstOrDefault().Quantity)</th>
+                        <th>@Html.DisplayNameFor(model => model.salesOrders.FirstOrDefault().Total)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.salesOrders)
+                    {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(model => item.SalesOrderID)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => item.ProductName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => item.CustomerName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => item.CheckoutDateTime)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => item.Quantity)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => item.Total)
+                        </td>
+                    </tr>
+                            }
+                            @*@for (var i = 0; i < Model.salesOrders.Count; i++)
+                {
+                    <tr>
+                        <td>@Model.salesOrders[i].SalesOrderID</td>
+                        <td>@Model.salesOrders[i].ProductName</td>
+                        <td>@Model.salesOrders[i].CustomerName</td>
+                        <td>@Model.salesOrders[i].CheckoutDateTime</td>
+                        <td>@Model.salesOrders[i].Quantity</td>
+                        <td>$@String.Format("{0:N0}", @Model.salesOrders[i].Total)</td>
+                    </tr>
+
+                }*@
+                    </tbody>
+            </table>
+        </div>
+    </div>
+
+@section EndJS
+{
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.min.js"
+            integrity="sha256-chlNFSVx3TdcQ2Xlw7SvnbLAavAQLO0Y/LBiWX04viY=" crossorigin="anonymous"></script>
+    <!-- DataTable -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#myTable').DataTable({
+                "info": false, "bLengthChange": false, "pageLength": 10
+            });
+        });
+    </script>
+}

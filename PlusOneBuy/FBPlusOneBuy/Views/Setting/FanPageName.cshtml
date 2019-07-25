@@ -1,54 +1,47 @@
-﻿    
+﻿
 @{
-    ViewBag.Title = "FanPageName";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/Main_Layout.cshtml";
 }
-
-<div class="container-fluid">
-    <div class="row header">
-        <img src="~/Assets/images/91app_developer.png" />
+<span class="h4 font-weight-normal text-muted">設定直播推播</span>
+<span>/</span>
+<span class="h4 font-weight-normal text-muted">粉絲團</span>
+<div class="row mt-3">
+    <div class="card text-center" style="width: 18rem;">
+        <div class="card-body">
+            <h5 class="card-title">FaceBook FanPage</h5>
+            <p class="card-text">Add New FanPage</p>
+            <button type="button" class="btn btn-primary"><i class="far fa-plus-square"></i></button>
+        </div>
     </div>
-</div>
-
-<div class="container">
-    <div class="row mt-3"> 
-        <div class="card text-center" style="width: 18rem;">
-            <div class="card-body">
-                <h5 class="card-title">FaceBook FanPage</h5>
-                <p class="card-text">Add New FanPage</p>
-                <button type="button" class="btn btn-primary"><i class="far fa-plus-square"></i></button>
-            </div>
+    <div class="card text-center" style="width: 18rem;">
+        <div class="card-body">
+            <h5 class="card-title">FaceBook FanPage</h5>
+            <p class="card-text">justTshirt.tw</p>
+            <button type="button" class="btn_managePages btn btn-info" onclick="getAuth()" name="submit" data-toggle="modal" data-target="#Modal">登入</button>
         </div>
-        <div class="card text-center" style="width: 18rem;">
-            <div class="card-body">
-                <h5 class="card-title">FaceBook FanPage</h5>
-                <p class="card-text">justTshirt.tw</p>
-                <button type="button" class="btn_managePages btn btn-info" onclick="getAuth()" name="submit" data-toggle="modal" data-target="#Modal">登入</button>
-            </div>
-        </div>
-        <input type="hidden" id="fanPageName">
-        <div class="modal fade" id="Modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true" data-backdrop="static" data-keyboard="false">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Loading...</h5>
-                        <i class="fa fa-spinner fa-spin" style="font-size:24px"></i>
-                    </div>
+    </div>
+    <input type="hidden" id="fanPageName">
+    <div class="modal fade" id="Modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Loading...</h5>
+                    <i class="fa fa-spinner fa-spin" style="font-size:24px"></i>
                 </div>
             </div>
         </div>
     </div>
-    
 </div>
+
 @section EndJS
 {
     <script>
         $(document).ready(function () {
             $('.btn_managePages').click(function () {
-                var fanPageName = $(this).siblings("p").text()
-                $('#fanPageName').val(fanPageName)
-                getAuth()
-            })
+                var fanPageName = $(this).siblings("p").text();
+                $('#fanPageName').val(fanPageName);
+                getAuth();
+            });
         });
         function getAuth() {
             FB.login(function (response) {
@@ -57,8 +50,6 @@
                         GetData(res.access_token);
                         console.log("PAGE=" + res.access_token);
                     });
-                    //console.log(response.authResponse.accessToken);
-                    //
                 }
             }, {
                     auth_type: 'rerequest',
@@ -85,6 +76,7 @@
 @section TopJS
 {
     <script>
+
         window.fbAsyncInit = function () {
             FB.init({
                 appId: '1320980108059770',

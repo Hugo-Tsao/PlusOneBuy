@@ -12,54 +12,62 @@ namespace FBPlusOneBuy.Services
 {
     public static class CommentFilterService
     {
-        public static List<OrderList> KeywordFilter(List<ProductViewModel> products,List<Datum> datas,string livePageID)
+        public static List<OrderList> KeywordFilter(List<ProductViewModel> products, List<Datum> datas, string livePageID, string keywordPattern)
         {
             var resultOrderList = new List<OrderList>();
-            var custsList = new List<Customer>();
             var cust_repo = new CustomerRepository();
             //List<Datum> resultDatum = new List<Datum>();
+            if (keywordPattern == null)
+            {
+                keywordPattern = "+1";
+            }
             foreach (var data in datas)
             {
                 foreach (var item in products)
                 {
-                    string completeKeyword = item.Keyword + "+1"; //+1暫時先寫死
-                    if (data.message == completeKeyword)  
+                    string completeKeyword = item.Keyword + keywordPattern;
+                    if (data.message == completeKeyword)
                     {
                         //resultDatum.Add(data);
-                        var context = new Context();
-                        var order = new OrderList();
-                        order.Product = new ProductViewModel();
-                        var live_repo = new LivePostsRepository();
-
+                        if (data.from.name == null)
+                        {
+                            break;
+                        }
                         var name = UTF8ConvertToString(data.from.name);
+
                         if (!cust_repo.SelectCustomer(data.from.id))
                         {
                             var customer = new Customer { CustomerID = data.from.id, CustomerName = name };
-                            custsList.Add(customer);
+                            cust_repo.InsertCustomer(customer);
                         }
+                        var live_repo = new LivePostsRepository();
+                        var order = new OrderList();
                         order.CustomerID = data.from.id;
                         order.CustomerName = name;
                         order.Keyword = data.message;
-                        order.Product.Salepage_id = item.Salepage_id;
-                        order.Product.SkuId = item.SkuId;
-                        order.Product.ProductName = item.ProductName;
+                        order.Product = new ProductViewModel
+                        {
+                            Salepage_id = item.Salepage_id,
+                            SkuId = item.SkuId,
+                            ProductName = item.ProductName,
+                            UnitPrice = item.UnitPrice
+                        };
                         order.LiveID = live_repo.Select(livePageID);
-                        order.OrderDateTime = data.created_time;
+                        order.OrderDateTime = data.created_time.ToUniversalTime().AddHours(8);
                         order.Quantity = 1; //因為目前只有+1，所以暫時寫死
                         resultOrderList.Add(order);
                         break;
                     }
                 }
             }
-            cust_repo.InsertCustomer(custsList);
             return resultOrderList;
         }
 
         public static List<Datum> PostTimeFilter(List<Datum> comments, string livePageID)
         {
-            Context context = new Context();
-            var livePostTime = context.LivePosts.Max(x => x.postTime);
-            //comments = comments.Where(x => x.created_time > livePostTime).ToList();
+            
+            LivePostsRepository livePost_repo = new LivePostsRepository();
+            var livePostTime = livePost_repo.GetMaxPostTime(livePageID);
             //去Orders Table 看有沒有留言，有的話就抓最後一個留言的時間沒有的話就過濾livePostTime 的時間
             var order_repo = new OrderRepositories();
             var live_repo = new LivePostsRepository();
@@ -67,19 +75,19 @@ namespace FBPlusOneBuy.Services
             DateTime selectResult = order_repo.SelectLastOrderComment(liveid); //SQL 要改
             if (selectResult != DateTime.MaxValue)
             {
-                comments = comments.Where(x => x.created_time > selectResult).ToList();
+                comments = comments.Where(x => DateTime.Compare(x.created_time.ToUniversalTime().AddHours(8), selectResult) > 0).ToList();
             }
             else
             {
-                comments = comments.Where(x => x.created_time > livePostTime).ToList();
+                comments = comments.Where(x => DateTime.Compare(x.created_time.ToUniversalTime().AddHours(8), livePostTime) > 0).ToList();
             }
 
             return comments;
         }
 
-        public static List<OrderList> getNewOrderList(string livePageID, string token, List<ProductViewModel> products)
+        public static List<OrderList> getNewOrderList(string livePageID, string token, List<ProductViewModel> products, string keywordPattern)
         {
-            var orderList = new List<OrderList>();            
+            var orderList = new List<OrderList>();
             var allComments = FBRequestService.getAllComments(livePageID, token);
             if (allComments.Count != 0)
             {
@@ -87,21 +95,28 @@ namespace FBPlusOneBuy.Services
                 var PickPosts = CommentFilterService.PostTimeFilter(allComments, livePageID);
                 if (PickPosts.Count > 0)
                 {
-                    orderList = CommentFilterService.KeywordFilter(products, PickPosts, livePageID);
-                    var order_repo = new OrderRepositories();
-                    order_repo.InsertOrder(orderList);                   
+                    orderList = CommentFilterService.KeywordFilter(products, PickPosts, livePageID, keywordPattern);
+                var order_repo = new OrderRepositories();
+                order_repo.InsertOrder(orderList);
                 }
             }
             return orderList;
         }
-       
+
 
 
         public static string UTF8ConvertToString(string word)
         {
-            byte[] byt = System.Text.UnicodeEncoding.Unicode.GetBytes(word);
-            string result = UnicodeEncoding.Unicode.GetString(byt);
-            return result;
+            if (word == null)
+            {
+                return null;
+            }
+            else
+            {
+                byte[] byt = System.Text.UnicodeEncoding.Unicode.GetBytes(word);
+                string result = UnicodeEncoding.Unicode.GetString(byt);
+                return result;
+            }
         }
     }
 }

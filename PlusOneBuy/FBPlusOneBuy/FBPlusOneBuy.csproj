@@ -191,11 +191,13 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\CommentController.cs" />
     <Compile Include="Controllers\FbWebHookController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\listController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
+    <Compile Include="Controllers\ReportController.cs" />
     <Compile Include="Controllers\SettingController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -212,6 +214,7 @@
     <Compile Include="Models\Order.cs" />
     <Compile Include="Models\Product.cs" />
     <Compile Include="Models\ProductJson.cs" />
+    <Compile Include="Models\SalesOrder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\CustomerRepository.cs" />
     <Compile Include="Repositories\FBJsonToCSharp.cs" />
@@ -219,16 +222,26 @@
     <Compile Include="Repositories\OrderRepositories.cs" />
     <Compile Include="Repositories\ProductList.cs" />
     <Compile Include="Repositories\ProductRepositories.cs" />
+    <Compile Include="Repositories\SalesOrderRepositories.cs" />
     <Compile Include="Services\CommentFilterService.cs" />
+    <Compile Include="Services\CommentListService.cs" />
     <Compile Include="Services\FBRequestService.cs" />
     <Compile Include="Services\LivePostService.cs" />
     <Compile Include="Services\FBSendMsgService.cs" />
     <Compile Include="Services\ProductService.cs" />
+    <Compile Include="Services\SalesOrderListService.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\CartViewModel.cs" />
+    <Compile Include="ViewModels\CommentListViewModel.cs" />
+    <Compile Include="ViewModels\CommentOrderLIstViewModel.cs" />
+    <Compile Include="ViewModels\FBLiveVideoJsonToCSharp.cs" />
+    <Compile Include="ViewModels\LivePostViewModel.cs" />
     <Compile Include="ViewModels\MsgTextViewModel.cs" />
     <Compile Include="ViewModels\OrderList.cs" />
+    <Compile Include="ViewModels\ProductCategoryViewModel.cs" />
     <Compile Include="ViewModels\ProductViewModel.cs" />
+    <Compile Include="ViewModels\ReportViewModel.cs" />
+    <Compile Include="ViewModels\SalesOrderViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\css\styles.css" />
@@ -328,14 +341,20 @@
     <Content Include="Scripts\popper.js.map" />
     <Content Include="Scripts\popper-utils.min.js.map" />
     <Content Include="Scripts\popper-utils.js.map" />
-    <Content Include="Views\Setting\SelectWord.cshtml" />
     <Content Include="Views\list\Index.cshtml" />
     <Content Include="Views\Setting\Index.cshtml" />
     <Content Include="Views\Setting\FanPageName.cshtml" />
     <Content Include="Views\Setting\Video.cshtml" />
+    <Content Include="Views\Comment\Index.cshtml" />
+    <Content Include="Views\Report\Index.cshtml" />
+    <Content Include="Views\Report\SalesOrderList.cshtml" />
+    <Content Include="Views\Shared\Main_Layout.cshtml" />
+    <Content Include="Views\Report\CommentsOrderList.cshtml" />
+    <Content Include="Views\Report\ROIOrderList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Orders\" />
     <Folder Include="Views\Product\" />
   </ItemGroup>
   <ItemGroup>

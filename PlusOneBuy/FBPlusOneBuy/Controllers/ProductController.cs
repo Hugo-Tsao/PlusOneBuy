@@ -75,13 +75,6 @@ namespace FBPlusOneBuy.Controllers
         //    Store store = ProductService.GetStock(salepage_id, SkuId);
         //    return Json(store);
         //}
-        [HttpPost]
-        public ActionResult ClearProducts()
-        {
-            ProductService.ClearProducts();
-            Session["token"] = "";
-            return Json("OK");
-        }
 
         [HttpPost]
         public ActionResult DeleteProduct(int skuId)

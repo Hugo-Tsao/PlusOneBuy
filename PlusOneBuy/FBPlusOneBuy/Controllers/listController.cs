@@ -77,7 +77,7 @@ namespace FBPlusOneBuy.Controllers
             //}
         }
         [HttpPost]
-        public void SetPostEndtime(string livePageID)
+        public ActionResult SetPostEndtime(string livePageID)
         {
             OrderRepositories o_repo = new OrderRepositories();
             decimal Amount = o_repo.GetAmount(livePageID);
@@ -85,6 +85,9 @@ namespace FBPlusOneBuy.Controllers
             var live_repo = new LivePostsRepository();
             int views = (int)Session["views"];
             live_repo.UpdatePost(livePageID, QtyOfOrders, Amount, DateTime.UtcNow.AddHours(8), views);
+            Session.Abandon();
+            ProductService.ClearProducts();
+            return RedirectToAction("Index", "Report");
         }
 
         [HttpPost]

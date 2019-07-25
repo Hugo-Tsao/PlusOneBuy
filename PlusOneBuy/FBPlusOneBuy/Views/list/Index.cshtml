@@ -56,7 +56,7 @@
                         <div class="h1 mb-0 font-weight-bold text-gray" id="Ordernum">0</div>
                     </div>
                     <div class="col-auto m-2">
-                        <i class="fas fa-sort-amount-up fa-2x"></i>
+                        <div><i class="fas fa-sort-amount-up fa-2x"></i></div>
                     </div>
                 </div>
             </div>
@@ -83,7 +83,10 @@
         </div>
         <div class="col">
             <button id="btn_sentMsg" class="btn btn-primary ">寄送購物車連結</button>
-            <button id="btn_endpost" class="btn btn-dark ">結束本次推播</button><br />
+            <form method="post" action="/list/SetPostEndtime">
+                <input name="livePageID" value="@ViewData["livePageID"]" type="hidden" />
+                <button type="submit" id="btn_endpost" class="btn btn-dark ">結束本次推播</button><br/>
+            </form>
 
         </div>
     </div>
@@ -143,37 +146,47 @@
 @section EndJS
 {
     <script>
-        $(document).ready(function () {
+        $(document).ready(function() {
             GetData();
             $("#btn_endpost").click(endPost);
             $("#btn_sentMsg").click(sendMsg);
-            function endPost() {
-                $.ajax({
-                type: "POST",
-                    url: '@Url.Action("SetPostEndtime", "list")',
-                    data: {livePageID:'@ViewData["livePageID"]'}
-                }).done(function (response) {
-                    console.log(response);
 
-                });
+            @*function endPost() {
                 $.ajax({
                     type: "POST",
-                    url: '@Url.Action("ClearProducts", "Product")',
-                }).done(function (response) {
-                    window.location.href='@Url.Action("FanPageName", "Setting")'
-                });
-            }
-            function sendMsg() {
-                $.ajax({
-                type: "POST",
-                    url: '@Url.Action("SendMsgByButton", "list")',
-                    data: {livePageID:'@ViewData["livePageID"]'}
-                }).done(function (response) {
-                    console.log(response);
+                    url: '@Url.Action("SetPostEndtime", "list")',
+                    data: { livePageID: '@ViewData["livePageID"]' },
+                    success: function() {
+                        alert("success");
+                        $.ajax({
+                            type: "POST",
+                            url: '@Url.Action("ClearProducts", "Product")',
+                        }).done(function(response) {
+                            window.location.href = '@Url.Action("FanPageName", "Setting")';
+                        });
+                    },
+                    error: function() {
+                        alert("error");
+                    }
 
-                });
-            }
+            }).done(function(response) {
+            alert("done");
+            console.log(response);
+
         });
+        
+        }*@
+        function sendMsg() {
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("SendMsgByButton", "list")',
+                data: { livePageID: '@ViewData["livePageID"]' }
+            }).done(function(response) {
+                console.log(response);
+
+            });
+        }
+    });
         var num = 0
         var money=0
         function GetData() {
@@ -201,7 +214,7 @@
                 setTimeout(GetLiveVideoViews, 10000);
                 setTimeout(GetData, 3000);
                 setTimeout(GetROIOrderInfo, 3000);
-                
+
             })
         }
 

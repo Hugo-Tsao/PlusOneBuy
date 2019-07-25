@@ -7,6 +7,7 @@ using System.Web.Mvc;
 using FBPlusOneBuy.Models;
 using FBPlusOneBuy.Services;
 using FBPlusOneBuy.ViewModels;
+using Microsoft.Ajax.Utilities;
 
 namespace FBPlusOneBuy.Controllers
 {
@@ -15,7 +16,7 @@ namespace FBPlusOneBuy.Controllers
         [HttpPost]
         public ActionResult GetSKUListByMain(string FilterType, int id_value)
         {
-            //List<ProductSKUList_Data> data = new List<ProductSKUList_Data>();
+            //List<ProductSKUList_Data> data1 = new List<ProductSKUList_Data>();
             List<ProductStock_Data> data = new List<ProductStock_Data>();
 
             if (FilterType == "salepage_id")
@@ -30,9 +31,20 @@ namespace FBPlusOneBuy.Controllers
             else if (FilterType == "shopCategoryId")
             {
                 ProductCategoryViewModel pcvm = new ProductCategoryViewModel();
-                pcvm.ShopCategoryId = id_value;
+                //pcvm.ShopCategoryId = id_value;
                 ProductCategory pc = ProductService.GetSKUList(pcvm);
-                //data = pc.Data;
+                var result = pc.Data.DistinctBy(x => x.Id);
+                foreach (var products in result)
+                {
+                    ProductStock stock = ProductService.GetStock(products.Id);
+                    if (stock.Data != null)
+                    {
+                        foreach (var item in stock.Data)
+                        {
+                            data.Add(item);
+                        }
+                    }
+                }
             }
             if (data != null)
             {

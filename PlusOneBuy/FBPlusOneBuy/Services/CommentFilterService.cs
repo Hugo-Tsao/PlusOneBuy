@@ -78,11 +78,11 @@ namespace FBPlusOneBuy.Services
             DateTime selectResult = order_repo.SelectLastOrderComment(liveid); //SQL 要改
             if (selectResult != DateTime.MaxValue)
             {
-                comments = comments.Where(x => DateTime.Compare(x.created_time, selectResult) > 0).ToList();
+                comments = comments.Where(x => DateTime.Compare(x.created_time.ToUniversalTime().AddHours(8), selectResult) > 0).ToList();
             }
             else
             {
-                comments = comments.Where(x => DateTime.Compare(x.created_time, livePostTime) > 0).ToList();
+                comments = comments.Where(x => DateTime.Compare(x.created_time.ToUniversalTime().AddHours(8), livePostTime) > 0).ToList();
             }
 
             return comments;

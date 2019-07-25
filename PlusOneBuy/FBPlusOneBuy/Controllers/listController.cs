@@ -47,8 +47,6 @@ namespace FBPlusOneBuy.Controllers
             //try
             //{
                 string token = Session["token"].ToString();
-                //string token =
-                //    "EAASxbKYYpHoBAI27CZBoK8ZBzFmJjEMIR30woKcIfDPx4mtljSUOsGxVGsKHmy1JgCay8KTilT9l3nbkSfGzBZC6wVSDUcl3ZAa7C5OyZAv8CV7K0duuyW2jHFGqZCwhIKiM6jPonrHLp7s5UEudWL5UHkT8IuZBGmBTOEHS0IjYZCsYbcQfo3j9";
                 var products = ProductService.GetCurrentProducts().ProductItems;
                 var OrderList = CommentFilterService.getNewOrderList(livePageID, token, products, keywordPattern);
                 if (OrderList.Count > 0)
@@ -86,7 +84,6 @@ namespace FBPlusOneBuy.Controllers
             int views = (int)Session["views"];
             live_repo.UpdatePost(livePageID, QtyOfOrders, Amount, DateTime.UtcNow.AddHours(8), views);
             Session.Abandon();
-            ProductService.ClearProducts();
             return RedirectToAction("Index", "Report");
         }
 

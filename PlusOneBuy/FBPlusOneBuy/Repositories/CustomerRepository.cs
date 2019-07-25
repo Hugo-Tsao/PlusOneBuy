@@ -29,17 +29,12 @@ namespace FBPlusOneBuy.Repositories
             
         }
 
-        public void InsertCustomer(List<Customer> customers)
+        public void InsertCustomer(Customer customer)
         {
             using (conn = new SqlConnection(connectionString))
             {
-
-                foreach (var customer in customers)
-                {
-                    string sql = "INSERT INTO Customers(CustomerID, CustomerName) VALUES ( @CustomerID, @CustomerName)";
+                string sql = "INSERT INTO Customers(CustomerID, CustomerName) VALUES ( @CustomerID, @CustomerName)";
                     conn.Execute(sql, new { customer.CustomerID,customer.CustomerName });
-                }
-
             }
         }
     }

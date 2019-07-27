@@ -84,12 +84,6 @@ namespace FBPlusOneBuy.Controllers
             }
             return Json("Failed");
         }
-        //[HttpPost]
-        //public ActionResult GetStock(int salepage_id, int SkuId)
-        //{
-        //    Store store = ProductService.GetStock(salepage_id, SkuId);
-        //    return Json(store);
-        //}
 
         [HttpPost]
         public ActionResult DeleteProduct(int skuId)
@@ -100,6 +94,14 @@ namespace FBPlusOneBuy.Controllers
             }
 
             return Json("Failed");
+        }
+
+        [HttpGet]
+        public ActionResult GetPresetQty()
+        {
+            var PresetQty = ProductService.GetCurrentProducts()
+                .Select(x => new {ID = x.SkuId, PresetQty = x.PresetQty});
+            return Json(PresetQty);
         }
     }
 }

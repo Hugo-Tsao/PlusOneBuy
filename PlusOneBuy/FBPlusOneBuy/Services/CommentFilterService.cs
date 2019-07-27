@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Web;
 using FBPlusOneBuy.Models;
 using FBPlusOneBuy.Repositories;
@@ -16,30 +17,32 @@ namespace FBPlusOneBuy.Services
         {
             var resultOrderList = new List<OrderList>();
             var cust_repo = new CustomerRepository();
-            //List<Datum> resultDatum = new List<Datum>();
-            if (keywordPattern == null)
-            {
-                keywordPattern = "+1";
-            }
+            Regex re;
+            
             foreach (var data in datas)
             {
+                if (data.from.name == null)
+                {
+                    continue;
+                }
+                var name = UTF8ConvertToString(data.from.name);
+                if (!cust_repo.SelectCustomer(data.from.id))
+                {
+                    var customer = new Customer { CustomerID = data.from.id, CustomerName = name };
+                    cust_repo.InsertCustomer(customer);
+                }
+
                 foreach (var item in products)
                 {
                     string completeKeyword = item.Keyword + keywordPattern;
-                    if (data.message == completeKeyword)
+                    re = new Regex(item.Keyword + keywordPattern);
+                    if (keywordPattern == "+1")
                     {
-                        //resultDatum.Add(data);
-                        if (data.from.name == null)
-                        {
-                            break;
-                        }
-                        var name = UTF8ConvertToString(data.from.name);
-
-                        if (!cust_repo.SelectCustomer(data.from.id))
-                        {
-                            var customer = new Customer { CustomerID = data.from.id, CustomerName = name };
-                            cust_repo.InsertCustomer(customer);
-                        }
+                        string pattern = "^" + item.Keyword + "\\+\\d{1}$";
+                        re = new Regex(pattern);
+                    }
+                    if (re.IsMatch(data.message))
+                    {
                         var live_repo = new LivePostsRepository();
                         var order = new OrderList();
                         order.CustomerID = data.from.id;
@@ -54,7 +57,12 @@ namespace FBPlusOneBuy.Services
                         };
                         order.LiveID = live_repo.Select(livePageID);
                         order.OrderDateTime = data.created_time.ToUniversalTime().AddHours(8);
-                        order.Quantity = 1; //因為目前只有+1，所以暫時寫死
+                        order.Quantity = 1;
+                        if (keywordPattern == "+1")
+                        {
+                            order.Quantity =
+                                int.Parse(data.message.Substring(data.message.IndexOf("+", StringComparison.Ordinal)));
+                        }
                         resultOrderList.Add(order);
                         break;
                     }
@@ -65,7 +73,7 @@ namespace FBPlusOneBuy.Services
 
         public static List<Datum> PostTimeFilter(List<Datum> comments, string livePageID)
         {
-            
+
             LivePostsRepository livePost_repo = new LivePostsRepository();
             var livePostTime = livePost_repo.GetMaxPostTime(livePageID);
             //去Orders Table 看有沒有留言，有的話就抓最後一個留言的時間沒有的話就過濾livePostTime 的時間
@@ -96,8 +104,8 @@ namespace FBPlusOneBuy.Services
                 if (PickPosts.Count > 0)
                 {
                     orderList = CommentFilterService.KeywordFilter(products, PickPosts, livePageID, keywordPattern);
-                var order_repo = new OrderRepositories();
-                order_repo.InsertOrder(orderList);
+                    var order_repo = new OrderRepositories();
+                    order_repo.InsertOrder(orderList);
                 }
             }
             return orderList;

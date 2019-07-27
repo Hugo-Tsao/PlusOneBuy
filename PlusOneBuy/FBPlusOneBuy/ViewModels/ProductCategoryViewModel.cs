@@ -21,8 +21,8 @@ namespace FBPlusOneBuy.ViewModels
             CreatedDateTimeStart = new DateTime(2000,1,1);
             CreatedDateTimeEnd = new DateTime(9999,1,1);
             Position = 0;
-            Count = 500;
-            IsClosed = true;
+            Count = 50;
+            IsClosed = false;
         }
     }
 }

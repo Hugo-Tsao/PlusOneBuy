@@ -54,12 +54,13 @@ namespace FBPlusOneBuy.Services
             }
         }
 
-        public static bool UpdateKeyword(int skuId,string keyword)
+        public static bool UpdateProductInfo(int skuId,string keyword,int presetQty)
         {
             var productList = GetCurrentProducts();
             int index = productList.ProductItems.FindIndex(x=>x.SkuId == skuId);
             if (index != -1)
             {
+                productList.ProductItems[index].PresetQty = presetQty;
                 productList.ProductItems[index].Keyword = keyword;
                 return true;
             }
@@ -70,26 +71,26 @@ namespace FBPlusOneBuy.Services
 
         }
 
-        internal static string keyValue = "AA0MXe9ZiO2t8z8cE8HFC1VkhZ7duTY9gtWAGR18";
-        public static ProductSKUList GetSKUListByMain(int salepage_id)
-        {
-            var client = new RestClient("https://apigw.qa.91dev.tw/ec/V1/SalePage/GetSKUListByMain");
-            var request = new RestRequest(Method.POST);
-            request.AddHeader("cache-control", "no-cache");
-            request.AddHeader("Connection", "keep-alive");
-            request.AddHeader("Content-Length", "21");
-            request.AddHeader("Accept-Encoding", "gzip, deflate");
-            request.AddHeader("Host", "apigw.qa.91dev.tw");
-            request.AddHeader("Cache-Control", "no-cache");
-            request.AddHeader("x-api-key", keyValue);
-            request.AddHeader("Content-Type", "application/json");
-            request.AddParameter("undefined", "{\r\n  \"id\": " + salepage_id + "\r\n}", ParameterType.RequestBody);
-            IRestResponse response = client.Execute(request);
+        internal static string keyValue = ConfigurationManager.AppSettings["X-API-KEY"];
+        //public static ProductSKUList GetSKUListByMain(int salepage_id)
+        //{
+        //    var client = new RestClient("https://apigw.qa.91dev.tw/ec/V1/SalePage/GetSKUListByMain");
+        //    var request = new RestRequest(Method.POST);
+        //    request.AddHeader("cache-control", "no-cache");
+        //    request.AddHeader("Connection", "keep-alive");
+        //    request.AddHeader("Content-Length", "21");
+        //    request.AddHeader("Accept-Encoding", "gzip, deflate");
+        //    request.AddHeader("Host", "apigw.qa.91dev.tw");
+        //    request.AddHeader("Cache-Control", "no-cache");
+        //    request.AddHeader("x-api-key", keyValue);
+        //    request.AddHeader("Content-Type", "application/json");
+        //    request.AddParameter("undefined", "{\r\n  \"id\": " + salepage_id + "\r\n}", ParameterType.RequestBody);
+        //    IRestResponse response = client.Execute(request);
 
-            ProductSKUList store = Newtonsoft.Json.JsonConvert.DeserializeObject<ProductSKUList>(response.Content);
+        //    ProductSKUList store = Newtonsoft.Json.JsonConvert.DeserializeObject<ProductSKUList>(response.Content);
 
-            return store;
-        }
+        //    return store;
+        //}
 
         public static ProductMain GetMain(int salepage_id)
         {

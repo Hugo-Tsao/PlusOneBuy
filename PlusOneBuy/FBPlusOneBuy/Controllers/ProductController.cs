@@ -76,10 +76,9 @@ namespace FBPlusOneBuy.Controllers
         }
 
         [HttpPost]
-        public ActionResult UpdateKeyword(int skuId,string keyword)
+        public ActionResult UpdateKeyword(int skuId, string keyword, int presetQty)
         {
-
-            if (ProductService.UpdateKeyword(skuId, keyword))
+            if (ProductService.UpdateProductInfo(skuId, keyword, presetQty))
             {
                 return Json("OK");
             }

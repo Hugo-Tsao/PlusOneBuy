@@ -46,6 +46,14 @@ ul li:hover > ul {
     border-color: #17a2b8;
     border-radius: 5px;
 }
+.qtytext {
+    padding-left: 10px;
+    border: #ddd 1px solid;
+    height: 40px;
+    width:50px;
+    border-color: #17a2b8;
+    border-radius: 5px;
+}
 .Idtext {
     padding-left: 10px;
     border: #ddd 1px solid;

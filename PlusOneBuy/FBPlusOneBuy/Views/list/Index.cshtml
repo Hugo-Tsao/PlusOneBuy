@@ -101,7 +101,7 @@
                         <th>規格</th>
                         <th>關鍵字</th>
                         <th>價格</th>
-                        <th>數量</th>
+                        <th>可售</th>
                         <th>剩餘</th>
                     </tr>
                 </thead>
@@ -110,13 +110,13 @@
                     {
                         for (int i = 0; i < products.Count; i++)
                         {
-                            <tr>
+                            <tr id="s_@products[i].SkuId">
                                 <td>@products[i].ProductName</td>
                                 <td>@products[i].SkuName</td>
                                 <td>@products[i].Keyword</td>
                                 <td>@String.Format("{0:N0}", products[i].UnitPrice)</td>
                                 <td>@products[i].Qty</td>
-                                <td>0</td>
+                                <td>@products[i].PresetQty</td>
                             </tr>
                         }
                     }

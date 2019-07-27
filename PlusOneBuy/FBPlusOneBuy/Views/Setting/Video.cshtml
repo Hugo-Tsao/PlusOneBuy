@@ -11,12 +11,12 @@
 <span>/</span>
 <span class="h4 font-weight-normal text-muted">商品</span>
 <form action="~/list/index" method="post">
-    <div class="row mt-3">
+    <div class="row">
 
         <div class="col">
             <label><strong>直播設定</strong></label>
             <hr><br>
-            <div class="row mb-4">
+            <div class="row ">
                 <div class="col">
                     <div class="dropdown">
                         <label>直播影片:</label>
@@ -43,8 +43,15 @@
                     </div>
                 </div>
                 <div class="col">
-                    <label>留言關鍵字:</label>
-                    <input type="text" class="formtext" name="keywordPattern" value="+1" />
+                    <label>留言關鍵字:</label><br />
+                    <input type="radio" name="keywordPattern" id="keywordnum" value="+1" />
+                    <label for="keywordnum">+1...+9</label>
+                    <br />
+                    <input type="radio" id="keyword" name="keywordPattern" />
+                    <label for="keyword">自訂</label>
+                    <input type="hidden" id="keywordtext" class="formtext" name="keywordPattern"
+                           value="我要買" />
+                    @*<input type="hidden" class="formtext" name="keywordPattern" value="+1" />*@
                 </div>
             </div>
             <div class="row">
@@ -85,9 +92,10 @@
                     </ul>
                 </div>
             </div>
+
             <div class="row">
                 <div class="col">
-                    <label><strong>直播商品清單</strong></label>
+                    <label><strong>直播商品清單</strong></label><hr>
                     <table class="table" id="ProductList">
                         <thead>
                             <tr>
@@ -97,9 +105,8 @@
                                 <th>價格</th>
                                 <th>庫存</th>
                                 <th>可售</th>
-
                                 <th>商品關鍵字</th>
-                                <th>修改確認</th>
+                                <th>修改</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -107,37 +114,38 @@
                             {
                                 for (var i = 0; i < Products.ProductItems.Count; i++)
                                 {
-                            <tr id="s_@Products.ProductItems[i].SkuId">
-                                <td>
-                                    <button type="button" name="delProduct" class="btn btn-light" value="@Products.ProductItems[i].SkuId">
-                                        <i class="far fa-trash-alt"></i>
-                                    </button>
-                                </td>
-                                <td>@Products.ProductItems[i].ProductName</td>
-                                <td>@Products.ProductItems[i].SkuName</td>
-                                <td>$@Products.ProductItems[i].UnitPrice</td>
-                                <td>@Products.ProductItems[i].Qty</td>
-                                <td><input type="text" class="qtytext" value="@Products.ProductItems[i].Qty" /></td>
+                                    <tr id="s_@Products.ProductItems[i].SkuId">
+                                        <td>
+                                            <button type="button" name="delProduct" class="btn btn-light" value="@Products.ProductItems[i].SkuId">
+                                                <i class="far fa-trash-alt"></i>
+                                            </button>
+                                        </td>
+                                        <td>@Products.ProductItems[i].ProductName</td>
+                                        <td>@Products.ProductItems[i].SkuName</td>
+                                        <td>$@Products.ProductItems[i].UnitPrice</td>
+                                        <td>@Products.ProductItems[i].Qty</td>
+                                        <td><input type="text" class="qtytext" value="@Products.ProductItems[i].PresetQty" /></td>
 
-                                <td>
-                                    <input type="text" class="formtext" id="@Products.ProductItems[i].SkuId" value="@Products.ProductItems[i].Keyword">
-                                </td>
+                                        <td>
+                                            <input type="text" class="formtext" id="@Products.ProductItems[i].SkuId" value="@Products.ProductItems[i].Keyword">
+                                        </td>
 
-                                <td>
-                                    <button type="button" name="checkKeyword" class="btn btn-light" value="@Products.ProductItems[i].SkuId">
-                                        <i class="fas fa-check"></i>
-                                    </button>
-                                </td>
-                            </tr>
+                                        <td>
+                                            <button type="button" name="checkKeyword" class="btn btn-light" value="@Products.ProductItems[i].SkuId">
+                                                <i class="fas fa-check"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
                                 }
                             }
                         </tbody>
                     </table>
                     <br>
                     <button id="btn_submit" class="btn btn-primary mt-3"><i class="far fa-hand-point-right"></i>送出</button>
+
                 </div>
             </div>
-
+            <br />
         </div>
     </div>
 </form>
@@ -186,6 +194,17 @@
                 else {
                     document.form.onsubmit();
                 }
+            })
+
+            $('[name=keywordPattern]').change(function () {
+                if ($('#keyword:checked').length == 1) {
+                    $('#keywordtext').removeAttr('type', 'hidden')
+                    $('#keyword').val($('#keywordtext').val())
+                }
+                else {
+                    $('#keywordtext').attr('type', 'hidden')
+                }
+
             })
             //搜尋商品
             $('#SearchProduct').click(function () {
@@ -279,11 +298,11 @@
         $('body').on("click", 'button[name="checkKeyword"]', function () {
             var Id = $(this).val()
             var presetQty = $('#s_' + Id).children('td').children('.qtytext').val()
-            var keyword=$('#s_' + Id).children('td').children('.formtext').val()
+            var keyword = $('#s_' + Id).children('td').children('.formtext').val()
             $.ajax({
                 type: 'post',
                 url: '/Product/UpdateKeyword',
-                data: { skuId: $(this).val(), keyword: keyword, presetQty:presetQty},
+                data: { skuId: Id, keyword: keyword, presetQty: presetQty },
                 success: function () {
                     $("#modaltext").text("修改成功!!")
                     $("#modal").modal();
@@ -317,7 +336,7 @@
                 $table.trigger('repaginate');
                 var $pager = $('.pagination');
                 $('#left').bind('click', function () {
-                    if (currentPage == -1||currentPage==0) {
+                    if (currentPage == -1 || currentPage == 0) {
                         currentPage = 0
                     }
                     else {
@@ -327,7 +346,7 @@
                 }).appendTo($pager);
 
                 $('#right').bind('click', function () {
-                    
+
                     if (currentPage >= maxPage) {
                         currentPage = maxPage
                     }

@@ -23,17 +23,12 @@ namespace FBPlusOneBuy.Repositories
                             INNER JOIN Products p ON p.ProductID =o.ProductID";
             return connection.Query<OrderList>(sql);
         }
-        public void InsertOrder(List<OrderList> orders)
+        public void InsertOrder(OrderList order)
         {
             using (conn = new SqlConnection(connectionString))
             {
-                
-                foreach (var order in orders)
-                {
-                    string sql = "INSERT INTO Orders(ProductID, CustomerID, Keyword, OrderDateTime, Quantity,LiveID) VALUES ( @ProductID, @CustomerID, @Keyword, @OrderDateTime, @Quantity,@LiveID)";
-                    conn.Execute(sql, new { ProductID=order.Product.SkuId, order.CustomerID, order.Keyword, order.OrderDateTime, order.Quantity,order.LiveID });
-                }           
-
+                string sql = "INSERT INTO Orders(ProductID, CustomerID, Keyword, OrderDateTime, Quantity,LiveID) VALUES ( @ProductID, @CustomerID, @Keyword, @OrderDateTime, @Quantity,@LiveID)";
+                conn.Execute(sql, new { ProductID = order.Product.SkuId, order.CustomerID, order.Keyword, order.OrderDateTime, order.Quantity, order.LiveID });
             }
         }
         public DateTime SelectLastOrderComment(int liveId)
@@ -41,7 +36,7 @@ namespace FBPlusOneBuy.Repositories
             using (conn = new SqlConnection(connectionString))
             {
                 string sql = "select top 1 * from Orders where LiveID=@liveId order by OrderDateTime desc ";
-                var lastComment = conn.QueryFirstOrDefault<OrderList>(sql,new { liveId });
+                var lastComment = conn.QueryFirstOrDefault<OrderList>(sql, new { liveId });
                 if (lastComment == null)
                 {
                     return DateTime.MaxValue;
@@ -71,8 +66,8 @@ namespace FBPlusOneBuy.Repositories
                 var liveId = live_repo.Select(livePageId);
                 string sql =
                     "select SUM(p.UnitPrice) as Amount from Products p inner join Orders o on o.ProductID = p.ProductID where o.LiveID = @liveId";
-                 decimal? amount = conn.QueryFirstOrDefault<decimal?>(sql, new {liveId});
-                 decimal result = 0;
+                decimal? amount = conn.QueryFirstOrDefault<decimal?>(sql, new { liveId });
+                decimal result = 0;
                 if (amount != null)
                 {
                     result = (decimal)amount;
@@ -99,7 +94,7 @@ namespace FBPlusOneBuy.Repositories
             using (conn = new SqlConnection(connectionString))
             {
                 string sql = "SELECT o.OrderID, c.CustomerName, p.ProductName, p.UnitPrice, o.Quantity, o.OrderDateTime FROM Orders o INNER JOIN Products p ON p.ProductID = o.ProductID INNER JOIN Customers c ON c.CustomerID = o.CustomerID WHERE o.LiveID = @liveId";
-                List<CommentOrderLIstViewModel>  orders = conn.Query<CommentOrderLIstViewModel>(sql, new { liveId }).ToList();
+                List<CommentOrderLIstViewModel> orders = conn.Query<CommentOrderLIstViewModel>(sql, new { liveId }).ToList();
                 return orders;
             }
         }

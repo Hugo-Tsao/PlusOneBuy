@@ -38,7 +38,7 @@ namespace FBPlusOneBuy.Controllers
             }
             ViewData["products"] = products;
             ViewData["livePageID"] = livePageID;
-            ViewData["keywordPattern"] = keywordPattern;            
+            ViewData["keywordPattern"] = keywordPattern;
             return View();
         }
 
@@ -47,16 +47,30 @@ namespace FBPlusOneBuy.Controllers
         {
             //try
             //{
-                string token = Session["token"].ToString();
-                var products = ProductService.GetCurrentProducts().ProductItems;
-                var OrderList = CommentFilterService.getNewOrderList(livePageID, token, products, keywordPattern);
-                if (OrderList.Count > 0)
+            string token = Session["token"].ToString();
+            var products = ProductService.GetCurrentProducts().ProductItems;
+            var OrderList = CommentFilterService.getNewOrderList(livePageID, token, products, keywordPattern);
+            if (OrderList.Count > 0)
+            {
+                var order_repo = new OrderRepositories();
+                foreach (var order in OrderList)
                 {
-                    FBSendMsgService.OrderListToSendMsg(livePageID,OrderList, token);
+                    //留言成功，數量修改
+                    if (ProductService.UpdateProductQty(order.Product.SkuId,order.Quantity))
+                    {
+                        order_repo.InsertOrder(order);
+                        FBSendMsgService.SuccessOrderToSendMsg(livePageID, order, token);
+                    }
+                    else  //留言失敗
+                    {
+                        FBSendMsgService.FailedOrderToSendMsg(livePageID, order, token);
+                    }
                 }
+            }
 
-                var result = JsonConvert.SerializeObject(OrderList);
-                return Json(result);
+
+            var result = JsonConvert.SerializeObject(OrderList);
+            return Json(result);
             //}
             //catch (Exception e)
             //{
@@ -107,9 +121,8 @@ namespace FBPlusOneBuy.Controllers
                 order.Product = new ProductViewModel { Salepage_id = orderinfo.ProductPageID, SkuId = orderinfo.ProductID, ProductName = orderinfo.ProductName };
                 order.Quantity = orderinfo.Quantity;
                 orders.Add(order);
+                FBSendMsgService.SuccessOrderToSendMsg(livePageID, order, token);
             }
-            FBSendMsgService.OrderListToSendMsg(livePageID,orders, token);
-
         }
         [HttpGet]
         public ActionResult GetROIOrderInfo(string livePageId)
@@ -135,7 +148,7 @@ namespace FBPlusOneBuy.Controllers
                 }
                 else
                 {
-                    if ((int) Session["views"] < views)
+                    if ((int)Session["views"] < views)
                     {
                         Session["views"] = views;
                     }
@@ -146,9 +159,9 @@ namespace FBPlusOneBuy.Controllers
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                return Json(0,JsonRequestBehavior.AllowGet);
+                return Json(0, JsonRequestBehavior.AllowGet);
             }
-            
+
         }
     }
 }

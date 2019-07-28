@@ -14,20 +14,20 @@ namespace FBPlusOneBuy.Services
 {
     public class FBSendMsgService
     {
-        public static void SendMsg(string text, List<string> ids,string token)
+        public static void SendMsg(string text, List<string> ids, string token)
         {
-            
+
             foreach (string id in ids)
             {
                 var msg = new FbSendMessage.SendObject()
                 {
                     message = new FbSendMessage.Message { text = text },
                     recipient = new FbSendMessage.Recipient { id = id },
-                    messaging_type= "MESSAGE_TAG",
-                    tag= "BUSINESS_PRODUCTIVITY"
+                    messaging_type = "MESSAGE_TAG",
+                    tag = "BUSINESS_PRODUCTIVITY"
                 };
                 var jsonMsg = JsonConvert.SerializeObject(msg);
-                var client = new RestClient("https://graph.facebook.com/v3.3/me/messages?access_token="+ token);
+                var client = new RestClient("https://graph.facebook.com/v3.3/me/messages?access_token=" + token);
                 var request = new RestRequest(Method.POST);
                 request.AddHeader("cache-control", "no-cache");
                 request.AddHeader("content-length", "92");
@@ -38,23 +38,30 @@ namespace FBPlusOneBuy.Services
                 request.AddHeader("Content-Type", "application/json");
                 request.AddParameter("undefined", jsonMsg, ParameterType.RequestBody);
                 IRestResponse response = client.Execute(request);
-                
-            }          
+
+            }
         }
-        public static void OrderListToSendMsg(string livePageId, List<OrderList> orderList, string token)
+        public static void SuccessOrderToSendMsg(string livePageId, OrderList order, string token)
         {
             LivePostsRepository livePost_repo = new LivePostsRepository();
             var liveId = livePost_repo.Select(livePageId);
-            foreach (var order in orderList)
-            {
-                var link = getAddToCartLink(liveId,order.Product.Salepage_id, order.Product.SkuId, order.Quantity);
-                string msgText = $"{order.CustomerName}你好，感謝您訂購我們的產品!!\r\n{order.Product.ProductName}-數量{order.Quantity}，請點擊下列連結完成接下來的購物流程!{link}";
-                List<string> id = new List<string> { order.CustomerID };
-                FBSendMsgService.SendMsg(msgText, id, token);
-            }
+            var link = getAddToCartLink(liveId, order.Product.Salepage_id, order.Product.SkuId, order.Quantity);
+            string msgText = $"{order.CustomerName}你好，感謝您訂購我們的產品!!\r\n{order.Product.ProductName}-數量{order.Quantity}，請點擊下列連結完成接下來的購物流程!{link}";
+            List<string> id = new List<string> { order.CustomerID };
+            FBSendMsgService.SendMsg(msgText, id, token);
+
+        }
+        public static void FailedOrderToSendMsg(string livePageId, OrderList order, string token)
+        {
+            LivePostsRepository livePost_repo = new LivePostsRepository();
+            var liveId = livePost_repo.Select(livePageId);
+            var link = "http://64.selfshop.qa.91dev.tw/";
+            string msgText = $"{order.CustomerName}你好，非常抱歉下標本商品-{order.Product.ProductName}的人數已滿\r\n，您可以透過以下連結來本商店觀看其他商品資訊！{link}";
+            List<string> id = new List<string> { order.CustomerID };
+            FBSendMsgService.SendMsg(msgText, id, token);
         }
 
-        public static string getAddToCartLink(int liveKey ,int salepage_id,int skuId,int qty)
+        public static string getAddToCartLink(int liveKey, int salepage_id, int skuId, int qty)
         {
             string link = string.Empty;
             link = "http://64.selfshop.qa.91dev.tw/v2/ShoppingCart/BatchInsert?data=";
@@ -84,7 +91,7 @@ namespace FBPlusOneBuy.Services
         }
         internal static string ShortenLink(string link)
         {
-            var client = new RestClient("https://api-ssl.bitly.com/v3/shorten?login=o_3888efs55q&apiKey=R_ef7f0de73a5343d1a45acd9c93ce3d9d&longUrl="+link+"&format=txt");
+            var client = new RestClient("https://api-ssl.bitly.com/v3/shorten?login=o_3888efs55q&apiKey=R_ef7f0de73a5343d1a45acd9c93ce3d9d&longUrl=" + link + "&format=txt");
             var request = new RestRequest(Method.POST);
             request.AddHeader("cache-control", "no-cache");
             request.AddHeader("Content-Type", "application/json");

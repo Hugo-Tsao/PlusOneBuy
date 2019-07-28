@@ -104,8 +104,6 @@ namespace FBPlusOneBuy.Services
                 if (PickPosts.Count > 0)
                 {
                     orderList = CommentFilterService.KeywordFilter(products, PickPosts, livePageID, keywordPattern);
-                    var order_repo = new OrderRepositories();
-                    order_repo.InsertOrder(orderList);
                 }
             }
             return orderList;

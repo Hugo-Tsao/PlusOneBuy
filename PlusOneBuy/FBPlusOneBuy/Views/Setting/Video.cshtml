@@ -5,16 +5,18 @@
     var Products = ProductService.GetCurrentProducts();
 
 }
-<span class="h4 font-weight-normal text-muted">設定直播推播</span>
+<span class="h4 font-weight-normal text-muted">設定活動</span>
 <span>/</span>
-<a class="h4 font-weight-normal text-muted" href="@Url.Action("FanPageName","Setting")">粉絲團</a>
+<a class="h4 font-weight-normal text-muted" href="@Url.Action("FanPageName","Setting")">社群</a>
 <span>/</span>
-<span class="h4 font-weight-normal text-muted">商品</span>
+<span class="h4 font-weight-normal text-muted">直播推播</span>
 <form action="~/list/index" method="post">
     <div class="row">
-
         <div class="col">
+            <img src="~/Assets/images/FB1.png" style="width:20px;"/>
+            <label>粉絲團:@ViewData["fanpagename"]</label><br/>
             <label><strong>直播設定</strong></label>
+
             <hr><br>
             <div class="row ">
                 <div class="col">

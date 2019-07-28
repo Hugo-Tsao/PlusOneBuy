@@ -90,7 +90,11 @@ namespace FBPlusOneBuy.Controllers
                     return View(model);
             }
         }
-
+        [AllowAnonymous]
+        public ActionResult BindAccount()
+        {
+            return View();
+        }
         //
         // GET: /Account/VerifyCode
         [AllowAnonymous]

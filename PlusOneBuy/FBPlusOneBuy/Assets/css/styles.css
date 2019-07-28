@@ -71,6 +71,18 @@ ul li:hover > ul {
     margin:10px;
     width:160px;
 }
+.AccountIcon {
+    width:20%;
+    height:100%;
+}
 
+.qty {
+    padding-left: 10px;
+    border: #ddd 1px solid;
+    height: 30px;
+    width: 50px;
+    border-color: #28A745;
+    border-radius: 5px;
+}
 
 

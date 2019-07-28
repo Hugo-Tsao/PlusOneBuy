@@ -245,10 +245,12 @@
     <Compile Include="ViewModels\SalesOrderViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Assets\css\Main_style.css" />
     <Content Include="Assets\css\styles.css" />
     <Content Include="Assets\images\91app_developer.png" />
     <Content Include="Assets\images\91_.png" />
+    <Content Include="Assets\images\FB1.png" />
+    <Content Include="Assets\images\Ig1.png" />
+    <Content Include="Assets\images\Line1.png" />
     <Content Include="Assets\js\jquery-3.4.1.min.js" />
     <Content Include="Content\bootstrap-grid.css" />
     <Content Include="Content\bootstrap-grid.min.css" />
@@ -354,6 +356,8 @@
     <Content Include="Views\Shared\Main_Layout.cshtml" />
     <Content Include="Views\Report\CommentsOrderList.cshtml" />
     <Content Include="Views\Report\ROIOrderList.cshtml" />
+    <Content Include="Views\Account\BindAccount.cshtml" />
+    <Content Include="Views\Setting\Group.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -1,0 +1,38 @@
+﻿
+@{
+    ViewBag.Title = "Group";
+    Layout = "~/Views/Shared/Main_Layout.cshtml";
+}
+<span class="h4 font-weight-normal text-muted">設定活動</span>
+<span>/</span>
+<a class="h4 font-weight-normal text-muted" href="@Url.Action("FanPageName","Setting")">社群</a>
+<span>/</span>
+<span class="h4 font-weight-normal text-muted">商品</span>
+<div class="row">
+    <div class="col">
+        <img src="~/Assets/images/Line1.png" style="width:20px;" />
+        <label>群組:全家團購</label><br />
+        <label>商品類型</label>
+        <select>
+            <option>行動購商品</option>
+            </select>
+        <br />
+        <label>編號&nbsp;&nbsp;&nbsp;</label>
+        <input type="text" class="qty"/>
+        <br />
+        <label>關鍵字</label>
+        <input type="text" class="qty"/>
+        <br />
+        <label>訂購單位數</label>
+        <input type="text" class="qty"/>
+        <label>/組</label>
+        <br />
+        <label>成團組數&nbsp;&nbsp;&nbsp;</label>
+        <input type="text" class="qty"/>
+        <label>/團</label>
+        <br />
+        <label>活動說明</label><br />
+        <textarea></textarea><br />
+        <button type="button" class="btn-light">建立活動</button>
+    </div>
+</div>

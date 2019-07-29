@@ -4,9 +4,11 @@
     Layout = "~/Views/Shared/Main_Layout.cshtml";
     var SaleOrders = ViewData["SaleOrder"] as FBPlusOneBuy.ViewModels.SalesOrderList;
 }
-<span class="h4 font-weight-normal text-muted">報告</span>
+<span class="h4 font-weight-normal text-muted">查詢活動</span>
 <span>/</span>
-<a class="h4 font-weight-normal text-muted" href="@Url.Action("Index", "Report")">直播清單</a>
+<a class="h4 font-weight-normal text-muted" href="@Url.Action("Index","Report")">社群</a>
+<span>/</span>
+<a class="h4 font-weight-normal text-muted" href="@Url.Action("Fblist","Report")">直播清單</a>
 <span>/</span>
 <span class="h4 font-weight-normal text-muted"><strong>ROI</strong></span>
 <div class="row mt-3">
@@ -59,7 +61,7 @@
             if (SaleOrders.Total != 0 && Model.Amount != 0)
             {
                 ROI = SaleOrders.Total / Model.Amount;
-                ROI = Math.Round((decimal)ROI*100,0);
+                ROI = Math.Round((decimal)ROI * 100, 0);
             }
             else
             {
@@ -68,7 +70,7 @@
 
         }
         <h3><span class="badge badge-light">ROI(成/收)</span><span class="badge badge-light">@ROI%</span></h3>
-        <br/><br /><br />
+        <br /><br /><br />
 
     </div>
     <div class="col">
@@ -85,7 +87,7 @@
     <script>
         $(document).ready(function () {
             $('#myTable').DataTable({
-                "searching": false,"info": false, "bLengthChange": false, "pageLength": 10
+                "searching": false, "info": false, "bLengthChange": false, "pageLength": 10
             });
         });
     </script>

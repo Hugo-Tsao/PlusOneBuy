@@ -12,6 +12,7 @@ using FBPlusOneBuy.Models;
 
 namespace FBPlusOneBuy.Controllers
 {
+    [Authorize]
     public class SettingController : Controller
     {
         // GET: Setting

@@ -1,9 +1,9 @@
-﻿
+﻿@using Microsoft.AspNet.Identity
+
 @{
     Layout = "~/Views/Shared/Main_Layout.cshtml";
 }
 <span class="h4 font-weight-normal text-muted">設定活動</span>
-<span>/</span>
 <span class="h4 font-weight-normal text-muted">社群</span>
 <div class="row" id="card_selectPage">
     <div class="card text-center m-2" style="width: 18rem;">
@@ -77,7 +77,7 @@
                             let fanPageid = this.value;
                             let fanPageName = $(this).parent().find('p').html();
                             FB.api('/' + fanPageid + '?fields=access_token', function (res) {
-                                GetDataNew(res.access_token, fanPageid,fanPageName);
+                                GetDataNew(res.access_token, fanPageid, fanPageName);
                                 //console.log("PAGE=" + res.access_token);
                             });
 
@@ -94,12 +94,12 @@
                 });
         }
 
-        function GetDataNew(token, fanPageid,fanPageName) {
+        function GetDataNew(token, fanPageid, fanPageName) {
 
             $.ajax({
                 type: "POST",
                 url: "/Setting/GetFanPageData",
-                data: { token: token,fanpageid:fanPageid,fanpagename:fanPageName},
+                data: { token: token, fanpageid: fanPageid, fanpagename: fanPageName },
                 dataType: 'json',
                 crossDomain: true,
                 cache: false,

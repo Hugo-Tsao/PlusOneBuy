@@ -6,6 +6,7 @@ using System.Web;
 using FBPlusOneBuy.Models;
 using FBPlusOneBuy.Repositories;
 using FBPlusOneBuy.ViewModels;
+using Microsoft.AspNet.Identity;
 using Microsoft.Owin.Security.Provider;
 using Newtonsoft.Json;
 using RestSharp;
@@ -55,8 +56,11 @@ namespace FBPlusOneBuy.Services
         {
             LivePostsRepository livePost_repo = new LivePostsRepository();
             var liveId = livePost_repo.Select(livePageId);
-            var link = "http://64.selfshop.qa.91dev.tw/";
-            string msgText = $"{order.CustomerName}你好，非常抱歉下標本商品-{order.Product.ProductName}的人數已滿\r\n，您可以透過以下連結來本商店觀看其他商品資訊！{link}";
+            var userid = HttpContext.Current.User.Identity.GetUserId();
+            Context db = new Context();
+            string storeUrl = db.AspNetUsers.FirstOrDefault(x => x.Id == userid)?.ShopID;
+            var link = "http://" + storeUrl + "/";
+            string msgText = $"{order.CustomerName}非常抱歉，您下標本商品-{order.Product.ProductName}的數量不足\r\n，您可以透過以下連結來本商店觀看其他商品資訊！{link}";
             List<string> id = new List<string> { order.CustomerID };
             FBSendMsgService.SendMsg(msgText, id, token);
         }

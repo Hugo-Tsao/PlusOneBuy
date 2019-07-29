@@ -1,4 +1,5 @@
 ﻿@using FBPlusOneBuy.Services;
+@using Microsoft.AspNet.Identity
 @{
     Layout = "~/Views/Shared/Main_Layout.cshtml";
     Dictionary<string, string> liveIDList = ViewData["liveIDList"] as Dictionary<string, string>;
@@ -13,8 +14,8 @@
 <form action="~/list/index" method="post">
     <div class="row">
         <div class="col">
-            <img src="~/Assets/images/FB1.png" style="width:20px;"/>
-            <label>粉絲團:@ViewData["fanpagename"]</label><br/>
+            <img src="~/Assets/images/FB1.png" style="width:20px;" />
+            <label>粉絲團:@ViewData["fanpagename"]</label><br />
             <label><strong>直播設定</strong></label>
 
             <hr><br>

@@ -12,6 +12,7 @@ using FBPlusOneBuy.ViewModels;
 
 namespace FBPlusOneBuy.Controllers
 {
+    [Authorize]
     public class listController : Controller
     {
         [HttpGet]

@@ -89,9 +89,9 @@ namespace FBPlusOneBuy.Services
         }
         internal static string keyValue = ConfigurationManager.AppSettings["X-API-KEY"];
 
-        public static ProductMain GetMain(int salepage_id, string shopID)
+        public static ProductMain GetMain(int salepage_id)
         {
-            var shopUrl = "https://" + shopID + "/ec/V1/SalePage/GetMain";
+            var shopUrl = "https://apigw.qa.91dev.tw/ec/V1/SalePage/GetMain";
             var client = new RestClient(shopUrl);
             var request = new RestRequest(Method.POST);
             request.AddHeader("cache-control", "no-cache");
@@ -110,10 +110,10 @@ namespace FBPlusOneBuy.Services
             return store;
         }
 
-        public static ProductCategory GetSKUList(ProductCategoryViewModel pcvm,string shopID)
+        public static ProductCategory GetSKUList(ProductCategoryViewModel pcvm)
         {
             var JsonPCVM = Newtonsoft.Json.JsonConvert.SerializeObject(pcvm);
-            var shopUrl = "https://" + shopID + "/ec/V1/SalePage/GetSKUList";
+            var shopUrl = "https://apigw.qa.91dev.tw/ec/V1/SalePage/GetSKUList";
             var client = new RestClient(shopUrl);
             var request = new RestRequest(Method.POST);
             request.AddHeader("cache-control", "no-cache");
@@ -132,10 +132,10 @@ namespace FBPlusOneBuy.Services
             return store;
         }
 
-        public static ProductStock GetStock(int salepage_id,string shopID)
+        public static ProductStock GetStock(int salepage_id)
         {
             //等到有登入功能後，就可綁ShopID
-            var shopUrl = "https://" + shopID + "/ec/V1/SalePage/GetStock";
+            var shopUrl = "https://apigw.qa.91dev.tw/ec/V1/SalePage/GetStock";
             var client = new RestClient(shopUrl);
             var request = new RestRequest(Method.POST);
             request.AddHeader("cache-control", "no-cache");

@@ -15,39 +15,24 @@ namespace FBPlusOneBuy.Controllers
 {
     public class ProductController : Controller
     {
-        public Context db = new Context();
-        //等到登入功能完成，判斷目前登入是誰，並綁定了什麼ShopID
-        public string storeUrl; //目前先寫死商場
-
-        public ProductController()
-        {
-            var userID = User.Identity.GetUserId();
-            storeUrl = db.AspNetUsers.FirstOrDefault(x => x.Id == userID)?.ShopID;
-        }
         [HttpPost]
         public ActionResult GetSKUListByMain(string FilterType, int id_value)
         {
-            //List<ProductSKUList_Data> data1 = new List<ProductSKUList_Data>();
             List<ProductStock_Data> data = new List<ProductStock_Data>();
 
             if (FilterType == "salepage_id")
             {
-                //ProductSKUList store = ProductService.GetSKUListByMain(id_value);
-                //data = store.Data;
-                ProductStock store = ProductService.GetStock(id_value, storeUrl);
+                ProductStock store = ProductService.GetStock(id_value);
                 data = store.Data;
-
-
             }
             else if (FilterType == "shopCategoryId")
             {
                 ProductCategoryViewModel pcvm = new ProductCategoryViewModel();
-                //pcvm.ShopCategoryId = id_value;
-                ProductCategory pc = ProductService.GetSKUList(pcvm, storeUrl);
+                ProductCategory pc = ProductService.GetSKUList(pcvm);
                 var result = pc.Data.DistinctBy(x => x.Id);
                 foreach (var products in result)
                 {
-                    ProductStock stock = ProductService.GetStock(products.Id, storeUrl);
+                    ProductStock stock = ProductService.GetStock(products.Id);
                     if (stock.Data != null)
                     {
                         foreach (var item in stock.Data)
@@ -70,7 +55,7 @@ namespace FBPlusOneBuy.Controllers
         public ActionResult GetMain(ProductViewModel pvm)
         {
             ProductMain_Data data = new ProductMain_Data();
-            ProductMain store = ProductService.GetMain(pvm.Salepage_id, storeUrl);
+            ProductMain store = ProductService.GetMain(pvm.Salepage_id);
             data = store.Data;
             if (data != default(ProductMain_Data))
             {

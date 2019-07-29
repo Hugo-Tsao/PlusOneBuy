@@ -358,6 +358,8 @@
     <Content Include="Views\Report\ROIOrderList.cshtml" />
     <Content Include="Views\Account\BindAccount.cshtml" />
     <Content Include="Views\Setting\Group.cshtml" />
+    <Content Include="Views\Report\FbList.cshtml" />
+    <Content Include="Views\Report\LineList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -4,9 +4,11 @@
     Layout = "~/Views/Shared/Main_Layout.cshtml";
     FBPlusOneBuy.ViewModels.ReportViewModel LivePost = ViewData["LivePost"] as FBPlusOneBuy.ViewModels.ReportViewModel;
 }
-<span class="h4 font-weight-normal text-muted">報告</span>
+<span class="h4 font-weight-normal text-muted">查詢活動</span>
 <span>/</span>
-<a class="h4 font-weight-normal text-muted" href="@Url.Action("Index","Report")">直播清單</a>
+<a class="h4 font-weight-normal text-muted" href="@Url.Action("Index","Report")">社群</a>
+<span>/</span>
+<a class="h4 font-weight-normal text-muted" href="@Url.Action("Fblist","Report")">直播清單</a>
 <span>/</span>
 <span class="h4 font-weight-normal text-muted"><strong>留言訂單</strong></span>
 
@@ -35,29 +37,29 @@
     <tbody>
         @foreach (var item in Model)
         {
-        <tr>
-            <td>
-                @Html.DisplayFor(model => item.OrderID)
-            </td>
-            <td>
-                @Html.DisplayFor(model => item.CustomerName)
-            </td>
-            <td>
-                @Html.DisplayFor(model => item.ProductName)
-            </td>
-            <td>
-                @Html.DisplayFor(model => item.Quantity)
-            </td>
-            <td>
-                @Html.DisplayFor(model => item.UnitPrice)
-            </td>
-            <td>
-                @Html.DisplayFor(model => item.Amount)
-            </td>
-            <td>
-                @Html.DisplayFor(model => item.OrderDateTime)
-            </td>
-        </tr>
+            <tr>
+                <td>
+                    @Html.DisplayFor(model => item.OrderID)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => item.CustomerName)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => item.ProductName)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => item.Quantity)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => item.UnitPrice)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => item.Amount)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => item.OrderDateTime)
+                </td>
+            </tr>
         }
 
     </tbody>

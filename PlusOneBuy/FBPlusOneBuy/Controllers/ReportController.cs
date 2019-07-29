@@ -18,6 +18,12 @@ namespace FBPlusOneBuy.Controllers
             ViewData.Model = livePost_repo.GetAllLivePosts();
             return View();
         }
+        public ActionResult FbList()
+        {
+            LivePostsRepository livePost_repo = new LivePostsRepository();
+            ViewData.Model = livePost_repo.GetAllLivePosts();
+            return View();
+        }
         public ActionResult SalesOrderList(string livepageId)
         {
             if (livepageId == null)
@@ -28,14 +34,6 @@ namespace FBPlusOneBuy.Controllers
             var salesOrderVM = SalesOrderListService.ListSalesOrders(livepageId);
             return View(salesOrderVM);
         }
-        //[HttpPost]
-        //public ActionResult RealTimeTotalAndSalesOrders(string livepageId)
-        //{
-
-        //    var totalAndSalesOrders = SalesOrderListService.GetTotalAndSalesOrders(livepageId);
-        //    return View(totalAndSalesOrders);
-        //}
-
         public ActionResult CommentsOrderList(int liveId)
         {
             LivePostsRepository livePost_repo = new LivePostsRepository();
@@ -48,14 +46,15 @@ namespace FBPlusOneBuy.Controllers
         }
         public ActionResult ROIOrderList(int liveId)
         {
-            //缺少觀看人數欄位(因為有問題)
-            //缺少成單量和成單價(還不知道如何完成下單)
-            //所以暫時一樣用ReportViewModel
             LivePostsRepository livePost_repo = new LivePostsRepository();
             ViewData.Model = livePost_repo.GetLivePost(liveId);
 
             var SaleOrder = livePost_repo.SaleOrder(liveId);
             ViewData["SaleOrder"] = SaleOrder;
+            return View();
+        }
+        public ActionResult LineList()
+        {
             return View();
         }
     }

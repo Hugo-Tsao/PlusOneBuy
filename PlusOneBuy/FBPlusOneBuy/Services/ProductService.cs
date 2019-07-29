@@ -89,29 +89,10 @@ namespace FBPlusOneBuy.Services
         }
         internal static string keyValue = ConfigurationManager.AppSettings["X-API-KEY"];
 
-        //public static ProductSKUList GetSKUListByMain(int salepage_id)
-        //{
-        //    var client = new RestClient("https://apigw.qa.91dev.tw/ec/V1/SalePage/GetSKUListByMain");
-        //    var request = new RestRequest(Method.POST);
-        //    request.AddHeader("cache-control", "no-cache");
-        //    request.AddHeader("Connection", "keep-alive");
-        //    request.AddHeader("Content-Length", "21");
-        //    request.AddHeader("Accept-Encoding", "gzip, deflate");
-        //    request.AddHeader("Host", "apigw.qa.91dev.tw");
-        //    request.AddHeader("Cache-Control", "no-cache");
-        //    request.AddHeader("x-api-key", keyValue);
-        //    request.AddHeader("Content-Type", "application/json");
-        //    request.AddParameter("undefined", "{\r\n  \"id\": " + salepage_id + "\r\n}", ParameterType.RequestBody);
-        //    IRestResponse response = client.Execute(request);
-
-        //    ProductSKUList store = Newtonsoft.Json.JsonConvert.DeserializeObject<ProductSKUList>(response.Content);
-
-        //    return store;
-        //}
-
-        public static ProductMain GetMain(int salepage_id)
+        public static ProductMain GetMain(int salepage_id, string shopID)
         {
-            var client = new RestClient("https://apigw.qa.91dev.tw/ec/V1/SalePage/GetMain");
+            var shopUrl = "https://" + shopID + "/ec/V1/SalePage/GetMain";
+            var client = new RestClient(shopUrl);
             var request = new RestRequest(Method.POST);
             request.AddHeader("cache-control", "no-cache");
             request.AddHeader("Connection", "keep-alive");
@@ -129,10 +110,11 @@ namespace FBPlusOneBuy.Services
             return store;
         }
 
-        public static ProductCategory GetSKUList(ProductCategoryViewModel pcvm)
+        public static ProductCategory GetSKUList(ProductCategoryViewModel pcvm,string shopID)
         {
             var JsonPCVM = Newtonsoft.Json.JsonConvert.SerializeObject(pcvm);
-            var client = new RestClient("https://apigw.qa.91dev.tw/ec/V1/SalePage/GetSKUList");
+            var shopUrl = "https://" + shopID + "/ec/V1/SalePage/GetSKUList";
+            var client = new RestClient(shopUrl);
             var request = new RestRequest(Method.POST);
             request.AddHeader("cache-control", "no-cache");
             request.AddHeader("Connection", "keep-alive");
@@ -150,9 +132,11 @@ namespace FBPlusOneBuy.Services
             return store;
         }
 
-        public static ProductStock GetStock(int salepage_id)
+        public static ProductStock GetStock(int salepage_id,string shopID)
         {
-            var client = new RestClient("https://apigw.qa.91dev.tw/ec/V1/SalePage/GetStock");
+            //等到有登入功能後，就可綁ShopID
+            var shopUrl = "https://" + shopID + "/ec/V1/SalePage/GetStock";
+            var client = new RestClient(shopUrl);
             var request = new RestRequest(Method.POST);
             request.AddHeader("cache-control", "no-cache");
             request.AddHeader("Connection", "keep-alive");

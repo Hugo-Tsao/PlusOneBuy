@@ -100,7 +100,7 @@ namespace FBPlusOneBuy.Controllers
         public ActionResult GetPresetQty()
         {
             var PresetQty = ProductService.GetCurrentProducts()
-                .Select(x => new {ID = x.SkuId, PresetQty = x.Qty});
+                .Select(x => new {ID = x.SkuId, PresetQty = x.PresetQty});
             return Json(PresetQty,JsonRequestBehavior.AllowGet);
         }
     }

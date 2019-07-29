@@ -16,12 +16,13 @@ namespace FBPlusOneBuy.Models
             // 在這裡新增自訂使用者宣告
             return userIdentity;
         }
+        public string ShopID { get; set; }
     }
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext()
-            : base("DefaultConnection", throwIfV1Schema: false)
+            : base("Context", throwIfV1Schema: false)
         {
         }
 

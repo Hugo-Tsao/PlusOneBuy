@@ -65,6 +65,13 @@ namespace FBPlusOneBuy.Models
     public class RegisterViewModel
     {
         [Required]
+        [Display(Name = "使用者名稱")]
+        public string Name { get; set; }
+
+        [Required]
+        [Display(Name = "商店ID")]
+        public string ShopID { get; set; }
+        [Required]
         [EmailAddress]
         [Display(Name = "電子郵件")]
         public string Email { get; set; }

@@ -68,11 +68,10 @@ ul li:hover > ul {
     display: inline-block;
 }
 .card {
-    margin:10px;
-    width:160px;
+    width: 10rem;
 }
 .AccountIcon {
-    width:20%;
+    width:10%;
     height:100%;
 }
 

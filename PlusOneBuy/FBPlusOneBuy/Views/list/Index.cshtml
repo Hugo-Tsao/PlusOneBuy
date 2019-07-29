@@ -8,11 +8,11 @@
     <div class="row p-3 mt-2">
         <div class="col"></div>
         <div class="col-2">
-            <div class="card border-secondary shadow  ">
+            <div class="card border-secondary shadow">
                 <div class="row no-gutters align-items-center">
                     <div class="col m-3">
                         <div class="text-md font-weight-bold text-primary text-uppercase mb-1">觀看人數</div>
-                        <div class="h1 mb-0 font-weight-bold text-gray" id="views">0</div>
+                        <div class="h3 mb-0 font-weight-bold text-gray" id="views">0</div>
                     </div>
                     <div class="col-auto m-2">
                         <i class="fas fa-eye fa-2x "></i>
@@ -25,7 +25,7 @@
                 <div class="row no-gutters align-items-center">
                     <div class="col m-3">
                         <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">收單數量</div>
-                        <div class="h1 mb-0 font-weight-bold text-gray" id="num">
+                        <div class="h3 mb-0 font-weight-bold text-gray" id="num">
                             0
                         </div>
                     </div>
@@ -40,7 +40,7 @@
                 <div class="row no-gutters align-items-center">
                     <div class="col m-3">
                         <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">收單金額</div>
-                        <div class="h1 mb-0 font-weight-bold text-gray" id="money">0</div>
+                        <div class="h3 mb-0 font-weight-bold text-gray" id="money">0</div>
                     </div>
                     <div class="col-auto m-2">
                         <i class="fas fa-dollar-sign fa-2x "></i>
@@ -53,7 +53,7 @@
                 <div class="row no-gutters align-items-center">
                     <div class="col m-3">
                         <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">成交數量</div>
-                        <div class="h1 mb-0 font-weight-bold text-gray" id="Ordernum">0</div>
+                        <div class="h3 mb-0 font-weight-bold text-gray" id="Ordernum">0</div>
                     </div>
                     <div class="col-auto m-2">
                         <div><i class="fas fa-sort-amount-up fa-2x"></i></div>
@@ -66,7 +66,7 @@
                 <div class="row no-gutters align-items-center">
                     <div class="col m-3">
                         <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">成交金額</div>
-                        <div class="h1 mb-0 font-weight-bold " id="Ordermoney">0</div>
+                        <div class="h3 mb-0 font-weight-bold " id="Ordermoney">0</div>
                     </div>
                     <div class="col-auto m-2">
                         <i class="fas fa-coins fa-2x text-gray"></i>
@@ -120,8 +120,6 @@
                             </tr>
                         }
                     }
-
-
                 </tbody>
             </table>
         </div>
@@ -154,7 +152,7 @@
 @section EndJS
 {
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
             GetData();
             //$("#btn_endpost").click(endPost);
             $("#btn_sentMsg").click(sendMsg);
@@ -205,7 +203,6 @@
                 dataType: "json",
                 cache: false,
                 success: function (Result) {
-                    console.log(Result);
                     var json = JSON.parse(Result);
                     
                     for (var i = 0; i < json.length; i++) {
@@ -223,10 +220,10 @@
                     alert("error");
                 }
             }).then(function () {
-                setTimeout(GetLiveVideoViews, 10000);
+                //setTimeout(GetLiveVideoViews, 10000);
                 setTimeout(GetData, 3000);
                 setTimeout(GetROIOrderInfo, 3000);
-
+                setTimeout(GetQty, 3000);
             })
         }
 
@@ -257,6 +254,23 @@
                 data: { livePageID: '@ViewData["livePageID"]' }
             }).done(function (views) {
                 $('#views').text(views)
+            })
+        }
+        function GetQty() {
+            $.ajax({
+                type: "GET",
+                url: '@Url.Action("GetPresetQty","Product")'
+            }).done(function (result) {
+                if (result != "") {
+                    for (var i = 0; i < result.length; i++)
+                    {             
+                        var ID = '#s_' + result[i].ID + ' td:nth-child(6)'
+                        $(ID).text(result[i].PresetQty)
+                        if (result[i].PresetQty == 0) {
+                            $(ID).addClass("text-danger")
+                        }
+                    }
+                }
             })
         }
     </script>

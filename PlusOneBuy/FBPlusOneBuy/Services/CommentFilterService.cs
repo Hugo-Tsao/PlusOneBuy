@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Web;
@@ -38,7 +39,7 @@ namespace FBPlusOneBuy.Services
                     re = new Regex(item.Keyword + keywordPattern);
                     if (keywordPattern == "+1")
                     {
-                        string pattern = "^" + item.Keyword + "\\+\\d{1}$";
+                        string pattern = "^" + item.Keyword + "\\s?\\+\\d{1}\\s*$";
                         re = new Regex(pattern);
                     }
                     if (re.IsMatch(data.message))
@@ -73,16 +74,16 @@ namespace FBPlusOneBuy.Services
 
         public static List<Datum> PostTimeFilter(List<Datum> comments, string livePageID)
         {
-
             LivePostsRepository livePost_repo = new LivePostsRepository();
             var livePostTime = livePost_repo.GetMaxPostTime(livePageID);
             //去Orders Table 看有沒有留言，有的話就抓最後一個留言的時間沒有的話就過濾livePostTime 的時間
             var order_repo = new OrderRepositories();
             var live_repo = new LivePostsRepository();
             int liveid = live_repo.Select(livePageID);
-            DateTime selectResult = order_repo.SelectLastOrderComment(liveid); //SQL 要改
-            if (selectResult != DateTime.MaxValue)
+            //DateTime selectResult = order_repo.SelectLastOrderComment(liveid); //SQL 要改
+            if (HttpContext.Current.Session["lastPostTime"] != null)
             {
+                DateTime selectResult = (DateTime)HttpContext.Current.Session["lastPostTime"];
                 comments = comments.Where(x => DateTime.Compare(x.created_time.ToUniversalTime().AddHours(8), selectResult) > 0).ToList();
             }
             else

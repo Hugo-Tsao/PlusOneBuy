@@ -21,8 +21,8 @@ namespace FBPlusOneBuy.Controllers
         [HttpPost]
         public ActionResult GetAllListPosts()
         {
-            var current_liveposts = CommentListService.ListLivePosts();
-            var result = JsonConvert.SerializeObject(current_liveposts);
+            var currentLiveposts = CommentListService.ListLivePosts();
+            var result = JsonConvert.SerializeObject(currentLiveposts);
             return Json(result);
         }
 

@@ -6,27 +6,21 @@ namespace FBPlusOneBuy.Models
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    public partial class FanPage
+    public partial class AspNetRole
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public FanPage()
+        public AspNetRole()
         {
-            LivePosts = new HashSet<LivePost>();
+            AspNetUsers = new HashSet<AspNetUser>();
         }
 
-        [StringLength(20)]
-        public string FanPageID { get; set; }
+        public string Id { get; set; }
 
         [Required]
-        [StringLength(50)]
-        public string FanPageName { get; set; }
-
-        [StringLength(128)]
-        public string AspNetUserId { get; set; }
-
-        public virtual AspNetUser AspNetUser { get; set; }
+        [StringLength(256)]
+        public string Name { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<LivePost> LivePosts { get; set; }
+        public virtual ICollection<AspNetUser> AspNetUsers { get; set; }
     }
 }

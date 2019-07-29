@@ -8,13 +8,22 @@ using FBPlusOneBuy.Models;
 using FBPlusOneBuy.Services;
 using FBPlusOneBuy.ViewModels;
 using Microsoft.Ajax.Utilities;
+using Microsoft.AspNet.Identity;
+using Context = FBPlusOneBuy.Models.Context;
 
 namespace FBPlusOneBuy.Controllers
 {
     public class ProductController : Controller
     {
+        public Context db = new Context();
         //等到登入功能完成，判斷目前登入是誰，並綁定了什麼ShopID
-        public string storeUrl = "64.selfshop.qa.91dev.tw"; //目前先寫死商場
+        public string storeUrl; //目前先寫死商場
+
+        public ProductController()
+        {
+            var userID = User.Identity.GetUserId();
+            storeUrl = db.AspNetUsers.FirstOrDefault(x => x.Id == userID)?.ShopID;
+        }
         [HttpPost]
         public ActionResult GetSKUListByMain(string FilterType, int id_value)
         {

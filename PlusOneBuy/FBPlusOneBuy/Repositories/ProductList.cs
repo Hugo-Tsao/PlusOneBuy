@@ -32,7 +32,7 @@ namespace FBPlusOneBuy.Repositories
                 UnitPrice = Item.UnitPrice,
                 Keyword = Item.SkuId.ToString(),
                 Qty = Item.Qty,
-                PresetQty = Item.PresetQty
+                PresetQty = Item.Qty
             };
 
             ProductItems.Add(item);

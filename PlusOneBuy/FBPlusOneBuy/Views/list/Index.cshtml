@@ -120,8 +120,6 @@
                             </tr>
                         }
                     }
-
-
                 </tbody>
             </table>
         </div>
@@ -154,7 +152,7 @@
 @section EndJS
 {
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
             GetData();
             //$("#btn_endpost").click(endPost);
             $("#btn_sentMsg").click(sendMsg);
@@ -205,7 +203,6 @@
                 dataType: "json",
                 cache: false,
                 success: function (Result) {
-                    console.log(Result);
                     var json = JSON.parse(Result);
                     
                     for (var i = 0; i < json.length; i++) {
@@ -223,10 +220,10 @@
                     alert("error");
                 }
             }).then(function () {
-                setTimeout(GetLiveVideoViews, 10000);
+                //setTimeout(GetLiveVideoViews, 10000);
                 setTimeout(GetData, 3000);
                 setTimeout(GetROIOrderInfo, 3000);
-
+                setTimeout(GetQty, 3000);
             })
         }
 
@@ -257,6 +254,20 @@
                 data: { livePageID: '@ViewData["livePageID"]' }
             }).done(function (views) {
                 $('#views').text(views)
+            })
+        }
+        function GetQty() {
+            $.ajax({
+                type: "GET",
+                url: '@Url.Action("GetPresetQty","Product")'
+            }).done(function (result) {
+                if (result != "") {
+                    for (var i = 0; i < result.length; i++)
+                    {             
+                        var ID = '#s_' + result[i].ID + ' td:nth-child(6)'
+                        $(ID).text(result[i].PresetQty)
+                    }
+                }
             })
         }
     </script>

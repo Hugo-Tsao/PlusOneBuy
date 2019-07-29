@@ -39,7 +39,7 @@ namespace FBPlusOneBuy.Services
                     re = new Regex(item.Keyword + keywordPattern);
                     if (keywordPattern == "+1")
                     {
-                        string pattern = "^" + item.Keyword + "\\+\\d{1}$";
+                        string pattern = "^" + item.Keyword + "\\s?\\+\\d{1}\\s*$";
                         re = new Regex(pattern);
                     }
                     if (re.IsMatch(data.message))

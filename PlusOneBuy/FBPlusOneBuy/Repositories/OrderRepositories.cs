@@ -65,7 +65,7 @@ namespace FBPlusOneBuy.Repositories
                 LivePostsRepository live_repo = new LivePostsRepository();
                 var liveId = live_repo.Select(livePageId);
                 string sql =
-                    "select SUM(p.UnitPrice) as Amount from Products p inner join Orders o on o.ProductID = p.ProductID where o.LiveID = @liveId";
+                    "select SUM(p.UnitPrice*o.Quantity) as Amount from Products p inner join Orders o on o.ProductID = p.ProductID where o.LiveID = @liveId";
                 decimal? amount = conn.QueryFirstOrDefault<decimal?>(sql, new { liveId });
                 decimal result = 0;
                 if (amount != null)

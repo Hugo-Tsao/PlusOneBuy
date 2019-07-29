@@ -50,14 +50,17 @@ namespace FBPlusOneBuy.Controllers
             string token = Session["token"].ToString();
             var products = ProductService.GetCurrentProducts().ProductItems;
             var OrderList = CommentFilterService.getNewOrderList(livePageID, token, products, keywordPattern);
+            var Success_order = new List<OrderList>();
             if (OrderList.Count > 0)
             {
                 var order_repo = new OrderRepositories();
+                Session["lastPostTime"] = OrderList.Last().OrderDateTime;
                 foreach (var order in OrderList)
                 {
                     //留言成功，數量修改
                     if (ProductService.UpdateProductQty(order.Product.SkuId,order.Quantity))
                     {
+                        Success_order.Add(order);
                         order_repo.InsertOrder(order);
                         FBSendMsgService.SuccessOrderToSendMsg(livePageID, order, token);
                     }
@@ -67,9 +70,7 @@ namespace FBPlusOneBuy.Controllers
                     }
                 }
             }
-
-
-            var result = JsonConvert.SerializeObject(OrderList);
+            var result = JsonConvert.SerializeObject(Success_order);
             return Json(result);
             //}
             //catch (Exception e)
@@ -96,7 +97,12 @@ namespace FBPlusOneBuy.Controllers
             decimal Amount = o_repo.GetAmount(livePageID);
             int QtyOfOrders = o_repo.GetQtyOfOrders(livePageID);
             var live_repo = new LivePostsRepository();
-            int views = (int)Session["views"];
+            int views = 0;
+            if (Session["views"] != null)
+            {
+                views = (int)Session["views"];
+
+            }
             live_repo.UpdatePost(livePageID, QtyOfOrders, Amount, DateTime.UtcNow.AddHours(8), views);
             Session.Abandon();
             return RedirectToAction("Index", "Report");

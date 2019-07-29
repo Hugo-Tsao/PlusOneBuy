@@ -76,10 +76,10 @@ namespace FBPlusOneBuy.Services
             bool result = false;
             var products = GetCurrentProducts();
             var index = products.ProductItems.FindIndex(x=>x.SkuId == skuid);
-            var ProductQty = products.ProductItems[index].Qty;
-            if (ProductQty > 0 && ProductQty > BoughtQty)
+            var ProductQty = products.ProductItems[index].PresetQty;
+            if (ProductQty > 0 && ProductQty >= BoughtQty)
             {
-                products.ProductItems[index].Qty -= BoughtQty;
+                products.ProductItems[index].PresetQty -= BoughtQty;
                 return true;
             }
             else

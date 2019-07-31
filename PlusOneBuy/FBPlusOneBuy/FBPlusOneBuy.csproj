@@ -193,6 +193,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CommentController.cs" />
     <Compile Include="Controllers\FbWebHookController.cs" />
+    <Compile Include="Controllers\GroupBuyController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\listController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -232,6 +233,7 @@
     <Compile Include="Repositories\CustomerRepository.cs" />
     <Compile Include="Repositories\FanPagesRepository.cs" />
     <Compile Include="Repositories\FBJsonToCSharp.cs" />
+    <Compile Include="Repositories\CompaignRepository.cs" />
     <Compile Include="Repositories\LivePostsRepository.cs" />
     <Compile Include="Repositories\OrderRepositories.cs" />
     <Compile Include="Repositories\ProductList.cs" />
@@ -249,6 +251,7 @@
     <Compile Include="ViewModels\CommentListViewModel.cs" />
     <Compile Include="ViewModels\CommentOrderLIstViewModel.cs" />
     <Compile Include="ViewModels\FBLiveVideoJsonToCSharp.cs" />
+    <Compile Include="ViewModels\CompaignViewModel.cs" />
     <Compile Include="ViewModels\LivePostViewModel.cs" />
     <Compile Include="ViewModels\MsgTextViewModel.cs" />
     <Compile Include="ViewModels\OrderList.cs" />
@@ -370,7 +373,7 @@
     <Content Include="Views\Report\CommentsOrderList.cshtml" />
     <Content Include="Views\Report\ROIOrderList.cshtml" />
     <Content Include="Views\Account\BindAccount.cshtml" />
-    <Content Include="Views\Setting\Group.cshtml" />
+    <Content Include="Views\GroupBuy\SettingPage.cshtml" />
     <Content Include="Views\Report\FbList.cshtml" />
     <Content Include="Views\Report\LineList.cshtml" />
   </ItemGroup>

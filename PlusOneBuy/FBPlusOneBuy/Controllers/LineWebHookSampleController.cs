@@ -26,7 +26,7 @@ namespace FBPlusOneBuy.Controllers
         {
             try
             {
-                DateTime time = DateTime.Now;
+                DateTime time = DateTime.UtcNow.AddHours(8);
                 var result = CompaignService.GetCompaign(time);
                 
                 Regex re;

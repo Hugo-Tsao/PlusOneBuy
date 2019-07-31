@@ -13,7 +13,9 @@ namespace FBPlusOneBuy.Controllers
     public class LineBotWebHookController : isRock.LineBot.LineWebHookControllerBase
     {
         string channelAccessToken = ConfigurationManager.AppSettings["channelAccessToken"];
-        string AdminUserId = ConfigurationManager.AppSettings["AdminUserId"];
+        //string AdminUserId = ConfigurationManager.AppSettings["AdminUserId"];
+        List<string> AdminUser = new List<string>()
+        { ConfigurationManager.AppSettings["AdminUserId"],ConfigurationManager.AppSettings["AdminUserId2"],ConfigurationManager.AppSettings["AdminUserId3"]};
 
         [Route("api/LineWebHook")]
         [HttpPost]
@@ -38,11 +40,15 @@ namespace FBPlusOneBuy.Controllers
                 if (LineEvent.type == "message")
                 {            
                     if (LineEvent.message.type == "text"&&re.IsMatch(LineEvent.message.text))
-                    {                  
-                        var qty = int.Parse(LineEvent.message.text.Substring(LineEvent.message.text.IndexOf("+", StringComparison.Ordinal)));
-                        UserInfo = isRock.LineBot.Utility.GetGroupMemberProfile(LineEvent.source.groupId, LineEvent.source.userId, ChannelAccessToken);
-                        this.PushMessage(AdminUserId, "群組編號:\n" + LineEvent.source.groupId + "\n顧客編號:\n" + LineEvent.source.userId +
-                            "\n顧客照片:\n" + UserInfo.pictureUrl+ "\n名字:" + UserInfo.displayName + "\n購買:" + Keyword + "\n數量:"+qty );
+                    {
+                        foreach (var AdminUserId in AdminUser)
+                        {
+                            var qty = int.Parse(LineEvent.message.text.Substring(LineEvent.message.text.IndexOf("+", StringComparison.Ordinal)));
+                            UserInfo = isRock.LineBot.Utility.GetGroupMemberProfile(LineEvent.source.groupId, LineEvent.source.userId, ChannelAccessToken);
+                            this.PushMessage(AdminUserId, "群組編號:\n" + LineEvent.source.groupId + "\n顧客編號:\n" + LineEvent.source.userId +
+                                "\n顧客照片:\n" + UserInfo.pictureUrl + "\n名字:" + UserInfo.displayName + "\n購買:" + Keyword + "\n數量:" + qty);
+
+                        }
 
                     }
                     if (LineEvent.message.type == "sticker")
@@ -59,8 +65,12 @@ namespace FBPlusOneBuy.Controllers
             }
             catch (Exception ex)
             {
-                //如果發生錯誤，傳訊息給Admin
-                this.PushMessage(AdminUserId, "發生錯誤:\n" + ex.Message);
+                foreach (var AdminUserId in AdminUser)
+                {
+                    this.PushMessage(AdminUserId, "發生錯誤:\n" + ex.Message);
+                }
+                    //如果發生錯誤，傳訊息給Admin
+                    
                 //response OK
                 return Ok();
             }

@@ -57,8 +57,10 @@
                     url: "/Product/GetSKUListByMain",
                     type: "post",
                     data: { FilterType: "salepage_id", id_value: id_value },
-                    success: function(response) {
+                    success: function (response) {
+                        console.log(response);
                         $("#ProductName").text(response[0]["Title"]);
+                        $("#ProductID").val(response[0]["SkuId"]);
                     },
                     error: function() {
                         alert("查詢不到此商品");

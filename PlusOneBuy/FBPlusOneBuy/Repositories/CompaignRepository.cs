@@ -28,9 +28,10 @@ namespace FBPlusOneBuy.Repositories
             {
                 using (conn = new SqlConnection(connectionString))
                 {
+                    cvm.GroupID = "Cdce46b42293efcd6ff973d08be1e0642"; //群組ID暫時只有一個所以先寫死來DEMO
                     string sql =
-                        "INSERT INTO Compaign(CompaignID,GroupID,ProductID,ProductSet,PeopleGroup,Keyword,PostTime,EndTime,Detail) VALUES(@CompaignID, @GroupID, @ProductID, @ProductSet, @PeopleGroup, @Keyword, @PostTime, @EndTime, @Detail)";
-                    conn.Execute(sql, new { cvm.CompaignID, cvm.GroupID, cvm.ProductID, cvm.ProductSet, cvm.PeopleGroup, cvm.Keyword, cvm.PostTime , cvm.EndTime, cvm.Detail });
+                        "INSERT INTO Compaign(GroupID,ProductID,ProductSet,PeopleGroup,Keyword,PostTime,EndTime,Detail) VALUES(@GroupID, @ProductID, @ProductSet, @PeopleGroup, @Keyword, @PostTime, @EndTime, @Detail)";
+                    conn.Execute(sql, new { cvm.GroupID, cvm.ProductID, cvm.ProductSet, cvm.PeopleGroup, cvm.Keyword, cvm.PostTime , cvm.EndTime, cvm.Detail });
                     return true;
                 }
             }

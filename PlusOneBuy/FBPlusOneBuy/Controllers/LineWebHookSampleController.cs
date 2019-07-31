@@ -58,13 +58,13 @@ namespace FBPlusOneBuy.Controllers
                                 var qty = int.Parse(LineEvent.message.text.Substring(LineEvent.message.text.IndexOf("+", StringComparison.Ordinal)));
                                 UserInfo = isRock.LineBot.Utility.GetGroupMemberProfile(LineEvent.source.groupId, LineEvent.source.userId, ChannelAccessToken);
 
-                                DateTime dateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
-                                dateTime = dateTime.AddSeconds(LineEvent.timestamp / 1000).ToLocalTime();
+                                //DateTime dateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
+                                //dateTime = dateTime.AddSeconds(LineEvent.timestamp / 1000).ToLocalTime();
 
                                 foreach (var AdminUserId in AdminUser)
                                 {
                                     this.PushMessage(AdminUserId, "活動編號:"+result[i].CompaignID+"\n群組編號:\n" + LineEvent.source.groupId + "\n顧客編號:\n" + LineEvent.source.userId +
-                                        "\n顧客照片:\n" + UserInfo.pictureUrl + "\n名字:" + UserInfo.displayName + "\n購買:" + result[i].Keyword + "\n數量:" + qty+"\n留言時間:\n"+dateTime);
+                                        "\n顧客照片:\n" + UserInfo.pictureUrl + "\n名字:" + UserInfo.displayName + "\n購買:" + result[i].Keyword + "\n數量:" + qty+"\n留言時間:\n"/*+dateTime*/);
                                 }
                             }
                         }

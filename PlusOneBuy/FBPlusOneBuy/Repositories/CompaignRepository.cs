@@ -5,6 +5,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 using Dapper;
+using FBPlusOneBuy.Models;
 using FBPlusOneBuy.ViewModels;
 
 namespace FBPlusOneBuy.Repositories
@@ -13,6 +14,14 @@ namespace FBPlusOneBuy.Repositories
     {
         private string connectionString = ConfigurationManager.ConnectionStrings["Context"].ConnectionString;
         private SqlConnection conn;
+        public IEnumerable<Compaign> GetALL()
+        {
+            using (conn=new SqlConnection(connectionString))
+            {
+                string url = "SELECT * FROM Compaign";
+                return conn.Query<Compaign>(url);
+            }
+        }
         public bool InsertGroupBuy(CompaignViewModel cvm)
         {
             try

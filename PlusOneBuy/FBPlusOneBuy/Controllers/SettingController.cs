@@ -43,10 +43,6 @@ namespace FBPlusOneBuy.Controllers
             ViewData["fanpagename"] = Session["fanpagename"];
             return View();
         }
-        public ActionResult Group()
-        {
-            return View();
-        }
         public void NewFanPage(string fanpageid, string fanpagename)
         {
             var fpage_repo = new FanPagesRepository();

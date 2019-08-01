@@ -29,5 +29,7 @@ namespace FBPlusOneBuy.ViewModels
         public int? QtyOfOrders { get; set; }
         [Display(Name = "觀看人數")]
         public int MaxViews { get; set; }
+        [Display(Name = "粉絲團名稱")]
+        public string FanPageName { get; set; }
     }
 }

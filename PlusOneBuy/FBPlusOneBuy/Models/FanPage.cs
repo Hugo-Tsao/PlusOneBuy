@@ -23,6 +23,8 @@ namespace FBPlusOneBuy.Models
 
         [StringLength(128)]
         public string AspNetUserId { get; set; }
+        public string FbPageLongToken { get; set; }
+        public string FbMachineId { get; set; }
 
         public virtual AspNetUser AspNetUser { get; set; }
 

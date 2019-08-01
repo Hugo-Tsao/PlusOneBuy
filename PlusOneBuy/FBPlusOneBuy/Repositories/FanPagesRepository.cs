@@ -30,12 +30,62 @@ namespace FBPlusOneBuy.Repositories
             }
 
         }
-        public void Insert(string fanpageid, string fanpagename)
+        public List<FanPage> Select(string aspUserId)
         {
             using (conn = new SqlConnection(connectionString))
             {
-                string sql = "INSERT INTO FanPages(FanPageID, FanPageName) VALUES ( @fpID, @fpName)";
-                conn.Execute(sql, new { fpID= fanpageid, fpName= fanpagename });
+                string sql = "select * from FanPages where AspNetUserId=@aspUserId";
+                var fanpages = conn.Query<FanPage>(sql, new {aspUserId }).ToList();
+                return fanpages;
+            }
+
+        }
+        public FanPage Select(string aspUserId, string fanpagename)
+        {
+            using (conn = new SqlConnection(connectionString))
+            {
+                string sql = "select * from FanPages where AspNetUserId=@aspUserId and FanPageName=@fanpagename";
+                var fanpage = conn.QueryFirstOrDefault<FanPage>(sql, new { aspUserId , fanpagename });
+                return fanpage;
+            }
+
+        }
+        public FanPage SelectBinding(string aspUserId)
+        {
+            using (conn = new SqlConnection(connectionString))
+            {
+                string sql = "select * from FanPages where AspNetUserId=@aspUserId and FbPageLongToken is not null";
+                var fanpage = conn.QueryFirstOrDefault<FanPage>(sql, new { aspUserId });
+                return fanpage;
+            }
+
+        }
+
+        public void Insert(string fanpageid, string fanpagename, string aspUserId, string fbLongToken)
+        {
+            using (conn = new SqlConnection(connectionString))
+            {
+                string sql = "INSERT INTO FanPages(FanPageID, FanPageName,AspNetUserId,FbPageLongToken) VALUES ( @fpID, @fpName,@aspUserId,@fbLongToken)";
+                conn.Execute(sql, new { fpID= fanpageid, fpName= fanpagename, aspUserId, fbLongToken });
+            }
+        }
+
+        public void Update(string fanpageid, string aspUserId, string tokenValue)
+        {
+            using (conn = new SqlConnection(connectionString))
+            {
+                
+                string sql = "UPDATE FanPages SET FbPageLongToken =@dbvalue ,AspNetUserId=@aspUserId WHERE FanPageID=@fanpageid";
+                conn.Execute(sql, new { dbvalue = tokenValue, fanpageid, aspUserId});
+            }
+        }
+        public void Update(string fanpagename, string aspUserId, string tokenValue ,string aspUserIdValue)
+        {
+            using (conn = new SqlConnection(connectionString))
+            {
+
+                string sql = "UPDATE FanPages SET FbPageLongToken =@tokenValue ,AspNetUserId=@aspUserIdValue WHERE FanPageName=@fanpagename and AspNetUserId=@aspUserId ";
+                conn.Execute(sql, new { tokenValue, aspUserIdValue, fanpagename, aspUserId });
             }
         }
     }

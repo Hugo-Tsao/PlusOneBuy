@@ -28,6 +28,7 @@
         <tr>
             <th>@Html.DisplayNameFor(model => model.FirstOrDefault().ID)</th>
             <th>@Html.DisplayNameFor(model => model.FirstOrDefault().LivePageID)</th>
+            <th>@Html.DisplayNameFor(model => model.FirstOrDefault().FanPageName)</th>
             <th>@Html.DisplayNameFor(model => model.FirstOrDefault().LiveName)</th>
             <th>@Html.DisplayNameFor(model => model.FirstOrDefault().postTime)</th>
             <th>@Html.DisplayNameFor(model => model.FirstOrDefault().endTime)</th>
@@ -41,32 +42,35 @@
     <tbody style="font-size:14px;">
         @foreach (var item in Model)
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(model => item.ID)
-                </td>
-                <td>
-                    @Html.DisplayFor(model => item.LivePageID)
-                </td>
-                <td>
-                    @Html.DisplayFor(model => item.LiveName)
-                </td>
-                <td>
-                    @Html.DisplayFor(model => item.postTime)
-                </td>
-                <td>
-                    @Html.DisplayFor(model => item.endTime)
-                </td>
-                <td>
-                    @Html.DisplayFor(model => item.QtyOfOrders)
-                </td>
-                <td>
-                    $@Html.DisplayFor(model => item.Amount)
-                </td>
-                <td>@Html.ActionLink("...", "CommentsOrderList", new { liveId = item.ID })</td>
-                <td>@Html.ActionLink("...", "SalesOrderList", new { livepageId = item.LivePageID })</td>
-                <td>@Html.ActionLink("...", "ROIOrderList", new { liveId = item.ID })</td>
-            </tr>
+        <tr>
+            <td>
+                @Html.DisplayFor(model => item.ID)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.LivePageID)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.FanPageName)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.LiveName)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.postTime)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.endTime)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.QtyOfOrders)
+            </td>
+            <td>
+                $@Html.DisplayFor(model => item.Amount)
+            </td>
+            <td>@Html.ActionLink("...", "CommentsOrderList", new { liveId = item.ID })</td>
+            <td>@Html.ActionLink("...", "SalesOrderList", new { livepageId = item.LivePageID })</td>
+            <td>@Html.ActionLink("...", "ROIOrderList", new { liveId = item.ID })</td>
+        </tr>
         }
     </tbody>
 </table>

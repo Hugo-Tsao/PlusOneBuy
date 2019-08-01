@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Web;
@@ -94,5 +95,81 @@ namespace FBPlusOneBuy.Services
             int views = liveVideos.FirstOrDefault(x => x.video.id == videoid).live_views;
             return views;
         }
+        public static string GetLongToken(string shortToken)
+        {
+            //string url = "https://graph.facebook.com/oauth/access_token?grant_type=fb_exchange_token&client_id=1320980108059770&client_secret=b452a9a47c4e19effbf8b7e804f0ebb2&fb_exchange_token="+ shortToken;
+            string clientId = ConfigurationManager.AppSettings["client_id"];
+            string clientSecret = ConfigurationManager.AppSettings["client_secret"];
+            string url = "https://graph.facebook.com/oauth/access_token?grant_type=fb_exchange_token&client_id=" + clientId + "&client_secret=" + clientSecret + "&fb_exchange_token=" + shortToken;
+
+            var client = new RestClient(url);
+            var request = new RestRequest(Method.GET);
+
+            IRestResponse response = client.Execute(request);
+
+            JavaScriptSerializer js = new JavaScriptSerializer();
+            ExangeLongToken exangeResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<ExangeLongToken>(response.Content);
+            return exangeResponse.access_token;
+
+        }
+        public static void DeleteTokenPermissions(string token)
+        {
+            string url = "https://graph.facebook.com/v3.3/me/permissions?access_token="+token;
+
+            var client = new RestClient(url);
+            var request = new RestRequest(Method.DELETE);
+
+            IRestResponse response = client.Execute(request);
+
+        }
+        public static string LongTokenToCode(string longToken)
+        {
+            string clientId = ConfigurationManager.AppSettings["client_id"];
+            string clientSecret = ConfigurationManager.AppSettings["client_secret"];
+            string redirectUri= ConfigurationManager.AppSettings["redirect_uri"];
+            string url = "https://graph.facebook.com/oauth/client_code?access_token="+ longToken + "&client_secret="+ clientSecret + "&redirect_uri="+ redirectUri + "&client_id="+ clientId;
+
+            var client = new RestClient(url);
+            var request = new RestRequest(Method.GET);
+
+            IRestResponse response = client.Execute(request);
+
+            JavaScriptSerializer js = new JavaScriptSerializer();
+            LongTokenToCode exangeResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<LongTokenToCode>(response.Content);
+            return exangeResponse.code;
+
+        }
+        public static string CodeToLongToken(string code)
+        {
+            string clientId = ConfigurationManager.AppSettings["client_id"];
+            string redirectUri = ConfigurationManager.AppSettings["redirect_uri"];
+            string url = "https://graph.facebook.com/oauth/access_token?code="+code+"&client_id="+ clientId + "&redirect_uri="+ redirectUri;
+
+            var client = new RestClient(url);
+            var request = new RestRequest(Method.GET);
+
+            IRestResponse response = client.Execute(request);
+
+            JavaScriptSerializer js = new JavaScriptSerializer();
+            CodeToLongToken exangeResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<CodeToLongToken>(response.Content);
+            return exangeResponse.access_token;
+
+        }
+
+        public static string UserTokenToPageToken(string pageid,string usertoken)
+        {
+            string url = "https://graph.facebook.com/v3.3/" + pageid + "?fields=access_token&access_token=" + usertoken;
+
+            var client = new RestClient(url);
+            var request = new RestRequest(Method.GET);
+
+            IRestResponse response = client.Execute(request);
+
+            JavaScriptSerializer js = new JavaScriptSerializer();
+            UserTokenToPageToken exangeResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<UserTokenToPageToken>(response.Content);
+            return exangeResponse.access_token;
+
+        }
+
     }
 }

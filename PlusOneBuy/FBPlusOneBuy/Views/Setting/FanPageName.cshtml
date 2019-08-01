@@ -2,34 +2,47 @@
 
 @{
     Layout = "~/Views/Shared/Main_Layout.cshtml";
+    var bindingPage = ViewBag.bindingPage;
 }
 <span class="h4 font-weight-normal text-muted">設定活動</span>
 <span class="h4 font-weight-normal text-muted">社群</span>
 <div class="row" id="card_selectPage">
-    <div class="card text-center m-2" style="width: 18rem;">
-        <div class="card-body">
-            <h5 class="card-title">FaceBook</h5>
-            <p class="card-text">Add New FanPage</p>
-            <input type="hidden" name="name" value="" />
-            <button type="button" class="btn btn-primary" id="btn_selectPages"><i class="far fa-plus-square"></i></button>
+    @if (bindingPage != null)
+    {
+        <div class="card text-center m-2" style="width: 18rem;">
+            <div class="card-body">
+                <h5 class="card-title">FaceBook</h5>
+                <p class="card-text">@bindingPage.FanPageName</p>
+                <input type="hidden" name="name" value="" />
+                <button type="button" class="btn btn-primary event-start" value="fb_@bindingPage.FanPageName">選擇</button>
+            </div>
         </div>
-    </div>
-    <div class="card text-center m-2" style="width: 18rem;">
-        <div class="card-body">
-            <h5 class="card-title">Line</h5>
-            <p class="card-text">Add New Group</p>
-            <input type="hidden" name="name" value="" />
-            <button type="button" class="btn btn-success" onclick="location.href='@Url.Action("Group","Setting")'"><i class="far fa-plus-square"></i></button>
+    }
+    @*<div class="card text-center m-2" style="width: 18rem;">
+            <div class="card-body">
+                <h5 class="card-title">FaceBook</h5>
+                <p class="card-text">Add New FanPage</p>
+                <input type="hidden" name="name" value="" />
+                <button type="button" class="btn btn-primary" id="btn_selectPages"><i class="far fa-plus-square"></i></button>
+            </div>
         </div>
-    </div>
-    <div class="card text-center m-2" style="width: 18rem;">
-        <div class="card-body">
-            <h5 class="card-title">IG</h5>
-            <p class="card-text">Add New IG</p>
-            <input type="hidden" name="name" value="" />
-            <button type="button" class="btn btn-danger"><i class="far fa-plus-square"></i></button>
+        <div class="card text-center m-2" style="width: 18rem;">
+            <div class="card-body">
+                <h5 class="card-title">Line</h5>
+                <p class="card-text">Add New Group</p>
+                <input type="hidden" name="name" value="" />
+                <button type="button" class="btn btn-success" onclick="location.href='@Url.Action("Group","Setting")'"><i class="far fa-plus-square"></i></button>
+            </div>
         </div>
-    </div>
+        <div class="card text-center m-2" style="width: 18rem;">
+            <div class="card-body">
+                <h5 class="card-title">IG</h5>
+                <p class="card-text">Add New IG</p>
+                <input type="hidden" name="name" value="" />
+                <button type="button" class="btn btn-danger"><i class="far fa-plus-square"></i></button>
+            </div>
+        </div>*@
+
     @*<div class="card text-center" style="width: 18rem;">
             <div class="card-body">
                 <h5 class="card-title">FaceBook FanPage</h5>
@@ -54,60 +67,82 @@
 {
     <script>
         $(document).ready(function () {
+            $('.event-start').click("click", function () {
+                var spArr = this.value.split('_');
+                var platform = spArr[0];
+                switch (platform) {
+                    case 'fb':
+                        window.location.href='/Setting/Video'
+                        break;
+                    case 'line':
+
+                        break;
+                    case 'ig':
+
+                        break;
+
+                }
+
+                console.log(platform);
+            });
             //$('.btn_managePages').click(function () {
             //    var fanPageName = $(this).siblings("p").text();
             //    getAuth();
             //});
-            $('#btn_selectPages').click(function () {
-                getAuthNew();
-                //$('#card_selectPage').empty();
-            });
+
+            //$('#btn_selectPages').click(function () {
+            //    getAuthNew();
+            //    //$('#card_selectPage').empty();
+            //});
         });
-        function getAuthNew() {
-            FB.login(function (response) {
-                if (response.status === 'connected') {
-                    FB.api('/me?fields=accounts', function (res) {
-                        $('#card_selectPage').empty();
-                        for (var i of res.accounts.data) {
-                            $('#card_selectPage').append('<div class="card text-center" style="width: 18rem;"><div class="card-body"><h5 class="card-title">FaceBook FanPage</h5><p class="card-text">' + i.name + '</p><button type="button" class="btn_managePages btn btn-info" value="' + i.id + '">選擇</button></div></div>');
-                            console.log("i=" + i.access_token + ",id=" + i.id + ",name=" + i.name);
 
-                        }
-                        $('.btn_managePages').on("click", function () {
-                            let fanPageid = this.value;
-                            let fanPageName = $(this).parent().find('p').html();
-                            FB.api('/' + fanPageid + '?fields=access_token', function (res) {
-                                GetDataNew(res.access_token, fanPageid, fanPageName);
-                                //console.log("PAGE=" + res.access_token);
-                            });
+        //function getAuthNew() {
+        //    FB.login(function (response) {
+        //        if (response.status === 'connected') {
+        //            FB.api('/me?fields=accounts', function (res) {
+        //                $('#card_selectPage').empty();
+        //                for (var i of res.accounts.data) {
+        //                    $('#card_selectPage').append('<div class="card text-center" style="width: 18rem;"><div class="card-body"><h5 class="card-title">FaceBook FanPage</h5><p class="card-text">' + i.name + '</p><button type="button" class="btn_managePages btn btn-info" value="' + i.id + '">選擇</button></div></div>');
+        //                    console.log("i=" + i.access_token + ",id=" + i.id + ",name=" + i.name);
 
-                            //alert($(this).parent().find("input[type=hidden]").val());
-                        });
-                        //GetData(res.access_token);
-                        console.log(res);
-                    });
-                }
-            }, {
-                    auth_type: 'rerequest',
-                    scope: 'manage_pages,pages_messaging',
-                    return_scopes: true
-                });
-        }
+        //                }
+        //                $('.btn_managePages').on("click", function () {
+        //                    let fanPageid = this.value;
+        //                    let fanPageName = $(this).parent().find('p').html();
+        //                    FB.api('/' + fanPageid + '?fields=access_token', function (res) {
+        //                        GetDataNew(res.access_token, fanPageid, fanPageName);
+        //                        //console.log("PAGE=" + res.access_token);
+        //                    });
 
-        function GetDataNew(token, fanPageid, fanPageName) {
+        //                    //alert($(this).parent().find("input[type=hidden]").val());
+        //                });
+        //                //GetData(res.access_token);
+        //                console.log(res);
+        //            });
+        //        }
+        //    }, {
+        //            auth_type: 'rerequest',
+        //            scope: 'manage_pages,pages_messaging',
+        //            return_scopes: true
+        //        });
+        //}
 
-            $.ajax({
-                type: "POST",
-                url: "/Setting/GetFanPageData",
-                data: { token: token, fanpageid: fanPageid, fanpagename: fanPageName },
-                dataType: 'json',
-                crossDomain: true,
-                cache: false,
-                success: function (data) {
-                    window.location.href = data;
-                }
-            });
-        }
+        //function GetDataNew(token, fanPageid, fanPageName) {
+
+        //    $.ajax({
+        //        type: "POST",
+        //        url: "/Setting/GetFanPageData",
+        //        data: { token: token, fanpageid: fanPageid, fanpagename: fanPageName },
+        //        dataType: 'json',
+        //        crossDomain: true,
+        //        cache: false,
+        //        success: function (data) {
+        //            window.location.href = data;
+        //        }
+        //    });
+        //}
+
+
         //function getAuth() {
         //    FB.login(function (response) {
         //        if (response.status === 'connected') {

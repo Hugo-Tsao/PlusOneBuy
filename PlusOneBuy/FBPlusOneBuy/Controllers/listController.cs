@@ -9,6 +9,7 @@ using FBPlusOneBuy.Services;
 using Newtonsoft.Json;
 using FBPlusOneBuy.Models;
 using FBPlusOneBuy.ViewModels;
+using Microsoft.AspNet.Identity;
 
 namespace FBPlusOneBuy.Controllers
 {
@@ -24,7 +25,9 @@ namespace FBPlusOneBuy.Controllers
         [HttpPost]
         public ActionResult Index(string livePageID, string liveName, string keywordPattern)
         {
-            string fanpageid = (string)Session["FanPageID"];
+            string userid = User.Identity.GetUserId();
+            //string fanpageid = (string)Session["FanPageID"];
+            string fanpageid = FanPageService.GetPageId(userid);
             //新增直播進資料庫
             LivePostService.CreateLivePost(livePageID, liveName, fanpageid);
             //新增商品進資料庫
@@ -48,7 +51,9 @@ namespace FBPlusOneBuy.Controllers
         {
             //try
             //{
-            string token = Session["token"].ToString();
+            //string token = Session["token"].ToString();
+            string userid = User.Identity.GetUserId();
+            string token = FanPageService.GetToken(userid);
             var products = ProductService.GetCurrentProducts().ProductItems;
             var OrderList = CommentFilterService.getNewOrderList(livePageID, token, products, keywordPattern);
             var Success_order = new List<OrderList>();
@@ -117,7 +122,9 @@ namespace FBPlusOneBuy.Controllers
             var order_repo = new OrderRepositories();
             //List<string> ids = new List<string> { "3032519476788720", "2762673820474754" };
             List<MsgTextViewModel> ordersinfo = order_repo.SelectAllOrdersInfo(liveid);
-            string token = (string)Session["token"];
+            //string token = (string)Session["token"];
+            string userid = User.Identity.GetUserId();
+            string token = FanPageService.GetToken(userid);
             var orders = new List<OrderList>();
             foreach (var orderinfo in ordersinfo)
             {
@@ -145,9 +152,12 @@ namespace FBPlusOneBuy.Controllers
         public ActionResult GetLiveVideoViews(string livePageID)
         {
             Session["views"] = null;
+            string userid = User.Identity.GetUserId();
             try
             {
-                string token = Session["token"].ToString();
+                //string token = Session["token"].ToString();
+
+                string token = FanPageService.GetToken(userid);
                 int views = FBRequestService.GetLiveVideoViews(livePageID, token);
                 if (Session["views"] == null)
                 {

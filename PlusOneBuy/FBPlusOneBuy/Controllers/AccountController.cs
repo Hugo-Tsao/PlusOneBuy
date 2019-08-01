@@ -9,6 +9,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using FBPlusOneBuy.Models;
+using FBPlusOneBuy.Repositories;
 
 namespace FBPlusOneBuy.Controllers
 {
@@ -80,6 +81,7 @@ namespace FBPlusOneBuy.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
+                    //Session["aspUserId"] = User.Identity.GetUserId();
                     return RedirectToAction("FanPageName", "Setting",null);
                 case SignInStatus.LockedOut:
                     return View("Lockout");
@@ -94,6 +96,18 @@ namespace FBPlusOneBuy.Controllers
         [AllowAnonymous]
         public ActionResult BindAccount()
         {
+            string userid = User.Identity.GetUserId();
+            var fpage_repo = new FanPagesRepository();
+            var fpage=fpage_repo.SelectBinding(userid);
+            //FanPage return_fpage = null;
+            //foreach (var fpage in fpages)
+            //{
+            //    if (fpage.FbPageLongToken != null)
+            //    {
+            //        return_fpage = fpage;
+            //    }                  
+            //}
+            ViewBag.bindingPage = fpage;           
             return View();
         }
         //

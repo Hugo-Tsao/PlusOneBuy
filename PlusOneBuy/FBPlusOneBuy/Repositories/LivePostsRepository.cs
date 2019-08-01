@@ -105,8 +105,8 @@ namespace FBPlusOneBuy.Repositories
             using (conn = new SqlConnection(connectionString))
             {
                 var userId = HttpContext.Current.User.Identity.GetUserId();
-                string sql = 
-                    "SELECT l.ID, l.LiveName, l.postTime, l.endTime, l.LivePageID, l.Amount, l.QtyOfOrders FROM AspNetUsers a INNER JOIN FanPages f ON a.Id = f.AspNetUserId INNER JOIN LivePosts l ON f.FanPageID = l.FanPageID WHERE a.Id = '"+ userId + "' ORDER BY l.ID DESC";
+                string sql =
+                    "SELECT l.ID, l.LiveName, l.postTime, l.endTime, l.LivePageID, l.Amount, l.QtyOfOrders,f.FanPageName FROM AspNetUsers a INNER JOIN FanPages f ON a.Id = f.AspNetUserId INNER JOIN LivePosts l ON f.FanPageID = l.FanPageID WHERE a.Id = '" + userId + "' ORDER BY l.ID DESC";
                 var result = conn.Query<ReportViewModel>(sql).ToList();
                 return result;
             }

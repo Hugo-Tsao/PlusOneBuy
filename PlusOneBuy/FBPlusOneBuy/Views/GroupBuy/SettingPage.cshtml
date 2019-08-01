@@ -1,0 +1,72 @@
+﻿
+@{
+    ViewBag.Title = "Group";
+    Layout = "~/Views/Shared/Main_Layout.cshtml";
+}
+<span class="h4 font-weight-normal text-muted">設定活動</span>
+<span>/</span>
+<a class="h4 font-weight-normal text-muted" href="@Url.Action("FanPageName","Setting")">社群</a>
+<span>/</span>
+<span class="h4 font-weight-normal text-muted">商品</span>
+<div class="row m-3">
+    <form action="/GroupBuy/SettingPage" method="post">
+        <div class="col">
+            <img src="~/Assets/images/Line1.png" style="width:20px;" />
+            <label>群組:全家團購</label>
+            <input id="GroupID" name="GroupID" type="text" value="1" hidden="hidden" />
+            <br />
+            <label>商品編號:</label>
+            <input id="ProductID" name="ProductID" type="text" class="qty" />
+            <button id="SearchProduct" type="button">搜尋商品</button><br />
+            <label>商品名稱:</label>
+            <label id="ProductName">馬桶泡泡喜</label>
+            <br />
+            <label>關鍵字:&nbsp;&nbsp;&nbsp;</label>
+            <input id="Keyword" name="Keyword" type="text" class="qty" />
+            <br />
+            <label>訂購單位數:</label>
+            <input id="ProductSet" name="ProductSet" type="text" class="qty" />
+            <label>/組</label>
+            <br />
+            <label>成團組數:&nbsp;&nbsp;&nbsp;</label>
+            <input id="PeopleGroup" name="PeopleGroup" type="text" class="qty" />
+            <label>/團</label>
+            <br />
+            <label>開始時間:</label>
+            <input id="PostTime" name="PostTime" type="datetime-local" />
+            <br />
+            <label>結束時間:</label>
+            <input id="EndTime" name="EndTime" type="datetime-local" />
+            <br />
+            <label>活動說明:</label><br />
+            <textarea id="Detail" name="Detail"></textarea><br />
+            <button type="submit" class="btn-light">建立活動</button>
+        </div>
+    </form>
+</div>
+@section EndJS
+{
+    <script>
+        $(function () {
+            $("#SearchProduct").on('click', SearchProduct);
+
+            function SearchProduct()
+            {
+                var id_value = $("#ProductID").val();
+                $.ajax({
+                    url: "/Product/GetSKUListByMain",
+                    type: "post",
+                    data: { FilterType: "salepage_id", id_value: id_value },
+                    success: function (response) {
+                        console.log(response);
+                        $("#ProductName").text(response[0]["Title"]);
+                        $("#ProductID").val(response[0]["SkuId"]);
+                    },
+                    error: function() {
+                        alert("查詢不到此商品");
+                    }
+                });
+            }
+        });
+    </script>
+}

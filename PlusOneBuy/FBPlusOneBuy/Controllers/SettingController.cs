@@ -70,11 +70,7 @@ namespace FBPlusOneBuy.Controllers
             ViewData["fanpagename"] = FanPageService.GetPageName(userid);
             return View();
         }
-        public ActionResult Group()
-        {
-            return View();
-        }
-        public void NewFanPage(string fanpageid, string fanpagename, string token)
+        public void NewFanPage(string fanpageid, string fanpagename)
         {
             string userid= User.Identity.GetUserId();
             var fpage_repo = new FanPagesRepository();

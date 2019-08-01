@@ -50,6 +50,12 @@
     <Reference Include="Dapper, Version=1.60.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Dapper.1.60.6\lib\net451\Dapper.dll</HintPath>
     </Reference>
+    <Reference Include="LineBot, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\LineBotSDK.0.8.3\lib\net45\LineBot.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Cognitive.LUIS, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Cognitive.LUIS.2.0.2\lib\portable45-net45+win8+wpa81\Microsoft.Cognitive.LUIS.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="RestSharp, Version=106.6.10.0, Culture=neutral, PublicKeyToken=598062e77f915f75, processorArchitecture=MSIL">
       <HintPath>..\packages\RestSharp.106.6.10\lib\net452\RestSharp.dll</HintPath>
@@ -193,12 +199,20 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CommentController.cs" />
     <Compile Include="Controllers\FbWebHookController.cs" />
+    <Compile Include="Controllers\GroupBuyController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\LineWebHookSampleController.cs" />
     <Compile Include="Controllers\listController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Controllers\ReportController.cs" />
     <Compile Include="Controllers\SettingController.cs" />
+    <Compile Include="Controllers\TestLUISController.cs" />
+    <Compile Include="Controllers\TestQnAController.cs" />
+    <Compile Include="default.aspx.cs">
+      <DependentUpon>default.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -216,6 +230,7 @@
     <Compile Include="Models\AspNetUser.cs" />
     <Compile Include="Models\AspNetUserClaim.cs" />
     <Compile Include="Models\AspNetUserLogin.cs" />
+    <Compile Include="Models\Compaign.cs" />
     <Compile Include="Models\Context.cs" />
     <Compile Include="Models\Customer.cs" />
     <Compile Include="Models\FanPage.cs" />
@@ -229,6 +244,7 @@
     <Compile Include="Models\ProductJson.cs" />
     <Compile Include="Models\SalesOrder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\CompaignRepository.cs" />
     <Compile Include="Repositories\CustomerRepository.cs" />
     <Compile Include="Repositories\FanPagesRepository.cs" />
     <Compile Include="Repositories\FBJsonToCSharp.cs" />
@@ -239,6 +255,7 @@
     <Compile Include="Repositories\SalesOrderRepositories.cs" />
     <Compile Include="Services\CommentFilterService.cs" />
     <Compile Include="Services\CommentListService.cs" />
+    <Compile Include="Services\CompaignService.cs" />
     <Compile Include="Services\FanPageService.cs" />
     <Compile Include="Services\FBRequestService.cs" />
     <Compile Include="Services\LivePostService.cs" />
@@ -252,6 +269,7 @@
     <Compile Include="ViewModels\CommentOrderLIstViewModel.cs" />
     <Compile Include="ViewModels\FBLiveVideoJsonToCSharp.cs" />
     <Compile Include="ViewModels\FBLongTokenJsonToCSharp.cs" />
+    <Compile Include="ViewModels\CompaignViewModel.cs" />
     <Compile Include="ViewModels\LivePostViewModel.cs" />
     <Compile Include="ViewModels\MsgTextViewModel.cs" />
     <Compile Include="ViewModels\OrderList.cs" />
@@ -274,6 +292,7 @@
     <Content Include="Content\bootstrap-reboot.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="default.aspx" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
@@ -373,7 +392,7 @@
     <Content Include="Views\Report\CommentsOrderList.cshtml" />
     <Content Include="Views\Report\ROIOrderList.cshtml" />
     <Content Include="Views\Account\BindAccount.cshtml" />
-    <Content Include="Views\Setting\Group.cshtml" />
+    <Content Include="Views\GroupBuy\SettingPage.cshtml" />
     <Content Include="Views\Report\FbList.cshtml" />
     <Content Include="Views\Report\LineList.cshtml" />
   </ItemGroup>
@@ -420,7 +439,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>52880</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>https://localhost:44346/</IISUrl>
+          <IISUrl>http://localhost:44346/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

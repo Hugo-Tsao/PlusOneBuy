@@ -70,9 +70,9 @@ namespace FBPlusOneBuy.Controllers
             ViewData["fanpagename"] = FanPageService.GetPageName(userid);
             return View();
         }
-        public void NewFanPage(string fanpageid, string fanpagename)
+        public void NewFanPage(string fanpageid, string fanpagename, string token)
         {
-            string userid= User.Identity.GetUserId();
+            string userid = User.Identity.GetUserId();
             var fpage_repo = new FanPagesRepository();
             if (!fpage_repo.isExist(fanpageid))
             {
@@ -84,7 +84,8 @@ namespace FBPlusOneBuy.Controllers
                 string encodeToken = ReCodeService.Base64Encode(longToken);
                 fpage_repo.Insert(fanpageid, fanpagename, userid, encodeToken);
             }
-            else {
+            else
+            {
                 string longToken = FBRequestService.GetLongToken(token);
                 string encodeToken = ReCodeService.Base64Encode(longToken);
                 fpage_repo.Update(fanpageid, userid, encodeToken);
@@ -93,6 +94,6 @@ namespace FBPlusOneBuy.Controllers
         }
 
 
-        
+
     }
 }

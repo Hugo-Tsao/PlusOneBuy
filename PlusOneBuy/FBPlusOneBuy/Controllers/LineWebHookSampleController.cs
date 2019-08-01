@@ -66,6 +66,8 @@ namespace FBPlusOneBuy.Controllers
                                     this.PushMessage(AdminUserId, "活動編號:"+result[i].CompaignID+"\n群組編號:\n" + LineEvent.source.groupId + "\n顧客編號:\n" + LineEvent.source.userId +
                                         "\n顧客照片:\n" + UserInfo.pictureUrl + "\n名字:" + UserInfo.displayName + "\n購買:" + result[i].Keyword + "\n數量:" + qty+"\n留言時間:\n"/*+dateTime*/);
                                 }
+
+                                this.PushMessage(LineEvent.source.userId, "恭喜你在買越多省越多成功下單" + "\n購買:" + result[i].Keyword + "\n數量:" + qty);
                             }
                         }
                         

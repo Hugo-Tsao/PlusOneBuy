@@ -15,28 +15,28 @@
     <div class="row">
         <div class="col">
             <img src="~/Assets/images/FB1.png" style="width:20px;" />
-            <label>粉絲團:@ViewData["fanpagename"]</label><br />
-            <label><strong>直播設定</strong></label>
-
-            <hr><br>
+            <label>粉絲團:@ViewData["fanpagename"]</label>
+            <h5><strong>直播設定</strong></h5>
+            <hr>
             <div class="row ">
                 <div class="col">
                     <div class="dropdown">
                         <label>直播影片:</label>
-                        <button class="btn border-info dropdown-toggle" type="button" id="dropdownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="width:240px;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">
+                        <button class="btn border-info dropdown-toggle Videodropdown" type="button" id="Videodropdown"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             直播影片
                         </button>
                         <div id="videomenu" class="dropdown-menu" aria-labelledby="dropdownMenu" style="width:80%">
-                            <h6 class="dropdown-header">直播影片 </h6>
+                            <h6 class="dropdown-header">直播影片</h6>
                             @foreach (var item in liveIDList)
                             {
                                 if (item.Value == null)
-                                {
-                                    <button class="dropdown-item" type="button" style="white-space: nowrap;overflow: hidden;text-overflow: ellipsis;" value="@item.Key">@item.Key</button>
+                                {//沒有輸入直播影片名稱改用編號顯示
+                                    <button class="dropdown-item" type="button" value="@item.Key">@item.Key</button>
                                 }
                                 else
                                 {
-                                    <button class="dropdown-item" type="button" style="white-space: nowrap;overflow: hidden;text-overflow: ellipsis;" value="@item.Key">@item.Value</button>
+                                    <button class="dropdown-item" type="button" value="@item.Key">@item.Value</button>
                                 }
 
                             }
@@ -47,58 +47,67 @@
                 </div>
                 <div class="col">
                     <label>留言關鍵字:</label><br />
-                    <input type="radio" name="keywordPattern" id="keywordnum" value="+1" checked />
-                    <label for="keywordnum">+1...+9</label>
-                    <br />
-                    <input type="radio" id="keyword" name="keywordPattern" />
-                    <label for="keyword">自訂</label>
-                    <input type="hidden" id="keywordtext" class="formtext" name="keywordPattern"
-                           value="我要買" />
-                    @*<input type="hidden" class="formtext" name="keywordPattern" value="+1" />*@
+                    <input type="radio" name="keywordPattern" id="keyword" value="+1" checked />
+                    <label for="keyword">+1...+9</label><br />
+                    <input type="radio" id="keywordFree" name="keywordPattern" />
+                    <label for="keywordFree">自訂</label>
+                    <input type="hidden" id="keywordtext" class="formtext" name="keywordPattern" value="我要買" />
                 </div>
             </div>
             <div class="row">
                 <div class="col">
-                    <label><strong>挑選商品</strong></label><hr />
-                    <div class="dropdown">
-                        <button class="btn border-info dropdown-toggle" type="button" id="videodropdownMenu" data-toggle="dropdown" value="salepage_id"
-                                aria-haspopup="true" aria-expanded="false">
-                            商品編號
-                        </button>
-                        <div id="searchtype" class="dropdown-menu" aria-labelledby="videodropdownMenu">
-                            <h6 class="dropdown-header">搜尋方式 </h6>
-                            <button class="dropdown-item" type="button" value="salepage_id">商品編號</button>
-                            <button class="dropdown-item" type="button" value="shopCategoryId">類別編號</button>
+                    <div class="row">
+                        <div class="col">
+                            <h5><strong>挑選商品</strong></h5><hr />
+                            <div class="dropdown ">
+                                <button class="btn border-info dropdown-toggle" type="button" id="productType" data-toggle="dropdown" value="salepage_id" aria-haspopup="true" aria-expanded="false">
+                                    商品編號
+                                </button>
+                                <div id="searchtype" class="dropdown-menu" aria-labelledby="productType">
+                                    <h6 class="dropdown-header">搜尋方式 </h6>
+                                    <button class="dropdown-item" type="button" value="salepage_id">商品編號</button>
+                                    <button class="dropdown-item" type="button" value="shopCategoryId">類別編號</button>
+                                </div>
+                            </div>
+                            <input id="GetProductByid" class="Idtext border-info" value="" />
+                            <button id="SearchProduct" type="button" class="btn btn-secondary mb-3"><i class="fas fa-search"></i></button>
                         </div>
                     </div>
-                    <input id="GetProductByid" class="Idtext border-info" value="" />
-                    <button id="SearchProduct" type="button" class="btn btn-secondary"><i class="fas fa-search"></i></button>
-                    <br><br>
-                    <label><strong>搜尋清單</strong></label>
-                    <button id="AddProduct" type="button" class="btn btn-light border-info" style="right:20px;position:absolute">挑選商品<i class="fas fa-plus ml-2"></i></button><br><br>
-                    <table id="ProductSearch" class="table table-sm paginated">
-                        <thead>
-                            <tr>
-                                <th>挑選</th>
-                                <th>名稱</th>
-                                <th>編號</th>
-                                <th>規格</th>
-                                <th>庫存</th>
-                            </tr>
-                        </thead>
-                        <tbody></tbody>
-                    </table>
-                    <br />
-                    <ul class="pagination justify-content-center" style="display:none">
-                        <li class="page-item"><a id="left" class="page-link"><i class="fas fa-chevron-left"></i></a></li>
-                        <li class="page-item"><a id="right" class="page-link"><i class="fas fa-chevron-right"></i></a></li>
-                    </ul>
+                    <div class="row m-2">
+                        <div class="col">
+                            <h6><strong>搜尋清單</strong></h6>
+                        </div>
+                        <div class="col text-lg-right">
+                            <button id="AddProduct" type="button" class="btn btn-light border-info">挑選商品<i class="fas fa-plus ml-2"></i></button>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <table id="ProductSearch" class="table table-sm paginated">
+                                <thead>
+                                    <tr>
+                                        <th>挑選</th>
+                                        <th>名稱</th>
+                                        <th>編號</th>
+                                        <th>規格</th>
+                                        <th>庫存</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                            <br />
+                            <ul class="pagination justify-content-center" style="display:none">
+                                <li class="page-item"><a id="left" class="page-link"><i class="fas fa-chevron-left"></i></a></li>
+                                <li class="page-item"><a id="right" class="page-link"><i class="fas fa-chevron-right"></i></a></li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
             </div>
 
             <div class="row">
                 <div class="col">
-                    <label><strong>直播商品清單</strong></label><hr>
+                    <h5><strong>直播商品清單</strong></h5><hr>
                     <table class="table" id="ProductList">
                         <thead>
                             <tr>
@@ -108,7 +117,7 @@
                                 <th>價格</th>
                                 <th>庫存</th>
                                 <th>可售</th>
-                                <th>商品關鍵字</th>
+                                <th>關鍵字</th>
                                 <th>修改</th>
                             </tr>
                         </thead>
@@ -119,7 +128,8 @@
                                 {
                                     <tr id="s_@Products.ProductItems[i].SkuId">
                                         <td>
-                                            <button type="button" name="delProduct" class="btn btn-light" value="@Products.ProductItems[i].SkuId">
+                                            <button type="button" name="delProduct" class="btn btn-light"
+                                                    value="@Products.ProductItems[i].SkuId">
                                                 <i class="far fa-trash-alt"></i>
                                             </button>
                                         </td>
@@ -127,12 +137,12 @@
                                         <td>@Products.ProductItems[i].SkuName</td>
                                         <td>$@Products.ProductItems[i].UnitPrice</td>
                                         <td>@Products.ProductItems[i].Qty</td>
-                                        <td><input type="text" class="qtytext" value="@Products.ProductItems[i].PresetQty" /></td>
-
+                                        <td>
+                                            <input type="text" class="qtytext" value="@Products.ProductItems[i].PresetQty" />
+                                        </td>
                                         <td>
                                             <input type="text" class="formtext" id="@Products.ProductItems[i].SkuId" value="@Products.ProductItems[i].Keyword">
                                         </td>
-
                                         <td>
                                             <button type="button" name="checkKeyword" class="btn btn-light" value="@Products.ProductItems[i].SkuId">
                                                 <i class="fas fa-check"></i>
@@ -143,11 +153,9 @@
                             }
                         </tbody>
                     </table>
-                    <br>
-                    <button id="btn_submit" class="btn btn-primary mt-3"><i class="far fa-hand-point-right"></i>送出</button>
-
                 </div>
             </div>
+            <button id="btn_submit" class="btn btn-primary mt-3"><i class="far fa-hand-point-right"></i>送出</button>
             <br />
         </div>
     </div>
@@ -169,14 +177,12 @@
 </div>
 @section EndJS
 {
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
-    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
     <script>
         $(document).ready(function () {
-
-            var json;
+            var Product;
+            //將選擇的直播影片顯示頁面上
             $('#videomenu').children('.dropdown-item').click(function () {
-                $('#dropdownMenu').text($(this).text())
+                $('#Videodropdown').text($(this).text())
                 $('#livePageID').val($(this).val())
                 if ($(this).val() != $(this).text()) {
                     $('#liveName').val($(this).text())
@@ -184,25 +190,14 @@
             })
             //商品類別
             $('#searchtype').children('.dropdown-item').click(function () {
-                $('#videodropdownMenu').text($(this).text())
-                $('#videodropdownMenu').val($(this).val())
+                $('#productType').text($(this).text())
+                $('#productType').val($(this).val())
             })
-
-            $('#btn_submit').click(function () {
-                if ($('#dropdownMenu').text().trim() == "直播影片") {
-                    $("#modaltext").text("請選擇直播影片!!")
-                    $("#modal").modal();
-                    return false;
-                }
-                else {
-                    document.form.onsubmit();
-                }
-            })
-
+            //選擇留言關鍵字形式
             $('[name=keywordPattern]').change(function () {
-                if ($('#keyword:checked').length == 1) {
+                if ($('#keywordFree:checked').length == 1) {
                     $('#keywordtext').removeAttr('type', 'hidden')
-                    $('#keyword').val($('#keywordtext').val())
+                    $('#keywordFree').val($('#keywordtext').val())
                 }
                 else {
                     $('#keywordtext').attr('type', 'hidden')
@@ -210,27 +205,35 @@
 
             })
             //搜尋商品
+            
             $('#SearchProduct').click(function () {
-                $('#ProductSearch tbody').empty()
-                $.ajax({
+                var productType=$('#productType').val()
+                var productId = $('#GetProductByid').val()
+                if (productId == "") {
+                    $("#modaltext").text("請輸入商品編號")
+                    $("#modal").modal();
+                }
+                else {
+                    $('#ProductSearch tbody').empty()
+                    $.ajax({
                     type: 'POST',
                     url: '/Product/GetSKUListByMain',
-                    data: { FilterType: $('#videodropdownMenu').val(), id_value: $('#GetProductByid').val() },
+                    data: { FilterType: productType, id_value: productId },
                     dataType: "json",
                     cache: false,
-                    success: function (Result) {
-                        json = Result;
-                        if (json != "") {
-                            for (var i = 0; i < json.length; i++) {
+                    success: function (json) {
+                        Product = json
+                        if (Product != "") {
+                            for (var i = 0; i < Product.length; i++) {
                                 $('#ProductSearch').append("<tr><td>" +
-                                    "<input type='checkbox' name='checkproduct' value='" + json[i].SkuId + "'>" +
-                                    "<td>" + json[i].Title + "</td>" + "<td>" + json[i].SkuId + "</td>" +
-                                    "</td><td>" + json[i].SkuName + "</td>" + "<td>" + json[i].SellingQty + "</td></tr>")
+                                    "<input type='checkbox' name='checkproduct' value='" + Product[i].SkuId + "'>" +
+                                    "<td>" + Product[i].Title + "</td>" + "<td>" + Product[i].SkuId + "</td>" +
+                                    "</td><td>" + Product[i].SkuName + "</td>" + "<td>" + Product[i].SellingQty +
+                                    "</td></tr>")
                             }
-                            if (json.length > 10) {
-                                pagination(json.length);
+                            if (Product.length > 10) {
+                                pagination(Product.length);
                             }
-
                         }
                         else {
                             $("#modaltext").text("查無此編號")
@@ -238,23 +241,24 @@
                         }
                     }
                 })
+                }
+                
             })
             //加入商品
-            $('#AddProduct').on('click', PickProduct)
-            function PickProduct() {
-                $("input[type=checkbox]:checked").each(function () {
+            $('#AddProduct').click(function () {
+                 $("input[type=checkbox]:checked").each(function () {
                     SkuId = $(this).val();
-                    console.log(SkuId)
-                    var Salepage_id = json.find(function (element) {
+                    var Salepage_id = Product.find(function (element) {
                         return element.SkuId == SkuId;
                     }).Id;
-                    var SkuName = json.find(function (element) {
+                    var SkuName = Product.find(function (element) {
                         return element.SkuId == SkuId;
                     }).SkuName;
-                    var SellingQty = json.find(function (element) {
+                    var SellingQty = Product.find(function (element) {
                         return element.SkuId == SkuId;
                     }).SellingQty;
-                    var item = false;
+                     var item = Boolean()
+                    //var item = false;
                     var sku = Array()
                     $('button[name="checkKeyword"]').each(function (i, n) {
                         sku.push($(n).val())
@@ -265,7 +269,7 @@
                             item = true
                         }
                     })
-                    if (item == true) {
+                    if (item) {
                         $("#modaltext").text("此商品已在直播清單")
                         $("#modal").modal();
                     }
@@ -276,7 +280,8 @@
                         $('#ProductSearch tbody').empty()
                     }
                 });
-            }
+            })
+        
             function GetProduct(Salepage_id, SkuId, SkuName, SellingQty) {
                 $.ajax({
                     type: 'post',
@@ -285,7 +290,7 @@
                     dataType: "json",
                     cache: false,
                     success: function (res) {
-                        var Title = json.find(function (element) {
+                        var Title = Product.find(function (element) {
                             return element.SkuId == SkuId;
                         }).Title;
 
@@ -325,6 +330,22 @@
                 }
             })
         });
+
+        $('#btn_submit').click(function () {
+                if ($('#ProductList tbody td').length == 0) {
+                    $("#modaltext").text("請加入直播商品")
+                    $("#modal").modal();
+                    return false;
+                }
+                if ($('#Videodropdown').text().trim() == "直播影片") {
+                    $("#modaltext").text("請選擇直播影片!!")
+                    $("#modal").modal();
+                    return false;
+                }
+                else {
+                    document.form.onsubmit();
+                }
+            })
         //搜尋分頁
         function pagination(length) {
             $('.pagination').css('display', '')

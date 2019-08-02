@@ -1,20 +1,15 @@
 ﻿@using FBPlusOneBuy.Models
 @model LoginViewModel
-@{
-    ViewBag.Title = "登入";
 
-}
-<body style="background-color: #dadada;height:100%;">
+<body class="loginBg">
     <div class="container">
-        <div class="row" style="height: 400px;">
-            <div class="col">
+        <div class="row loginHeight">
+            <div class="col loginLeft" >
+                <img src="/Assets/images/91_.png" >
             </div>
-            <div class="col" style="background-color:rgb(229, 36, 18);opacity: 0.8;box-shadow: 0 0 30px 0 rgba(36, 39, 41, 0.2);">
-                <img src="/Assets/images/91_.png" style="margin-top: 50%;width: 100%;">
-            </div>
-            <div class="col" style="background-color:whitesmoke;box-shadow: 0 0 30px 0 rgba(36, 39, 41, 0.2);">
-                <div style="margin-top: 50%;margin-bottom: 20%;margin-left: 10%">
-                    <span class="badge badge-pill badge-primary">+1 BUY</span><br><br><br>
+            <div class="col loginRight" >
+                <div class="logindiv">
+                    <span class="badge badge-pill badge-primary mb-5">+1 BUY</span>
                     <section id="loginForm">
                         @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
                         {
@@ -43,8 +38,6 @@
                         }
                     </section>
                 </div>
-            </div>
-            <div class="col">
             </div>
         </div>
     </div>

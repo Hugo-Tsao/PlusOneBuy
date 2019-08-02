@@ -16,9 +16,9 @@ namespace FBPlusOneBuy.Controllers
             return View();
         }
         [HttpPost]
-        public ActionResult SettingPage(CompaignViewModel cvm)
+        public ActionResult SettingPage(CampaignViewModel cvm)
         {
-            CompaignRepository compaign_repo = new CompaignRepository();
+            CampaignRepository compaign_repo = new CampaignRepository();
             ViewData["result"] = compaign_repo.InsertGroupBuy(cvm);
             return View();
         }

@@ -4,10 +4,10 @@
     List<FBPlusOneBuy.ViewModels.ProductViewModel> products = ViewData["products"] as List<FBPlusOneBuy.ViewModels.ProductViewModel>;
 }
 <div class="container bg-light shadow ">
-    <div class="row p-3 mt-2">
+    <div class="row p-3 ">
         <div class="col"></div>
         <div class="col-2">
-            <div class="card border-secondary shadow">
+            <div class="card listcard border-secondary shadow">
                 <div class="row no-gutters align-items-center">
                     <div class="col m-3">
                         <div class="text-md font-weight-bold text-primary text-uppercase mb-1">觀看人數</div>
@@ -20,7 +20,7 @@
             </div>
         </div>
         <div class="col-2">
-            <div class="card border-primary shadow">
+            <div class="card listcard border-primary shadow">
                 <div class="row no-gutters align-items-center">
                     <div class="col m-3">
                         <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">收單數量</div>
@@ -35,7 +35,7 @@
             </div>
         </div>
         <div class="col-2">
-            <div class="card border-warning shadow">
+            <div class="card listcard border-warning shadow">
                 <div class="row no-gutters align-items-center">
                     <div class="col m-3">
                         <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">收單金額</div>
@@ -48,7 +48,7 @@
             </div>
         </div>
         <div class="col-2">
-            <div class="card border-success shadow">
+            <div class="card listcard border-success shadow">
                 <div class="row no-gutters align-items-center">
                     <div class="col m-3">
                         <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">成交數量</div>
@@ -61,7 +61,7 @@
             </div>
         </div>
         <div class="col-2 ">
-            <div class="card border-danger shadow">
+            <div class="card listcard border-danger shadow">
                 <div class="row no-gutters align-items-center">
                     <div class="col m-3">
                         <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">成交金額</div>
@@ -78,15 +78,14 @@
 </div>
 <div class="container-fluid">
     <div class="row mt-3">
-        <div class="col-8">
-        </div>
+        <div class="col-8"></div>
         <div class="col">
             <button id="btn_sentMsg" class="btn btn-primary ">寄送購物車連結</button>
         </div>
         <div class="col">
             <form method="post" action="/list/SetPostEndtime">
                 <input name="livePageID" value="@ViewData["livePageID"]" type="hidden" />
-                <button type="submit" id="btn_endpost" class="btn btn-dark ">結束本次推播</button><br />
+                <button type="submit" id="btn_endpost" class="btn btn-dark ">結束本次推播</button>
             </form>
         </div>
     </div>
@@ -100,8 +99,8 @@
                         <th>規格</th>
                         <th>關鍵字</th>
                         <th>價格</th>
+                        <th>數量</th>
                         <th>可售</th>
-                        <th>剩餘</th>
                     </tr>
                 </thead>
                 <tbody>

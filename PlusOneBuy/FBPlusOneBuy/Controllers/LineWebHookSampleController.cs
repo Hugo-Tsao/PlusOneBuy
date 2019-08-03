@@ -35,7 +35,9 @@ namespace FBPlusOneBuy.Controllers
                 if (LineEvent.replyToken == "00000000000000000000000000000000") return Ok();
 
                 DateTime time = DateTime.UtcNow.AddHours(8);
-                var result = CompaignService.GetCompaign(time);
+                //GroupID暫時先寫死(因為關係到權限和綁定)
+                CampaignService campaignService = new CampaignService("Cdce46b42293efcd6ff973d08be1e0642");
+                var result = campaignService.GetAllCampaign(time);
 
                 Regex re;
                 LineUserInfo UserInfo = null;
@@ -82,7 +84,7 @@ namespace FBPlusOneBuy.Controllers
                             string pattern = "^" + result[i].Keyword + "\\s?\\+\\d{1}\\s*$";
                             re = new Regex(pattern);
 
-                            if (groupid.Equals(result[i].GroupID) && re.IsMatch(LineEvent.message.text))
+                            if (/*groupid.Equals(result[i].GroupID) && */re.IsMatch(LineEvent.message.text))
                             {
                                 var qty = int.Parse(LineEvent.message.text.Substring(LineEvent.message.text.IndexOf("+", StringComparison.Ordinal)));
                                 UserInfo = isRock.LineBot.Utility.GetGroupMemberProfile(LineEvent.source.groupId, LineEvent.source.userId, ChannelAccessToken);

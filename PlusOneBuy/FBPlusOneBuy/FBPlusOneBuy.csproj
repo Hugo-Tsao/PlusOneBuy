@@ -253,11 +253,13 @@
     <Compile Include="Repositories\ProductList.cs" />
     <Compile Include="Repositories\ProductRepositories.cs" />
     <Compile Include="Repositories\SalesOrderRepositories.cs" />
+    <Compile Include="Repositories\StoreManagerRepository.cs" />
     <Compile Include="Services\CommentFilterService.cs" />
     <Compile Include="Services\CommentListService.cs" />
     <Compile Include="Services\CompaignService.cs" />
     <Compile Include="Services\FanPageService.cs" />
     <Compile Include="Services\FBRequestService.cs" />
+    <Compile Include="Services\LineRequestService.cs" />
     <Compile Include="Services\LivePostService.cs" />
     <Compile Include="Services\FBSendMsgService.cs" />
     <Compile Include="Services\ProductService.cs" />
@@ -270,6 +272,7 @@
     <Compile Include="ViewModels\FBLiveVideoJsonToCSharp.cs" />
     <Compile Include="ViewModels\FBLongTokenJsonToCSharp.cs" />
     <Compile Include="ViewModels\CampaignViewModel.cs" />
+    <Compile Include="ViewModels\LineRequestToCSharp.cs" />
     <Compile Include="ViewModels\LivePostViewModel.cs" />
     <Compile Include="ViewModels\MsgTextViewModel.cs" />
     <Compile Include="ViewModels\OrderList.cs" />
@@ -395,6 +398,7 @@
     <Content Include="Views\GroupBuy\SettingPage.cshtml" />
     <Content Include="Views\Report\FbList.cshtml" />
     <Content Include="Views\Report\LineList.cshtml" />
+    <Content Include="Views\Setting\LineBinding.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

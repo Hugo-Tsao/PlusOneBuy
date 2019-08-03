@@ -16,8 +16,14 @@ namespace FBPlusOneBuy.Models
         public virtual DbSet<AspNetUserClaim> AspNetUserClaims { get; set; }
         public virtual DbSet<AspNetUserLogin> AspNetUserLogins { get; set; }
         public virtual DbSet<AspNetUser> AspNetUsers { get; set; }
+        public virtual DbSet<Campaign> Campaigns { get; set; }
         public virtual DbSet<Customer> Customers { get; set; }
         public virtual DbSet<FanPage> FanPages { get; set; }
+        public virtual DbSet<GroupManager> GroupManagers { get; set; }
+        public virtual DbSet<GroupOrder> GroupOrders { get; set; }
+        public virtual DbSet<GroupOrderDetail> GroupOrderDetails { get; set; }
+        public virtual DbSet<LineCustomer> LineCustomers { get; set; }
+        public virtual DbSet<LineGroup> LineGroups { get; set; }
         public virtual DbSet<LivePost> LivePosts { get; set; }
         public virtual DbSet<Order> Orders { get; set; }
         public virtual DbSet<Product> Products { get; set; }
@@ -45,11 +51,6 @@ namespace FBPlusOneBuy.Models
                 .IsUnicode(false);
 
             modelBuilder.Entity<Customer>()
-                .HasMany(e => e.Orders)
-                .WithRequired(e => e.Customer)
-                .WillCascadeOnDelete(false);
-
-            modelBuilder.Entity<Customer>()
                 .HasMany(e => e.SalesOrders)
                 .WithRequired(e => e.Customer)
                 .WillCascadeOnDelete(false);
@@ -58,6 +59,33 @@ namespace FBPlusOneBuy.Models
                 .HasMany(e => e.LivePosts)
                 .WithRequired(e => e.FanPage)
                 .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<GroupOrder>()
+                .Property(e => e.shipDateTime)
+                .IsFixedLength();
+
+            modelBuilder.Entity<GroupOrder>()
+                .Property(e => e.Amount)
+                .HasPrecision(19, 4);
+
+            modelBuilder.Entity<GroupOrder>()
+                .HasMany(e => e.GroupOrderDetails)
+                .WithRequired(e => e.GroupOrder)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<GroupOrderDetail>()
+                .Property(e => e.UnitPrice)
+                .HasPrecision(19, 4);
+
+            modelBuilder.Entity<LineCustomer>()
+                .HasMany(e => e.GroupOrderDetails)
+                .WithRequired(e => e.LineCustomer)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<LineGroup>()
+                .HasMany(e => e.Campaigns)
+                .WithOptional(e => e.LineGroup)
+                .HasForeignKey(e => e.GroupID);
 
             modelBuilder.Entity<LivePost>()
                 .Property(e => e.Amount)

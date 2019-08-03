@@ -235,7 +235,12 @@
     <Compile Include="Models\Customer.cs" />
     <Compile Include="Models\FanPage.cs" />
     <Compile Include="Models\FbMessage.cs" />
+    <Compile Include="Models\GroupManager.cs" />
+    <Compile Include="Models\GroupOrder.cs" />
+    <Compile Include="Models\GroupOrderDetail.cs" />
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\LineCustomer.cs" />
+    <Compile Include="Models\LineGroup.cs" />
     <Compile Include="Models\LivePost.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\FbSendMessage.cs" />

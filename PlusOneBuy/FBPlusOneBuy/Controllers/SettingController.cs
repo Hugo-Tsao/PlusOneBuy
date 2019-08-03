@@ -47,11 +47,10 @@ namespace FBPlusOneBuy.Controllers
             var fpage_repo = new FanPagesRepository();
             string userid = User.Identity.GetUserId();
             string tokenValue = null;
-            string userIdValue = null;
             var fpage = fpage_repo.Select(userid,fanpagename);
             string decodeToken = ReCodeService.Base64Decode(fpage.FbPageLongToken);
             FBRequestService.DeleteTokenPermissions(decodeToken);
-            fpage_repo.Update(fanpagename, userid, tokenValue, userIdValue);
+            fpage_repo.Update(fpage.FanPageID, userid, tokenValue);
 
         }
         public ActionResult Video()
@@ -74,7 +73,7 @@ namespace FBPlusOneBuy.Controllers
         {
             string userid = User.Identity.GetUserId();
             var fpage_repo = new FanPagesRepository();
-            if (!fpage_repo.isExist(fanpageid))
+            if (!fpage_repo.isExist(fanpageid, userid))
             {
                 string longToken = FBRequestService.GetLongToken(token);
 

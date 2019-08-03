@@ -13,12 +13,12 @@ namespace FBPlusOneBuy.Repositories
     {
         private string connectionString = ConfigurationManager.ConnectionStrings["Context"].ConnectionString;
         private SqlConnection conn;
-        public bool isExist(string fanpageid)
+        public bool isExist(string fanpageid,string userid)
         {
             using (conn = new SqlConnection(connectionString))
             {
-                string sql = "select * from FanPages where FanPageID=@fanpageid";
-                var fanpage = conn.QueryFirstOrDefault<FanPage>(sql, new { fanpageid });
+                string sql = "select * from FanPages where FanPageID=@fanpageid and AspNetUserId=@userid";
+                var fanpage = conn.QueryFirstOrDefault<FanPage>(sql, new { fanpageid, userid });
                 if (fanpage!=null)
                 {
                     return true;
@@ -75,18 +75,10 @@ namespace FBPlusOneBuy.Repositories
             using (conn = new SqlConnection(connectionString))
             {
                 
-                string sql = "UPDATE FanPages SET FbPageLongToken =@dbvalue ,AspNetUserId=@aspUserId WHERE FanPageID=@fanpageid";
-                conn.Execute(sql, new { dbvalue = tokenValue, fanpageid, aspUserId});
+                string sql = "UPDATE FanPages SET FbPageLongToken =@tokenValue  WHERE FanPageID=@fanpageid and AspNetUserId=@aspUserId";
+                conn.Execute(sql, new { tokenValue, fanpageid, aspUserId});
             }
         }
-        public void Update(string fanpagename, string aspUserId, string tokenValue ,string aspUserIdValue)
-        {
-            using (conn = new SqlConnection(connectionString))
-            {
-
-                string sql = "UPDATE FanPages SET FbPageLongToken =@tokenValue ,AspNetUserId=@aspUserIdValue WHERE FanPageName=@fanpagename and AspNetUserId=@aspUserId ";
-                conn.Execute(sql, new { tokenValue, aspUserIdValue, fanpagename, aspUserId });
-            }
-        }
+        
     }
 }

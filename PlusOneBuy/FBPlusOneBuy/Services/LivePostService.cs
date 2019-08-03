@@ -9,7 +9,7 @@ namespace FBPlusOneBuy.Services
 {
     public static class LivePostService
     {
-        public static void CreateLivePost(string livePageID, string liveName, string fanPageId)
+        public static void CreateLivePost(string livePageID, string liveName, int fanPageId)
         {
             
             Context context = new Context();

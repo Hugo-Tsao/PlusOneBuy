@@ -27,7 +27,7 @@ namespace FBPlusOneBuy.Controllers
         {
             string userid = User.Identity.GetUserId();
             //string fanpageid = (string)Session["FanPageID"];
-            string fanpageid = FanPageService.GetPageId(userid);
+            int fanpageid = FanPageService.GetPageId(userid);
             //新增直播進資料庫
             LivePostService.CreateLivePost(livePageID, liveName, fanpageid);
             //新增商品進資料庫

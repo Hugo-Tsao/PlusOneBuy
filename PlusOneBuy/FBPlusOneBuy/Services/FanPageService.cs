@@ -28,11 +28,11 @@ namespace FBPlusOneBuy.Services
             return pagename;
         }
 
-        public static string GetPageId(string userid)
+        public static int GetPageId(string userid)
         {
             var fpage_repo = new FanPagesRepository();
             var fpage = fpage_repo.SelectBinding(userid);
-            string pageId = fpage.FanPageID;
+            int pageId = fpage.ID;
             return pageId;
         }
     }

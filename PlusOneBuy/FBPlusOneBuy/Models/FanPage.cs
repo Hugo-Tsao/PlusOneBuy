@@ -25,7 +25,7 @@ namespace FBPlusOneBuy.Models
         public string AspNetUserId { get; set; }
         public string FbPageLongToken { get; set; }
         public string FbMachineId { get; set; }
-
+        public int ID { get; set; }
         public virtual AspNetUser AspNetUser { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

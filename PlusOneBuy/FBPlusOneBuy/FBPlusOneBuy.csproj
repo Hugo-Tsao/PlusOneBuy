@@ -230,7 +230,7 @@
     <Compile Include="Models\AspNetUser.cs" />
     <Compile Include="Models\AspNetUserClaim.cs" />
     <Compile Include="Models\AspNetUserLogin.cs" />
-    <Compile Include="Models\Compaign.cs" />
+    <Compile Include="Models\Campaign.cs" />
     <Compile Include="Models\Context.cs" />
     <Compile Include="Models\Customer.cs" />
     <Compile Include="Models\FanPage.cs" />
@@ -244,7 +244,7 @@
     <Compile Include="Models\ProductJson.cs" />
     <Compile Include="Models\SalesOrder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Repositories\CompaignRepository.cs" />
+    <Compile Include="Repositories\CampaignRepository.cs" />
     <Compile Include="Repositories\CustomerRepository.cs" />
     <Compile Include="Repositories\FanPagesRepository.cs" />
     <Compile Include="Repositories\FBJsonToCSharp.cs" />
@@ -269,7 +269,7 @@
     <Compile Include="ViewModels\CommentOrderLIstViewModel.cs" />
     <Compile Include="ViewModels\FBLiveVideoJsonToCSharp.cs" />
     <Compile Include="ViewModels\FBLongTokenJsonToCSharp.cs" />
-    <Compile Include="ViewModels\CompaignViewModel.cs" />
+    <Compile Include="ViewModels\CampaignViewModel.cs" />
     <Compile Include="ViewModels\LivePostViewModel.cs" />
     <Compile Include="ViewModels\MsgTextViewModel.cs" />
     <Compile Include="ViewModels\OrderList.cs" />

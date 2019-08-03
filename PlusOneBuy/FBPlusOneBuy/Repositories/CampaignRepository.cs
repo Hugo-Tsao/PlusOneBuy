@@ -10,19 +10,19 @@ using FBPlusOneBuy.ViewModels;
 
 namespace FBPlusOneBuy.Repositories
 {
-    public class CompaignRepository
+    public class CampaignRepository
     {
         private string connectionString = ConfigurationManager.ConnectionStrings["Context"].ConnectionString;
         private SqlConnection conn;
-        public IEnumerable<Compaign> GetALL()
+        public IEnumerable<Campaign> GetALL()
         {
             using (conn=new SqlConnection(connectionString))
             {
-                string url = "SELECT * FROM Compaign";
-                return conn.Query<Compaign>(url);
+                string url = "SELECT CampaignID,GroupID,ProductID,ProductSet,PeopleGroup,Keyword,PostTime,EndTime,Detail FROM Campaign";
+                return conn.Query<Campaign>(url);
             }
         }
-        public bool InsertGroupBuy(CompaignViewModel cvm)
+        public bool InsertGroupBuy(CampaignViewModel cvm)
         {
             try
             {
@@ -30,7 +30,7 @@ namespace FBPlusOneBuy.Repositories
                 {
                     cvm.GroupID = "Cdce46b42293efcd6ff973d08be1e0642"; //群組ID暫時只有一個所以先寫死來DEMO
                     string sql =
-                        "INSERT INTO Compaign(GroupID,ProductID,ProductSet,PeopleGroup,Keyword,PostTime,EndTime,Detail) VALUES(@GroupID, @ProductID, @ProductSet, @PeopleGroup, @Keyword, @PostTime, @EndTime, @Detail)";
+                        "INSERT INTO Campaign(GroupID,ProductID,ProductSet,PeopleGroup,Keyword,PostTime,EndTime,Detail) VALUES(@GroupID, @ProductID, @ProductSet, @PeopleGroup, @Keyword, @PostTime, @EndTime, @Detail)";
                     conn.Execute(sql, new { cvm.GroupID, cvm.ProductID, cvm.ProductSet, cvm.PeopleGroup, cvm.Keyword, cvm.PostTime , cvm.EndTime, cvm.Detail });
                     return true;
                 }

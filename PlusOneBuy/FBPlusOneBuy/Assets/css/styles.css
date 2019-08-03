@@ -29,7 +29,6 @@ a {
 
 ul li:hover > ul {
     display: block;
-
 }
 
 .nav a:hover {
@@ -69,7 +68,22 @@ ul li:hover > ul {
     position: relative;
     display: inline-block;
 }
+.dropdown-item {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.Videodropdown {
+    width: 240px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
 .card {
+    width: 18rem;
+    margin: 20px;
+}
+.listcard {
     width: 10rem;
 }
 .AccountIcon {
@@ -80,10 +94,44 @@ ul li:hover > ul {
 .qty {
     padding-left: 10px;
     border: #ddd 1px solid;
-    height: 30px;
-    width: 50px;
+    width: 50%;
     border-color: #28A745;
     border-radius: 5px;
 }
 
+textarea {
+    border-color: #28A745;
+    border-radius: 5px;
+}
+    /*login*/
+    .loginBg {
+    background-color: #dadada;
+    height: 100%;
+}
+.loginHeight {
+    margin-top:5%;
+    height: 20%;
+}
+.loginLeft {
+    margin-left:20%;
+    background-color: rgb(229, 36, 18);
+    opacity: 0.8;
+    box-shadow: 0 0 30px 0 rgba(36, 39, 41, 0.2);
+}
+    .loginLeft img {
+        margin-top: 50%;
+        width: 100%;
+    }
+
+.loginRight {
+    background-color: whitesmoke;
+    box-shadow: 0 0 30px 0 rgba(36, 39, 41, 0.2);
+    margin-right: 20%;
+}
+.logindiv {
+    margin-top: 50%;
+    margin-bottom: 20%;
+    margin-left: 10%
+}
+/*login*/
 

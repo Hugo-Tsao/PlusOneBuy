@@ -17,20 +17,20 @@ namespace FBPlusOneBuy.Models
 
         public int CampaignID { get; set; }
 
-        public int? GroupID { get; set; }
+        public int GroupID { get; set; }
 
-        public int? ProductID { get; set; }
+        public int ProductID { get; set; }
 
-        public int? ProductSet { get; set; }
+        public int ProductSet { get; set; }
 
-        public int? PeopleGroup { get; set; }
+        public int PeopleGroup { get; set; }
 
         [StringLength(50)]
         public string Keyword { get; set; }
 
-        public DateTime? PostTime { get; set; }
+        public DateTime PostTime { get; set; }
 
-        public DateTime? EndTime { get; set; }
+        public DateTime EndTime { get; set; }
 
         public string Detail { get; set; }
 

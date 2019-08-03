@@ -92,7 +92,7 @@ namespace FBPlusOneBuy.Controllers
 
                                 foreach (var AdminUserId in AdminUser)
                                 {
-                                    this.PushMessage(AdminUserId, "活動編號:" + result[i].CompaignID + "\n群組編號:\n" + LineEvent.source.groupId + "\n顧客編號:\n" + LineEvent.source.userId +
+                                    this.PushMessage(AdminUserId, "活動編號:" + result[i].CampaignID + "\n群組編號:\n" + LineEvent.source.groupId + "\n顧客編號:\n" + LineEvent.source.userId +
                                         "\n顧客照片:\n" + UserInfo.pictureUrl + "\n名字:" + UserInfo.displayName + "\n購買:" + result[i].Keyword + "\n數量:" + qty + "\n留言時間:" + timestampTotime);
                                 }
 

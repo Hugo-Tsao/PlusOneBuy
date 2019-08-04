@@ -19,7 +19,6 @@ namespace FBPlusOneBuy.Models
         public virtual DbSet<Campaign> Campaigns { get; set; }
         public virtual DbSet<Customer> Customers { get; set; }
         public virtual DbSet<FanPage> FanPages { get; set; }
-        public virtual DbSet<GroupManager> GroupManagers { get; set; }
         public virtual DbSet<GroupOrder> GroupOrders { get; set; }
         public virtual DbSet<GroupOrderDetail> GroupOrderDetails { get; set; }
         public virtual DbSet<LineCustomer> LineCustomers { get; set; }
@@ -28,6 +27,7 @@ namespace FBPlusOneBuy.Models
         public virtual DbSet<Order> Orders { get; set; }
         public virtual DbSet<Product> Products { get; set; }
         public virtual DbSet<SalesOrder> SalesOrders { get; set; }
+        public virtual DbSet<StoreManager> StoreManagers { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -84,8 +84,9 @@ namespace FBPlusOneBuy.Models
 
             modelBuilder.Entity<LineGroup>()
                 .HasMany(e => e.Campaigns)
-                .WithOptional(e => e.LineGroup)
-                .HasForeignKey(e => e.GroupID);
+                .WithRequired(e => e.LineGroup)
+                .HasForeignKey(e => e.GroupID)
+                .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<LivePost>()
                 .Property(e => e.Amount)
@@ -114,6 +115,11 @@ namespace FBPlusOneBuy.Models
             modelBuilder.Entity<Product>()
                 .Property(e => e.ProductImage)
                 .IsFixedLength();
+
+            modelBuilder.Entity<Product>()
+                .HasMany(e => e.Campaigns)
+                .WithRequired(e => e.Product)
+                .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Product>()
                 .HasMany(e => e.Orders)

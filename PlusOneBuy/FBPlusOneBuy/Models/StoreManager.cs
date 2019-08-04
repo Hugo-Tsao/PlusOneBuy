@@ -6,22 +6,30 @@ namespace FBPlusOneBuy.Models
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    [Table("LineCustomer")]
-    public partial class LineCustomer
+    [Table("StoreManager")]
+    public partial class StoreManager
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public LineCustomer()
+        public StoreManager()
         {
-            GroupOrderDetails = new HashSet<GroupOrderDetail>();
+            LineGroups = new HashSet<LineGroup>();
         }
 
-        public string LineCustomerID { get; set; }
+        [Key]
+        public string UserID { get; set; }
 
-        [Required]
         [StringLength(128)]
+        public string AspNetUserId { get; set; }
+
+        [StringLength(50)]
         public string Name { get; set; }
 
+        [StringLength(150)]
+        public string PictureUrl { get; set; }
+
+        public virtual AspNetUser AspNetUser { get; set; }
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<GroupOrderDetail> GroupOrderDetails { get; set; }
+        public virtual ICollection<LineGroup> LineGroups { get; set; }
     }
 }

@@ -23,12 +23,12 @@ namespace FBPlusOneBuy.Repositories
                 conn.Execute(sql, new { UserId=profile.userId, AspNetUserId = userid, Name=profile.displayName, PictureUrl=profile.pictureUrl });
             }
         }
-        public LineProfile SelectBinding(string aspUserId)
+        public BindAcoountStoreManagerViewModel SelectBinding(string aspUserId)
         {
             using (conn = new SqlConnection(connectionString))
             {
                 string sql = "select * from StoreManager where AspNetUserId=@aspUserId";
-                var profile = conn.QueryFirstOrDefault<LineProfile>(sql, new { aspUserId });
+                var profile = conn.QueryFirstOrDefault<BindAcoountStoreManagerViewModel>(sql, new { aspUserId });
                 return profile;
             }
 

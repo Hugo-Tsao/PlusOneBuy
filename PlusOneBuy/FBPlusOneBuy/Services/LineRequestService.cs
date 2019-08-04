@@ -53,7 +53,7 @@ namespace FBPlusOneBuy.Services
             var sm_repo = new StoreManagerRepository();
             sm_repo.Insert(profile);
         }
-        public static LineProfile GetBindingStoreMamager(string userid)
+        public static BindAcoountStoreManagerViewModel GetBindingStoreMamager(string userid)
         {
             var sm_repo = new StoreManagerRepository();
             var profile=sm_repo.SelectBinding(userid);

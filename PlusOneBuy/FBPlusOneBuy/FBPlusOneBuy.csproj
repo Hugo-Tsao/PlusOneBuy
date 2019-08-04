@@ -266,6 +266,7 @@
     <Compile Include="Services\ReCodeService.cs" />
     <Compile Include="Services\SalesOrderListService.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="ViewModels\BindAcoountStoreManagerViewModel.cs" />
     <Compile Include="ViewModels\CartViewModel.cs" />
     <Compile Include="ViewModels\CommentListViewModel.cs" />
     <Compile Include="ViewModels\CommentOrderLIstViewModel.cs" />

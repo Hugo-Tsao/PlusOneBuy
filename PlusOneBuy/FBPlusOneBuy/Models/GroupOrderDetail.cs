@@ -16,8 +16,8 @@ namespace FBPlusOneBuy.Models
 
         [Key]
         [Column(Order = 1)]
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public int LineCustomerID { get; set; }
+        [StringLength(128)]
+        public string LineCustomerID { get; set; }
 
         [StringLength(50)]
         public string ProductName { get; set; }

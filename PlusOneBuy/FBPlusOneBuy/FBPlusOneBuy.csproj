@@ -57,6 +57,7 @@
       <HintPath>..\packages\Microsoft.Cognitive.LUIS.2.0.2\lib\portable45-net45+win8+wpa81\Microsoft.Cognitive.LUIS.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="RestSharp, Version=106.6.10.0, Culture=neutral, PublicKeyToken=598062e77f915f75, processorArchitecture=MSIL">
       <HintPath>..\packages\RestSharp.106.6.10\lib\net452\RestSharp.dll</HintPath>
     </Reference>
@@ -255,6 +256,8 @@
     <Compile Include="Repositories\CustomerRepository.cs" />
     <Compile Include="Repositories\FanPagesRepository.cs" />
     <Compile Include="Repositories\FBJsonToCSharp.cs" />
+    <Compile Include="Repositories\GroupOrderRspository.cs" />
+    <Compile Include="Repositories\LineCustomerRepository.cs" />
     <Compile Include="Repositories\LivePostsRepository.cs" />
     <Compile Include="Repositories\OrderRepositories.cs" />
     <Compile Include="Repositories\ProductList.cs" />

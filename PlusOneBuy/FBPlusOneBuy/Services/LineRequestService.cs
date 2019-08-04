@@ -20,14 +20,7 @@ namespace FBPlusOneBuy.Services
             string state = "abcde";
             string url = "https://access.line.me/oauth2/v2.1/authorize?response_type=code&client_id="+ clientId + "&redirect_uri="+ redirectUri + "&state="+ state + "&scope=openid%20profile%20email";
 
-            //var client = new RestClient(url);
-            //var request = new RestRequest(Method.GET);
-
-            //IRestResponse response = client.Execute(request);
             return url;
-
-            //UserTokenToPageToken exangeResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<UserTokenToPageToken>(response.Content);
-            //return exangeResponse.access_token;
 
         }
         public static string CodeToAccessToken(string code)

@@ -15,7 +15,6 @@ namespace FBPlusOneBuy.Models
             GroupOrderDetails = new HashSet<GroupOrderDetail>();
         }
 
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int GroupOrderID { get; set; }
 
         public int? CampaignID { get; set; }

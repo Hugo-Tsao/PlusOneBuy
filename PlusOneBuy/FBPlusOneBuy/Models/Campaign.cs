@@ -25,6 +25,7 @@ namespace FBPlusOneBuy.Models
 
         public int PeopleGroup { get; set; }
 
+        [Required]
         [StringLength(50)]
         public string Keyword { get; set; }
 

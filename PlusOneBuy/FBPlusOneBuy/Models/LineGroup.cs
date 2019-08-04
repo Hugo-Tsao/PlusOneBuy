@@ -33,5 +33,7 @@ namespace FBPlusOneBuy.Models
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Campaign> Campaigns { get; set; }
+
+        public virtual StoreManager StoreManager { get; set; }
     }
 }

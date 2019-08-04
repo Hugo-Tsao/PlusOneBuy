@@ -3,13 +3,14 @@
     ViewBag.Title = "BindAccount";
     Layout = "~/Views/Shared/Main_Layout.cshtml";
     var bingingPage = ViewBag.bindingPage;
+    var bindingStoreMamager = ViewBag.bindingStoreMamager;
 }
 <span class="h4 font-weight-normal text-muted">綁定帳號</span>
 <p class="lead text-center">連結帳號</p>
 <div class="row m-3">
     <div class="col text-center">
         <a href="#" class="p-2" id="bind_fb">Facebook</a>
-        <a href="#" class="p-2">Line</a>
+        <a href="#" class="p-2" id="bind_line">Line</a>
         <a href="#" class="p-2">Instagram</a>
     </div>
 
@@ -29,33 +30,48 @@
             </div>
         </div>
     }
+    @if (bindingStoreMamager != null)
+    {
+        <div class="row m-2" id="show_fb_bind">
+            <div class="col text-right">
+                <img class="AccountIcon" src="~/Assets/images/Line1.png" />
+            </div>
+            <div class="col">
+                <span>@bindingStoreMamager.displayName</span>
+            </div>
+            <div class="col">
+                <a href="#" id="@bindingStoreMamager.displayName" class="remove_binding">移除</a>
+            </div>
+        </div>
+    }
+
 
 
 </div>
 
 @*<div class="row m-2">
-    <div class="col text-right">
-        <img class="AccountIcon" src="~/Assets/images/FB1.png" />
-    </div>
-    <div class="col">
-        <span>xxx</span>
+        <div class="col text-right">
+            <img class="AccountIcon" src="~/Assets/images/FB1.png" />
+        </div>
+        <div class="col">
+            <span>xxx</span>
 
+        </div>
+        <div class="col">
+            <a href="#">移除</a>
+        </div>
     </div>
-    <div class="col">
-        <a href="#">移除</a>
-    </div>
-</div>
-<div class="row m-2">
-    <div class="col text-right">
-        <img class="AccountIcon" src="~/Assets/images/Line1.png" />
-    </div>
-    <div class="col">
-        <span>全家團購</span>
-    </div>
-    <div class="col">
-        <a href="#">移除</a>
-    </div>
-</div>*@
+    <div class="row m-2">
+        <div class="col text-right">
+            <img class="AccountIcon" src="~/Assets/images/Line1.png" />
+        </div>
+        <div class="col">
+            <span>全家團購</span>
+        </div>
+        <div class="col">
+            <a href="#">移除</a>
+        </div>
+    </div>*@
 @*<div class="row mt-2">
         <div class="col text-right">
             <img class="AccountIcon" src="~/Assets/images/Ig1.png" />
@@ -71,7 +87,9 @@
 @section EndJS
 {
     <script>
+        var win = null;
         $(document).ready(function () {
+            
             //$('.btn_managePages').click(function () {
             //    var fanPageName = $(this).siblings("p").text();
             //    getAuth();
@@ -80,21 +98,40 @@
                 getAuthNew();
                 //$('#card_selectPage').empty();
             });
+            $('#bind_line').click(function () {
+                $.ajax({
+                    type: "POST",
+                    url: "/Setting/Login",
+                    data: {},
+                    success: function (res) {
+                        console.log(res);
+                        newWindow(res, '', '450', '450', 'scrollbars,status,toolbar');
+                    }
+                })
+                //    .then(function () {
+                //    if (win.closed == 'true') {
+                //        alert('被關'+win.closed)
+                //    }
+                //    else {
+                //        alert('還沒'+win.closed)
+                //    }
+                //})
+            });
             $('.remove_binding').on("click", function () {
                 console.log(this.id)
                 let fanPageName = this.id;
                 $.ajax({
-                type: "POST",
-                url: "/Setting/RemovePageBind",
-                data: { fanpagename: fanPageName },
-                success: function (data) {
-                    console.log("delete success!");
-                    $('#show_fb_bind').empty();
-                    
-                }
-            }).done(function () {
-                console.log("delete over");
-            });
+                    type: "POST",
+                    url: "/Setting/RemovePageBind",
+                    data: { fanpagename: fanPageName },
+                    success: function (data) {
+                        console.log("delete success!");
+                        $('#show_fb_bind').empty();
+
+                    }
+                }).done(function () {
+                    console.log("delete over");
+                });
 
             });
         });
@@ -107,7 +144,7 @@
                         if (res.accounts.data.length != 1) {
                             console.log("紛絲團數量不等於1");
                             //FB.logout(function (response) {
-                                
+
                             //    // user is now logged out
                             //});
                         }
@@ -116,7 +153,7 @@
                             let fanPageid = res.accounts.data[0].id;
                             let fanPageName = res.accounts.data[0].name;
                             let token = res.accounts.data[0].access_token;
-                            console.log("1的token=" + token+",1的id=" + fanPageid+",1的name=" + fanPageName);
+                            console.log("1的token=" + token + ",1的id=" + fanPageid + ",1的name=" + fanPageName);
                             GetDataNew(token, fanPageid, fanPageName);
                         }
                         //for (var i of res.accounts.data) {
@@ -144,13 +181,28 @@
                 url: "/Setting/GetFanPageData",
                 data: { token: token, fanpageid: fanPageid, fanpagename: fanPageName },
                 success: function (data) {
-                    $('#show_binding').append('<div class="row m-2" id="show_fb_bind"><div class="col text-right"><img class="AccountIcon" src="../Assets/images/FB1.png" /></div><div class="col"><span>'+fanPageName+'</span></div><div class="col"><a href="#">移除</a></div></div>')
+                    $('#show_binding').append('<div class="row m-2" id="show_fb_bind"><div class="col text-right"><img class="AccountIcon" src="../Assets/images/FB1.png" /></div><div class="col"><span>' + fanPageName + '</span></div><div class="col"><a href="#">移除</a></div></div>')
                     //console.log(data+"2");
                     //window.location.href = data;
                 }
             }).done(function () {
                 console.log("bind over");
             });
+        }
+        function newWindow(mypage, myname, w, h, features) {
+            
+            var winl = (screen.width - w) / 2;
+            var wint = (screen.height - h) / 2;
+            if (winl < 0) winl = 0;
+            if (wint < 0) wint = 0;
+            var settings = 'height=' + h + ',';
+            settings += 'width=' + w + ',';
+            settings += 'top=' + wint + ',';
+            settings += 'left=' + winl + ',';
+            settings += features;
+            win = window.open(mypage, myname, settings);
+            console.log(win);
+            win.window.focus();
         }
     </script>
 

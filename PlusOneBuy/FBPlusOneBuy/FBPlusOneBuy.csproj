@@ -57,6 +57,7 @@
       <HintPath>..\packages\Microsoft.Cognitive.LUIS.2.0.2\lib\portable45-net45+win8+wpa81\Microsoft.Cognitive.LUIS.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="RestSharp, Version=106.6.10.0, Culture=neutral, PublicKeyToken=598062e77f915f75, processorArchitecture=MSIL">
       <HintPath>..\packages\RestSharp.106.6.10\lib\net452\RestSharp.dll</HintPath>
     </Reference>
@@ -197,6 +198,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\BotController.cs" />
     <Compile Include="Controllers\CommentController.cs" />
     <Compile Include="Controllers\FbWebHookController.cs" />
     <Compile Include="Controllers\GroupBuyController.cs" />
@@ -235,7 +237,12 @@
     <Compile Include="Models\Customer.cs" />
     <Compile Include="Models\FanPage.cs" />
     <Compile Include="Models\FbMessage.cs" />
+    <Compile Include="Models\GroupOrder.cs" />
+    <Compile Include="Models\GroupOrderDetail.cs" />
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\LineCustomer.cs" />
+    <Compile Include="Models\LineGroup.cs" />
+    <Compile Include="Models\LineJson.cs" />
     <Compile Include="Models\LivePost.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\FbSendMessage.cs" />
@@ -243,17 +250,21 @@
     <Compile Include="Models\Product.cs" />
     <Compile Include="Models\ProductJson.cs" />
     <Compile Include="Models\SalesOrder.cs" />
+    <Compile Include="Models\StoreManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\CampaignRepository.cs" />
     <Compile Include="Repositories\CustomerRepository.cs" />
     <Compile Include="Repositories\FanPagesRepository.cs" />
     <Compile Include="Repositories\FBJsonToCSharp.cs" />
+    <Compile Include="Repositories\GroupOrderRspository.cs" />
+    <Compile Include="Repositories\LineCustomerRepository.cs" />
     <Compile Include="Repositories\LivePostsRepository.cs" />
     <Compile Include="Repositories\OrderRepositories.cs" />
     <Compile Include="Repositories\ProductList.cs" />
     <Compile Include="Repositories\ProductRepositories.cs" />
     <Compile Include="Repositories\SalesOrderRepositories.cs" />
     <Compile Include="Repositories\StoreManagerRepository.cs" />
+    <Compile Include="Services\BotService.cs" />
     <Compile Include="Services\CommentFilterService.cs" />
     <Compile Include="Services\CommentListService.cs" />
     <Compile Include="Services\CompaignService.cs" />

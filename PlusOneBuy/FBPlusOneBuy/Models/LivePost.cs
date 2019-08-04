@@ -17,7 +17,6 @@ namespace FBPlusOneBuy.Models
 
         public int ID { get; set; }
 
-        [Required]
         public int FanPageID { get; set; }
 
         [StringLength(50)]

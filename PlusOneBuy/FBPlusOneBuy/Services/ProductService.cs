@@ -73,7 +73,6 @@ namespace FBPlusOneBuy.Services
 
         public static bool UpdateProductQty(int skuid, int BoughtQty)
         {
-            bool result = false;
             var products = GetCurrentProducts();
             var index = products.ProductItems.FindIndex(x=>x.SkuId == skuid);
             var ProductQty = products.ProductItems[index].PresetQty;

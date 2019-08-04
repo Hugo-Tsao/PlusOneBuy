@@ -14,33 +14,36 @@ namespace FBPlusOneBuy.Repositories
     {
         private string connectionString = ConfigurationManager.ConnectionStrings["Context"].ConnectionString;
         private SqlConnection conn;
-        public IEnumerable<Campaign> GetALL()
+
+        public IEnumerable<Campaign> GetALL(string GroupID)
         {
-            using (conn=new SqlConnection(connectionString))
+            using (conn = new SqlConnection(connectionString))
             {
-                string url = "SELECT CampaignID,GroupID,ProductID,ProductSet,PeopleGroup,Keyword,PostTime,EndTime,Detail FROM Campaign";
-                return conn.Query<Campaign>(url);
+                string url =
+                    "SELECT CampaignID,GroupID,ProductID,ProductSet,PeopleGroup,Keyword,PostTime,EndTime,Detail FROM Campaign c INNER JOIN LineGroup lg ON c.GroupID = lg.ID WHERE lg.LineGroupID = @GroupID";
+                return conn.Query<Campaign>(url, new { GroupID });
             }
         }
-        public bool InsertGroupBuy(CampaignViewModel cvm)
-        {
-            try
-            {
-                using (conn = new SqlConnection(connectionString))
-                {
-                    cvm.GroupID = "Cdce46b42293efcd6ff973d08be1e0642"; //群組ID暫時只有一個所以先寫死來DEMO
-                    string sql =
-                        "INSERT INTO Campaign(GroupID,ProductID,ProductSet,PeopleGroup,Keyword,PostTime,EndTime,Detail) VALUES(@GroupID, @ProductID, @ProductSet, @PeopleGroup, @Keyword, @PostTime, @EndTime, @Detail)";
-                    conn.Execute(sql, new { cvm.GroupID, cvm.ProductID, cvm.ProductSet, cvm.PeopleGroup, cvm.Keyword, cvm.PostTime , cvm.EndTime, cvm.Detail });
-                    return true;
-                }
-            }
-            catch (Exception e)
-            {
 
-                return false;
+        public void InsertGroupBuy(CampaignViewModel cvm)
+        {
+            using (conn = new SqlConnection(connectionString))
+            {
+                string sql =
+                    "INSERT INTO Campaign(GroupID,ProductID,ProductSet,PeopleGroup,Keyword,PostTime,EndTime,Detail) VALUES(@GroupID, @ProductID, @ProductSet, @PeopleGroup, @Keyword, @PostTime, @EndTime, @Detail)";
+                conn.Execute(sql,
+                    new
+                    {
+                        cvm.GroupID,
+                        cvm.ProductID,
+                        cvm.ProductSet,
+                        cvm.PeopleGroup,
+                        cvm.Keyword,
+                        cvm.PostTime,
+                        cvm.EndTime,
+                        cvm.Detail
+                    });
             }
-            
         }
     }
 }

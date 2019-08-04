@@ -16,6 +16,10 @@ namespace FBPlusOneBuy.Models
 
         [Key]
         [Column(Order = 1)]
+<<<<<<< HEAD
+        [StringLength(128)]
+=======
+>>>>>>> 17234e48ca7a7df8be8fa64833c2015a4cb0ed13
         public string LineCustomerID { get; set; }
 
         [StringLength(50)]

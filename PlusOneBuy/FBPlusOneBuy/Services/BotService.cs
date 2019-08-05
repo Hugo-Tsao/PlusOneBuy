@@ -50,14 +50,11 @@ namespace FBPlusOneBuy.Services
             StoreMeanger StoreMeanger = Newtonsoft.Json.JsonConvert.DeserializeObject<StoreMeanger>(response.Content);
             return StoreMeanger;
         }
-        public static void CheckLineCustomer(string customerId,string customerName)
+        public static bool CheckLineCustomer(string customerId,string customerName)
         {
             LineCustomerRepository LineCustomer_repo = new LineCustomerRepository();
             var checkCustomer = LineCustomer_repo.GetCustomerById(customerId);
-            if (checkCustomer == false)
-            {
-                LineCustomer_repo.InsertCustomer(customerId, customerName);
-            }
+            return checkCustomer;
         }
         public static void CheckGroupOrder(int campaignID,DateTime orderDateTime,string userId,int productId,int qty)
         {

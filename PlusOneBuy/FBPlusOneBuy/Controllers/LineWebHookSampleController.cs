@@ -58,52 +58,50 @@ namespace FBPlusOneBuy.Controllers
                             LineGroupService lineGroupService = new LineGroupService(groupId);
                             if (lineGroupService.SearchLineGroup())  //尋找群組
                             {
-                                CampaignService campaignService = new CampaignService(groupId);
-                                List<Campaign> campaigns = campaignService.GetWorkingCampaign();  //取得正在執行的活動
+                                CampaignService campaignService = new CampaignService();
+                                List<Campaign> campaigns = campaignService.GetWorkingCampaign(groupId);  //取得正在執行的活動
 
                                 foreach (Campaign campaign in campaigns)
                                 {
-                                    //Line團購目前只有+1+2等KeywordPattern
-                                    if (CommentFilterService.KeywordFilter(LineEvent.message.text, campaign.Keyword,
-                                        "+1"))
+                                    //取得留言數量(組)  //因為目前Line團購只有+1+2的關鍵字
+                                    int number = CommentFilterService.KeywordFilter(LineEvent.message.text,campaign.Keyword,"+1");
+                                    if (number != 0)
                                     {
-                                        DateTime timestampTotime = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
-                                        timestampTotime = timestampTotime.AddSeconds(LineEvent.timestamp / 1000).AddHours(8);
 
-                                        DateTime dt = (new DateTime(1970, 1, 1, 0, 0, 0)).AddHours(8).AddMilliseconds(LineEvent.timestamp);
-                                        this.PushMessage(LineEvent.source.userId, $"timestampTotime(Utc):{timestampTotime}/n timestampTotime:{dt}");
                                         break;
                                     }
                                 }
 
-                                //for (var i = 0; i < campaigns.Count; i++)
-                                //{
-                                //    string pattern = "^" + campaigns[i].Keyword + "\\s?\\+\\d{1}\\s*$";
-                                //    re = new Regex(pattern);
+                                for (var i = 0; i < campaigns.Count; i++)
+                                {
+                                    string pattern = "^" + campaigns[i].Keyword + "\\s?\\+\\d{1}\\s*$";
+                                    re = new Regex(pattern);
 
-                                //    if (re.IsMatch(LineEvent.message.text))
-                                //    {
-                                //        UserInfo = isRock.LineBot.Utility.GetGroupMemberProfile(groupId, userId, ChannelAccessToken);
+                                    if (re.IsMatch(LineEvent.message.text))
+                                    {
+                                        UserInfo = isRock.LineBot.Utility.GetGroupMemberProfile(groupId, userId, ChannelAccessToken);
 
-                                        
+                                        DateTime timestampTotime = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
+                                        timestampTotime = timestampTotime.AddSeconds(LineEvent.timestamp / 1000).AddHours(8).ToLocalTime();
 
+                                        //DateTime dt = (new DateTime(1970, 1, 1, 0, 0, 0)).AddHours(8).AddSeconds(LineEvent.timestamp);
 
-                                //        var qty = int.Parse(LineEvent.message.text.Substring(LineEvent.message.text.IndexOf("+", StringComparison.Ordinal)));
+                                        var qty = int.Parse(LineEvent.message.text.Substring(LineEvent.message.text.IndexOf("+", StringComparison.Ordinal)));
 
-                                //        BotService.CheckLineCustomer(userId, UserInfo.displayName);
+                                        BotService.CheckLineCustomer(userId, UserInfo.displayName);
 
-                                //        //BotService.CheckGroupOrder(campaigns[i].CampaignID, timestampTotime, userId, campaigns[i].ProductID, qty);
+                                        BotService.CheckGroupOrder(campaigns[i].CampaignID, timestampTotime, userId, campaigns[i].ProductID, qty);
 
-                                //        //foreach (var AdminUserId in AdminUser)
-                                //        //{
-                                //        //    this.PushMessage(AdminUserId, "活動編號:" + campaigns[i].CampaignID + "\n群組編號:\n" + LineEvent.source.groupId + "\n顧客編號:\n" + LineEvent.source.userId +
-                                //        //        "\n顧客照片:\n" + UserInfo.pictureUrl + "\n名字:" + UserInfo.displayName + "\n購買:" + campaigns[i].Keyword + "\n數量:" + qty + "\n留言時間:" + timestampTotime);
-                                //        //}
+                                        //foreach (var AdminUserId in AdminUser)
+                                        //{
+                                        //    this.PushMessage(AdminUserId, "活動編號:" + campaigns[i].CampaignID + "\n群組編號:\n" + LineEvent.source.groupId + "\n顧客編號:\n" + LineEvent.source.userId +
+                                        //        "\n顧客照片:\n" + UserInfo.pictureUrl + "\n名字:" + UserInfo.displayName + "\n購買:" + campaigns[i].Keyword + "\n數量:" + qty + "\n留言時間:" + timestampTotime);
+                                        //}
 
-                                //        this.PushMessage(LineEvent.source.userId, "恭喜你在買越多省越多成功下單" + "\n購買:" + campaigns[i].Keyword + "\n數量:" + qty);
-                                //    }
+                                        this.PushMessage(LineEvent.source.userId, "恭喜你在買越多省越多成功下單" + "\n購買:" + campaigns[i].Keyword + "\n數量:" + qty);
+                                    }
 
-                                //}
+                                }
                                 /*if (尋找群組(LineEvent))
                                 {
                                    正在進行的活動s=尋找符合此群組的活動並且正在進行(groupid)
@@ -113,7 +111,7 @@ namespace FBPlusOneBuy.Controllers
                                         {
                                             if(過濾留言(留言))
                                             {
-                                                if(留言者是否在livecustomer)
+                                                if(留言者是否在linecustomer)
                                                 { no                                           
                                                     新增會員
                                                 }

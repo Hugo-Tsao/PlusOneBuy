@@ -203,6 +203,7 @@
     <Compile Include="Controllers\FbWebHookController.cs" />
     <Compile Include="Controllers\GroupBuyController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\LineBindController.cs" />
     <Compile Include="Controllers\LineWebHookSampleController.cs" />
     <Compile Include="Controllers\listController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -233,6 +234,7 @@
     <Compile Include="Models\AspNetUserClaim.cs" />
     <Compile Include="Models\AspNetUserLogin.cs" />
     <Compile Include="Models\Campaign.cs" />
+    <Compile Include="Models\CompareStoreManager.cs" />
     <Compile Include="Models\Context.cs" />
     <Compile Include="Models\Customer.cs" />
     <Compile Include="Models\FanPage.cs" />
@@ -258,6 +260,7 @@
     <Compile Include="Repositories\FBJsonToCSharp.cs" />
     <Compile Include="Repositories\GroupOrderRspository.cs" />
     <Compile Include="Repositories\LineCustomerRepository.cs" />
+    <Compile Include="Repositories\LineGroupRepository.cs" />
     <Compile Include="Repositories\LivePostsRepository.cs" />
     <Compile Include="Repositories\OrderRepositories.cs" />
     <Compile Include="Repositories\ProductList.cs" />
@@ -271,6 +274,7 @@
     <Compile Include="Services\FanPageService.cs" />
     <Compile Include="Services\FBRequestService.cs" />
     <Compile Include="Services\LineBindingService.cs" />
+    <Compile Include="Services\LineGroupService.cs" />
     <Compile Include="Services\LineRequestService.cs" />
     <Compile Include="Services\LivePostService.cs" />
     <Compile Include="Services\FBSendMsgService.cs" />
@@ -415,6 +419,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\LineBind\" />
     <Folder Include="Views\Orders\" />
     <Folder Include="Views\Product\" />
   </ItemGroup>

@@ -101,7 +101,11 @@ namespace FBPlusOneBuy.Controllers
             var fpage_repo = new FanPagesRepository();          
             var fpage=fpage_repo.SelectBinding(userid);
             var profile = LineBindingService.GetBindingStoreMamager(userid);
-            
+            int managerId=LineGroupService.GetManagerId(userid);
+            ViewBag.groupList =LineGroupService.GetGroupList(managerId);
+            ViewBag.NullgroupList = LineGroupService.GetNullGroup(managerId);
+            //取為綁定groupName
+           
             //FanPage return_fpage = null;
             //foreach (var fpage in fpages)
             //{
@@ -110,6 +114,7 @@ namespace FBPlusOneBuy.Controllers
             //        return_fpage = fpage;
             //    }                  
             //}
+            ViewBag.aspNetId = userid;
             ViewBag.bindingPage = fpage;
             ViewBag.bindingStoreMamager = profile;
             return View();

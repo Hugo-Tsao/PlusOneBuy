@@ -4,6 +4,8 @@
     Layout = "~/Views/Shared/Main_Layout.cshtml";
     var bingingPage = ViewBag.bindingPage;
     var bindingStoreMamager = ViewBag.bindingStoreMamager;
+    var groupList = ViewBag.groupList;
+    var NullgroupList = ViewBag.NullgroupList;
 }
 <span class="h4 font-weight-normal text-muted">綁定帳號</span>
 <p class="lead text-center">連結帳號</p>
@@ -26,7 +28,7 @@
                 <span>@bingingPage.FanPageName</span>
             </div>
             <div class="col">
-                <a href="#" id="@bingingPage.FanPageName" class="remove_binding">移除</a>
+                <button type="button" class="btn btn-link remove_binding" id="@bingingPage.FanPageName">移除</button>
             </div>
         </div>
     }
@@ -40,56 +42,77 @@
                 <span>@bindingStoreMamager.Name</span>
             </div>
             <div class="col">
-                <a href="#" id="@bindingStoreMamager.Name" class="remove_binding">移除</a>
+                <button type="button" class="btn btn-link remove_binding" id="@bindingStoreMamager.Name">移除</button>
+                <span>|</span>
+                <button type="button" class="btn btn-link" data-toggle="modal" data-target="#addGroup">加入團購群組</button>
             </div>
         </div>
     }
-
-
-
 </div>
+@if (groupList.Count != 0)
+{
+    <p class="text-center">綁定完成</p>
+    foreach (var item in groupList)
+    {
+        <div class="row m-2" id="show_fb_bind">
+            <div class="col text-right">
+                <img class="AccountIcon" src="~/Assets/images/Line1.png" />
+            </div>
+            <div class="col">
+                <span>@item.GroupName</span>
 
-@*<div class="row m-2">
-        <div class="col text-right">
-            <img class="AccountIcon" src="~/Assets/images/FB1.png" />
+            </div>
+            <div class="col">
+                <span>@item.JoinDate</span>
+            </div>
         </div>
-        <div class="col">
-            <span>xxx</span>
+    }
+}
 
+@if (NullgroupList.Count != 0)
+{
+    <hr />
+    <p class="text-center">未綁定完成</p>
+    foreach (var item in NullgroupList)
+    {
+        <div class="row m-2" id="show_fb_bind">
+            <div class="col text-right">
+                <img class="AccountIcon" src="~/Assets/images/Line1.png" />
+            </div>
+            <div class="col">
+                <span>@item</span>
+            </div>
+            <div class="col">
+                <a href="#">完成綁定</a>
+            </div>
         </div>
-        <div class="col">
-            <a href="#">移除</a>
+    }
+}
+<div class="modal fade" id="addGroup" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span>綁定團購群組</span>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <span>群組名稱</span>
+                <small>建議與Line群組名稱相同</small>
+                <input type="text" class="form-control" id="groupName" />
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-dark close" data-dismiss="modal">取消</button>
+                <button type="submit" class="btn btn-dark" data-dismiss="modal">確認</button>
+            </div>
         </div>
     </div>
-    <div class="row m-2">
-        <div class="col text-right">
-            <img class="AccountIcon" src="~/Assets/images/Line1.png" />
-        </div>
-        <div class="col">
-            <span>全家團購</span>
-        </div>
-        <div class="col">
-            <a href="#">移除</a>
-        </div>
-    </div>*@
-@*<div class="row mt-2">
-        <div class="col text-right">
-            <img class="AccountIcon" src="~/Assets/images/Ig1.png" />
-        </div>
-        <div class="col">
-            <span>未連結</span>
-
-        </div>
-        <div class="col">
-            <a href="#">連結帳號</a>
-        </div>
-    </div>*@
+</div>
 @section EndJS
 {
     <script>
         var win = null;
         $(document).ready(function () {
-            
+
             //$('.btn_managePages').click(function () {
             //    var fanPageName = $(this).siblings("p").text();
             //    getAuth();
@@ -134,6 +157,21 @@
                 });
 
             });
+            $('#addGroup').click(function () {
+                $("#modal").modal();
+            })
+            $('button[type="submit"]').click(function () {
+                var groupName = $('#groupName').val();
+                $.ajax({
+                    type: "POST",
+                    url: "/LineBind/InsertGroupName",
+                    data: { aspNetUserId: '@ViewBag.aspNetId', groupName: groupName },
+                    success: function () {
+                        window.location.reload();
+                    }
+                });
+
+            })
         });
         function getAuthNew() {
             FB.login(function (response) {
@@ -190,7 +228,7 @@
             });
         }
         function newWindow(mypage, myname, w, h, features) {
-            
+
             var winl = (screen.width - w) / 2;
             var wint = (screen.height - h) / 2;
             if (winl < 0) winl = 0;

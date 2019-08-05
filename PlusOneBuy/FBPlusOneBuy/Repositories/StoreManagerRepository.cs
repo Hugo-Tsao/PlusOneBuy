@@ -19,7 +19,7 @@ namespace FBPlusOneBuy.Repositories
             using (conn = new SqlConnection(connectionString))
             {
                 string userid= HttpContext.Current.User.Identity.GetUserId();
-                string sql = "INSERT INTO StoreManager(UserId, AspNetUserId,Name,PictureUrl,Status) VALUES ( @UserId, @AspNetUserId,@Name,@PictureUrl,@Status)";
+                string sql = "INSERT INTO StoreManager(LineID, AspNetUserId,Name,PictureUrl,Status) VALUES ( @UserId, @AspNetUserId,@Name,@PictureUrl,@Status)";
                 conn.Execute(sql, new { UserId=profile.userId, AspNetUserId = userid, Name=profile.displayName, PictureUrl=profile.pictureUrl, Status=true });
             }
         }

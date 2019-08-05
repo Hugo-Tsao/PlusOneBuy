@@ -9,7 +9,7 @@ namespace FBPlusOneBuy.ViewModels
     public class LineListCampaignViewModel
     {
         [Display(Name = "活動編號")]
-        public int CompaignID { get; set; }
+        public int CampaignID { get; set; }
 
         [Display(Name = "群組名稱")]
         public string GroupName { get; set; }

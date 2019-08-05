@@ -58,14 +58,14 @@ namespace FBPlusOneBuy.Controllers
                             LineGroupService lineGroupService = new LineGroupService(groupId);
                             if (lineGroupService.SearchLineGroup())  //尋找群組
                             {
-                                CampaignService campaignService = new CampaignService(groupId);
-                                List<Campaign> campaigns = campaignService.GetWorkingCampaign();  //取得正在執行的活動
+                                CampaignService campaignService = new CampaignService();
+                                List<Campaign> campaigns = campaignService.GetWorkingCampaign(groupId);  //取得正在執行的活動
 
                                 foreach (Campaign campaign in campaigns)
                                 {
-                                    //Line團購目前只有+1+2等KeywordPattern
-                                    if (CommentFilterService.KeywordFilter(LineEvent.message.text, campaign.Keyword,
-                                        "+1"))
+                                    //取得留言數量(組)  //因為目前Line團購只有+1+2的關鍵字
+                                    int number = CommentFilterService.KeywordFilter(LineEvent.message.text,campaign.Keyword,"+1");
+                                    if (number != 0)
                                     {
 
                                         break;
@@ -83,6 +83,8 @@ namespace FBPlusOneBuy.Controllers
 
                                         DateTime timestampTotime = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
                                         timestampTotime = timestampTotime.AddSeconds(LineEvent.timestamp / 1000).AddHours(8).ToLocalTime();
+
+                                        //DateTime dt = (new DateTime(1970, 1, 1, 0, 0, 0)).AddHours(8).AddSeconds(LineEvent.timestamp);
 
                                         var qty = int.Parse(LineEvent.message.text.Substring(LineEvent.message.text.IndexOf("+", StringComparison.Ordinal)));
 
@@ -109,7 +111,7 @@ namespace FBPlusOneBuy.Controllers
                                         {
                                             if(過濾留言(留言))
                                             {
-                                                if(留言者是否在livecustomer)
+                                                if(留言者是否在linecustomer)
                                                 { no                                           
                                                     新增會員
                                                 }

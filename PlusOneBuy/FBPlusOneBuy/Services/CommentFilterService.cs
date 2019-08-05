@@ -34,7 +34,7 @@ namespace FBPlusOneBuy.Services
 
                 foreach (var item in products)
                 {
-                    if (KeywordFilter(data.message,item.Keyword,keywordPattern))
+                    if (KeywordFilter(data.message,item.Keyword,keywordPattern) != 0)
                     {
                         var live_repo = new LivePostsRepository();
                         var order = new OrderList();
@@ -64,7 +64,7 @@ namespace FBPlusOneBuy.Services
             return resultOrderList;
         }
 
-        public static bool KeywordFilter(string message,string keyword,string keywordPattern)
+        public static int KeywordFilter(string message,string keyword,string keywordPattern)
         {
             string completeKeyword = keyword + keywordPattern;
             Regex re = new Regex(keyword + keywordPattern);
@@ -76,10 +76,11 @@ namespace FBPlusOneBuy.Services
 
             if (re.IsMatch(message))
             {
-                return true;
+                int number = Int32.Parse(message.Substring(message.Trim().IndexOf("+")+1));
+                return number;
             }
 
-            return false;
+            return 0;
         }
         public static List<Datum> PostTimeFilter(List<Datum> comments, string livePageID)
         {

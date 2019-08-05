@@ -15,7 +15,6 @@ namespace FBPlusOneBuy.Models
             GroupOrderDetails = new HashSet<GroupOrderDetail>();
         }
 
-        [StringLength(128)]
         public string LineCustomerID { get; set; }
 
         [Required]

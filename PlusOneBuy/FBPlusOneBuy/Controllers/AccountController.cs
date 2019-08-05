@@ -100,7 +100,7 @@ namespace FBPlusOneBuy.Controllers
             string userid = User.Identity.GetUserId();
             var fpage_repo = new FanPagesRepository();          
             var fpage=fpage_repo.SelectBinding(userid);
-            var profile = LineRequestService.GetBindingStoreMamager(userid);
+            var profile = LineBindingService.GetBindingStoreMamager(userid);
             
             //FanPage return_fpage = null;
             //foreach (var fpage in fpages)

@@ -104,7 +104,7 @@ namespace FBPlusOneBuy.Controllers
         {
             string accessToken = LineRequestService.CodeToAccessToken(code);
             var lineProfile = LineRequestService.UseTokenToGetProfile(accessToken);
-            LineRequestService.InsertStoreManager(lineProfile);
+            LineBindingService.InsertStoreManager(lineProfile);
 
             return View();
         }

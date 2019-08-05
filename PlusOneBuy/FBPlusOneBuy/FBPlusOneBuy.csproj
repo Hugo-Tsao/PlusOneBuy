@@ -270,6 +270,7 @@
     <Compile Include="Services\CompaignService.cs" />
     <Compile Include="Services\FanPageService.cs" />
     <Compile Include="Services\FBRequestService.cs" />
+    <Compile Include="Services\LineBindingService.cs" />
     <Compile Include="Services\LineRequestService.cs" />
     <Compile Include="Services\LivePostService.cs" />
     <Compile Include="Services\FBSendMsgService.cs" />
@@ -277,6 +278,7 @@
     <Compile Include="Services\ReCodeService.cs" />
     <Compile Include="Services\SalesOrderListService.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="ViewModels\BindAcoountStoreManagerViewModel.cs" />
     <Compile Include="ViewModels\CartViewModel.cs" />
     <Compile Include="ViewModels\CommentListViewModel.cs" />
     <Compile Include="ViewModels\CommentOrderLIstViewModel.cs" />

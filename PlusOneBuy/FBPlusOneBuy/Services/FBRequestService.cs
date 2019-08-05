@@ -98,8 +98,8 @@ namespace FBPlusOneBuy.Services
         public static string GetLongToken(string shortToken)
         {
             //string url = "https://graph.facebook.com/oauth/access_token?grant_type=fb_exchange_token&client_id=1320980108059770&client_secret=b452a9a47c4e19effbf8b7e804f0ebb2&fb_exchange_token="+ shortToken;
-            string clientId = ConfigurationManager.AppSettings["client_id"];
-            string clientSecret = ConfigurationManager.AppSettings["client_secret"];
+            string clientId = ConfigurationManager.AppSettings["fb_client_id"];
+            string clientSecret = ConfigurationManager.AppSettings["fb_client_secret"];
             string url = "https://graph.facebook.com/oauth/access_token?grant_type=fb_exchange_token&client_id=" + clientId + "&client_secret=" + clientSecret + "&fb_exchange_token=" + shortToken;
 
             var client = new RestClient(url);
@@ -124,9 +124,9 @@ namespace FBPlusOneBuy.Services
         }
         public static string LongTokenToCode(string longToken)
         {
-            string clientId = ConfigurationManager.AppSettings["client_id"];
-            string clientSecret = ConfigurationManager.AppSettings["client_secret"];
-            string redirectUri= ConfigurationManager.AppSettings["redirect_uri"];
+            string clientId = ConfigurationManager.AppSettings["fb_client_id"];
+            string clientSecret = ConfigurationManager.AppSettings["fb_client_secret"];
+            string redirectUri= ConfigurationManager.AppSettings["fb_redirect_uri"];
             string url = "https://graph.facebook.com/oauth/client_code?access_token="+ longToken + "&client_secret="+ clientSecret + "&redirect_uri="+ redirectUri + "&client_id="+ clientId;
 
             var client = new RestClient(url);
@@ -141,8 +141,8 @@ namespace FBPlusOneBuy.Services
         }
         public static string CodeToLongToken(string code)
         {
-            string clientId = ConfigurationManager.AppSettings["client_id"];
-            string redirectUri = ConfigurationManager.AppSettings["redirect_uri"];
+            string clientId = ConfigurationManager.AppSettings["fb_client_id"];
+            string redirectUri = ConfigurationManager.AppSettings["fb_redirect_uri"];
             string url = "https://graph.facebook.com/oauth/access_token?code="+code+"&client_id="+ clientId + "&redirect_uri="+ redirectUri;
 
             var client = new RestClient(url);

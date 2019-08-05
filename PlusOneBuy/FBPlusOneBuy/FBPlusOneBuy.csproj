@@ -264,12 +264,15 @@
     <Compile Include="Repositories\ProductList.cs" />
     <Compile Include="Repositories\ProductRepositories.cs" />
     <Compile Include="Repositories\SalesOrderRepositories.cs" />
+    <Compile Include="Repositories\StoreManagerRepository.cs" />
     <Compile Include="Services\BotService.cs" />
     <Compile Include="Services\CommentFilterService.cs" />
     <Compile Include="Services\CommentListService.cs" />
     <Compile Include="Services\CampaignService.cs" />
     <Compile Include="Services\FanPageService.cs" />
     <Compile Include="Services\FBRequestService.cs" />
+    <Compile Include="Services\LineBindingService.cs" />
+    <Compile Include="Services\LineRequestService.cs" />
     <Compile Include="Services\LineGroupService.cs" />
     <Compile Include="Services\LivePostService.cs" />
     <Compile Include="Services\FBSendMsgService.cs" />
@@ -277,12 +280,14 @@
     <Compile Include="Services\ReCodeService.cs" />
     <Compile Include="Services\SalesOrderListService.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="ViewModels\BindAcoountStoreManagerViewModel.cs" />
     <Compile Include="ViewModels\CartViewModel.cs" />
     <Compile Include="ViewModels\CommentListViewModel.cs" />
     <Compile Include="ViewModels\CommentOrderLIstViewModel.cs" />
     <Compile Include="ViewModels\FBLiveVideoJsonToCSharp.cs" />
     <Compile Include="ViewModels\FBLongTokenJsonToCSharp.cs" />
     <Compile Include="ViewModels\CampaignViewModel.cs" />
+    <Compile Include="ViewModels\LineRequestToCSharp.cs" />
     <Compile Include="ViewModels\LivePostViewModel.cs" />
     <Compile Include="ViewModels\MsgTextViewModel.cs" />
     <Compile Include="ViewModels\OrderList.cs" />
@@ -408,6 +413,7 @@
     <Content Include="Views\GroupBuy\SettingPage.cshtml" />
     <Content Include="Views\Report\FbList.cshtml" />
     <Content Include="Views\Report\LineList.cshtml" />
+    <Content Include="Views\Setting\LineBinding.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -10,6 +10,7 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using FBPlusOneBuy.Models;
 using FBPlusOneBuy.Repositories;
+using FBPlusOneBuy.Services;
 
 namespace FBPlusOneBuy.Controllers
 {
@@ -97,8 +98,10 @@ namespace FBPlusOneBuy.Controllers
         public ActionResult BindAccount()
         {
             string userid = User.Identity.GetUserId();
-            var fpage_repo = new FanPagesRepository();
+            var fpage_repo = new FanPagesRepository();          
             var fpage=fpage_repo.SelectBinding(userid);
+            var profile = LineBindingService.GetBindingStoreMamager(userid);
+            
             //FanPage return_fpage = null;
             //foreach (var fpage in fpages)
             //{
@@ -107,7 +110,8 @@ namespace FBPlusOneBuy.Controllers
             //        return_fpage = fpage;
             //    }                  
             //}
-            ViewBag.bindingPage = fpage;           
+            ViewBag.bindingPage = fpage;
+            ViewBag.bindingStoreMamager = profile;
             return View();
         }
         //

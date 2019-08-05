@@ -57,5 +57,9 @@ namespace FBPlusOneBuy.Controllers
         {
             return View();
         }
+        public ActionResult GroupOrderList()
+        {
+            return View();
+        }
     }
 }

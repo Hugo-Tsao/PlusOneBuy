@@ -412,6 +412,7 @@
     <Content Include="Views\Report\FbList.cshtml" />
     <Content Include="Views\Report\LineList.cshtml" />
     <Content Include="Views\Setting\LineBinding.cshtml" />
+    <Content Include="Views\Report\GroupOrderList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

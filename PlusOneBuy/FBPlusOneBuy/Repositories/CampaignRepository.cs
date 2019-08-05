@@ -20,7 +20,7 @@ namespace FBPlusOneBuy.Repositories
             using (conn = new SqlConnection(connectionString))
             {
                 string url =
-                    "SELECT CampaignID,GroupID,ProductID,ProductSet,PeopleGroup,Keyword,PostTime,EndTime,Detail FROM Campaign c INNER JOIN LineGroup lg ON c.GroupID = lg.ID WHERE lg.LineGroupID = @GroupID";
+                    "SELECT c.CampaignID,c.GroupID,c.ProductID,c.ProductSet,c.ProductGroup,c.Keyword,c.PostTime,c.EndTime,c.Detail FROM Campaign c INNER JOIN LineGroup lg ON c.GroupID = lg.GroupID WHERE lg.LineGroupID = @GroupID";
                 return conn.Query<Campaign>(url, new { GroupID });
             }
         }
@@ -30,14 +30,14 @@ namespace FBPlusOneBuy.Repositories
             using (conn = new SqlConnection(connectionString))
             {
                 string sql =
-                    "INSERT INTO Campaign(GroupID,ProductID,ProductSet,PeopleGroup,Keyword,PostTime,EndTime,Detail) VALUES(@GroupID, @ProductID, @ProductSet, @PeopleGroup, @Keyword, @PostTime, @EndTime, @Detail)";
+                    "INSERT INTO Campaign(GroupID,ProductID,ProductSet,ProductGroup,Keyword,PostTime,EndTime,Detail) VALUES(@GroupID, @ProductID, @ProductSet, @PeopleGroup, @Keyword, @PostTime, @EndTime, @Detail)";
                 conn.Execute(sql,
                     new
                     {
                         cvm.GroupID,
                         cvm.ProductID,
                         cvm.ProductSet,
-                        cvm.PeopleGroup,
+                        cvm.ProductGroup,
                         cvm.Keyword,
                         cvm.PostTime,
                         cvm.EndTime,

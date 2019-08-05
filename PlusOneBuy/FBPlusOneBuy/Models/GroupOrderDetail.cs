@@ -9,13 +9,12 @@ namespace FBPlusOneBuy.Models
     [Table("GroupOrderDetail")]
     public partial class GroupOrderDetail
     {
-        [Key]
-        [Column(Order = 0)]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        public int GroupOrderDetailID { get; set; }
+
         public int GroupOrderID { get; set; }
 
-        [Key]
-        [Column(Order = 1)]
+        [Required]
         [StringLength(128)]
         public string LineCustomerID { get; set; }
 

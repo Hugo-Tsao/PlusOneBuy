@@ -10,18 +10,26 @@ namespace FBPlusOneBuy.Services
 {
     public class CampaignService
     {
-        internal string GroupID { get; }
+        internal CampaignRepository Campaign_repo;
+        internal string GroupID { get; set; }
 
         public CampaignService(string groupId)
         {
             GroupID = groupId;
+            Campaign_repo = new CampaignRepository();
         }
         public List<Campaign> GetAllCampaign(DateTime time)
         {
-            CampaignRepository Compaign_repo = new CampaignRepository();
-            var result = Compaign_repo.GetALL(GroupID);
+            var result = Campaign_repo.GetALL(GroupID);
             result=result.Where((x) => DateTime.Compare(x.EndTime, time) > 0);
             return result.ToList();
+        }
+
+        public List<Campaign> GetWorkingCampaign()
+        {
+            DateTime now = DateTime.UtcNow.AddHours(8);
+            List<Campaign> result = Campaign_repo.GetALL(GroupID).Where(x => DateTime.Compare(x.EndTime, now) > 0).ToList();
+            return result;
         }
 
         public bool InsertCampaign(CampaignViewModel cvm)

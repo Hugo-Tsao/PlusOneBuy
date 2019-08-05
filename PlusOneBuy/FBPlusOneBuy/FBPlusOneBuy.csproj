@@ -258,6 +258,7 @@
     <Compile Include="Repositories\FBJsonToCSharp.cs" />
     <Compile Include="Repositories\GroupOrderRspository.cs" />
     <Compile Include="Repositories\LineCustomerRepository.cs" />
+    <Compile Include="Repositories\LineGroupRepository.cs" />
     <Compile Include="Repositories\LivePostsRepository.cs" />
     <Compile Include="Repositories\OrderRepositories.cs" />
     <Compile Include="Repositories\ProductList.cs" />
@@ -267,11 +268,12 @@
     <Compile Include="Services\BotService.cs" />
     <Compile Include="Services\CommentFilterService.cs" />
     <Compile Include="Services\CommentListService.cs" />
-    <Compile Include="Services\CompaignService.cs" />
+    <Compile Include="Services\CampaignService.cs" />
     <Compile Include="Services\FanPageService.cs" />
     <Compile Include="Services\FBRequestService.cs" />
     <Compile Include="Services\LineBindingService.cs" />
     <Compile Include="Services\LineRequestService.cs" />
+    <Compile Include="Services\LineGroupService.cs" />
     <Compile Include="Services\LivePostService.cs" />
     <Compile Include="Services\FBSendMsgService.cs" />
     <Compile Include="Services\ProductService.cs" />

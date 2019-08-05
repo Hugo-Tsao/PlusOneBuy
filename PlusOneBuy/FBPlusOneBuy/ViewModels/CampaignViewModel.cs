@@ -11,7 +11,7 @@ namespace FBPlusOneBuy.ViewModels
         public int GroupID { get; set; }
         public int ProductID { get; set; }
         public int ProductSet { get; set; }
-        public int PeopleGroup { get; set; }
+        public int ProductGroup { get; set; }
         public string Keyword { get; set; }
         public DateTime PostTime { get; set; }
         public DateTime EndTime { get; set; }

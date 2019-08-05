@@ -48,17 +48,7 @@ namespace FBPlusOneBuy.Services
             LineProfile exangeResponse= Newtonsoft.Json.JsonConvert.DeserializeObject<LineProfile>(response.Content);
             return exangeResponse;
         }
-        public static void InsertStoreManager(LineProfile profile)
-        {
-            var sm_repo = new StoreManagerRepository();
-            sm_repo.Insert(profile);
-        }
-        public static BindAcoountStoreManagerViewModel GetBindingStoreMamager(string userid)
-        {
-            var sm_repo = new StoreManagerRepository();
-            var profile=sm_repo.SelectBinding(userid);
-            return profile;
-        }
+        
 
 
     }

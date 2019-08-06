@@ -85,7 +85,6 @@ namespace FBPlusOneBuy.Models
             modelBuilder.Entity<LineGroup>()
                 .HasMany(e => e.Campaigns)
                 .WithRequired(e => e.LineGroup)
-                .HasForeignKey(e => e.GroupID)
                 .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<LivePost>()

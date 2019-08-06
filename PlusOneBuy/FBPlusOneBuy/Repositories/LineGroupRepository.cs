@@ -1,11 +1,20 @@
+<<<<<<< HEAD
 ﻿using Dapper;
 using FBPlusOneBuy.Models;
 using System;
+=======
+﻿using System;
+>>>>>>> 4c4ddc16040971e858585cd56988f8016fc456c2
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
+<<<<<<< HEAD
+=======
+using Dapper;
+using FBPlusOneBuy.Models;
+>>>>>>> 4c4ddc16040971e858585cd56988f8016fc456c2
 
 namespace FBPlusOneBuy.Repositories
 {
@@ -14,6 +23,7 @@ namespace FBPlusOneBuy.Repositories
         private string connectionString = ConfigurationManager.ConnectionStrings["Context"].ConnectionString;
         private SqlConnection conn;
 
+<<<<<<< HEAD
         public int GetMangerIdByAspNetId(string aspNetUserId)
         {
             using (conn = new SqlConnection(connectionString))
@@ -70,5 +80,16 @@ namespace FBPlusOneBuy.Repositories
         
 
 
+=======
+        public LineGroup SearchLineGroup(string groupId)
+        {
+            using (conn = new SqlConnection(connectionString))
+            {
+                string sql = "SELECT * FROM LineGroup WHERE LineGroupID = @groupId";
+                var LineGroup = conn.QueryFirstOrDefault<LineGroup>(sql, new {groupId});
+                return LineGroup;
+            }
+        }
+>>>>>>> 4c4ddc16040971e858585cd56988f8016fc456c2
     }
 }

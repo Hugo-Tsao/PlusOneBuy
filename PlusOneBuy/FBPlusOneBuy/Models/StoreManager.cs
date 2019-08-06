@@ -15,8 +15,11 @@ namespace FBPlusOneBuy.Models
             LineGroups = new HashSet<LineGroup>();
         }
 
-        [Key]
-        public string UserID { get; set; }
+        public int StoreManagerID { get; set; }
+
+        [Required]
+        [StringLength(128)]
+        public string LineID { get; set; }
 
         [StringLength(128)]
         public string AspNetUserId { get; set; }
@@ -26,6 +29,8 @@ namespace FBPlusOneBuy.Models
 
         [StringLength(150)]
         public string PictureUrl { get; set; }
+
+        public bool Status { get; set; }
 
         public virtual AspNetUser AspNetUser { get; set; }
 

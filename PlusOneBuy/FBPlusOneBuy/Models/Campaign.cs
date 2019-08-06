@@ -21,9 +21,12 @@ namespace FBPlusOneBuy.Models
 
         public int ProductID { get; set; }
 
+        [StringLength(50)]
+        public string Title { get; set; }
+
         public int ProductSet { get; set; }
 
-        public int PeopleGroup { get; set; }
+        public int ProductGroup { get; set; }
 
         [Required]
         [StringLength(50)]

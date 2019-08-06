@@ -14,11 +14,10 @@ namespace FBPlusOneBuy.Services
 {
     public static class CommentFilterService
     {
-        public static List<OrderList> KeywordFilter(List<ProductViewModel> products, List<Datum> datas, string livePageID, string keywordPattern)
+        public static List<OrderList> KeywordCheck(List<ProductViewModel> products, List<Datum> datas, string livePageID, string keywordPattern)
         {
             var resultOrderList = new List<OrderList>();
             var cust_repo = new CustomerRepository();
-            Regex re;
             
             foreach (var data in datas)
             {
@@ -35,14 +34,7 @@ namespace FBPlusOneBuy.Services
 
                 foreach (var item in products)
                 {
-                    string completeKeyword = item.Keyword + keywordPattern;
-                    re = new Regex(item.Keyword + keywordPattern);
-                    if (keywordPattern == "+1")
-                    {
-                        string pattern = "^" + item.Keyword + "\\s?\\+\\d{1}\\s*$";
-                        re = new Regex(pattern);
-                    }
-                    if (re.IsMatch(data.message))
+                    if (KeywordFilter(data.message,item.Keyword,keywordPattern) != 0)
                     {
                         var live_repo = new LivePostsRepository();
                         var order = new OrderList();
@@ -72,6 +64,24 @@ namespace FBPlusOneBuy.Services
             return resultOrderList;
         }
 
+        public static int KeywordFilter(string message,string keyword,string keywordPattern)
+        {
+            string completeKeyword = keyword + keywordPattern;
+            Regex re = new Regex(keyword + keywordPattern);
+            if (keywordPattern == "+1")
+            {
+                string pattern = "^" + keyword + "\\s?\\+[1-9][0-9]*\\s*$";
+                re = new Regex(pattern);
+            }
+
+            if (re.IsMatch(message))
+            {
+                int number = Int32.Parse(message.Substring(message.Trim().IndexOf("+")+1));
+                return number;
+            }
+
+            return 0;
+        }
         public static List<Datum> PostTimeFilter(List<Datum> comments, string livePageID)
         {
             LivePostsRepository livePost_repo = new LivePostsRepository();
@@ -104,7 +114,7 @@ namespace FBPlusOneBuy.Services
                 var PickPosts = CommentFilterService.PostTimeFilter(allComments, livePageID);
                 if (PickPosts.Count > 0)
                 {
-                    orderList = CommentFilterService.KeywordFilter(products, PickPosts, livePageID, keywordPattern);
+                    orderList = CommentFilterService.KeywordCheck(products, PickPosts, livePageID, keywordPattern);
                 }
             }
             return orderList;

@@ -1,14 +1,24 @@
+<<<<<<< HEAD
 ﻿using FBPlusOneBuy.Models;
 using FBPlusOneBuy.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+=======
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using FBPlusOneBuy.Models;
+using FBPlusOneBuy.Repositories;
+>>>>>>> 4c4ddc16040971e858585cd56988f8016fc456c2
 
 namespace FBPlusOneBuy.Services
 {
     public class LineGroupService
     {
+<<<<<<< HEAD
         public static int GetManagerId(string aspNetUserId)
         {
             LineGroupRepository lineGroup_repo = new LineGroupRepository();
@@ -51,5 +61,26 @@ namespace FBPlusOneBuy.Services
         //    return joinDate;
 
         //}
+=======
+        internal  string GroupId { get; set; }
+
+        public LineGroupService(string groupId)
+        {
+            GroupId = groupId;
+        }
+        public bool SearchLineGroup()
+        {
+            LineGroupRepository lineGroup_repo = new LineGroupRepository();
+            LineGroup lineGroup = lineGroup_repo.SearchLineGroup(GroupId);
+            if (lineGroup != default)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+>>>>>>> 4c4ddc16040971e858585cd56988f8016fc456c2
     }
 }

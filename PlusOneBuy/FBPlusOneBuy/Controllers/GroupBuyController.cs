@@ -19,7 +19,7 @@ namespace FBPlusOneBuy.Controllers
         [HttpPost]
         public ActionResult SettingPage(CampaignViewModel cvm)
         {
-            CampaignService campaignService = new CampaignService("Cdce46b42293efcd6ff973d08be1e0642");
+            CampaignService campaignService = new CampaignService();
             ViewData["result"] = campaignService.InsertCampaign(cvm);
             return View();
         }

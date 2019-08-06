@@ -6,6 +6,7 @@ using System.Configuration;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
+using FBPlusOneBuy.ViewModels;
 
 namespace FBPlusOneBuy.Repositories
 {
@@ -14,14 +15,13 @@ namespace FBPlusOneBuy.Repositories
         private string connectionString = ConfigurationManager.ConnectionStrings["Context"].ConnectionString;
         private SqlConnection conn;
 
-        public bool GetCustomerById(string customerId)
+        public LineCustomerViewModel SearchLineCustomer(string customerId)
         {
             using (conn = new SqlConnection(connectionString))
             {
-                string sql = "Select count(*) FROM LineCustomer WHERE LineCustomerID=@customerId";
-                int result = conn.QueryFirstOrDefault<int>(sql, new {  customerId });
-                if (result == 0) { return false; }
-                else { return true; }
+                string sql = "Select LineCustomerID,Name FROM LineCustomer WHERE LineCustomerID=@customerId";
+                LineCustomerViewModel result = conn.QueryFirstOrDefault<LineCustomerViewModel>(sql, new {  customerId });
+                return result;
             }
 
         }

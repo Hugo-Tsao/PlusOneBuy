@@ -152,5 +152,12 @@ namespace FBPlusOneBuy.Services
 
             return store;
         }
+
+        public static Product GetProductById(int productId)
+        {
+            ProductRepositories product_repo = new ProductRepositories();
+            var product = product_repo.GetProductById(productId);
+            return product;
+        }
     }
 }

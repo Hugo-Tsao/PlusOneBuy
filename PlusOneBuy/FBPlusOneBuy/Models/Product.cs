@@ -23,14 +23,14 @@ namespace FBPlusOneBuy.Models
         [StringLength(50)]
         public string ProductName { get; set; }
 
-        public decimal? UnitPrice { get; set; }
+        public decimal UnitPrice { get; set; }
 
         public int? Stock { get; set; }
 
         [StringLength(10)]
         public string ProductImage { get; set; }
 
-        public int? ProductPageID { get; set; }
+        public int ProductPageID { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Campaign> Campaigns { get; set; }

@@ -6,19 +6,21 @@ using System.Configuration;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
+using FBPlusOneBuy.ViewModels;
 
 namespace FBPlusOneBuy.Repositories
 {
-    public class GroupOrderRspository
+    public class GroupOrderRespository
     {
         private string connectionString = ConfigurationManager.ConnectionStrings["Context"].ConnectionString;
         private SqlConnection conn;
-        public int GetGroupOrderById(int campaignID)
+        public GroupOrderViewModel SearchGroupOrder(int campaignID,int remaningNumber)
         {
             using (conn = new SqlConnection(connectionString))
             {
-                string sql = "SELECT GroupOrderID FROM GroupOrder WHERE CampaignID=@campaignID AND isGroup=0";
-                int GroupOrderID = conn.QueryFirstOrDefault<int>(sql, new { campaignID });
+                string sql = "SELECT * FROM GroupOrder WHERE CampaignID=@CampaignID AND isGroup=0 AND NumberOfProduct <= @RemaningNumber";
+                GroupOrderViewModel GroupOrderID = conn.QueryFirstOrDefault<GroupOrderViewModel>(sql,
+                    new {CampaignID = campaignID, RemaningNumber = remaningNumber});
                 return GroupOrderID; 
             }
 
@@ -43,44 +45,17 @@ namespace FBPlusOneBuy.Repositories
                 conn.Execute(sql, new { campaignID });
             }
         }
-        public Product GetProductById(int productID)
+
+        public void InsertGroupOrder(GroupOrderViewModel groupOrder)
         {
             using (conn = new SqlConnection(connectionString))
             {
-                string sql = "SELECT ProductName,UnitPrice FROM Products WHERE ProductID=@productID";
-                Product product = conn.QueryFirstOrDefault<Product>(sql, new { productID });
-                return product;
+                string sql = "INSERT INTO GroupOrder(CampaignID, OrderDateTime,isGroup,NumberOfProduct,Amount) VALUES ( @campaignID, @orderDateTime,@isGroup,@NumberOfProduct,@amount)";
+                conn.Execute(sql, new { groupOrder.CampaignID, groupOrder.OrderDateTime, groupOrder.isGroup, groupOrder.NumberOfProduct, groupOrder.Amount });
             }
         }
 
-        public void InsertGroupOrder(int campaignID,DateTime orderDateTime,decimal? amount)
-        {
-            using (conn = new SqlConnection(connectionString))
-            {
-                int isGroup = 0;
-                int NumberOfPeople = 1;
-                string sql = "INSERT INTO GroupOrder(CampaignID, OrderDateTime,isGroup,NumberOfPeople,Amount) VALUES ( @campaignID, @orderDateTime,@isGroup,@NumberOfPeople,@amount)";
-                conn.Execute(sql, new { campaignID, orderDateTime, isGroup, NumberOfPeople, amount });
-            }
-        }
-
-        public void InsertGroupOrderDetail(GroupOrderDetail orderDetail)
-        {
-            using (conn = new SqlConnection(connectionString))
-            {
-                string sql = "INSERT INTO GroupOrderDetail(GroupOrderID,LineCustomerID, ProductName,UnitPrice,Quantity,MessageDateTime) VALUES ( @GroupOrderID,@LineCustomerID, @ProductName,@UnitPrice,@Quantity,@MessageDateTime)";
-                conn.Execute(sql, new
-                {
-                    orderDetail.GroupOrderID,
-                    orderDetail.LineCustomerID,
-                    orderDetail.ProductName,
-                    orderDetail.UnitPrice,
-                    orderDetail.Quantity,
-                    orderDetail.MessageDateTime
-                });
-            }
-                
-        }
+        
 
         public bool CheckOrderDetailByCustomer(int GroupOrderID, string LineCustomerID)
         {
@@ -113,14 +88,13 @@ namespace FBPlusOneBuy.Repositories
 
             }
         }
-        public void UpdateGroupOrder(int GroupOrderID,int? NumberOfPeople,decimal? Amount)
+        public void UpdateGroupOrder(int GroupOrderID,int NumberOfProduct,decimal Amount,bool isGroup)
         {
             using (conn = new SqlConnection(connectionString))
             {
-                string sql = "UPDATE GroupOrder SET NumberOfPeople=@NumberOfPeople,Amount=@Amount WHERE GroupOrderID=@GroupOrderID";
-                conn.Execute(sql, new { GroupOrderID,NumberOfPeople, Amount });
+                string sql = "UPDATE GroupOrder SET isGroup = @isGroup, NumberOfProduct = @NumberOfProduct, Amount = @Amount Where GroupOrderID = @GroupOrderID";
+                conn.Execute(sql, new { isGroup, NumberOfProduct, Amount, GroupOrderID });
             }
         }
-
     }
 }

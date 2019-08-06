@@ -30,7 +30,7 @@ namespace FBPlusOneBuy.Repositories
             using (conn = new SqlConnection(connectionString))
             {
                 string sql =
-                    "INSERT INTO Campaign(GroupID,ProductID,ProductSet,ProductGroup,Keyword,PostTime,EndTime,Detail) VALUES(@GroupID, @ProductID, @ProductSet, @PeopleGroup, @Keyword, @PostTime, @EndTime, @Detail)";
+                    "INSERT INTO Campaign(GroupID,ProductID,ProductSet,ProductGroup,Keyword,PostTime,EndTime,Detail) VALUES(@GroupID, @ProductID, @ProductSet, @ProductGroup, @Keyword, @PostTime, @EndTime, @Detail)";
                 conn.Execute(sql,
                     new
                     {

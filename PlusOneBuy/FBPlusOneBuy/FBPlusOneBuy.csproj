@@ -256,7 +256,8 @@
     <Compile Include="Repositories\CustomerRepository.cs" />
     <Compile Include="Repositories\FanPagesRepository.cs" />
     <Compile Include="Repositories\FBJsonToCSharp.cs" />
-    <Compile Include="Repositories\GroupOrderRspository.cs" />
+    <Compile Include="Repositories\GroupOrderDetailRepository.cs" />
+    <Compile Include="Repositories\GroupOrderRespository.cs" />
     <Compile Include="Repositories\LineCustomerRepository.cs" />
     <Compile Include="Repositories\LineGroupRepository.cs" />
     <Compile Include="Repositories\LivePostsRepository.cs" />
@@ -271,6 +272,8 @@
     <Compile Include="Services\CampaignService.cs" />
     <Compile Include="Services\FanPageService.cs" />
     <Compile Include="Services\FBRequestService.cs" />
+    <Compile Include="Services\GroupOrderDetailService.cs" />
+    <Compile Include="Services\GroupOrderService.cs" />
     <Compile Include="Services\LineBindingService.cs" />
     <Compile Include="Services\LineRequestService.cs" />
     <Compile Include="Services\LineGroupService.cs" />
@@ -287,6 +290,8 @@
     <Compile Include="ViewModels\FBLiveVideoJsonToCSharp.cs" />
     <Compile Include="ViewModels\FBLongTokenJsonToCSharp.cs" />
     <Compile Include="ViewModels\CampaignViewModel.cs" />
+    <Compile Include="ViewModels\GroupOrderViewModel.cs" />
+    <Compile Include="ViewModels\LineCustomerViewModel.cs" />
     <Compile Include="ViewModels\LineRequestToCSharp.cs" />
     <Compile Include="ViewModels\LivePostViewModel.cs" />
     <Compile Include="ViewModels\MsgTextViewModel.cs" />

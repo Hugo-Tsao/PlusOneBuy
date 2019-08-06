@@ -21,9 +21,9 @@ namespace FBPlusOneBuy.Models
         [StringLength(50)]
         public string ProductName { get; set; }
 
-        public decimal? UnitPrice { get; set; }
+        public decimal UnitPrice { get; set; }
 
-        public int? Quantity { get; set; }
+        public int Quantity { get; set; }
 
         public DateTime? MessageDateTime { get; set; }
 

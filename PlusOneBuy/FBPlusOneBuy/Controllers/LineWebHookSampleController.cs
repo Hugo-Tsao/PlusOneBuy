@@ -49,45 +49,12 @@ namespace FBPlusOneBuy.Controllers
                 //回覆訊息
                 if (LineEvent.type == "message")
                 {
-                    if (LineEvent.message.type == "text")
-<<<<<<< HEAD
-                    {         
-                        string userId = LineEvent.source.userId;
-                        string groupId = LineEvent.source.groupId;
-
-                        //for (var i = 0; i < result.Count; i++)
-                        //{
-                        //    string pattern = "^" + result[i].Keyword + "\\s?\\+\\d{1}\\s*$";
-                        //    re = new Regex(pattern);
-
-                        //    if (re.IsMatch(LineEvent.message.text))
-                        //    {
-                        //        UserInfo = isRock.LineBot.Utility.GetGroupMemberProfile(groupId, userId, ChannelAccessToken);
-
-                        //        DateTime timestampTotime = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
-                        //        timestampTotime = timestampTotime.AddSeconds(LineEvent.timestamp / 1000).AddHours(8).ToLocalTime();
-
-                        //        var qty = int.Parse(LineEvent.message.text.Substring(LineEvent.message.text.IndexOf("+", StringComparison.Ordinal)));
-
-                        //        BotService.CheckLineCustomer(userId, UserInfo.displayName);
-
-                        //        BotService.CheckGroupOrder(result[i].CampaignID, timestampTotime, userId, result[i].ProductID,qty);
-
-                        //        //foreach (var AdminUserId in AdminUser)
-                        //        //{
-                        //        //    this.PushMessage(AdminUserId, "活動編號:" + result[i].CampaignID + "\n群組編號:\n" + LineEvent.source.groupId + "\n顧客編號:\n" + LineEvent.source.userId +
-                        //        //        "\n顧客照片:\n" + UserInfo.pictureUrl + "\n名字:" + UserInfo.displayName + "\n購買:" + result[i].Keyword + "\n數量:" + qty + "\n留言時間:" + timestampTotime);
-                        //        //}
-
-                        //        this.PushMessage(LineEvent.source.userId, "恭喜你在買越多省越多成功下單" + "\n購買:" + result[i].Keyword + "\n數量:" + qty);
-                        //    }
-                        //}
 
 
 
-=======
-                    {
-                        if (LineEvent.source.groupId != null)
+
+                   
+                    if (LineEvent.source.groupId != null)
                         {
                             string userId = LineEvent.source.userId;
                             string groupId = LineEvent.source.groupId;
@@ -166,8 +133,8 @@ namespace FBPlusOneBuy.Controllers
                                 }*/
                             }
                         }
->>>>>>> 4c4ddc16040971e858585cd56988f8016fc456c2
-                    }
+
+
                     if (LineEvent.message.type == "sticker")
                     {
                         return Ok();

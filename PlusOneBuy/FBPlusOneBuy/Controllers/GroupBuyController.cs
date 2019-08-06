@@ -22,7 +22,7 @@ namespace FBPlusOneBuy.Controllers
         public ActionResult SettingCampaign(CampaignViewModel cvm,string LineGroupID)
         {
             cvm.PostTime = DateTime.Now;
-            CampaignService campaignService = new CampaignService(LineGroupID);
+            CampaignService campaignService = new CampaignService();
             ViewData["result"] = campaignService.InsertCampaign(cvm);
             BotService.BotPushMsg(LineGroupID, cvm.Detail);
             return View();

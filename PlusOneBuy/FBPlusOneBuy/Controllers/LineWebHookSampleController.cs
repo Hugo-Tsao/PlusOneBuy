@@ -50,11 +50,6 @@ namespace FBPlusOneBuy.Controllers
                 //回覆訊息
                 if (LineEvent.type == "message")
                 {
-
-
-
-
-                   
                     if (LineEvent.source.groupId != null)
                         {
                             //使用者ID和群組ID
@@ -208,11 +203,11 @@ namespace FBPlusOneBuy.Controllers
                     List<CompareStoreManager> managerId = LineBindingService.GroupNullCompare();
                     foreach (var item in managerId)
                     {
-                        StoreMeanger checkProfile = BotService.CheckMeanger(groupId, item.LineID);
-                        if (checkProfile.message != "Not found")
-                        {
-                            LineBindingService.CompareUpdateGroupid(groupId, item.StoreManagerID, timestampTotime);
-                        }
+                        //StoreMeanger checkProfile = BotService.CheckMeanger(groupId, item.LineID);
+                        //if (checkProfile.message != "Not found")
+                        //{
+                        //    LineBindingService.CompareUpdateGroupid(groupId, item.StoreManagerID, timestampTotime);
+                        //}
                         
                     }
 

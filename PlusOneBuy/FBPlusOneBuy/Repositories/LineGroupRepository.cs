@@ -64,7 +64,7 @@ namespace FBPlusOneBuy.Repositories
         {
             using (conn = new SqlConnection(connectionString))
             {
-                string sql = "UPDATE LineGroup SET LineGroupID=@groupId,JoinDate=@timestampTotime,Status='TRUE' WHERE StoreManagerID=@storeManagerId";
+                string sql = "UPDATE LineGroup SET LineGroupID=@groupId,JoinDate=@timestampTotime,Status='TRUE' WHERE StoreManagerID=@storeManagerId AND LineGroupID IS NULL";
                 conn.Execute(sql,new { groupId, storeManagerId, timestampTotime });
             }
         }

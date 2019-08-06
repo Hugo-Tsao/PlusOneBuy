@@ -13,8 +13,8 @@ namespace FBPlusOneBuy.Controllers
         [HttpPost]
         public void InsertGroupName(string aspNetUserId, string groupName)
         {
-            int managerId = LineGroupService.GetManagerId(aspNetUserId);
-            LineGroupService.InsertGroupName(managerId, groupName);
+            int managerId = LineBindingService.GetManagerId(aspNetUserId);
+            LineBindingService.InsertGroupName(managerId, groupName);
             
         }
 

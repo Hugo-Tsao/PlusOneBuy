@@ -101,9 +101,10 @@ namespace FBPlusOneBuy.Controllers
             var fpage_repo = new FanPagesRepository();          
             var fpage=fpage_repo.SelectBinding(userid);
             var profile = LineBindingService.GetBindingStoreMamager(userid);
-            int managerId=LineGroupService.GetManagerId(userid);
-            ViewBag.groupList =LineGroupService.GetGroupList(managerId);
-            ViewBag.NullgroupList = LineGroupService.GetNullGroup(managerId);
+
+            int managerId= LineBindingService.GetManagerId(userid);
+            ViewBag.groupList = LineBindingService.GetGroupList(managerId);
+            ViewBag.NullgroupList = LineBindingService.GetNullGroup(managerId);
             //取為綁定groupName
            
             //FanPage return_fpage = null;

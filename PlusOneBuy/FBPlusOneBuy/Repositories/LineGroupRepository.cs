@@ -16,7 +16,6 @@ namespace FBPlusOneBuy.Repositories
         private string connectionString = ConfigurationManager.ConnectionStrings["Context"].ConnectionString;
         private SqlConnection conn;
 
-
         public int GetMangerIdByAspNetId(string aspNetUserId)
         {
             using (conn = new SqlConnection(connectionString))
@@ -77,6 +76,15 @@ namespace FBPlusOneBuy.Repositories
                 string sql = "SELECT * FROM LineGroup WHERE LineGroupID = @groupId";
                 var LineGroup = conn.QueryFirstOrDefault<LineGroup>(sql, new {groupId});
                 return LineGroup;
+            }
+        }
+
+        public int GetIdByGroupId(string groupId)
+        {
+            using (conn = new SqlConnection(connectionString))
+            {
+                string sql = "SELECT GroupID FROM LineGroup WHERE LineGroupID='"+ groupId + "'";
+                return conn.QueryFirstOrDefault<int>(sql);
             }
         }
     }

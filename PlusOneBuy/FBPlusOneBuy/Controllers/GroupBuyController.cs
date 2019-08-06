@@ -21,11 +21,14 @@ namespace FBPlusOneBuy.Controllers
         [HttpPost]
         public ActionResult SettingCampaign(CampaignViewModel cvm,string LineGroupID)
         {
+
+            int id = LineBindingService.GGetIdByGroupId(LineGroupID);
+            cvm.GroupID = id;
             cvm.PostTime = DateTime.Now;
             CampaignService campaignService = new CampaignService();
             ViewData["result"] = campaignService.InsertCampaign(cvm);
             BotService.BotPushMsg(LineGroupID, cvm.Detail);
-            return View();
+            return RedirectToAction("FanPageName", "Setting");
         }
     }
 }

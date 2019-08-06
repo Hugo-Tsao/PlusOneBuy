@@ -149,13 +149,14 @@ namespace FBPlusOneBuy.Controllers
                     DateTime timestampTotime = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
                     timestampTotime = timestampTotime.AddSeconds(LineEvent.timestamp / 1000).ToLocalTime();
                     string groupId = LineEvent.source.groupId;
-                    List<CompareStoreManager> managerId = LineGroupService.GroupNullCompare();
+
+                    List<CompareStoreManager> managerId = LineBindingService.GroupNullCompare();
                     foreach (var item in managerId)
                     {
                         StoreMeanger checkProfile = BotService.CheckMeanger(groupId, item.LineID);
                         if (checkProfile.message != "Not found")
                         {
-                            LineGroupService.CompareUpdateGroupid(groupId, item.StoreManagerID, timestampTotime);
+                            LineBindingService.CompareUpdateGroupid(groupId, item.StoreManagerID, timestampTotime);
                         }
                         
                     }

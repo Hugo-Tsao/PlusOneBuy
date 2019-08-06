@@ -44,5 +44,18 @@ namespace FBPlusOneBuy.Services
                 throw;
             }
         }
+
+        public static int GetStoreManagerID(string userId)
+        {
+            CampaignRepository campaign_repo = new CampaignRepository();
+            int storeManagerID = campaign_repo.SelectStoreManagerID(userId);
+            return storeManagerID;
+        }
+        public static List<LineListCampaignViewModel> GetAllCampaigns(int storeManagerID)
+        {
+            CampaignRepository campaign_repo = new CampaignRepository();
+            var campaigns = campaign_repo.SelectCampaigns(storeManagerID);
+            return campaigns;
+        }
     }
 }

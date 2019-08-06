@@ -1,7 +1,8 @@
-﻿
+﻿@model List<FBPlusOneBuy.ViewModels.LineListCampaignViewModel>
 @{
     ViewBag.Title = "LineList";
     Layout = "~/Views/Shared/Main_Layout.cshtml";
+    List<FBPlusOneBuy.ViewModels.LineListCampaignViewModel> Campaigns = ViewData.Model as List<FBPlusOneBuy.ViewModels.LineListCampaignViewModel>;
 }
 
 <h2>LineList</h2>
@@ -30,75 +31,53 @@
 <button type="button" class="btn btn-outline-secondary" id="btn_reset">RESET</button>
 <table id="myTable" class="cell-border compact stripe" style="width:100%;">
     <thead style="font-size:12px;">
-        @*<tr>
-            <th>@Html.DisplayNameFor(model => model.FirstOrDefault().ID)</th>
-            <th>@Html.DisplayNameFor(model => model.FirstOrDefault().LivePageID)</th>
-            <th>@Html.DisplayNameFor(model => model.FirstOrDefault().FanPageName)</th>
-            <th>@Html.DisplayNameFor(model => model.FirstOrDefault().LiveName)</th>
-            <th>@Html.DisplayNameFor(model => model.FirstOrDefault().postTime)</th>
-            <th>@Html.DisplayNameFor(model => model.FirstOrDefault().endTime)</th>
-            <th>@Html.DisplayNameFor(model => model.FirstOrDefault().QtyOfOrders)</th>
-            <th>@Html.DisplayNameFor(model => model.FirstOrDefault().Amount)</th>
-            <th>訂單</th>
-            <th>成單</th>
-            <th>ROI</th>
-        </tr>*@
         <tr>
-            <th>ID</th>
-            <th>群組名稱</th>
-            <th>活動</th>
-            <th>商品名稱</th>
-            <th>成團人數</th>
-            <th>關鍵字</th>
-            <th>開始日期</th>
-            <th>結束日期</th>
+            <th>@Html.DisplayNameFor(model => model.FirstOrDefault().CampaignID)</th>
+            <th>@Html.DisplayNameFor(model => model.FirstOrDefault().GroupName)</th>
+            <th>@Html.DisplayNameFor(model => model.FirstOrDefault().Title)</th>
+            <th>@Html.DisplayNameFor(model => model.FirstOrDefault().Keyword)</th>
+            <th>@Html.DisplayNameFor(model => model.FirstOrDefault().ProductName)</th>
+            <th>@Html.DisplayNameFor(model => model.FirstOrDefault().ProductSet)</th>
+            <th>@Html.DisplayNameFor(model => model.FirstOrDefault().ProductGroup)</th>
+            <th>@Html.DisplayNameFor(model => model.FirstOrDefault().PostTime)</th>
+            <th>@Html.DisplayNameFor(model => model.FirstOrDefault().EndTime)</th>
             <th>GroupOrder</th>
         </tr>
     </thead>
     <tbody style="font-size:14px;">
-        <tr>
-            <th>1</th>
-            <th>我們買起來</th>
-            <th>賣咖波</th>
-            <th>TEST</th>
-            <th>10</th>
-            <th>史努比</th>
-            <th>2019-07-30 00:00</th>
-            <th>2019-07-30 01:00</th>
-            <td>@Html.ActionLink("...", "CommentsOrderList", new { })</td>
-        </tr>
-        @*@foreach (var item in Model)
+        @foreach (var item in Model)
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(model => item.ID)
+                    @Html.DisplayFor(model => item.CampaignID)
                 </td>
                 <td>
-                    @Html.DisplayFor(model => item.LivePageID)
+                    @Html.DisplayFor(model => item.GroupName)
                 </td>
                 <td>
-                    @Html.DisplayFor(model => item.FanPageName)
+                    @Html.DisplayFor(model => item.Title)
                 </td>
                 <td>
-                    @Html.DisplayFor(model => item.LiveName)
+                    @Html.DisplayFor(model => item.Keyword)
                 </td>
                 <td>
-                    @Html.DisplayFor(model => item.postTime)
+                    @Html.DisplayFor(model => item.ProductName)
                 </td>
                 <td>
-                    @Html.DisplayFor(model => item.endTime)
+                    @Html.DisplayFor(model => item.ProductSet)
                 </td>
                 <td>
-                    @Html.DisplayFor(model => item.QtyOfOrders)
+                    @Html.DisplayFor(model => item.ProductGroup)
                 </td>
                 <td>
-                    $@Html.DisplayFor(model => item.Amount)
+                    @Html.DisplayFor(model => item.PostTime)
                 </td>
-                <td>@Html.ActionLink("...", "CommentsOrderList", new { liveId = item.ID })</td>
-                <td>@Html.ActionLink("...", "SalesOrderList", new { livepageId = item.LivePageID })</td>
-                <td>@Html.ActionLink("...", "ROIOrderList", new { liveId = item.ID })</td>
+                <td>
+                    @Html.DisplayFor(model => item.EndTime)
+                </td>
+                <td>@Html.ActionLink("...", "GroupOrderList", new { compaignID = item.CampaignID })</td>
             </tr>
-        }*@
+        }
     </tbody>
 </table>
 @section EndJS
@@ -129,7 +108,7 @@
                         var startMax = +parseDateValue($("#start_date_max").val());
                         // aData represents the table structure as an array of columns, so the script access the date value
                         // in the first column of the table via aData[0]
-                        var evalDate = +parseDateValue(aData[3]);
+                        var evalDate = +parseDateValue(aData[7]);
                         console.log(evalDate);
                         console.log("startMin=" + startMin + ",startMax=" + startMax + ",evalDate=" + evalDate)
 
@@ -158,7 +137,7 @@
                         var endMax = +parseDateValue($("#end_date_max").val());
                         // aData represents the table structure as an array of columns, so the script access the date value
                         // in the first column of the table via aData[0]
-                        var evalDate = +parseDateValue(aData[4]);
+                        var evalDate = +parseDateValue(aData[8]);
                         console.log(evalDate);
                         console.log("endMin=" + endMin + ",endMax=" + endMax + ",evalDate=" + evalDate)
 

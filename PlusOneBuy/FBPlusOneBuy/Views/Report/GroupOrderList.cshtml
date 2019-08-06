@@ -1,0 +1,90 @@
+﻿
+@{
+    ViewBag.Title = "GroupOrderList";
+    Layout = "~/Views/Shared/Main_Layout.cshtml";
+}
+
+<h2>GroupOrderList</h2>
+<span class="h4 font-weight-normal text-muted">查詢活動</span>
+<span>/</span>
+<a class="h4 font-weight-normal text-muted" href="@Url.Action("Index","Report")">社群</a>
+<span>/</span>
+<a class="h4 font-weight-normal text-muted" href="@Url.Action("Fblist","Report")">直播清單</a>
+<span>/</span>
+<span class="h4 font-weight-normal text-muted"><strong>留言訂單</strong></span>
+
+<div class="row mt-3">
+    <div class="col">
+        <p>資訊:資訊</p>
+        <p>資訊:資訊</p>
+        <p>資訊:資訊</p>
+        <p>資訊:資訊</p>
+        <p>資訊:資訊</p>
+    </div>
+</div>
+<table id="myTable" class="cell-border compact stripe" style="width:100%">
+    <thead>
+        <tr>
+            <th>GroupOrderID</th>
+            <th>CampaignID</th>
+            <th>OrderDateTime</th>
+            <th>shipDateTime</th>
+            <th>isGroup</th>
+            <th>NumberOfPeople</th>
+            <th>Amount</th>
+            <th>成單</th>
+            <th>發送成團訊息</th>
+            <th>發送取貨訊息</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+                1
+            </td>
+            <td>
+                1
+            </td>
+            <td>
+                2019-07-30 00:00
+            </td>
+            <td>
+                2019-07-32 00:00
+            </td>
+            <td>
+                True
+            </td>
+            <td>
+                10
+            </td>
+            <td>
+                1000
+            </td>
+            <td>
+                <button class="btn btn-link">此團成單</button>
+            </td>
+            <td>
+                <button class="btn btn-link">團單訊息</button>
+            </td>
+            <td>
+                <button class="btn btn-link">取貨訊息</button>
+            </td>
+        </tr>
+
+    </tbody>
+</table>
+@section EndJS
+{
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.min.js"
+            integrity="sha256-chlNFSVx3TdcQ2Xlw7SvnbLAavAQLO0Y/LBiWX04viY=" crossorigin="anonymous"></script>
+    <!-- DataTable -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#myTable').DataTable({
+                "info": false, "bLengthChange": false, "pageLength": 10
+            });
+        });
+    </script>
+}

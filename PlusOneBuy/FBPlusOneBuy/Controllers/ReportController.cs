@@ -6,6 +6,7 @@ using System.Web;
 using System.Web.Mvc;
 using FBPlusOneBuy.Repositories;
 using FBPlusOneBuy.ViewModels;
+using Microsoft.AspNet.Identity;
 
 namespace FBPlusOneBuy.Controllers
 {
@@ -54,6 +55,13 @@ namespace FBPlusOneBuy.Controllers
             return View();
         }
         public ActionResult LineList()
+        {
+            string userId = User.Identity.GetUserId();
+            int storeManagerID=CampaignService.GetStoreManagerID(userId);           
+            ViewData.Model = CampaignService.GetAllCampaigns(storeManagerID);
+            return View();
+        }
+        public ActionResult GroupOrderList()
         {
             return View();
         }

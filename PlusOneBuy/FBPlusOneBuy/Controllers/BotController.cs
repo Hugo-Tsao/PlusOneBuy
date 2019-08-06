@@ -10,12 +10,7 @@ namespace FBPlusOneBuy.Controllers
 {
     public class BotController : Controller
     {
-        [HttpGet]
-        public void checkMeanger(string groupId, string managerUserId)
-        {
-            StoreMeanger StoreMeanger = BotService.CheckMeanger(groupId, managerUserId);
 
-        }
         [HttpPost]
         public void botPushCampaign(string groupId,string msg)
         {

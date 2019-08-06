@@ -1,14 +1,17 @@
-﻿using System;
+﻿using FBPlusOneBuy.Models;
+using FBPlusOneBuy.Repositories;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using FBPlusOneBuy.Models;
-using FBPlusOneBuy.Repositories;
+
+
 
 namespace FBPlusOneBuy.Services
 {
     public class LineGroupService
     {
+
         internal  string GroupId { get; set; }
 
         public LineGroupService(string groupId)
@@ -28,5 +31,6 @@ namespace FBPlusOneBuy.Services
                 return false;
             }
         }
+
     }
 }

@@ -11,18 +11,23 @@ namespace FBPlusOneBuy.Controllers
 {
     public class GroupBuyController : Controller
     {
-        [HttpGet]
-        public ActionResult SettingPage()
+        [HttpPost]
+        public ActionResult SettingPage(string LineGroupID,string GroupName)
         {
-            ViewData["GroupID"] = 1;
+            ViewBag.GroupName = GroupName;
+            ViewBag.LineGroupID = LineGroupID;
             return View();
         }
         [HttpPost]
-        public ActionResult SettingPage(CampaignViewModel cvm)
+        public ActionResult SettingCampaign(CampaignViewModel cvm,string LineGroupID)
         {
+            int id = LineBindingService.GGetIdByGroupId(LineGroupID);
+            cvm.GroupID = id;
+            cvm.PostTime = DateTime.Now;
             CampaignService campaignService = new CampaignService();
             ViewData["result"] = campaignService.InsertCampaign(cvm);
-            return View();
+            BotService.BotPushMsg(LineGroupID, cvm.Detail);
+            return RedirectToAction("FanPageName", "Setting");
         }
     }
 }

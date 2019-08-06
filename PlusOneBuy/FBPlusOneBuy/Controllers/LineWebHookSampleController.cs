@@ -18,7 +18,7 @@ namespace FBPlusOneBuy.Controllers
     public class LineBotWebHookController : isRock.LineBot.LineWebHookControllerBase
     {
         string channelAccessToken = ConfigurationManager.AppSettings["channelAccessToken"];
-        //string AdminUserId = ConfigurationManager.AppSettings["AdminUserId"];
+        
         List<string> AdminUser = new List<string>()
         { ConfigurationManager.AppSettings["AdminUserId"],ConfigurationManager.AppSettings["AdminUserId2"],ConfigurationManager.AppSettings["AdminUserId3"]};
 
@@ -49,9 +49,12 @@ namespace FBPlusOneBuy.Controllers
                 //回覆訊息
                 if (LineEvent.type == "message")
                 {
-                    if (LineEvent.message.type == "text")
-                    {
-                        if (LineEvent.source.groupId != null)
+
+
+
+
+                   
+                    if (LineEvent.source.groupId != null)
                         {
                             string userId = LineEvent.source.userId;
                             string groupId = LineEvent.source.groupId;
@@ -130,7 +133,8 @@ namespace FBPlusOneBuy.Controllers
                                 }*/
                             }
                         }
-                    }
+
+
                     if (LineEvent.message.type == "sticker")
                     {
                         return Ok();
@@ -142,20 +146,32 @@ namespace FBPlusOneBuy.Controllers
                 }
                 if (LineEvent.type == "join")
                 {
+                    DateTime timestampTotime = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
+                    timestampTotime = timestampTotime.AddSeconds(LineEvent.timestamp / 1000).ToLocalTime();
+                    string groupId = LineEvent.source.groupId;
 
-                    //BotService.CheckMeanger(LineEvent.source.groupId,"店長ID");
-                    //this.PushMessage("Uc9d21bb74f13334be35b46b6581b9416", LineEvent.source.groupId);
+                    List<CompareStoreManager> managerId = LineBindingService.GroupNullCompare();
+                    foreach (var item in managerId)
+                    {
+                        StoreMeanger checkProfile = BotService.CheckMeanger(groupId, item.LineID);
+                        if (checkProfile.message != "Not found")
+                        {
+                            LineBindingService.CompareUpdateGroupid(groupId, item.StoreManagerID, timestampTotime);
+                        }
+                        
+                    }
+
                 }
 
                 return Ok();
             }
             catch (Exception ex)
             {
-                foreach (var AdminUserId in AdminUser)
-                {
-                    this.PushMessage(AdminUserId, "發生錯誤:\n" + ex.Message);
-                }
-
+                //foreach (var AdminUserId in AdminUser)
+                //{
+                //    this.PushMessage(AdminUserId, "發生錯誤:\n" + ex.Message);
+                //}
+                this.PushMessage("Uc9d21bb74f13334be35b46b6581b9416", "發生錯誤:\n" + ex.Message);
                 return Ok();
             }
         }

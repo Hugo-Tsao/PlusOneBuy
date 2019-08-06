@@ -27,6 +27,9 @@ namespace FBPlusOneBuy.Controllers
             var fpage_repo = new FanPagesRepository();
             var fpage = fpage_repo.SelectBinding(userid);
 
+            int managerId = LineGroupService.GetManagerId(userid);
+            var groupList=LineGroupService.GetGroupList(managerId);
+            ViewBag.groupList = groupList;
             ViewBag.bindingPage = fpage;
             return View();
         }

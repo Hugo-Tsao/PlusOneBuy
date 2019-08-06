@@ -9,10 +9,11 @@
 <span>/</span>
 <span class="h4 font-weight-normal text-muted">商品</span>
 <div class="row m-3">
-    <form action="/GroupBuy/SettingPage" method="post">
+    <form action="/GroupBuy/SettingCampaign" method="post">
         <div class="col">
             <img src="~/Assets/images/Line1.png" style="width:20px;" />
-            <label>群組:全家團購</label>
+            <label>群組:@ViewBag.GroupName</label>
+            <input type="hidden" name="LineGroupID"value="@ViewBag.LineGroupID" />
             <input id="GroupID" name="GroupID" type="text" value="1" hidden="hidden" />
             <br />
             <label>商品編號:&nbsp;&nbsp;&nbsp;</label>
@@ -31,9 +32,6 @@
             <label>成團組數:&nbsp;&nbsp;&nbsp;</label>
             <input id="PeopleGroup" name="PeopleGroup" type="text" class="qty" />
             <label>/團</label>
-            <br />
-            <label>開始時間:</label>
-            <input id="PostTime" name="PostTime" type="datetime-local" />
             <br />
             <label>結束時間:</label>
             <input id="EndTime" name="EndTime" type="datetime-local" />

@@ -11,16 +11,20 @@ namespace FBPlusOneBuy.Controllers
 {
     public class GroupBuyController : Controller
     {
-        [HttpGet]
-        public ActionResult SettingPage()
+        [HttpPost]
+        public ActionResult SettingPage(string LineGroupID,string GroupName)
         {
+            ViewBag.GroupName = GroupName;
+            ViewBag.LineGroupID = LineGroupID;
             return View();
         }
         [HttpPost]
-        public ActionResult SettingPage(CampaignViewModel cvm)
+        public ActionResult SettingCampaign(CampaignViewModel cvm,string LineGroupID)
         {
-            CampaignService campaignService = new CampaignService("Cdce46b42293efcd6ff973d08be1e0642");
+            cvm.PostTime = DateTime.Now;
+            CampaignService campaignService = new CampaignService(LineGroupID);
             ViewData["result"] = campaignService.InsertCampaign(cvm);
+            BotService.BotPushMsg(LineGroupID, cvm.Detail);
             return View();
         }
     }

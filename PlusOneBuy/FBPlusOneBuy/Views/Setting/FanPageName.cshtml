@@ -3,6 +3,7 @@
 @{
     Layout = "~/Views/Shared/Main_Layout.cshtml";
     var bindingPage = ViewBag.bindingPage;
+    var groupList= ViewBag.groupList;
 }
 <span class="h4 font-weight-normal text-muted">設定活動</span>
 <span class="h4 font-weight-normal text-muted">社群</span>
@@ -18,7 +19,26 @@
         </div>
     }
 
-</div>
+    @if (groupList != null)
+    {
+        foreach (var item in groupList)
+        {
+            using (Html.BeginForm("SettingPage", "GroupBuy", FormMethod.Post))
+            {
+                <div class="card text-center">
+                    <div class="card-body">
+                        <h5 class="card-title">LINE</h5>
+                        <p class="card-text">@item.GroupName</p>
+                        <button type="submit" class="btn btn-success">選擇</button>
+                        <input type="hidden" value="@item.LineGroupID" name="LineGroupID" />
+                        <input type="hidden" value="@item.GroupName" name="GroupName" />
+                    </div>
+                </div>
+                }
+            }
+        }
+
+    </div>
 
 @section TopJS
 {

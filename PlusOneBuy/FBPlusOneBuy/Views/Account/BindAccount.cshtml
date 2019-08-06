@@ -44,11 +44,12 @@
             <div class="col">
                 <button type="button" class="btn btn-link remove_binding" id="@bindingStoreMamager.Name">移除</button>
                 <span>|</span>
-                <button type="button" class="btn btn-link" data-toggle="modal" data-target="#addGroup">加入團購群組</button>
+                <button type="button" class="btn btn-link" data-toggle="modal" id="addGroup">加入團購群組</button>
             </div>
         </div>
     }
 </div>
+
 @if (groupList.Count != 0)
 {
     <p class="text-center">綁定完成</p>
@@ -59,11 +60,14 @@
                 <img class="AccountIcon" src="~/Assets/images/Line1.png" />
             </div>
             <div class="col">
-                <span>@item.GroupName</span>
+                <span><strong>@item.GroupName</strong></span>
+                <em>加入時間:@item.JoinDate</em>
 
             </div>
             <div class="col">
-                <span>@item.JoinDate</span>
+                <button type="button" class="btn btn-link">移除</button>
+                <span>|</span>
+                <button type="button" class="btn btn-link">編輯</button>
             </div>
         </div>
     }
@@ -71,7 +75,6 @@
 
 @if (NullgroupList.Count != 0)
 {
-    <hr />
     <p class="text-center">未綁定完成</p>
     foreach (var item in NullgroupList)
     {
@@ -83,12 +86,12 @@
                 <span>@item</span>
             </div>
             <div class="col">
-                <a href="#">完成綁定</a>
+                <button type="button" class="btn btn-link">移除</button>
             </div>
         </div>
     }
 }
-<div class="modal fade" id="addGroup" role="dialog">
+<div class="modal fade" id="addGroupName" role="dialog">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -102,6 +105,23 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-dark close" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-dark" id="insertGroup">確認</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="notBinding" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span>加入團購群組</span>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <span>請先將未完成綁定群組完成</span>
+
+            </div>
+            <div class="modal-footer">
                 <button type="submit" class="btn btn-dark" data-dismiss="modal">確認</button>
             </div>
         </div>
@@ -158,9 +178,14 @@
 
             });
             $('#addGroup').click(function () {
-                $("#modal").modal();
+                if (@NullgroupList.Count != 0) {                  
+                    $("#notBinding").modal();
+                }
+                else  {
+                    $("#addGroupName").modal();
+                }             
             })
-            $('button[type="submit"]').click(function () {
+            $('#insertGroup').click(function () {
                 var groupName = $('#groupName').val();
                 $.ajax({
                     type: "POST",

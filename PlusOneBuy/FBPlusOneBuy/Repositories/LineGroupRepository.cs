@@ -35,7 +35,7 @@ namespace FBPlusOneBuy.Repositories
         {
             using (conn = new SqlConnection(connectionString))
             {
-                string sql = "SELECT GroupName,JoinDate FROM LineGroup WHERE StoreManagerID=@managerId AND Status = 'TRUE'";
+                string sql = "SELECT GroupName,JoinDate,LineGroupID FROM LineGroup WHERE StoreManagerID=@managerId AND Status = 'TRUE'";
                 return conn.Query<LineGroup>(sql, new { managerId }).ToList();
             }
         }

@@ -118,7 +118,7 @@ namespace FBPlusOneBuy.Controllers
 
                                     }
                                     groupOrderService.UpdateGroupOrder(groupOrder.GroupOrderID, currentNumberOfProduct, Amount, isGroup);
-
+                                    this.PushMessage(LineEvent.source.groupId, "恭喜你在買越多省越多成功下單" + "\n購買:" + campaigns[i].Keyword + "\n數量:" + qty);
                                     break;
                                 }
                             }

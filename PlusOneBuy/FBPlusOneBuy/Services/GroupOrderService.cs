@@ -25,6 +25,7 @@ namespace FBPlusOneBuy.Services
             }
             catch (NullReferenceException e)
             {
+                Console.WriteLine(e);
                 return true;
             }
         }
@@ -51,6 +52,7 @@ namespace FBPlusOneBuy.Services
             }
             catch(Exception e)
             {
+                Console.WriteLine(e);
                 return false;
             }
         }

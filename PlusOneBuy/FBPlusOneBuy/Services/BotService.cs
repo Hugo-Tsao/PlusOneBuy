@@ -55,7 +55,7 @@ namespace FBPlusOneBuy.Services
         {
             LineCustomerRepository LineCustomer_repo = new LineCustomerRepository();
             var checkCustomer = LineCustomer_repo.SearchLineCustomer(customerId);
-            if (checkCustomer != default)
+            if (checkCustomer != null)
             {
                 lineCustomer = checkCustomer;
                 return true;

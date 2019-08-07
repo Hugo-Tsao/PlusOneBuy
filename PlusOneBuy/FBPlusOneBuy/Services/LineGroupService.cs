@@ -22,7 +22,7 @@ namespace FBPlusOneBuy.Services
         {
             LineGroupRepository lineGroup_repo = new LineGroupRepository();
             LineGroup lineGroup = lineGroup_repo.SearchLineGroup(GroupId);
-            if (lineGroup != default)
+            if (lineGroup != null)
             {
                 return true;
             }

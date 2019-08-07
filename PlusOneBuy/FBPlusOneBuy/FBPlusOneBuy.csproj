@@ -305,6 +305,7 @@
     <Compile Include="ViewModels\ProductViewModel.cs" />
     <Compile Include="ViewModels\ReportViewModel.cs" />
     <Compile Include="ViewModels\SalesOrderViewModel.cs" />
+    <Compile Include="ViewModels\SendMessageViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\css\styles.css" />

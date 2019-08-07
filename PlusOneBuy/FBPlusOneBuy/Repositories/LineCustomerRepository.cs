@@ -23,7 +23,6 @@ namespace FBPlusOneBuy.Repositories
                 LineCustomerViewModel result = conn.QueryFirstOrDefault<LineCustomerViewModel>(sql, new {  customerId });
                 return result;
             }
-
         }
         
         public void InsertCustomer(string customerId, string customerName)
@@ -32,6 +31,17 @@ namespace FBPlusOneBuy.Repositories
             {
                 string sql = "INSERT INTO LineCustomer(LineCustomerID, Name) VALUES ( @customerId, @customerName)";
                 conn.Execute(sql, new { customerId, customerName });
+            }
+        }
+
+        public List<NameAndQtyViewModel> GetCustomersByGroupOrderId(int groupOrderId)
+        {
+            using (conn = new SqlConnection(connectionString))
+            {
+                string sql = "SELECT lc.Name,god.Quantity FROM LineCustomer lc INNER JOIN GroupOrderDetail god ON lc.LineCustomerID = god.LineCustomerID INNER JOIN GroupOrder g ON god.GroupOrderID = g.GroupOrderID WHERE g.GroupOrderID = @GroupOrderId";
+                List<NameAndQtyViewModel> customers =
+                    conn.Query<NameAndQtyViewModel>(sql, new {GroupOrderId = groupOrderId}).ToList();
+                return customers;
             }
         }
     }

@@ -9,30 +9,17 @@ using System.Configuration;
 using System.Linq;
 using System.Web;
 using FBPlusOneBuy.ViewModels;
+using isRock.LineBot;
 
 namespace FBPlusOneBuy.Services
 {
     public class BotService
     {
         internal static string channelAccessToken = ConfigurationManager.AppSettings["channelAccessToken"];
-        public static void BotPushMsg(string groupid,string msg)
+        public static void BotPushMsg(string lineGroupid,string msg)
         {
-
-            var pushUrl = "https://api.line.me/v2/bot/message/push";
-            var client = new RestClient(pushUrl);
-            var request = new RestRequest(Method.POST);
-            request.AddHeader("cache-control", "no-cache");
-            request.AddHeader("Connection", "keep-alive");
-            request.AddHeader("Content-Length", "169");
-            request.AddHeader("Accept-Encoding", "gzip, deflate");
-            request.AddHeader("Host", "api.line.me");
-            request.AddHeader("Cache-Control", "no-cache");
-            request.AddHeader("Authorization", string.Format("Bearer " + channelAccessToken));
-            request.AddHeader("Content-Type", "application/json");
-            request.AddParameter("undefined", "{\r\n  \"to\": \""+ groupid + "\"," +
-                "\r\n    \"messages\":[{\"type\":\"text\",\"text\":\""+ msg + "\"}]\r\n}", ParameterType.RequestBody);
-            IRestResponse response = client.Execute(request);
-
+            Bot bot = new Bot(channelAccessToken);
+            bot.PushMessage(lineGroupid, msg);
         }
         public static StoreMeanger CheckMeanger(string groupId, string managerUserId)
         {
@@ -74,6 +61,22 @@ namespace FBPlusOneBuy.Services
             LineCustomerRepository LineCustomer_repo = new LineCustomerRepository();
             LineCustomer_repo.InsertCustomer(customerId,customerName);
             return new LineCustomerViewModel() {LineCustomerID = customerId, Name = customerName};
+        }
+
+        public static string SetMsgFormat(int groupOrderId,ref string groupId)
+        {
+            LineGroupRepository lineGroup_repo = new LineGroupRepository();
+            LineCustomerRepository lineCustomer_repo = new LineCustomerRepository();
+            SendMessageViewModel messageInfo = lineGroup_repo.GetMessageInfoByGroupOrderId(groupOrderId);
+            List<NameAndQtyViewModel> customers = lineCustomer_repo.GetCustomersByGroupOrderId(groupOrderId);
+            string message = $"活動名稱:{messageInfo.Title}\n活動時間:{messageInfo.PostTime}到{messageInfo.EndTime}\n";
+            groupId = messageInfo.LineGroupId;
+            foreach (var customer in customers)
+            {
+                message += $"@{customer.Name} +{customer.Quantity}\n";
+            }
+
+            return message;
         }
     }
 }

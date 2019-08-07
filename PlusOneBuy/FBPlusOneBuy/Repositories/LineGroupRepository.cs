@@ -6,7 +6,7 @@ using System.Configuration;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
-
+using FBPlusOneBuy.ViewModels;
 
 
 namespace FBPlusOneBuy.Repositories
@@ -85,6 +85,16 @@ namespace FBPlusOneBuy.Repositories
             {
                 string sql = "SELECT GroupID FROM LineGroup WHERE LineGroupID='"+ groupId + "'";
                 return conn.QueryFirstOrDefault<int>(sql);
+            }
+        }
+
+        public SendMessageViewModel GetMessageInfoByGroupOrderId(int groupOrderId)
+        {
+            using (conn = new SqlConnection(connectionString))
+            {
+                string sql = "SELECT lg.LineGroupID,c.Title,c.PostTime,c.EndTime FROM LineGroup lg INNER JOIN Campaign c ON c.GroupID = lg.GroupID INNER JOIN GroupOrder g ON g.CampaignID = c.CampaignID WHERE g.GroupOrderID = @GroupOrderId";
+                SendMessageViewModel result = conn.QueryFirstOrDefault<SendMessageViewModel>(sql,new { GroupOrderId = groupOrderId });
+                return result;
             }
         }
     }

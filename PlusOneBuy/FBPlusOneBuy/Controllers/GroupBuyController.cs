@@ -29,5 +29,14 @@ namespace FBPlusOneBuy.Controllers
             BotService.BotPushMsg(LineGroupID, cvm.Detail);
             return RedirectToAction("FanPageName", "Setting");
         }
+
+        [HttpPost]
+        public ActionResult PushMessageToLineGroup(int GroupOrderID)
+        {
+            string lineGroupId = string.Empty;
+            string msg = BotService.SetMsgFormat(GroupOrderID, ref lineGroupId);
+            BotService.BotPushMsg(lineGroupId,msg);
+            return Json("OK");
+        }
     }
 }

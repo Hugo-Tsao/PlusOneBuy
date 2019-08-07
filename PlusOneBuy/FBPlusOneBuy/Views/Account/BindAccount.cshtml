@@ -35,7 +35,8 @@
     {
         <div class="row m-2" id="show_fb_bind">
             <div class="col text-right">
-                <img class="AccountIcon" src="~/Assets/images/Line1.png" />
+                @*<img class="AccountIcon" src="~/Assets/images/Line1.png" />*@
+                <img class="AccountIcon" src="@bindingStoreMamager.PictureUrl" />
             </div>
             <div class="col">
                 <span>@bindingStoreMamager.Name</span>
@@ -59,9 +60,8 @@
                 <img class="AccountIcon" src="~/Assets/images/Line1.png" />
             </div>
             <div class="col">
-                <span><strong>@item.GroupName</strong></span>
+                <span><strong>@item.GroupName</strong></span><br/>
                 <em>加入時間:@item.JoinDate</em>
-
             </div>
             <div class="col">
                 <button type="button" class="btn btn-link">移除</button>

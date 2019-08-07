@@ -20,6 +20,8 @@ namespace FBPlusOneBuy.ViewModels
         [Display(Name = "數量")]
         public int Quantity { get; set; }
         [Display(Name = "留言時間")]
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd HH:mm:ss}")]
         public DateTime MessageDateTime { get; set; }
         [Display(Name = "總額")]
         [DisplayFormat(DataFormatString = "{0:N0}")]

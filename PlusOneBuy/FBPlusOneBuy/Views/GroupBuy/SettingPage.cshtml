@@ -15,32 +15,32 @@
             <label>群組:@ViewBag.GroupName</label>
             <input type="hidden" name="LineGroupID" value="@ViewBag.LineGroupID" />
             <br />
-            <label>商品編號:&nbsp;&nbsp;&nbsp;</label>
+            <label class="mr-3">商品編號:</label>
             <input id="ProductID" name="ProductID" type="text" class="qty" />
-            <button class="btn btn-link" id="SearchProduct" type="button">搜尋商品</button>
+            <button class="btn btn-outline-success" id="SearchProduct" type="button">搜尋商品</button>
             <label>商品名稱:</label>
             <label id="ProductName"></label>
             <br />
-            <label>活動標題:&nbsp;&nbsp;&nbsp;</label>
+            <label class="mr-3">活動標題:</label>
             <input id="Title" name="Title" type="text" class="qty" />
             <br />
-            <label>關鍵字:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+            <label class="mr-3">關鍵字:&nbsp;&nbsp;&nbsp;</label>
             <input id="Keyword" name="Keyword" type="text" class="qty" />
             <br />
-            <label>訂購單位數:</label>
+            <label class="mr-3">訂購組數:</label>
             <input id="ProductSet" name="ProductSet" type="text" class="qty" />
             <label>/組</label>
             <br />
-            <label>成團組數:&nbsp;&nbsp;&nbsp;</label>
+            <label class="mr-3">成團組數:</label>
             <input id="PeopleGroup" name="ProductGroup" type="text" class="qty" />
             <label>/團</label>
             <br />
-            <label>結束時間:</label>
+            <label class="mr-3">結束時間:</label>
             <input id="EndTime" name="EndTime" type="datetime-local" />
             <br />
             <label>活動說明:</label><br />
             <textarea id="Detail" name="Detail" cols="40" rows="6"></textarea><br />
-            <button type="submit" class="btn-light">建立活動</button>
+            <button type="submit" class="btn btn-success mt-3">建立活動</button>
         </div>
     </form>
 </div>

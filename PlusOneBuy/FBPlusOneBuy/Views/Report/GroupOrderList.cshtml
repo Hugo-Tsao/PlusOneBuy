@@ -1,6 +1,6 @@
 ﻿@model List<FBPlusOneBuy.ViewModels.GroupOrderListGroupOrderViewModel>
 @{
-    
+
     Layout = "~/Views/Shared/Main_Layout.cshtml";
 }
 <span class="h4 font-weight-normal text-muted">查詢活動</span>
@@ -37,34 +37,34 @@
     <tbody>
         @foreach (var item in Model)
         {
-        <tr>
-            <td>@Html.DisplayFor(model => item.GroupOrderID)</td>
-            <td>@Html.DisplayFor(model => item.OrderDateTime)</td>
-            @if (item.shipDateTime == null)
-            {
-                <td>未到貨</td>
-            }
-            else
-            {
-                @Html.DisplayFor(model => item.shipDateTime )
-            }
+            <tr>
+                <td>@Html.DisplayFor(model => item.GroupOrderID)</td>
+                <td>@Html.DisplayFor(model => item.OrderDateTime)</td>
+                @if (item.shipDateTime == null)
+                {
+                    <td>未到貨</td>
+                }
+                else
+                {
+                    @Html.DisplayFor(model => item.shipDateTime)
+                }
 
-            <td>@Html.DisplayFor(model => item.isGroup)</td>
-            <td>@(item.ProductGroup - item.NumberOfProduct)</td>
-            <td>@Html.DisplayFor(model => item.Amount)</td>
-            <td>
-                @Html.ActionLink("...", "GroupOrderDetailList", new { GroupOrderID = item.GroupOrderID,campaignID=ViewBag.campaignID })
-            </td>
-            <td>
-                <button class="btn btn-link">此團成單</button>
-            </td>
-            <td>
-                <button class="btn btn-link">團單訊息</button>
-            </td>
-            <td>
-                <button class="btn btn-link">取貨訊息</button>
-            </td>
-        </tr>
+                <td>@Html.DisplayFor(model => item.isGroup)</td>
+                <td>@(item.ProductGroup - item.NumberOfProduct)</td>
+                <td>@Html.DisplayFor(model => item.Amount)</td>
+                <td>
+                    @Html.ActionLink("...", "GroupOrderDetailList", new { GroupOrderID = item.GroupOrderID, campaignID = ViewBag.campaignID })
+                </td>
+                <td>
+                    <button class="btn btn-link">此團成單</button>
+                </td>
+                <td>
+                    <button class="btn btn-link btn_group_info" value="@item.GroupOrderID">團單訊息</button>
+                </td>
+                <td>
+                    <button class="btn btn-link">取貨訊息</button>
+                </td>
+            </tr>
         }
     </tbody>
 </table>
@@ -79,6 +79,16 @@
         $(document).ready(function () {
             $('#myTable').DataTable({
                 "info": false, "bLengthChange": false, "pageLength": 10
+            });
+            $('.btn_group_info').on("click", function () {
+                let groupOrderID = this.value;
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("PushMessageToLineGroup","GroupBuy")',
+                    data: { GroupOrderID: groupOrderID }
+                }).done(function (res) {
+                    console.log('訊息發送done!');
+                });
             });
         });
     </script>

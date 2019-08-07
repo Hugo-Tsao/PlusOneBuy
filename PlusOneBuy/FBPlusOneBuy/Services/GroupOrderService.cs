@@ -54,5 +54,11 @@ namespace FBPlusOneBuy.Services
                 return false;
             }
         }
+
+        public List<GroupOrderListGroupOrderViewModel> SelectGroupOrders(int campaignID)
+        {
+            var groupOrders=groupOrder_repo.SelectGroupOrders(campaignID);
+            return groupOrders;
+        }
     }
 }

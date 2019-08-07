@@ -291,6 +291,7 @@
     <Compile Include="ViewModels\FBLiveVideoJsonToCSharp.cs" />
     <Compile Include="ViewModels\FBLongTokenJsonToCSharp.cs" />
     <Compile Include="ViewModels\CampaignViewModel.cs" />
+    <Compile Include="ViewModels\GroupOrderListGroupOrderViewModel.cs" />
     <Compile Include="ViewModels\LineListCampaignViewModel.cs" />
     <Compile Include="ViewModels\GroupOrderViewModel.cs" />
     <Compile Include="ViewModels\LineCustomerViewModel.cs" />

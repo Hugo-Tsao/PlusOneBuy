@@ -96,5 +96,16 @@ namespace FBPlusOneBuy.Repositories
                 conn.Execute(sql, new { isGroup, NumberOfProduct, Amount, GroupOrderID });
             }
         }
+        public List<GroupOrderListGroupOrderViewModel> SelectGroupOrders(int campaignID)
+        {
+
+            using (conn = new SqlConnection(connectionString))
+            {
+                string sql = "select c.Title,c.Detail,c.ProductGroup,p.ProductName,[go].GroupOrderID,[go].OrderDateTime,[go].shipDateTime,[go].isGroup,[go].NumberOfProduct,[go].Amount from GroupOrder [go] inner join Campaign c on [go].CampaignID=c.CampaignID inner join Products p on c.ProductID=p.ProductID where c.CampaignID=@campaignID;";
+                var groupOrders = conn.Query<GroupOrderListGroupOrderViewModel>(sql, new { campaignID }).ToList();
+                return groupOrders;
+
+            }
+        }
     }
 }

@@ -65,5 +65,11 @@ namespace FBPlusOneBuy.Controllers
         {
             return View();
         }
+        public ActionResult GroupOrderDetailList(int GroupOrderID)
+        {
+            var GOdetailService = new GroupOrderDetailService();
+            ViewData.Model=GOdetailService.GetDetailByGroupOrderID(GroupOrderID);
+            return View();
+        }
     }
 }

@@ -32,6 +32,7 @@
             <th>isGroup</th>
             <th>NumberOfPeople</th>
             <th>Amount</th>
+            <th>訂單明細</th>
             <th>成單</th>
             <th>發送成團訊息</th>
             <th>發送取貨訊息</th>
@@ -59,6 +60,9 @@
             </td>
             <td>
                 1000
+            </td>
+            <td>
+                @Html.ActionLink("...", "GroupOrderDetailList", new { GroupOrderID=6 })
             </td>
             <td>
                 <button class="btn btn-link">此團成單</button>

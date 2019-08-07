@@ -12,6 +12,7 @@ using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Http;
 using FBPlusOneBuy.Repositories;
+using FBPlusOneBuy.ViewModels;
 
 namespace FBPlusOneBuy.Controllers
 {
@@ -49,62 +50,111 @@ namespace FBPlusOneBuy.Controllers
                 //回覆訊息
                 if (LineEvent.type == "message")
                 {
-
-
-
-
-                   
                     if (LineEvent.source.groupId != null)
                         {
+                            //使用者ID和群組ID
                             string userId = LineEvent.source.userId;
                             string groupId = LineEvent.source.groupId;
+                            UserInfo = isRock.LineBot.Utility.GetGroupMemberProfile(groupId, userId, ChannelAccessToken);
                             LineGroupService lineGroupService = new LineGroupService(groupId);
                             if (lineGroupService.SearchLineGroup())  //尋找群組
                             {
+                                //取得正在執行的活動
                                 CampaignService campaignService = new CampaignService();
-                                List<Campaign> campaigns = campaignService.GetWorkingCampaign(groupId);  //取得正在執行的活動
+                                List<Campaign> campaigns = campaignService.GetWorkingCampaign(groupId);  
 
                                 foreach (Campaign campaign in campaigns)
                                 {
-                                    //取得留言數量(組)  //因為目前Line團購只有+1+2的關鍵字
+                                    //取得留言數量(組)
+                                    ////因為目前Line團購只有+1+2的關鍵字，所以在第三個參數(keywordPattern)寫+1的Pattern
                                     int number = CommentFilterService.KeywordFilter(LineEvent.message.text,campaign.Keyword,"+1");
-                                    if (number != 0)
+                                    if (number != 0 && number <= campaign.ProductGroup)
                                     {
+                                        //將搜尋到或新增的Customer存在lineCustomer裡
+                                        LineCustomerViewModel lineCustomer = new LineCustomerViewModel();
+                                        //搜尋是此訊息的人是否已存在LineCustomer資料表中
+                                        if (!BotService.SearchLineCustomer(userId, UserInfo.displayName,ref lineCustomer))
+                                        {
+                                            //否，新增一筆
+                                            lineCustomer = BotService.InsertLineCustomer(userId, UserInfo.displayName);
+                                        }
+                                        DateTime messageDateTime = BotService.TimestampToDateTime(LineEvent.timestamp);
+                                        
+                                        //開始建訂單
+                                        GroupOrderViewModel groupOrder = new GroupOrderViewModel();
+                                        GroupOrderService groupOrderService = new GroupOrderService();
+                                        Product product = new Product();
+                                        product = ProductService.GetProductById(campaign.ProductID);
+
+                                        //若此留言要成單，所需的成團數量空間
+                                        int remaningNumber = campaign.ProductGroup - number;
+                                        //如果訂單人數還未滿，就拿此單來用，否則建新的
+                                        if (groupOrderService.GetGroupOrder(campaign.CampaignID, remaningNumber, ref groupOrder))
+                                        {
+                                                decimal amount = product.UnitPrice * number;
+                                                groupOrderService.InsertGroupOrder(campaign.CampaignID, messageDateTime, campaign.ProductGroup);
+                                                groupOrderService.GetGroupOrder(campaign.CampaignID, remaningNumber, ref groupOrder);
+                                        }
+
+                                        //條件都達成，開始下單
+                                        GroupOrderDetail groupOrderDetail = new GroupOrderDetail()
+                                        {
+                                            GroupOrderID = groupOrder.GroupOrderID,
+                                            LineCustomerID = lineCustomer.LineCustomerID,
+                                            ProductName = product.ProductName,
+                                            UnitPrice = product.UnitPrice,
+                                            Quantity = number,
+                                            MessageDateTime = messageDateTime
+                                        };
+                                        GroupOrderDetailService groupOrderDetailService = new GroupOrderDetailService();
+                                        groupOrderDetailService.InsertGroupOrderDetail(groupOrderDetail);
+                                        
+                                        //更新清單資料
+                                        int currentNumberOfProduct = groupOrder.NumberOfProduct + number;
+                                        decimal Amount = groupOrder.Amount + groupOrderDetail.UnitPrice * groupOrderDetail.Quantity;
+                                        bool isGroup = false;
+                                        if (currentNumberOfProduct == campaign.ProductGroup)
+                                        {
+                                            isGroup = true;
+
+                                        }
+                                        groupOrderService.UpdateGroupOrder(groupOrder.GroupOrderID,currentNumberOfProduct, Amount, isGroup);
 
                                         break;
                                     }
                                 }
 
-                                for (var i = 0; i < campaigns.Count; i++)
-                                {
-                                    string pattern = "^" + campaigns[i].Keyword + "\\s?\\+\\d{1}\\s*$";
-                                    re = new Regex(pattern);
 
-                                    if (re.IsMatch(LineEvent.message.text))
-                                    {
-                                        UserInfo = isRock.LineBot.Utility.GetGroupMemberProfile(groupId, userId, ChannelAccessToken);
+                                //for (var i = 0; i < campaigns.Count; i++)
+                                //{
+                                //    string pattern = "^" + campaigns[i].Keyword + "\\s?\\+\\d{1}\\s*$";
+                                //    re = new Regex(pattern);
 
-                                        DateTime timestampTotime = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
-                                        timestampTotime = timestampTotime.AddSeconds(LineEvent.timestamp / 1000).AddHours(8).ToLocalTime();
+                                //    if (re.IsMatch(LineEvent.message.text))
+                                //    {
+                                //        UserInfo = isRock.LineBot.Utility.GetGroupMemberProfile(groupId, userId, ChannelAccessToken);
 
-                                        //DateTime dt = (new DateTime(1970, 1, 1, 0, 0, 0)).AddHours(8).AddSeconds(LineEvent.timestamp);
+                                //        DateTime timestampTotime = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
+                                //        timestampTotime = timestampTotime.AddSeconds(LineEvent.timestamp / 1000).AddHours(8).ToLocalTime();
 
-                                        var qty = int.Parse(LineEvent.message.text.Substring(LineEvent.message.text.IndexOf("+", StringComparison.Ordinal)));
+                                //        DateTime dt = (new DateTime(1970, 1, 1, 0, 0, 0)).AddHours(8).AddSeconds(LineEvent.timestamp);
 
-                                        BotService.CheckLineCustomer(userId, UserInfo.displayName);
+                                //        var qty = int.Parse(LineEvent.message.text.Substring(LineEvent.message.text.IndexOf("+", StringComparison.Ordinal)));
 
-                                        BotService.CheckGroupOrder(campaigns[i].CampaignID, timestampTotime, userId, campaigns[i].ProductID, qty);
+                                //        BotService.CheckLineCustomer(userId, UserInfo.displayName);
 
-                                        //foreach (var AdminUserId in AdminUser)
-                                        //{
-                                        //    this.PushMessage(AdminUserId, "活動編號:" + campaigns[i].CampaignID + "\n群組編號:\n" + LineEvent.source.groupId + "\n顧客編號:\n" + LineEvent.source.userId +
-                                        //        "\n顧客照片:\n" + UserInfo.pictureUrl + "\n名字:" + UserInfo.displayName + "\n購買:" + campaigns[i].Keyword + "\n數量:" + qty + "\n留言時間:" + timestampTotime);
-                                        //}
+                                //        BotService.CheckGroupOrder(campaigns[i].CampaignID, timestampTotime, userId, campaigns[i].ProductID, qty);
 
-                                        this.PushMessage(LineEvent.source.userId, "恭喜你在買越多省越多成功下單" + "\n購買:" + campaigns[i].Keyword + "\n數量:" + qty);
-                                    }
+                                //        foreach (var AdminUserId in AdminUser)
+                                //        {
+                                //            this.PushMessage(AdminUserId, "活動編號:" + campaigns[i].CampaignID + "\n群組編號:\n" + LineEvent.source.groupId + "\n顧客編號:\n" + LineEvent.source.userId +
+                                //                "\n顧客照片:\n" + UserInfo.pictureUrl + "\n名字:" + UserInfo.displayName + "\n購買:" + campaigns[i].Keyword + "\n數量:" + qty + "\n留言時間:" + timestampTotime);
+                                //        }
 
-                                }
+                                //        this.PushMessage(LineEvent.source.userId, "恭喜你在買越多省越多成功下單" + "\n購買:" + campaigns[i].Keyword + "\n數量:" + qty);
+                                //    }
+
+                                //}
                                 /*if (尋找群組(LineEvent))
                                 {
                                    正在進行的活動s=尋找符合此群組的活動並且正在進行(groupid)
@@ -153,11 +203,11 @@ namespace FBPlusOneBuy.Controllers
                     List<CompareStoreManager> managerId = LineBindingService.GroupNullCompare();
                     foreach (var item in managerId)
                     {
-                        StoreMeanger checkProfile = BotService.CheckMeanger(groupId, item.LineID);
-                        if (checkProfile.message != "Not found")
-                        {
-                            LineBindingService.CompareUpdateGroupid(groupId, item.StoreManagerID, timestampTotime);
-                        }
+                        //StoreMeanger checkProfile = BotService.CheckMeanger(groupId, item.LineID);
+                        //if (checkProfile.message != "Not found")
+                        //{
+                        //    LineBindingService.CompareUpdateGroupid(groupId, item.StoreManagerID, timestampTotime);
+                        //}
                         
                     }
 

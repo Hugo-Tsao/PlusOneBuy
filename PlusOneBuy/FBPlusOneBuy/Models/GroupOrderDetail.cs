@@ -9,7 +9,6 @@ namespace FBPlusOneBuy.Models
     [Table("GroupOrderDetail")]
     public partial class GroupOrderDetail
     {
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int GroupOrderDetailID { get; set; }
 
         public int GroupOrderID { get; set; }
@@ -18,14 +17,15 @@ namespace FBPlusOneBuy.Models
         [StringLength(128)]
         public string LineCustomerID { get; set; }
 
+        [Required]
         [StringLength(50)]
         public string ProductName { get; set; }
 
-        public decimal? UnitPrice { get; set; }
+        public decimal UnitPrice { get; set; }
 
-        public int? Quantity { get; set; }
+        public int Quantity { get; set; }
 
-        public DateTime? MessageDateTime { get; set; }
+        public DateTime MessageDateTime { get; set; }
 
         public virtual GroupOrder GroupOrder { get; set; }
 

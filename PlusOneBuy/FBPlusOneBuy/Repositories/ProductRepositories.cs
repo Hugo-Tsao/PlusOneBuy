@@ -23,12 +23,12 @@ namespace FBPlusOneBuy.Repositories
             return products;
         }
 
-        public bool SelectProduct(int skuId)
+        public bool SelectProduct(int productId)
         {
             using (var conn = new SqlConnection(connectionString))
             {
                 string sql = "Select count(*) From Products Where ProductID = @ProductID";
-                int count_result = conn.QueryFirstOrDefault<int>(sql, new {ProductID = skuId});
+                int count_result = conn.QueryFirstOrDefault<int>(sql, new {ProductID = productId });
                 if (count_result == 0)
                 {
                     return false;
@@ -43,6 +43,15 @@ namespace FBPlusOneBuy.Repositories
             {
                 string sql = "INSERT INTO Products(ProductID, ProductPageID, UnitPrice, ProductName) VALUES ( @SkuId, @Salepage_id, @UnitPrice,@ProductName)";
                 conn.Execute(sql, new { pvm.SkuId, pvm.Salepage_id, pvm.UnitPrice,pvm.ProductName });
+            }
+        }
+        public Product GetProductById(int productID)
+        {
+            using (var conn = new SqlConnection(connectionString))
+            {
+                string sql = "SELECT ProductName,UnitPrice FROM Products WHERE ProductID=@productID";
+                Product product = conn.QueryFirstOrDefault<Product>(sql, new { productID });
+                return product;
             }
         }
     }

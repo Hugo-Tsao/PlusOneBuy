@@ -46,6 +46,11 @@ namespace FBPlusOneBuy.Models
                 .WithRequired(e => e.AspNetUser)
                 .HasForeignKey(e => e.UserId);
 
+            modelBuilder.Entity<Campaign>()
+                .HasMany(e => e.GroupOrders)
+                .WithRequired(e => e.Campaign)
+                .WillCascadeOnDelete(false);
+
             modelBuilder.Entity<Customer>()
                 .Property(e => e.CustomerID)
                 .IsUnicode(false);

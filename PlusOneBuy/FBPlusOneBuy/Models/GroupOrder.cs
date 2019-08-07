@@ -17,16 +17,16 @@ namespace FBPlusOneBuy.Models
 
         public int GroupOrderID { get; set; }
 
-        public int? CampaignID { get; set; }
+        public int CampaignID { get; set; }
 
-        public DateTime? OrderDateTime { get; set; }
+        public DateTime OrderDateTime { get; set; }
 
         [StringLength(10)]
         public string shipDateTime { get; set; }
 
-        public bool? isGroup { get; set; }
+        public bool isGroup { get; set; }
 
-        public int? NumberOfPeople { get; set; }
+        public int? NumberOfProduct { get; set; }
 
         public decimal? Amount { get; set; }
 

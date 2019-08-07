@@ -19,7 +19,7 @@ namespace FBPlusOneBuy.Controllers
     public class LineBotWebHookController : isRock.LineBot.LineWebHookControllerBase
     {
         string channelAccessToken = ConfigurationManager.AppSettings["channelAccessToken"];
-        
+
         List<string> AdminUser = new List<string>()
         { ConfigurationManager.AppSettings["AdminUserId"],ConfigurationManager.AppSettings["AdminUserId2"],ConfigurationManager.AppSettings["AdminUserId3"]};
 
@@ -51,81 +51,79 @@ namespace FBPlusOneBuy.Controllers
                 if (LineEvent.type == "message")
                 {
                     if (LineEvent.source.groupId != null)
+                    {
+                        //使用者ID和群組ID
+                        string userId = LineEvent.source.userId;
+                        string groupId = LineEvent.source.groupId;
+                        UserInfo = isRock.LineBot.Utility.GetGroupMemberProfile(groupId, userId, ChannelAccessToken);
+                        LineGroupService lineGroupService = new LineGroupService(groupId);
+                        if (lineGroupService.SearchLineGroup())  //尋找群組
                         {
-                            //使用者ID和群組ID
-                            string userId = LineEvent.source.userId;
-                            string groupId = LineEvent.source.groupId;
-                            UserInfo = isRock.LineBot.Utility.GetGroupMemberProfile(groupId, userId, ChannelAccessToken);
-                            LineGroupService lineGroupService = new LineGroupService(groupId);
-                            if (lineGroupService.SearchLineGroup())  //尋找群組
+                            //取得正在執行的活動
+                            CampaignService campaignService = new CampaignService();
+                            List<Campaign> campaigns = campaignService.GetWorkingCampaign(groupId);
+                            foreach (Campaign campaign in campaigns)
                             {
-                                //取得正在執行的活動
-                                CampaignService campaignService = new CampaignService();
-                                List<Campaign> campaigns = campaignService.GetWorkingCampaign(groupId);  
-
-                                foreach (Campaign campaign in campaigns)
+                                //取得留言數量(組)
+                                ////因為目前Line團購只有+1+2的關鍵字，所以在第三個參數(keywordPattern)寫+1的Pattern
+                                int number = CommentFilterService.KeywordFilter(LineEvent.message.text, campaign.Keyword, "+1");
+                                if (number != 0 && number <= campaign.ProductGroup)
                                 {
-                                    //取得留言數量(組)
-                                    ////因為目前Line團購只有+1+2的關鍵字，所以在第三個參數(keywordPattern)寫+1的Pattern
-                                    int number = CommentFilterService.KeywordFilter(LineEvent.message.text,campaign.Keyword,"+1");
-                                    if (number != 0 && number <= campaign.ProductGroup)
+                                    //將搜尋到或新增的Customer存在lineCustomer裡
+                                    LineCustomerViewModel lineCustomer = new LineCustomerViewModel();
+                                    //搜尋是此訊息的人是否已存在LineCustomer資料表中
+                                    if (!BotService.SearchLineCustomer(userId, UserInfo.displayName, ref lineCustomer))
                                     {
-                                        //將搜尋到或新增的Customer存在lineCustomer裡
-                                        LineCustomerViewModel lineCustomer = new LineCustomerViewModel();
-                                        //搜尋是此訊息的人是否已存在LineCustomer資料表中
-                                        if (!BotService.SearchLineCustomer(userId, UserInfo.displayName,ref lineCustomer))
-                                        {
-                                            //否，新增一筆
-                                            lineCustomer = BotService.InsertLineCustomer(userId, UserInfo.displayName);
-                                        }
-                                        DateTime messageDateTime = BotService.TimestampToDateTime(LineEvent.timestamp);
-                                        
-                                        //開始建訂單
-                                        GroupOrderViewModel groupOrder = new GroupOrderViewModel();
-                                        GroupOrderService groupOrderService = new GroupOrderService();
-                                        Product product = new Product();
-                                        product = ProductService.GetProductById(campaign.ProductID);
-
-                                        //若此留言要成單，所需的成團數量空間
-                                        int remaningNumber = campaign.ProductGroup - number;
-                                        //如果訂單人數還未滿，就拿此單來用，否則建新的
-                                        if (groupOrderService.GetGroupOrder(campaign.CampaignID, remaningNumber, ref groupOrder))
-                                        {
-                                                decimal amount = product.UnitPrice * number;
-                                                groupOrderService.InsertGroupOrder(campaign.CampaignID, messageDateTime, campaign.ProductGroup);
-                                                groupOrderService.GetGroupOrder(campaign.CampaignID, remaningNumber, ref groupOrder);
-                                        }
-
-                                        //條件都達成，開始下單
-                                        GroupOrderDetail groupOrderDetail = new GroupOrderDetail()
-                                        {
-                                            GroupOrderID = groupOrder.GroupOrderID,
-                                            LineCustomerID = lineCustomer.LineCustomerID,
-                                            ProductName = product.ProductName,
-                                            UnitPrice = product.UnitPrice,
-                                            Quantity = number,
-                                            MessageDateTime = messageDateTime
-                                        };
-                                        GroupOrderDetailService groupOrderDetailService = new GroupOrderDetailService();
-                                        groupOrderDetailService.InsertGroupOrderDetail(groupOrderDetail);
-                                        
-                                        //更新清單資料
-                                        int currentNumberOfProduct = groupOrder.NumberOfProduct + number;
-                                        decimal Amount = groupOrder.Amount + groupOrderDetail.UnitPrice * groupOrderDetail.Quantity;
-                                        bool isGroup = false;
-                                        if (currentNumberOfProduct == campaign.ProductGroup)
-                                        {
-                                            isGroup = true;
-
-                                        }
-                                        groupOrderService.UpdateGroupOrder(groupOrder.GroupOrderID,currentNumberOfProduct, Amount, isGroup);
-
-                                        break;
+                                        //否，新增一筆
+                                        lineCustomer = BotService.InsertLineCustomer(userId, UserInfo.displayName);
                                     }
-                                }
 
+                                    //開始建訂單
+                                    GroupOrderViewModel groupOrder = new GroupOrderViewModel();
+                                    GroupOrderService groupOrderService = new GroupOrderService();
+                                    Product product = new Product();
+                                    product = ProductService.GetProductById(campaign.ProductID);
+                                    DateTime messageDateTime = BotService.TimestampToDateTime(LineEvent.timestamp);
+
+                                    //若此留言要成單，所需的成團數量空間
+                                    int remaningNumber = campaign.ProductGroup - number;
+                                    //如果訂單人數還未滿，就拿此單來用，否則建新的
+                                    if (groupOrderService.GetGroupOrder(campaign.CampaignID, remaningNumber, ref groupOrder))
+                                    {
+                                        decimal amount = product.UnitPrice * number;
+                                        groupOrderService.InsertGroupOrder(campaign.CampaignID, messageDateTime, campaign.ProductGroup);
+                                        groupOrderService.GetGroupOrder(campaign.CampaignID, remaningNumber, ref groupOrder);
+                                    }
+
+                                    //條件都達成，開始下單
+                                    GroupOrderDetail groupOrderDetail = new GroupOrderDetail()
+                                    {
+                                        GroupOrderID = groupOrder.GroupOrderID,
+                                        LineCustomerID = lineCustomer.LineCustomerID,
+                                        ProductName = product.ProductName,
+                                        UnitPrice = product.UnitPrice,
+                                        Quantity = number,
+                                        MessageDateTime = messageDateTime
+                                    };
+                                    GroupOrderDetailService groupOrderDetailService = new GroupOrderDetailService();
+                                    groupOrderDetailService.InsertGroupOrderDetail(groupOrderDetail);
+
+                                    //更新清單資料
+                                    int currentNumberOfProduct = groupOrder.NumberOfProduct + number;
+                                    decimal Amount = groupOrder.Amount + groupOrderDetail.UnitPrice * groupOrderDetail.Quantity;
+                                    bool isGroup = false;
+                                    if (currentNumberOfProduct == campaign.ProductGroup)
+                                    {
+                                        isGroup = true;
+
+                                    }
+                                    groupOrderService.UpdateGroupOrder(groupOrder.GroupOrderID, currentNumberOfProduct, Amount, isGroup);
+
+                                    break;
+                                }
                             }
                         }
+                    }
 
 
                     if (LineEvent.message.type == "sticker")

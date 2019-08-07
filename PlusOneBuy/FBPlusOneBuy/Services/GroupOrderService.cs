@@ -25,6 +25,7 @@ namespace FBPlusOneBuy.Services
             }
             catch (NullReferenceException e)
             {
+                Console.WriteLine(e);
                 return true;
             }
         }
@@ -51,8 +52,15 @@ namespace FBPlusOneBuy.Services
             }
             catch(Exception e)
             {
+                Console.WriteLine(e);
                 return false;
             }
+        }
+
+        public List<GroupOrderListGroupOrderViewModel> SelectGroupOrders(int campaignID)
+        {
+            var groupOrders=groupOrder_repo.SelectGroupOrders(campaignID);
+            return groupOrders;
         }
     }
 }

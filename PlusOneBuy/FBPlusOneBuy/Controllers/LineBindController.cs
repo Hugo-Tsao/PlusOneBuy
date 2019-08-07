@@ -15,7 +15,6 @@ namespace FBPlusOneBuy.Controllers
         {
             int managerId = LineBindingService.GetManagerId(aspNetUserId);
             LineBindingService.InsertGroupName(managerId, groupName);
-            
         }
 
         //[HttpGet]

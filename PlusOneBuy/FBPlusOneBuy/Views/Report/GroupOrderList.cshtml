@@ -1,4 +1,4 @@
-﻿
+﻿@model List<FBPlusOneBuy.ViewModels.GroupOrderListGroupOrderViewModel>
 @{
     ViewBag.Title = "GroupOrderList";
     Layout = "~/Views/Shared/Main_Layout.cshtml";
@@ -9,7 +9,7 @@
 <span>/</span>
 <a class="h4 font-weight-normal text-muted" href="@Url.Action("Index","Report")">社群</a>
 <span>/</span>
-<a class="h4 font-weight-normal text-muted" href="@Url.Action("Fblist","Report")">直播清單</a>
+<a class="h4 font-weight-normal text-muted" href="@Url.Action("Linelist","Report")">活動清單</a>
 <span>/</span>
 <span class="h4 font-weight-normal text-muted"><strong>留言訂單</strong></span>
 
@@ -25,6 +25,7 @@
 <table id="myTable" class="cell-border compact stripe" style="width:100%">
     <thead>
         <tr>
+<<<<<<< HEAD
             <th>GroupOrderID</th>
             <th>CampaignID</th>
             <th>OrderDateTime</th>
@@ -33,12 +34,22 @@
             <th>NumberOfPeople</th>
             <th>Amount</th>
             <th>訂單明細</th>
+=======
+            <th>@Html.DisplayNameFor(model => model.FirstOrDefault().GroupOrderID)</th>
+            <th>@Html.DisplayNameFor(model => model.FirstOrDefault().OrderDateTime)</th>
+            <th>@Html.DisplayNameFor(model => model.FirstOrDefault().shipDateTime)</th>
+            <th>@Html.DisplayNameFor(model => model.FirstOrDefault().isGroup)</th>
+            <th>尚缺</th>
+            <th>@Html.DisplayNameFor(model => model.FirstOrDefault().Amount)</th>
+>>>>>>> 4d12b5d1c43a5fb6faa72b61d5481fa67da9de58
             <th>成單</th>
             <th>發送成團訊息</th>
             <th>發送取貨訊息</th>
         </tr>
     </thead>
     <tbody>
+        @foreach (var item in Model)
+        {
         <tr>
             <td>
                 1
@@ -61,6 +72,12 @@
             <td>
                 1000
             </td>
+            <td>@Html.DisplayFor(model => item.GroupOrderID)</td>
+            <td>@Html.DisplayFor(model => item.OrderDateTime)</td>
+            <td>@Html.DisplayFor(model => item.shipDateTime)</td>
+            <td>@Html.DisplayFor(model => item.isGroup)</td>
+            <td>@(item.ProductGroup - item.NumberOfProduct)</td>
+            <td>@Html.DisplayFor(model => item.Amount)</td>
             <td>
                 @Html.ActionLink("...", "GroupOrderDetailList", new { GroupOrderID=6 })
             </td>
@@ -74,7 +91,7 @@
                 <button class="btn btn-link">取貨訊息</button>
             </td>
         </tr>
-
+        }
     </tbody>
 </table>
 @section EndJS

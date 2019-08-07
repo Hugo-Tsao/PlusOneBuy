@@ -69,7 +69,7 @@ namespace FBPlusOneBuy.Services
             LineCustomerRepository lineCustomer_repo = new LineCustomerRepository();
             SendMessageViewModel messageInfo = lineGroup_repo.GetMessageInfoByGroupOrderId(groupOrderId);
             List<NameAndQtyViewModel> customers = lineCustomer_repo.GetCustomersByGroupOrderId(groupOrderId);
-            string message = $"活動名稱:{messageInfo.Title}\n活動時間:{messageInfo.PostTime}到{messageInfo.EndTime}\n";
+            string message = $"活動名稱:{messageInfo.Title}\n商品名稱:{messageInfo.ProductName}\n活動時間:{messageInfo.PostTime}到{messageInfo.EndTime}\n";
             groupId = messageInfo.LineGroupId;
             foreach (var customer in customers)
             {

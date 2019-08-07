@@ -37,6 +37,7 @@ namespace FBPlusOneBuy.ViewModels
         public int NumberOfProduct { get; set; }
 
         [Display(Name = "總額")]
+        [DisplayFormat(DataFormatString = "{0:N0}")]
         public decimal Amount { get; set; }
 
         [Display(Name = "成團數量")]

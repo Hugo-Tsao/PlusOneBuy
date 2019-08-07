@@ -1,17 +1,15 @@
 ﻿@model List<FBPlusOneBuy.ViewModels.GroupOrderListGroupOrderViewModel>
 @{
-    ViewBag.Title = "GroupOrderList";
+    
     Layout = "~/Views/Shared/Main_Layout.cshtml";
 }
-
-<h2>GroupOrderList</h2>
 <span class="h4 font-weight-normal text-muted">查詢活動</span>
 <span>/</span>
 <a class="h4 font-weight-normal text-muted" href="@Url.Action("Index","Report")">社群</a>
 <span>/</span>
 <a class="h4 font-weight-normal text-muted" href="@Url.Action("Linelist","Report")">活動清單</a>
 <span>/</span>
-<span class="h4 font-weight-normal text-muted"><strong>留言訂單</strong></span>
+<span class="h4 font-weight-normal text-muted"><strong>訂單</strong></span>
 
 <div class="row mt-3">
     <div class="col">
@@ -30,6 +28,7 @@
             <th>@Html.DisplayNameFor(model => model.FirstOrDefault().isGroup)</th>
             <th>尚缺</th>
             <th>@Html.DisplayNameFor(model => model.FirstOrDefault().Amount)</th>
+            <th>明細</th>
             <th>成單</th>
             <th>發送成團訊息</th>
             <th>發送取貨訊息</th>
@@ -41,10 +40,21 @@
         <tr>
             <td>@Html.DisplayFor(model => item.GroupOrderID)</td>
             <td>@Html.DisplayFor(model => item.OrderDateTime)</td>
-            <td>@Html.DisplayFor(model => item.shipDateTime)</td>
+            @if (item.shipDateTime == null)
+            {
+                <td>未到貨</td>
+            }
+            else
+            {
+                @Html.DisplayFor(model => item.shipDateTime )
+            }
+
             <td>@Html.DisplayFor(model => item.isGroup)</td>
             <td>@(item.ProductGroup - item.NumberOfProduct)</td>
             <td>@Html.DisplayFor(model => item.Amount)</td>
+            <td>
+                @Html.ActionLink("...", "GroupOrderDetailList", new { GroupOrderID = item.GroupOrderID,campaignID=ViewBag.campaignID })
+            </td>
             <td>
                 <button class="btn btn-link">此團成單</button>
             </td>

@@ -15,7 +15,6 @@
         <a href="#" class="p-2" id="bind_line">Line</a>
         <a href="#" class="p-2">Instagram</a>
     </div>
-
 </div>
 <div id="show_binding">
     @if (bingingPage != null)
@@ -87,10 +86,13 @@
             </div>
             <div class="col">
                 <button type="button" class="btn btn-link">移除</button>
+                <span>|</span>
+                <button type="button" class="btn btn-link" data-toggle="modal" data-target="#addBot">機器人好友</button>
             </div>
         </div>
     }
 }
+
 <div class="modal fade" id="addGroupName" role="dialog">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -106,6 +108,31 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-dark close" data-dismiss="modal">取消</button>
                 <button type="button" class="btn btn-dark" id="insertGroup">確認</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="addBot" role="dialog" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span>機器人好友</span>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>(1)透過行動條碼加入LINE好友</p>
+                <p>
+                    請在LINE應用程式上開啟「好友」分頁，點選畫面右上方用來加入好友的圖示，
+                    接著點選「行動條碼」，然後掃描此行動條碼。
+                </p>
+                <p class="text-center mt-3">Line Bot 機器人</p>
+                <img class="rounded mx-auto d-block" style="width:50%;" src="~/Assets/images/BotQR_mjj9361v.png" />
+                <p class="lead text-center">ID:@@mjj9361v</p>
+
+                <p>(2)將機器人加入至團購群組</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-dark" data-dismiss="modal" >確認</button>
             </div>
         </div>
     </div>

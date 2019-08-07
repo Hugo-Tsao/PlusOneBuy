@@ -30,13 +30,12 @@ namespace FBPlusOneBuy.Services
             return result;
         }
 
-        public bool InsertCampaign(CampaignViewModel cvm)
+        public void InsertCampaign(CampaignViewModel cvm)
         {
             try
             {
                 CampaignRepository campaign_repo = new CampaignRepository();
                 campaign_repo.InsertGroupBuy(cvm);
-                return true;
             }
             catch (Exception e)
             {

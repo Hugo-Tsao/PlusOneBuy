@@ -8,19 +8,19 @@
 <span>/</span>
 <a class="h4 font-weight-normal text-muted" href="@Url.Action("Index","Report")">社群</a>
 <span>/</span>
-<a class="h4 font-weight-normal text-muted" href="@Url.Action("Linelist","Report")">團購清單</a>
+<a class="h4 font-weight-normal text-muted" href="@Url.Action("Linelist","Report")">活動清單</a>
 <span>/</span>
-<a class="h4 font-weight-normal text-muted" href="@Url.Action("GroupOrderList","Report")">訂單</a>
+<a class="h4 font-weight-normal text-muted" href="@Url.Action("GroupOrderList","Report",new { campaignID=ViewBag.campaignID})">訂單</a>
 <span>/</span>
-<span class="h4 font-weight-normal text-muted"><strong>留言訂單</strong></span>
+<span class="h4 font-weight-normal text-muted"><strong>明細</strong></span>
 
 <div class="row mt-3">
     <div class="col">
-        <p class="lead">
+        <p>
             @Html.DisplayNameFor(Model => Model.FirstOrDefault().NumberOfProduct):
             @Html.DisplayFor(Model => Model.FirstOrDefault().NumberOfProduct)
         </p>
-        <p class="lead">
+        <p>
             @Html.DisplayNameFor(Model => Model.FirstOrDefault().Amount):
             @Html.DisplayFor(Model => Model.FirstOrDefault().Amount)
         </p>

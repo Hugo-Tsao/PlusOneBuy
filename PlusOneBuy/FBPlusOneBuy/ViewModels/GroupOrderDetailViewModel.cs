@@ -15,6 +15,7 @@ namespace FBPlusOneBuy.ViewModels
         [Display(Name = "產品名稱")]
         public string ProductName { get; set; }
         [Display(Name = "價格")]
+        [DisplayFormat(DataFormatString = "{0:N0}")]
         public decimal UnitPrice { get; set; }
         [Display(Name = "數量")]
         public int Quantity { get; set; }

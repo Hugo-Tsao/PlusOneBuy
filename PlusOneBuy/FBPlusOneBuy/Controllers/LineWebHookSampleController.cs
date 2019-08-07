@@ -20,7 +20,7 @@ namespace FBPlusOneBuy.Controllers
     {
         List<string> AdminUser = new List<string>()
         { ConfigurationManager.AppSettings["AdminUserId"],ConfigurationManager.AppSettings["AdminUserId2"],ConfigurationManager.AppSettings["AdminUserId3"]};
-
+        string channelAccessToken = ConfigurationManager.AppSettings["channelAccessToken"];
 
 
         [Route("api/LineWebHook")]
@@ -29,6 +29,7 @@ namespace FBPlusOneBuy.Controllers
         {
             try
             {
+                this.ChannelAccessToken = channelAccessToken;
                 //取得Line Event(範例，只取第一個)
                 var LineEvent = this.ReceivedMessage.events.FirstOrDefault();
                 //配合Line verify 
@@ -50,7 +51,7 @@ namespace FBPlusOneBuy.Controllers
                         //使用者ID和群組ID
                         string userId = LineEvent.source.userId;
                         string groupId = LineEvent.source.groupId;
-                        UserInfo = isRock.LineBot.Utility.GetGroupMemberProfile(groupId, userId, ChannelAccessToken);
+                        UserInfo = isRock.LineBot.Utility.GetGroupMemberProfile(groupId, userId, channelAccessToken);
                         LineGroupService lineGroupService = new LineGroupService(groupId);
                         if (lineGroupService.SearchLineGroup())  //尋找群組
                         {

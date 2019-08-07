@@ -6,6 +6,7 @@ using System.Linq;
 using System.Web;
 using Dapper;
 using FBPlusOneBuy.Models;
+using FBPlusOneBuy.ViewModels;
 
 namespace FBPlusOneBuy.Repositories
 {
@@ -27,6 +28,19 @@ namespace FBPlusOneBuy.Repositories
                     orderDetail.Quantity,
                     orderDetail.MessageDateTime
                 });
+            }
+        }
+        public IEnumerable<GroupOrderDetailViewModel> GetDetailByGroupOrderID(int GroupOrderID)
+        {
+            using (conn = new SqlConnection(connectionString))
+            {
+                //string sql = "SELECT GroupOrderDetailID,Name,ProductName,UnitPrice,Quantity,MessageDateTime FROM GroupOrderDetail AS Od INNER JOIN LineCustomer AS Lc ON lc.LineCustomerID=Od.LineCustomerID WHERE GroupOrderID=@GroupOrderID";
+                string sql = @"SELECT g.Amount,g.NumberOfProduct,GroupOrderDetailID,Name,ProductName,UnitPrice,Quantity,MessageDateTime
+                                FROM GroupOrderDetail AS Od 
+                                INNER JOIN LineCustomer AS Lc ON lc.LineCustomerID=Od.LineCustomerID 
+                                INNER JOIN GroupOrder AS G ON od.GroupOrderID=g.GroupOrderID
+                                WHERE od.GroupOrderID=@GroupOrderID";
+                return conn.Query<GroupOrderDetailViewModel>(sql,new { GroupOrderID });
             }
         }
     }

@@ -16,5 +16,6 @@ namespace FBPlusOneBuy.ViewModels
         public DateTime PostTime { get; set; }
         public DateTime EndTime { get; set; }
         public string Detail { get; set; }
+        public string Title { get; set; }
     }
 }

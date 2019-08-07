@@ -23,9 +23,9 @@ namespace FBPlusOneBuy.Controllers
         {
             int id = LineBindingService.GGetIdByGroupId(LineGroupID);
             cvm.GroupID = id;
-            cvm.PostTime = DateTime.Now;
+            cvm.PostTime = DateTime.UtcNow.AddHours(8);
             CampaignService campaignService = new CampaignService();
-            ViewData["result"] = campaignService.InsertCampaign(cvm);
+            campaignService.InsertCampaign(cvm);
             BotService.BotPushMsg(LineGroupID, cvm.Detail);
             return RedirectToAction("FanPageName", "Setting");
         }

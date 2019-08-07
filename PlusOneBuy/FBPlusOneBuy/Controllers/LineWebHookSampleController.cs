@@ -44,7 +44,7 @@ namespace FBPlusOneBuy.Controllers
                 //CampaignService campaignService = new CampaignService("Cdce46b42293efcd6ff973d08be1e0642");
                 //var result = campaignService.GetAllCampaign(time);
 
-                Regex re;
+                //Regex re;
                 LineUserInfo UserInfo = null;
 
                 //回覆訊息
@@ -149,20 +149,18 @@ namespace FBPlusOneBuy.Controllers
                         {
                             LineBindingService.CompareUpdateGroupid(groupId, item.StoreManagerID, timestampTotime);
                         }
-
                     }
-
                 }
 
                 return Ok();
             }
             catch (Exception ex)
             {
-                //foreach (var AdminUserId in AdminUser)
-                //{
-                //    this.PushMessage(AdminUserId, "發生錯誤:\n" + ex.Message);
-                //}
-                this.PushMessage("Ucdc2dc5b487115e350682f16dfb73b0f", "發生錯誤:\n" + ex.Message);
+                foreach (var AdminUserId in AdminUser)
+                {
+                    this.PushMessage(AdminUserId, "發生錯誤:\n" + ex.Message);
+                }
+
                 return Ok();
             }
         }

@@ -34,23 +34,23 @@ namespace FBPlusOneBuy.Services
             IRestResponse response = client.Execute(request);
 
         }
-        //public static StoreMeanger CheckMeanger(string groupId, string managerUserId)
-        //{
+        public static StoreMeanger CheckMeanger(string groupId, string managerUserId)
+        {
 
-        //    var groupUrl = "https://api.line.me/v2/bot/group/" + groupId + "/member/" + managerUserId;
-        //    var client = new RestClient(groupUrl);
-        //    var request = new RestRequest(Method.GET);
-        //    request.AddHeader("cache-control", "no-cache");
-        //    request.AddHeader("Connection", "keep-alive");
-        //    request.AddHeader("Accept-Encoding", "gzip, deflate");
-        //    request.AddHeader("Host", "api.line.me");
-        //    request.AddHeader("Cache-Control", "no-cache");
-        //    request.AddHeader("Accept", "*/*");
-        //    request.AddHeader("Authorization", string.Format("Bearer " + channelAccessToken));
-        //    IRestResponse response = client.Execute(request);
-        //    StoreMeanger StoreMeanger = Newtonsoft.Json.JsonConvert.DeserializeObject<StoreMeanger>(response.Content);
-        //    return StoreMeanger;
-        //}
+            var groupUrl = "https://api.line.me/v2/bot/group/" + groupId + "/member/" + managerUserId;
+            var client = new RestClient(groupUrl);
+            var request = new RestRequest(Method.GET);
+            request.AddHeader("cache-control", "no-cache");
+            request.AddHeader("Connection", "keep-alive");
+            request.AddHeader("Accept-Encoding", "gzip, deflate");
+            request.AddHeader("Host", "api.line.me");
+            request.AddHeader("Cache-Control", "no-cache");
+            request.AddHeader("Accept", "*/*");
+            request.AddHeader("Authorization", string.Format("Bearer " + channelAccessToken));
+            IRestResponse response = client.Execute(request);
+            StoreMeanger StoreMeanger = Newtonsoft.Json.JsonConvert.DeserializeObject<StoreMeanger>(response.Content);
+            return StoreMeanger;
+        }
         public static bool SearchLineCustomer(string customerId,string customerName,ref LineCustomerViewModel lineCustomer)
         {
             LineCustomerRepository LineCustomer_repo = new LineCustomerRepository();
@@ -65,10 +65,8 @@ namespace FBPlusOneBuy.Services
 
         public static DateTime TimestampToDateTime(long timestamp)
         {
-            //double millionSecond = Convert.ToDouble(timestamp);
-            //DateTime timestampTotime = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
-            //DateTime result = timestampTotime.AddMilliseconds(millionSecond).AddHours(8).ToLocalTime();
-            DateTime result = (new DateTime(1970, 1, 1, 0, 0, 0)).AddHours(8).AddSeconds(timestamp);
+            double millionSecond = Convert.ToDouble(timestamp);
+            DateTime result = new DateTime(1970, 1, 1, 0, 0, 0).AddHours(8).AddMilliseconds(millionSecond);
             return result;
         }
         public static LineCustomerViewModel InsertLineCustomer(string customerId, string customerName)
@@ -76,58 +74,6 @@ namespace FBPlusOneBuy.Services
             LineCustomerRepository LineCustomer_repo = new LineCustomerRepository();
             LineCustomer_repo.InsertCustomer(customerId,customerName);
             return new LineCustomerViewModel() {LineCustomerID = customerId, Name = customerName};
-        }
-        public static void CheckGroupOrder(int campaignID, DateTime orderDateTime, string userId, int productId, int qty)
-        {
-            //GroupOrderRespository GroupOrder_repo = new GroupOrderRespository();
-            //Product product = GroupOrder_repo.GetProductById(productId);
-
-            //判斷GroupOrder是否有
-            //int checkGroupOrder =GroupOrder_repo.GetGroupOrderById(campaignID);
-
-
-            //if (checkGroupOrder == 0 )
-            //{
-            //    //新增GroupOrder
-            //    decimal? amount = product.UnitPrice * qty;
-            //    GroupOrder_repo.InsertGroupOrder(campaignID, orderDateTime, amount);
-            //}
-
-            ////新增GroupOrderDetail並判斷顧客是否留言過
-            //int GroupOrderID = GroupOrder_repo.GetGroupOrderById(campaignID);
-            //var CheckDetailCustomer = GroupOrder_repo.CheckOrderDetailByCustomer(GroupOrderID, userId);
-
-            //if (CheckDetailCustomer == true)
-            //{   //修改顧客GroupOrderDetail數量        
-            //    GroupOrder_repo.UpdateOrderDetailByCustomer(GroupOrderID, userId, qty);
-
-            //}
-            //else
-            //{
-            //    //新增GroupOrderDetail
-            //    var OrderDetail = new GroupOrderDetail()
-            //    {
-            //        GroupOrderID = GroupOrderID,
-            //        LineCustomerID = userId,
-            //        ProductName = product.ProductName,
-            //        UnitPrice = product.UnitPrice,
-            //        Quantity = qty,
-            //        MessageDateTime = orderDateTime
-            //    };
-            //GroupOrder_repo.InsertGroupOrderDetail(OrderDetail);
-            //var checkisGroup = GroupOrder_repo.CheckisGroup(campaignID);
-            //if (checkisGroup == 0)
-            //{
-            //    //修改grouporder isgroup 狀態
-            //    GroupOrder_repo.UpdateisGroup(campaignID);
-            //}
-
-            //}
-
-            ////修改GroupOrder(AmountQty) 
-            //var AmountQty = GroupOrder_repo.GETGroupOrderAmountQty(GroupOrderID);
-            //GroupOrder_repo.UpdateGroupOrder(GroupOrderID, AmountQty.NumberOfPeople, AmountQty.Amount);
-
         }
     }
 }

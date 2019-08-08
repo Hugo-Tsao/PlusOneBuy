@@ -47,6 +47,24 @@
     <script>
         $(function () {
             $("#SearchProduct").on('click', SearchProduct);
+            $('button[type="submit"]').click(function () {
+                var now = new Date()    
+                now.setHours( now.getHours() + 8 );
+                now = new Date(now.toUTCString());
+                
+                var EndTime = $('#EndTime').val()
+                EndTime = new Date(EndTime)
+                EndTime.setHours( EndTime.getHours() + 8 );
+                EndTime = new Date(EndTime.toUTCString());
+
+                if (now.valueOf() - EndTime.valueOf() > 0) {
+                    alert("注意結束時間不能晚於現在時間")
+                    return false;
+                }
+                else {
+                    document.form.onsubmit();
+                }
+            })
 
             function SearchProduct()
             {

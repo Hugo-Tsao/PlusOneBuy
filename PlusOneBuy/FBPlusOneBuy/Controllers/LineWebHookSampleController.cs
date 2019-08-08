@@ -41,17 +41,17 @@ namespace FBPlusOneBuy.Controllers
                 //var result = campaignService.GetAllCampaign(time);
 
                 //Regex re;
+                string userId = LineEvent.source.userId;
+                string groupId = LineEvent.source.groupId;
                 LineUserInfo UserInfo = null;
-
+                UserInfo = isRock.LineBot.Utility.GetGroupMemberProfile(groupId, userId, channelAccessToken);
                 //回覆訊息
                 if (LineEvent.type == "message")
                 {
-                    if (LineEvent.source.groupId != null)
+                    if (LineEvent.message.type=="text" && LineEvent.source.groupId != null)
                     {
                         //使用者ID和群組ID
-                        string userId = LineEvent.source.userId;
-                        string groupId = LineEvent.source.groupId;
-                        UserInfo = isRock.LineBot.Utility.GetGroupMemberProfile(groupId, userId, channelAccessToken);
+                                              
                         LineGroupService lineGroupService = new LineGroupService(groupId);
                         if (lineGroupService.SearchLineGroup())  //尋找群組
                         {
@@ -114,7 +114,7 @@ namespace FBPlusOneBuy.Controllers
 
                                     }
                                     groupOrderService.UpdateGroupOrder(groupOrder.GroupOrderID, currentNumberOfProduct, Amount, isGroup);
-                                    this.PushMessage(LineEvent.source.groupId, "感謝"+ UserInfo.displayName+"的下標!等待活動結束後會一併通知團購成功名單");
+                                    this.PushMessage(groupId, "感謝"+ UserInfo.displayName+"的下標!等待活動結束後會一併通知團購成功名單");
                                     break;
                                 }
                             }
@@ -133,7 +133,6 @@ namespace FBPlusOneBuy.Controllers
                 {
                     DateTime timestampTotime = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
                     timestampTotime = timestampTotime.AddSeconds(LineEvent.timestamp / 1000).ToLocalTime();
-                    string groupId = LineEvent.source.groupId;
 
                     List<CompareStoreManager> managerId = LineBindingService.GroupNullCompare();
                     foreach (var item in managerId)

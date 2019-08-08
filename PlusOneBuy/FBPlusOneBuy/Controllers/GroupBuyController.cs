@@ -33,9 +33,22 @@ namespace FBPlusOneBuy.Controllers
         [HttpPost]
         public ActionResult PushMessageToLineGroup(int GroupOrderID)
         {
+            
             string lineGroupId = string.Empty;
             string msg = BotService.SetMsgFormat(GroupOrderID, ref lineGroupId);
             BotService.BotPushMsg(lineGroupId,msg);
+            return Json("OK");
+        }
+
+        [HttpPost]
+        public ActionResult PushArrivedMessageToLineGroup(int GroupOrderID)
+        {
+            string lineGroupId = string.Empty;
+            string msg = BotService.SetArrivedMsgFormat(GroupOrderID, ref lineGroupId);
+            BotService.BotPushMsg(lineGroupId, msg);
+            GroupOrderService groupOrderService = new GroupOrderService();
+            groupOrderService.UpdateShipDateTime(GroupOrderID,DateTime.UtcNow.AddHours(8));
+
             return Json("OK");
         }
     }

@@ -62,5 +62,9 @@ namespace FBPlusOneBuy.Services
             var groupOrders=groupOrder_repo.SelectGroupOrders(campaignID);
             return groupOrders;
         }
+        public void UpdateShipDateTime(int GroupOrderID,DateTime shipDateTime)
+        {
+            groupOrder_repo.UpdateGroupOrder(GroupOrderID, shipDateTime);
+        }
     }
 }

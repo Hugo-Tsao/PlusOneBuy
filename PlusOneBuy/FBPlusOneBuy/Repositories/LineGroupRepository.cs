@@ -92,7 +92,7 @@ namespace FBPlusOneBuy.Repositories
         {
             using (conn = new SqlConnection(connectionString))
             {
-                string sql = "SELECT lg.LineGroupID,p.ProductName,c.Title,c.PostTime,c.EndTime FROM LineGroup lg INNER JOIN Campaign c ON c.GroupID = lg.GroupID INNER JOIN GroupOrder g ON g.CampaignID = c.CampaignID WHERE g.GroupOrderID = @GroupOrderId";
+                string sql = "SELECT lg.LineGroupID,p.ProductName,c.Title,c.PostTime,c.EndTime FROM LineGroup lg INNER JOIN Campaign c ON c.GroupID = lg.GroupID INNER JOIN GroupOrder g ON g.CampaignID = c.CampaignID INNER JOIN Products p ON p.ProductID = c.ProductID WHERE g.GroupOrderID = @GroupOrderId";
                 SendMessageViewModel result = conn.QueryFirstOrDefault<SendMessageViewModel>(sql,new { GroupOrderId = groupOrderId });
                 return result;
             }

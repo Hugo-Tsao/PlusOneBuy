@@ -34,8 +34,7 @@ namespace FBPlusOneBuy.Services
         {
             try
             {
-                CampaignRepository campaign_repo = new CampaignRepository();
-                campaign_repo.InsertGroupBuy(cvm);
+                Campaign_repo.InsertGroupBuy(cvm);
             }
             catch (Exception e)
             {
@@ -55,6 +54,12 @@ namespace FBPlusOneBuy.Services
             CampaignRepository campaign_repo = new CampaignRepository();
             var campaigns = campaign_repo.SelectCampaigns(storeManagerID);
             return campaigns;
+        }
+
+        public Product GetProductByCampaignID(int campaignId)
+        {
+            Product product = Campaign_repo.GetProductByCampaignID(campaignId);
+            return product;
         }
     }
 }

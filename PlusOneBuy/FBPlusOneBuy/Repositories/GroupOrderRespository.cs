@@ -52,5 +52,15 @@ namespace FBPlusOneBuy.Repositories
 
             }
         }
+
+        public int GetIsGroupORder(int campaignId)
+        {
+            using (conn = new SqlConnection(connectionString))
+            {
+                string sql = "SELECT SUM(OD.Quantity) FROM GroupOrder O INNER JOIN GroupOrderDetail OD ON O.GroupOrderID = OD.GroupOrderID INNER JOIN Campaign C ON C.CampaignID = O.CampaignID INNER JOIN Products P ON P.ProductID = C.ProductID WHERE C.CampaignID = @CampaignID AND O.isGroup = 1";
+                int amount = conn.QueryFirstOrDefault<int>(sql, new {CampaignID = campaignId});
+                return amount;
+            }
+        }
     }
 }

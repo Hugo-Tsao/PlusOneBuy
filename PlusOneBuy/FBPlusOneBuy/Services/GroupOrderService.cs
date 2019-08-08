@@ -77,5 +77,9 @@ namespace FBPlusOneBuy.Services
             }
             
         }
+        public void UpdateShipDateTime(int GroupOrderID,DateTime shipDateTime)
+        {
+            groupOrder_repo.UpdateGroupOrder(GroupOrderID, shipDateTime);
+        }
     }
 }

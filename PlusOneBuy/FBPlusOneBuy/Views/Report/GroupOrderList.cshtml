@@ -19,6 +19,7 @@
 </div>
 <div>
     <button id="AddToCart" type="button" class="btn btn-outline-info">一鍵成單</button>
+    <button id="PushArrivedMsgs" type="button" class="btn btn-outline-success ml-1">一鍵寄送取貨訊息</button>
 </div>
 <table id="myTable" class="cell-border compact stripe" style="width:100%">
     <thead>
@@ -47,7 +48,9 @@
                 }
                 else
                 {
-                    @Html.DisplayFor(model => item.shipDateTime)
+                    <td>
+                        @Html.DisplayFor(model => item.shipDateTime)
+                    </td>
                 }
 
                 <td>@Html.DisplayFor(model => item.isGroup)</td>
@@ -57,13 +60,21 @@
                     @Html.ActionLink("...", "GroupOrderDetailList", new { GroupOrderID = item.GroupOrderID, campaignID = ViewBag.campaignID })
                 </td>
                 <td>
-                    <button class="btn btn-link">此團成單</button>
+                    @if (item.isGroup==false)
+                    {
+                        <button class="btn btn-link">此團成單</button>
+                    }
+                    else
+                    {
+                        <span>可一鍵成團</span>
+                    }
+
                 </td>
                 <td>
                     <button class="btn btn-link btn_group_info" value="@item.GroupOrderID">團單訊息</button>
                 </td>
                 <td>
-                    <button class="btn btn-link">取貨訊息</button>
+                    <button class="btn btn-link btn_product_arrived" value="@item.GroupOrderID">取貨訊息</button>
                 </td>
             </tr>
         }
@@ -92,6 +103,22 @@
                     }
                 });
             });
+
+            @*$("#PushArrivedMsgs").on('click', function () {
+                console.log("2");
+                $.ajax({
+                    type: "POST",
+                    url: "/GroupBuy/GetShoppingCartLink",
+                    data: { campaignId:@ViewBag.campaignID}
+                }).done(function(response) {
+                    if (response != "nothing") {
+                        window.open(response);
+                    } else {
+                        alert("未有成團訂單");
+                    }
+                });
+            });*@
+
             $('#myTable').DataTable({
                 "info": false, "bLengthChange": false, "pageLength": 10
             });
@@ -105,6 +132,18 @@
                     console.log('訊息發送done!');
                 });
             });
+
+            $('.btn_product_arrived').on("click", function () {
+                let groupOrderID = this.value;
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("PushArrivedMessageToLineGroup","GroupBuy")',
+                    data: { GroupOrderID: groupOrderID }
+                }).done(function (res) {
+                    console.log('取貨訊息發送done!');
+                });
+            });
+
         });
     </script>
 }

@@ -44,14 +44,15 @@ namespace FBPlusOneBuy.Controllers
                 string userId = LineEvent.source.userId;
                 string groupId = LineEvent.source.groupId;
                 LineUserInfo UserInfo = null;
-                UserInfo = isRock.LineBot.Utility.GetGroupMemberProfile(groupId, userId, channelAccessToken);
+                
                 //回覆訊息
                 if (LineEvent.type == "message")
                 {
                     if (LineEvent.message.type=="text" && LineEvent.source.groupId != null)
                     {
+                        UserInfo = isRock.LineBot.Utility.GetGroupMemberProfile(groupId, userId, channelAccessToken);
                         //使用者ID和群組ID
-                                              
+
                         LineGroupService lineGroupService = new LineGroupService(groupId);
                         if (lineGroupService.SearchLineGroup())  //尋找群組
                         {

@@ -69,11 +69,35 @@ namespace FBPlusOneBuy.Services
             LineCustomerRepository lineCustomer_repo = new LineCustomerRepository();
             SendMessageViewModel messageInfo = lineGroup_repo.GetMessageInfoByGroupOrderId(groupOrderId);
             List<NameAndQtyViewModel> customers = lineCustomer_repo.GetCustomersByGroupOrderId(groupOrderId);
-            string message = $"活動名稱:{messageInfo.Title}\n商品名稱:{messageInfo.ProductName}\n活動時間:{messageInfo.PostTime}到{messageInfo.EndTime}\n";
+            string message = $"活動名稱:{messageInfo.Title}\n商品名稱:{messageInfo.ProductName}\n活動時間:{messageInfo.PostTime}到{messageInfo.EndTime}\n成團成功!\n";
             groupId = messageInfo.LineGroupId;
-            foreach (var customer in customers)
+            foreach (var customer in customers.GroupBy(info => info.Name)
+                        .Select(group => new {
+                            Name = group.Key,
+                            Count = customers.Where(x => x.Name == group.Key).Sum(x => x.Quantity)
+                        }))
             {
-                message += $"@{customer.Name} +{customer.Quantity}\n";
+                message += $"@{customer.Name} : {customer.Count} 組\n";
+            }
+
+            return message;
+        }
+        public static string SetArrivedMsgFormat(int groupOrderId, ref string groupId)
+        {
+            LineGroupRepository lineGroup_repo = new LineGroupRepository();
+            LineCustomerRepository lineCustomer_repo = new LineCustomerRepository();
+            SendMessageViewModel messageInfo = lineGroup_repo.GetMessageInfoByGroupOrderId(groupOrderId);
+            List<NameAndQtyViewModel> customers = lineCustomer_repo.GetCustomersByGroupOrderId(groupOrderId);
+            string message = $"活動名稱:{messageInfo.Title}\n商品名稱:{messageInfo.ProductName}\n商品已經到店囉!\n請一個禮拜內盡快來門市取貨!\n";
+            groupId = messageInfo.LineGroupId;
+
+            foreach (var customer in customers.GroupBy(info => info.Name)
+                        .Select(group => new {
+                            Name = group.Key,
+                            Count = customers.Where(x=>x.Name== group.Key).Sum(x=>x.Quantity)
+                        }))
+                        {
+                message += $"@{customer.Name} : {customer.Count} 組\n";
             }
 
             return message;

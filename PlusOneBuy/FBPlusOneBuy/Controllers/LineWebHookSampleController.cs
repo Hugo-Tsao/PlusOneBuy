@@ -137,10 +137,10 @@ namespace FBPlusOneBuy.Controllers
                     List<CompareStoreManager> managerId = LineBindingService.GroupNullCompare();
                     foreach (var item in managerId)
                     {
-                        StoreMeanger checkProfile = BotService.CheckMeanger(groupId, item.LineID);
+                        StoreMeanger checkProfile = BotService.CheckMeanger(LineEvent.source.groupId, item.LineID);
                         if (checkProfile.message != "Not found")
                         {
-                            LineBindingService.CompareUpdateGroupid(groupId, item.StoreManagerID, timestampTotime);
+                            LineBindingService.CompareUpdateGroupid(LineEvent.source.groupId, item.StoreManagerID, timestampTotime);
                         }
                     }
                 }

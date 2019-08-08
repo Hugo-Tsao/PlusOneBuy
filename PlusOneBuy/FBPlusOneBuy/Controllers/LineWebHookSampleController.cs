@@ -114,7 +114,7 @@ namespace FBPlusOneBuy.Controllers
 
                                     }
                                     groupOrderService.UpdateGroupOrder(groupOrder.GroupOrderID, currentNumberOfProduct, Amount, isGroup);
-                                    this.PushMessage(groupId, "感謝"+ UserInfo.displayName+"的下標!等待活動結束後會一併通知團購成功名單");
+                                    this.ReplyMessage(groupId, "感謝"+ UserInfo.displayName+"的下標!等待活動結束後會一併通知團購成功名單");
                                     break;
                                 }
                             }

@@ -67,6 +67,15 @@ namespace FBPlusOneBuy.Repositories
             }
         }
 
+        public Product GetProductByCampaignID(int campaignId)
+        {
+            using (conn = new SqlConnection(connectionString))
+            {
+                string sql = "SELECT P.ProductID,P.ProductPageID FROM Campaign C INNER JOIN Products P ON C.ProductID = P.ProductID WHERE C.CampaignID = @CampaignID";
+                Product campaigns = conn.QueryFirstOrDefault<Product>(sql, new { CampaignID = campaignId });
+                return campaigns;
+            }
+        }
 
     }
 }

@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using FBPlusOneBuy.Models;
 using FBPlusOneBuy.Repositories;
 using FBPlusOneBuy.Services;
 using FBPlusOneBuy.ViewModels;
@@ -37,6 +39,26 @@ namespace FBPlusOneBuy.Controllers
             string msg = BotService.SetMsgFormat(GroupOrderID, ref lineGroupId);
             BotService.BotPushMsg(lineGroupId,msg);
             return Json("OK");
+        }
+
+        [HttpPost]
+        public ActionResult GetShoppingCartLink(int campaignId)
+        {
+            CampaignService campaignService = new CampaignService();
+            Product product = campaignService.GetProductByCampaignID(campaignId);
+            GroupOrderService groupOrderService = new GroupOrderService();
+            int amount = groupOrderService.GetIsGroupORder(campaignId);
+            string url = string.Empty;
+            if (amount != 0)
+            {
+                url = FBSendMsgService.getAddToCartLink(product.ProductPageID, product.ProductID, amount);
+            }
+            else
+            {
+                return Json("nothing");
+            }
+            
+            return Json(url);
         }
     }
 }

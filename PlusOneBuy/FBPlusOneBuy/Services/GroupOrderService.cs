@@ -62,5 +62,20 @@ namespace FBPlusOneBuy.Services
             var groupOrders=groupOrder_repo.SelectGroupOrders(campaignID);
             return groupOrders;
         }
+
+        public int GetIsGroupORder(int campaignId)
+        {
+            try
+            {
+                GroupOrderRespository groupOrder_repo = new GroupOrderRespository();
+                int amount = groupOrder_repo.GetIsGroupORder(campaignId);
+                return amount;
+            }
+            catch (NullReferenceException e)
+            {
+                return 0;
+            }
+            
+        }
     }
 }

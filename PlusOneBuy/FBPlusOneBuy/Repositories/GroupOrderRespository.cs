@@ -70,5 +70,15 @@ namespace FBPlusOneBuy.Repositories
                 return amount;
             }
         }
+
+        public List<int> SelectGroupOrderIDs(int campaignId)
+        {
+            using (conn = new SqlConnection(connectionString))
+            {
+                string sql = "select GroupOrderID from GroupOrder where CampaignID=@campaignId and isGroup=1;";
+                List<int> groupOrderids = conn.Query<int>(sql, new { campaignId }).ToList();
+                return groupOrderids;
+            }
+        }
     }
 }

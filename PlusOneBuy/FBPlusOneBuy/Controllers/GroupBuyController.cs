@@ -63,13 +63,22 @@ namespace FBPlusOneBuy.Controllers
         }
 
         [HttpPost]
-        public ActionResult PushArrivedMessageToLineGroup(int GroupOrderID)
+        public ActionResult PushArrivedMessageToLineGroup(List<int> GroupOrderIDs,int campaignId)
         {
             string lineGroupId = string.Empty;
-            string msg = BotService.SetArrivedMsgFormat(GroupOrderID, ref lineGroupId);
-            BotService.BotPushMsg(lineGroupId, msg);
             GroupOrderService groupOrderService = new GroupOrderService();
-            groupOrderService.UpdateShipDateTime(GroupOrderID,DateTime.UtcNow.AddHours(8));
+            if (GroupOrderIDs==null)
+            {
+                GroupOrderIDs = groupOrderService.GetGroupOrderIds(campaignId);
+            }
+            foreach (int GroupOrderID in GroupOrderIDs)
+            {
+                string msg = BotService.SetArrivedMsgFormat(GroupOrderID, ref lineGroupId);
+                BotService.BotPushMsg(lineGroupId, msg);
+
+                groupOrderService.UpdateShipDateTime(GroupOrderID, DateTime.UtcNow.AddHours(8));
+            }
+
 
             return Json("OK");
         }

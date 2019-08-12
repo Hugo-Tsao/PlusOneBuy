@@ -43,5 +43,12 @@ namespace FBPlusOneBuy.ViewModels
         [Display(Name = "成團數量")]
         public int ProductGroup { get; set; }
 
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd HH:mm:ss}")]
+        public DateTime? BtnOrderClickDateTime { get; set; }
+
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd HH:mm:ss}")]
+        public DateTime? BtnGroupClickDateTime { get; set; }
     }
 }

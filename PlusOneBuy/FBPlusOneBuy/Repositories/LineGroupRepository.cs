@@ -16,11 +16,19 @@ namespace FBPlusOneBuy.Repositories
         private string connectionString = ConfigurationManager.ConnectionStrings["Context"].ConnectionString;
         private SqlConnection conn;
 
+        public string SelectLine(string LineID)
+        {
+            using (conn = new SqlConnection(connectionString))
+            {
+                string sql = "SELECT StoreManagerID FROM StoreManager WHERE AspNetUserId=@aspNetUserId AND Status='True'";
+                return conn.QueryFirstOrDefault<string>(sql, new { LineID });
+            }
+        }
         public int GetMangerIdByAspNetId(string aspNetUserId)
         {
             using (conn = new SqlConnection(connectionString))
             {
-                string sql = "SELECT StoreManagerID FROM StoreManager WHERE AspNetUserId=@aspNetUserId";              
+                string sql = "SELECT StoreManagerID FROM StoreManager WHERE AspNetUserId=@aspNetUserId AND Status='True'";              
                 return conn.QueryFirstOrDefault<int>(sql, new { aspNetUserId });
             }
         }
@@ -37,17 +45,17 @@ namespace FBPlusOneBuy.Repositories
         {
             using (conn = new SqlConnection(connectionString))
             {
-                string sql = "SELECT GroupName,JoinDate,LineGroupID FROM LineGroup WHERE StoreManagerID=@managerId AND Status = 'TRUE'";
+                string sql = "SELECT GroupID,GroupName,JoinDate,LineGroupID FROM LineGroup WHERE StoreManagerID=@managerId AND Status = 'TRUE'";
                 return conn.Query<LineGroup>(sql, new { managerId }).ToList();
             }
         }
         //中台未成團
-        public List<string> GetNullGroup(int managerId)
+        public List<LineGroup> GetNullGroup(int managerId)
         {
             using (conn = new SqlConnection(connectionString))
             {
-                string sql = "SELECT GroupName FROM LineGroup WHERE StoreManagerID=@managerId AND Status IS NULL";
-                return conn.Query<string>(sql,new { managerId }).ToList();
+                string sql = "SELECT GroupID,GroupName FROM LineGroup WHERE StoreManagerID=@managerId AND Status IS NULL";
+                return conn.Query<LineGroup>(sql,new { managerId }).ToList();
             }
         }
         //LineGroupNull比對
@@ -97,5 +105,38 @@ namespace FBPlusOneBuy.Repositories
                 return result;
             }
         }
+        public void DelNullGroup(int groupId)
+        {
+            using (conn = new SqlConnection(connectionString))
+            {
+                string sql = "DELETE FROM LineGroup WHERE GroupID=@GroupID";
+                conn.Execute(sql, new { groupId});
+            }
+        }
+        public void UpdateGroupStatus(int groupId,string status)
+        {
+            using (conn = new SqlConnection(connectionString))
+            {
+                string sql = "UPDATE LineGroup SET Status='"+ status + "' WHERE GroupID=@GroupID";
+                conn.Execute(sql, new { groupId });
+            }
+        }
+        public void removeManager(int StoreManagerID)
+        {
+            using (conn = new SqlConnection(connectionString))
+            {
+                string sql = "UPDATE StoreManager SET Status='FALSE' WHERE StoreManagerID=@StoreManagerID";
+                conn.Execute(sql, new { StoreManagerID });
+            }
+        }
+        public void removeManagerGroup(int StoreManagerID)
+        {
+            using (conn = new SqlConnection(connectionString))
+            {
+                string sql = "UPDATE LineGroup SET Status='FALSE' WHERE StoreManagerID=@StoreManagerID";
+                conn.Execute(sql, new { StoreManagerID });
+            }
+        }
+
     }
 }

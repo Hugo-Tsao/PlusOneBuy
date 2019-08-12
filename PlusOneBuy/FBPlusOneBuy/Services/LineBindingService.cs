@@ -39,10 +39,10 @@ namespace FBPlusOneBuy.Services
             List<LineGroup> groupName = lineGroup_repo.GetGroupList(managerId).ToList();
             return groupName;
         }
-        public static List<string> GetNullGroup(int managerId)
+        public static List<LineGroup> GetNullGroup(int managerId)
         {
             LineGroupRepository lineGroup_repo = new LineGroupRepository();
-            List<string> nullGroupName = lineGroup_repo.GetNullGroup(managerId).ToList();
+            List<LineGroup> nullGroupName = lineGroup_repo.GetNullGroup(managerId).ToList();
             return nullGroupName;
         }
         public static List<CompareStoreManager> GroupNullCompare()
@@ -62,6 +62,27 @@ namespace FBPlusOneBuy.Services
             LineGroupRepository lineGroup_repo = new LineGroupRepository();
             int id=lineGroup_repo.GetIdByGroupId(groupId);
             return id;
+        }
+
+        public static void DelNullGroup(int groupId)
+        {
+            LineGroupRepository lineGroup_repo = new LineGroupRepository();
+            lineGroup_repo.DelNullGroup(groupId);
+        }
+        public static void UpdateGroupStatus(int groupId, string status)
+        {
+            LineGroupRepository lineGroup_repo = new LineGroupRepository();
+            lineGroup_repo.UpdateGroupStatus(groupId, status);
+        }
+        public static void removeManager(int StoreManagerID)
+        {
+            LineGroupRepository lineGroup_repo = new LineGroupRepository();
+            lineGroup_repo.removeManager(StoreManagerID);
+        }
+        public static void removeManagerGroup(int StoreManagerID)
+        {
+            LineGroupRepository lineGroup_repo = new LineGroupRepository();
+            lineGroup_repo.removeManagerGroup(StoreManagerID);
         }
 
     }

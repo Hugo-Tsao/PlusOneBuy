@@ -31,6 +31,12 @@ namespace FBPlusOneBuy.Services
                 return false;
             }
         }
+        public LineGroup GetGroupByID()
+        {
+            LineGroupRepository lineGroup_repo = new LineGroupRepository();
+            LineGroup lineGroup = lineGroup_repo.SearchLineGroup(GroupId);
+            return lineGroup;
+        }
 
     }
 }

@@ -16,12 +16,20 @@ namespace FBPlusOneBuy.Repositories
         private string connectionString = ConfigurationManager.ConnectionStrings["Context"].ConnectionString;
         private SqlConnection conn;
 
-        public string SelectLine(string LineID)
+        public int SearchLineID(string LineID)
         {
             using (conn = new SqlConnection(connectionString))
             {
-                string sql = "SELECT StoreManagerID FROM StoreManager WHERE AspNetUserId=@aspNetUserId AND Status='True'";
-                return conn.QueryFirstOrDefault<string>(sql, new { LineID });
+                string sql = "SELECT StoreManagerID FROM StoreManager WHERE LineID=@LineID";
+                return conn.QueryFirstOrDefault<int>(sql, new { LineID });
+            }
+        }
+        public string GetLineGroupIDByID(int groupId)
+        {
+            using (conn = new SqlConnection(connectionString))
+            {
+                string sql = "SELECT LineGroupID FROM LineGroup WHERE GroupID=@groupId";
+                return conn.QueryFirstOrDefault<string>(sql, new { groupId });
             }
         }
         public int GetMangerIdByAspNetId(string aspNetUserId)
@@ -76,13 +84,13 @@ namespace FBPlusOneBuy.Repositories
                 conn.Execute(sql,new { groupId, storeManagerId, timestampTotime });
             }
         }
-   
+
         public LineGroup SearchLineGroup(string groupId)
         {
             using (conn = new SqlConnection(connectionString))
             {
                 string sql = "SELECT * FROM LineGroup WHERE LineGroupID = @groupId";
-                var LineGroup = conn.QueryFirstOrDefault<LineGroup>(sql, new {groupId});
+                var LineGroup = conn.QueryFirstOrDefault<LineGroup>(sql, new { groupId });
                 return LineGroup;
             }
         }
@@ -121,20 +129,36 @@ namespace FBPlusOneBuy.Repositories
                 conn.Execute(sql, new { groupId });
             }
         }
-        public void removeManager(int StoreManagerID)
+        public void UpdateManagerStatus(int StoreManagerID, string status)
         {
             using (conn = new SqlConnection(connectionString))
             {
-                string sql = "UPDATE StoreManager SET Status='FALSE' WHERE StoreManagerID=@StoreManagerID";
+                string sql = "UPDATE StoreManager SET Status='" + status + "' WHERE StoreManagerID=@StoreManagerID";
                 conn.Execute(sql, new { StoreManagerID });
             }
         }
-        public void removeManagerGroup(int StoreManagerID)
+        public void UpdateManagerAllGroupStatus(int StoreManagerID, string status)
         {
             using (conn = new SqlConnection(connectionString))
             {
-                string sql = "UPDATE LineGroup SET Status='FALSE' WHERE StoreManagerID=@StoreManagerID";
+                string sql = "UPDATE LineGroup SET Status='" + status + "' WHERE StoreManagerID=@StoreManagerID";
                 conn.Execute(sql, new { StoreManagerID });
+            }
+        }
+        public void UpdateBotGroupStatus(int groupId, string status,DateTime time)
+        {
+            using (conn = new SqlConnection(connectionString))
+            {
+                string sql = "UPDATE LineGroup SET Status='" + status + "',JoinDate=@time WHERE GroupID=@GroupID";
+                conn.Execute(sql, new { groupId, time });
+            }
+        }
+        public void UpdateBotGroup(int groupId,string LineGroupID, string status, DateTime time)
+        {
+            using (conn = new SqlConnection(connectionString))
+            {
+                string sql = "UPDATE LineGroup SET Status='" + status + "',JoinDate=@time,LineGroupID=@LineGroupID WHERE GroupID=@GroupID";
+                conn.Execute(sql, new { groupId, time, LineGroupID });
             }
         }
 

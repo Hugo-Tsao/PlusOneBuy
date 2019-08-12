@@ -135,17 +135,47 @@ namespace FBPlusOneBuy.Controllers
                     DateTime timestampTotime = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
                     timestampTotime = timestampTotime.AddSeconds(LineEvent.timestamp / 1000).ToLocalTime();
 
-                    List<CompareStoreManager> managerId = LineBindingService.GroupNullCompare();
-                    foreach (var item in managerId)
+                    LineGroupService lineGroupService = new LineGroupService(groupId);
+
+                    var linegroup = lineGroupService.GetGroupByID();
+                    //新的群組
+                    if (linegroup == null)
                     {
-                        StoreMeanger checkProfile = BotService.CheckMeanger(groupId, item.LineID);
-                        if (checkProfile.message != "Not found")
+                        List<CompareStoreManager> managerId = LineBindingService.GroupNullCompare();
+                        foreach (var item in managerId)
                         {
-                            LineBindingService.CompareUpdateGroupid(groupId, item.StoreManagerID, timestampTotime);
+                            StoreMeanger checkProfile = BotService.CheckMeanger(groupId, item.LineID);
+                            if (checkProfile.message != "Not found")
+                            {
+                                LineBindingService.CompareUpdateGroupid(groupId, item.StoreManagerID, timestampTotime);
+                            }
                         }
                     }
-                }
+                    else
+                    {
+                        var nullGroup = LineBindingService.GetNullGroup(linegroup.StoreManagerID);
+                        //群組名字一樣，舊的改狀態新的null刪掉
+                        if (linegroup.GroupName == nullGroup.FirstOrDefault().GroupName)
+                        {
+                            LineBindingService.UpdateBotGroupStatus(linegroup.GroupID, "True", timestampTotime);
+                            LineBindingService.DelNullGroup(nullGroup.FirstOrDefault().GroupID);
+                        }
+                        //群組名字不一樣，新的增加
+                        else if (linegroup.GroupName != nullGroup.FirstOrDefault().GroupName)
+                        {
+                            LineBindingService.UpdateBotGroup(nullGroup.FirstOrDefault().GroupID,groupId, "True", timestampTotime);
+                        }
+                    }
 
+                }
+                if (LineEvent.type == "leave")
+                {
+                    int id = LineBindingService.GetIdByGroupId(groupId);
+                    if (id != 0)
+                    {
+                        LineBindingService.UpdateGroupStatus(id, "False");
+                    }
+                }
                 return Ok();
             }
             catch (Exception ex)

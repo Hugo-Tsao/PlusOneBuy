@@ -14,6 +14,7 @@ namespace FBPlusOneBuy.Repositories
     {
         private string connectionString = ConfigurationManager.ConnectionStrings["Context"].ConnectionString;
         private SqlConnection conn;
+
         public void Insert(LineProfile profile)
         {
             using (conn = new SqlConnection(connectionString))

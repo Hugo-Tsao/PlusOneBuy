@@ -23,7 +23,6 @@ namespace FBPlusOneBuy.Services
         }
         public static StoreMeanger CheckMeanger(string groupId, string managerUserId)
         {
-
             var groupUrl = "https://api.line.me/v2/bot/group/" + groupId + "/member/" + managerUserId;
             var client = new RestClient(groupUrl);
             var request = new RestRequest(Method.GET);
@@ -37,6 +36,15 @@ namespace FBPlusOneBuy.Services
             IRestResponse response = client.Execute(request);
             StoreMeanger StoreMeanger = Newtonsoft.Json.JsonConvert.DeserializeObject<StoreMeanger>(response.Content);
             return StoreMeanger;
+        }
+        public static void LeaveGroup(string groupId)
+        {
+            var leaveGroup = "https://api.line.me/v2/bot/group/" + groupId + "/leave";
+            var client = new RestClient(leaveGroup);
+            var request = new RestRequest(Method.POST);
+            request.AddHeader("Authorization", string.Format("Bearer " + channelAccessToken));
+            IRestResponse response = client.Execute(request);
+
         }
         public static bool SearchLineCustomer(string customerId,string customerName,ref LineCustomerViewModel lineCustomer)
         {

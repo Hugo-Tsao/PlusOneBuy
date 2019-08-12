@@ -1,0 +1,21 @@
+﻿@using Microsoft.AspNet.Identity
+
+@{
+    var bindingPage = ViewBag.bindingPage;
+}
+
+
+<h2>等候處理中....</h2>
+
+@section EndJS
+{
+    <script>
+        $(document).ready(function () {
+            window.close();
+            console.log(window)
+
+
+        });
+
+    </script>
+}

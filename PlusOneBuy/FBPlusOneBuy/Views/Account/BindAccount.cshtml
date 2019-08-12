@@ -11,9 +11,8 @@
 <p class="lead text-center">連結帳號</p>
 <div class="row m-3">
     <div class="col text-center">
-        <a href="#" class="p-2" id="bind_fb">Facebook</a>
-        <a href="#" class="p-2" id="bind_line">Line</a>
-        <a href="#" class="p-2">Instagram</a>
+        <button type="button" class="btn btn-link" id="bind_fb">Facebook</button>
+        <button type="button" class="btn btn-link" id="bind_line">Line</button>
     </div>
 </div>
 <div id="show_binding">
@@ -31,18 +30,17 @@
             </div>
         </div>
     }
-    @if (bindingStoreMamager != null)
+@if (bindingStoreMamager != null)
     {
         <div class="row m-2" id="show_fb_bind">
             <div class="col text-right">
-                @*<img class="AccountIcon" src="~/Assets/images/Line1.png" />*@
                 <img class="AccountIcon" src="@bindingStoreMamager.PictureUrl" />
             </div>
             <div class="col">
                 <span>@bindingStoreMamager.Name</span>
             </div>
             <div class="col">
-                <button type="button" class="btn btn-link remove_binding" id="@bindingStoreMamager.Name">移除</button>
+                <button type="button" class="btn btn-link" value="@bindingStoreMamager.StoreManagerID" onclick="removeManager(this)">移除</button>
                 <span>|</span>
                 <button type="button" class="btn btn-link" data-toggle="modal" id="addGroup">加入團購群組</button>
             </div>
@@ -64,7 +62,7 @@
                 <em>加入時間:@item.JoinDate</em>
             </div>
             <div class="col">
-                <button type="button" class="btn btn-link">移除</button>
+                <button type="button" class="btn btn-link" value="@item.GroupID" onclick="removeGroup(this)">移除</button>
                 <span>|</span>
                 <button type="button" class="btn btn-link">編輯</button>
             </div>
@@ -82,10 +80,10 @@
                 <img class="AccountIcon" src="~/Assets/images/Line1.png" />
             </div>
             <div class="col">
-                <span>@item</span>
+                <span>@item.GroupName</span>
             </div>
             <div class="col">
-                <button type="button" class="btn btn-link">移除</button>
+                <button type="button" class="btn btn-link" value="@item.GroupID" onclick="removeNullGroup(this)">移除</button>
                 <span>|</span>
                 <button type="button" class="btn btn-link" data-toggle="modal" data-target="#addBot">機器人好友</button>
             </div>
@@ -157,21 +155,16 @@
 @section EndJS
 {
     <script>
-        var win = null;
-        $(document).ready(function () {
+    var win = null;   
+    $(document).ready(function () {
 
-            //$('.btn_managePages').click(function () {
-            //    var fanPageName = $(this).siblings("p").text();
-            //    getAuth();
-            //});
             $('#bind_fb').click(function () {
                 getAuthNew();
-                //$('#card_selectPage').empty();
             });
             $('#bind_line').click(function () {
                 $.ajax({
                     type: "POST",
-                    url: "/Setting/Login",
+                    url: "/LineBind/Login",
                     data: {},
                     success: function (res) {
                         console.log(res);
@@ -225,7 +218,7 @@
 
             })
         });
-        function getAuthNew() {
+    function getAuthNew() {
             FB.login(function (response) {
                 if (response.status === 'connected') {
                     FB.api('/me?fields=accounts', function (res) {
@@ -262,8 +255,7 @@
                     return_scopes: true
                 });
         }
-
-        function GetDataNew(token, fanPageid, fanPageName) {
+    function GetDataNew(token, fanPageid, fanPageName) {
             //alert("1="+token+",2="+fanPageid+",3="+fanPageName);
 
             $.ajax({
@@ -279,7 +271,7 @@
                 console.log("bind over");
             });
         }
-        function newWindow(mypage, myname, w, h, features) {
+    function newWindow(mypage, myname, w, h, features) {
 
             var winl = (screen.width - w) / 2;
             var wint = (screen.height - h) / 2;
@@ -293,7 +285,49 @@
             win = window.open(mypage, myname, settings);
             console.log(win);
             win.window.focus();
-        }
+    }
+    function removeNullGroup(obj) {
+            var r=confirm("請問是否刪除未綁定群組")
+              if (r==true)
+                {
+                $.ajax({
+                        type: "POST",
+                        url: "/LineBind/DelNullGroup",
+                        data: { groupId: obj.value },
+                        success: function () {
+                            window.location.reload()
+                        }
+                    })
+                }
+    }
+    function removeGroup(obj) {
+            var r=confirm("請問是否解除綁定群組")
+              if (r==true)
+                {
+                $.ajax({
+                        type: "POST",
+                        url: "/LineBind/UpdateGroupStatus",
+                        data: { groupId: obj.value ,Status:"False"},
+                        success: function () {
+                            window.location.reload()
+                        }
+                    })
+                }
+    }
+    function removeManager(obj) {
+        var r=confirm("請問是否解除綁定店長")
+              if (r==true)
+                {
+                $.ajax({
+                        type: "POST",
+                        url: "/LineBind/DelManager",
+                        data: { StoreManagerID: obj.value },
+                        success: function () {
+                            window.location.reload()
+                        }
+                    })
+                }
+    }
     </script>
 
 }

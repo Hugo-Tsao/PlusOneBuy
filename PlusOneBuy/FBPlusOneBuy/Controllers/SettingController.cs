@@ -95,22 +95,8 @@ namespace FBPlusOneBuy.Controllers
             }
         }
 
-        [HttpPost]
-        public ActionResult Login()
-        {
-            string url=LineRequestService.Login();
-            return Json(url);
-
-        }
-        [HttpGet]
-        public ActionResult LineBinding(string code)
-        {
-            string accessToken = LineRequestService.CodeToAccessToken(code);
-            var lineProfile = LineRequestService.UseTokenToGetProfile(accessToken);
-            LineBindingService.InsertStoreManager(lineProfile);
-
-            return View();
-        }
+        
+        
 
 
         

@@ -7,7 +7,7 @@ namespace FBPlusOneBuy.ViewModels
 {
     public class BindAcoountStoreManagerViewModel
     {
-        public string UserID { get; set; }
+        public string LineID { get; set; }
         public string Name { get; set; }
         public string PictureUrl { get; set; }
     }

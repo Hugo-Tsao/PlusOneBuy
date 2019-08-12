@@ -29,6 +29,11 @@ namespace FBPlusOneBuy.Services
                 return true;
             }
         }
+        public List<int> GetGroupOrderIds(int campaignID)
+        {
+            List<int> groupOrderids=groupOrder_repo.SelectGroupOrderIDs(campaignID);
+            return groupOrderids;
+        }
 
         public void InsertGroupOrder(int campaignID, DateTime orderDateTime, int productGroup)
         {

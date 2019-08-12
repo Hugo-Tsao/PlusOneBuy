@@ -26,7 +26,6 @@
         <tr>
             <th>@Html.DisplayNameFor(model => model.FirstOrDefault().GroupOrderID)</th>
             <th>@Html.DisplayNameFor(model => model.FirstOrDefault().OrderDateTime)</th>
-            <th>@Html.DisplayNameFor(model => model.FirstOrDefault().shipDateTime)</th>
             <th>@Html.DisplayNameFor(model => model.FirstOrDefault().isGroup)</th>
             <th>尚缺</th>
             <th>@Html.DisplayNameFor(model => model.FirstOrDefault().Amount)</th>
@@ -42,16 +41,6 @@
             <tr>
                 <td>@Html.DisplayFor(model => item.GroupOrderID)</td>
                 <td>@Html.DisplayFor(model => item.OrderDateTime)</td>
-                @if (item.shipDateTime == null)
-                {
-                    <td>未到貨</td>
-                }
-                else
-                {
-                    <td>
-                        @Html.DisplayFor(model => item.shipDateTime)
-                    </td>
-                }
 
                 <td>@Html.DisplayFor(model => item.isGroup)</td>
                 <td>@(item.ProductGroup - item.NumberOfProduct)</td>
@@ -60,7 +49,7 @@
                     @Html.ActionLink("...", "GroupOrderDetailList", new { GroupOrderID = item.GroupOrderID, campaignID = ViewBag.campaignID })
                 </td>
                 <td>
-                    @if (item.isGroup==false)
+                    @if (item.isGroup == false)
                     {
                         <button class="btn btn-link">此團成單</button>
                     }
@@ -74,7 +63,15 @@
                     <button class="btn btn-link btn_group_info" value="@item.GroupOrderID">團單訊息</button>
                 </td>
                 <td>
-                    <button class="btn btn-link btn_product_arrived" value="@item.GroupOrderID">取貨訊息</button>
+                    @if (item.shipDateTime == null)
+                    {
+                        <button class="btn btn-link btn_product_arrived" value="@item.GroupOrderID">取貨訊息</button>
+                    }
+                    else
+                    {
+                        @item.shipDateTime  @:已發送
+                    }
+
                 </td>
             </tr>
         }
@@ -104,20 +101,16 @@
                 });
             });
 
-            @*$("#PushArrivedMsgs").on('click', function () {
+            $("#PushArrivedMsgs").on('click', function () {
                 console.log("2");
                 $.ajax({
                     type: "POST",
-                    url: "/GroupBuy/GetShoppingCartLink",
-                    data: { campaignId:@ViewBag.campaignID}
+                    url: "@Url.Action("PushArrivedMessageToLineGroup","GroupBuy")",
+                    data: {campaignId:@ViewBag.campaignID}
                 }).done(function(response) {
-                    if (response != "nothing") {
-                        window.open(response);
-                    } else {
-                        alert("未有成團訂單");
-                    }
+                    console.log('取貨訊息s發送done!');
                 });
-            });*@
+            });
 
             $('#myTable').DataTable({
                 "info": false, "bLengthChange": false, "pageLength": 10
@@ -138,7 +131,7 @@
                 $.ajax({
                     type: "POST",
                     url: '@Url.Action("PushArrivedMessageToLineGroup","GroupBuy")',
-                    data: { GroupOrderID: groupOrderID }
+                    data: { GroupOrderIDs: [groupOrderID] }                                       
                 }).done(function (res) {
                     console.log('取貨訊息發送done!');
                 });

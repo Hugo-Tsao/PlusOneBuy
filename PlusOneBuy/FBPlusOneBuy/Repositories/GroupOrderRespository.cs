@@ -54,7 +54,7 @@ namespace FBPlusOneBuy.Repositories
         {
             using (conn = new SqlConnection(connectionString))
             {
-                string sql = "select c.Title,c.Detail,c.ProductGroup,p.ProductName,[go].GroupOrderID,[go].OrderDateTime,[go].shipDateTime,[go].isGroup,[go].NumberOfProduct,[go].Amount from GroupOrder [go] inner join Campaign c on [go].CampaignID=c.CampaignID inner join Products p on c.ProductID=p.ProductID where c.CampaignID=@campaignID;";
+                string sql = "select c.Title,c.Detail,c.ProductGroup,p.ProductName,[go].GroupOrderID,[go].OrderDateTime,[go].shipDateTime,[go].isGroup,[go].NumberOfProduct,[go].Amount,[go].BtnOrderClickDateTime,[go].BtnGroupClickDateTime from GroupOrder [go] inner join Campaign c on [go].CampaignID=c.CampaignID inner join Products p on c.ProductID=p.ProductID where c.CampaignID=@campaignID;";
                 var groupOrders = conn.Query<GroupOrderListGroupOrderViewModel>(sql, new { campaignID }).ToList();
                 return groupOrders;
 
@@ -68,6 +68,16 @@ namespace FBPlusOneBuy.Repositories
                 string sql = "SELECT SUM(OD.Quantity) FROM GroupOrder O INNER JOIN GroupOrderDetail OD ON O.GroupOrderID = OD.GroupOrderID INNER JOIN Campaign C ON C.CampaignID = O.CampaignID INNER JOIN Products P ON P.ProductID = C.ProductID WHERE C.CampaignID = @CampaignID AND O.isGroup = 1";
                 int amount = conn.QueryFirstOrDefault<int>(sql, new {CampaignID = campaignId});
                 return amount;
+            }
+        }
+
+        public List<int> SelectGroupOrderIDs(int campaignId)
+        {
+            using (conn = new SqlConnection(connectionString))
+            {
+                string sql = "select GroupOrderID from GroupOrder where CampaignID=@campaignId and isGroup=1;";
+                List<int> groupOrderids = conn.Query<int>(sql, new { campaignId }).ToList();
+                return groupOrderids;
             }
         }
     }

@@ -54,7 +54,7 @@ namespace FBPlusOneBuy.Repositories
         {
             using (conn = new SqlConnection(connectionString))
             {
-                string sql = "select c.Title,c.Detail,c.ProductGroup,p.ProductName,[go].GroupOrderID,[go].OrderDateTime,[go].shipDateTime,[go].isGroup,[go].NumberOfProduct,[go].Amount from GroupOrder [go] inner join Campaign c on [go].CampaignID=c.CampaignID inner join Products p on c.ProductID=p.ProductID where c.CampaignID=@campaignID;";
+                string sql = "select c.Title,c.Detail,c.ProductGroup,p.ProductName,[go].GroupOrderID,[go].OrderDateTime,[go].shipDateTime,[go].isGroup,[go].NumberOfProduct,[go].Amount,[go].BtnOrderClickDateTime,[go].BtnGroupClickDateTime from GroupOrder [go] inner join Campaign c on [go].CampaignID=c.CampaignID inner join Products p on c.ProductID=p.ProductID where c.CampaignID=@campaignID;";
                 var groupOrders = conn.Query<GroupOrderListGroupOrderViewModel>(sql, new { campaignID }).ToList();
                 return groupOrders;
 

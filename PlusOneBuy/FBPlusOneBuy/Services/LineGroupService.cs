@@ -1,10 +1,5 @@
-﻿using FBPlusOneBuy.Models;
-using FBPlusOneBuy.Repositories;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
+﻿using FBPlusOneBuy.Repositories;
+using FBPlusOneBuy.DBModels;
 
 
 namespace FBPlusOneBuy.Services

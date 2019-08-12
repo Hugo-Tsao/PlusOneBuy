@@ -1,4 +1,4 @@
-namespace FBPlusOneBuy.Models
+namespace FBPlusOneBuy.DBModels
 {
     using System;
     using System.Collections.Generic;
@@ -6,37 +6,34 @@ namespace FBPlusOneBuy.Models
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    public partial class LivePost
+    public partial class Product
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public LivePost()
+        public Product()
         {
+            Campaigns = new HashSet<Campaign>();
             Orders = new HashSet<Order>();
             SalesOrders = new HashSet<SalesOrder>();
         }
 
-        public int ID { get; set; }
-
-        public int FanPageID { get; set; }
-
-        [StringLength(50)]
-        public string LiveName { get; set; }
-
-        public DateTime postTime { get; set; }
-
-        public DateTime? endTime { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        public int ProductID { get; set; }
 
         [Required]
         [StringLength(50)]
-        public string LivePageID { get; set; }
+        public string ProductName { get; set; }
 
-        public decimal? Amount { get; set; }
+        public decimal UnitPrice { get; set; }
 
-        public int? QtyOfOrders { get; set; }
+        public int? Stock { get; set; }
 
-        public int? MaxViews { get; set; }
+        [StringLength(10)]
+        public string ProductImage { get; set; }
 
-        public virtual FanPage FanPage { get; set; }
+        public int ProductPageID { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Campaign> Campaigns { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Order> Orders { get; set; }

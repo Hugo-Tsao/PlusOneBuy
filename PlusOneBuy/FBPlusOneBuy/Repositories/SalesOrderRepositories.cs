@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using Dapper;
 using System.Data.SqlClient;
 using System.Configuration;
+using FBPlusOneBuy.DBModels;
 using FBPlusOneBuy.ViewModels;
-using FBPlusOneBuy.Models;
 
 namespace FBPlusOneBuy.Repositories
 {

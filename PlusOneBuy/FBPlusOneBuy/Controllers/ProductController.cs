@@ -9,7 +9,7 @@ using FBPlusOneBuy.Services;
 using FBPlusOneBuy.ViewModels;
 using Microsoft.Ajax.Utilities;
 using Microsoft.AspNet.Identity;
-using Context = FBPlusOneBuy.Models.Context;
+using Context = FBPlusOneBuy.DBModels.Context;
 
 namespace FBPlusOneBuy.Controllers
 {

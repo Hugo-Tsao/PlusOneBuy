@@ -16,10 +16,18 @@ namespace FBPlusOneBuy.Services
     public class BotService
     {
         internal static string channelAccessToken = ConfigurationManager.AppSettings["channelAccessToken"];
-        public static void BotPushMsg(string lineGroupid,string msg)
+        public static async void BotPushMsg(string lineGroupid, string msg)
         {
-            Bot bot = new Bot(channelAccessToken);
-            bot.PushMessage(lineGroupid, msg);
+            try
+            {
+                Bot bot = new Bot(channelAccessToken);
+                bot.PushMessage(lineGroupid, msg);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+
         }
         public static StoreMeanger CheckMeanger(string groupId, string managerUserId)
         {
@@ -47,6 +55,9 @@ namespace FBPlusOneBuy.Services
 
         }
         public static bool SearchLineCustomer(string customerId,string customerName,ref LineCustomerViewModel lineCustomer)
+=======
+        public static bool SearchLineCustomer(string customerId, string customerName, ref LineCustomerViewModel lineCustomer)
+>>>>>>> 29b74d6618ae72676575cc737cbcb679455e4266
         {
             LineCustomerRepository LineCustomer_repo = new LineCustomerRepository();
             var checkCustomer = LineCustomer_repo.SearchLineCustomer(customerId);
@@ -67,11 +78,11 @@ namespace FBPlusOneBuy.Services
         public static LineCustomerViewModel InsertLineCustomer(string customerId, string customerName)
         {
             LineCustomerRepository LineCustomer_repo = new LineCustomerRepository();
-            LineCustomer_repo.InsertCustomer(customerId,customerName);
-            return new LineCustomerViewModel() {LineCustomerID = customerId, Name = customerName};
+            LineCustomer_repo.InsertCustomer(customerId, customerName);
+            return new LineCustomerViewModel() { LineCustomerID = customerId, Name = customerName };
         }
 
-        public static string SetMsgFormat(int groupOrderId,ref string groupId)
+        public static string SetMsgFormat(int groupOrderId, ref string groupId)
         {
             LineGroupRepository lineGroup_repo = new LineGroupRepository();
             LineCustomerRepository lineCustomer_repo = new LineCustomerRepository();
@@ -80,7 +91,8 @@ namespace FBPlusOneBuy.Services
             string message = $"活動名稱:{messageInfo.Title}\n商品名稱:{messageInfo.ProductName}\n活動時間:{messageInfo.PostTime}到{messageInfo.EndTime}\n成團成功!\n";
             groupId = messageInfo.LineGroupId;
             foreach (var customer in customers.GroupBy(info => info.Name)
-                        .Select(group => new {
+                        .Select(group => new
+                        {
                             Name = group.Key,
                             Count = customers.Where(x => x.Name == group.Key).Sum(x => x.Quantity)
                         }))
@@ -100,11 +112,12 @@ namespace FBPlusOneBuy.Services
             groupId = messageInfo.LineGroupId;
 
             foreach (var customer in customers.GroupBy(info => info.Name)
-                        .Select(group => new {
-                            Name = group.Key,
-                            Count = customers.Where(x=>x.Name== group.Key).Sum(x=>x.Quantity)
-                        }))
+                        .Select(group => new
                         {
+                            Name = group.Key,
+                            Count = customers.Where(x => x.Name == group.Key).Sum(x => x.Quantity)
+                        }))
+            {
                 message += $"@{customer.Name} : {customer.Count} 組\n";
             }
 

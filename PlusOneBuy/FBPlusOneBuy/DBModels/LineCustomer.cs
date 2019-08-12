@@ -1,4 +1,4 @@
-namespace FBPlusOneBuy.Models
+namespace FBPlusOneBuy.DBModels
 {
     using System;
     using System.Collections.Generic;
@@ -6,31 +6,20 @@ namespace FBPlusOneBuy.Models
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    [Table("GroupOrder")]
-    public partial class GroupOrder
+    [Table("LineCustomer")]
+    public partial class LineCustomer
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public GroupOrder()
+        public LineCustomer()
         {
             GroupOrderDetails = new HashSet<GroupOrderDetail>();
         }
 
-        public int GroupOrderID { get; set; }
+        public string LineCustomerID { get; set; }
 
-        public int CampaignID { get; set; }
-
-        public DateTime OrderDateTime { get; set; }
-
-        [StringLength(10)]
-        public string shipDateTime { get; set; }
-
-        public bool isGroup { get; set; }
-
-        public int? NumberOfProduct { get; set; }
-
-        public decimal? Amount { get; set; }
-
-        public virtual Campaign Campaign { get; set; }
+        [Required]
+        [StringLength(128)]
+        public string Name { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<GroupOrderDetail> GroupOrderDetails { get; set; }

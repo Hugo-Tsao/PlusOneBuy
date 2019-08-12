@@ -1,11 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
-using FBPlusOneBuy.Models;
-using FBPlusOneBuy.Repositories;
+using FBPlusOneBuy.DBModels;
 using FBPlusOneBuy.Services;
 using FBPlusOneBuy.ViewModels;
 
@@ -35,10 +31,10 @@ namespace FBPlusOneBuy.Controllers
         [HttpPost]
         public ActionResult PushMessageToLineGroup(int GroupOrderID)
         {
-            
             string lineGroupId = string.Empty;
             string msg = BotService.SetMsgFormat(GroupOrderID, ref lineGroupId);
             BotService.BotPushMsg(lineGroupId,msg);
+
             return Json("OK");
         }
 

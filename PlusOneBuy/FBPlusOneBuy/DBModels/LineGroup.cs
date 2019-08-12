@@ -1,4 +1,4 @@
-namespace FBPlusOneBuy.Models
+namespace FBPlusOneBuy.DBModels
 {
     using System;
     using System.Collections.Generic;

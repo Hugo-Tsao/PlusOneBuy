@@ -27,7 +27,7 @@ namespace FBPlusOneBuy.Repositories
         {
             using (conn = new SqlConnection(connectionString))
             {
-                string sql = "select * from StoreManager where AspNetUserId=@aspUserId";
+                string sql = "select StoreManagerID,LineID,Name,PictureUrl,Status from StoreManager where AspNetUserId=@aspUserId AND Status='True'";
                 var profile = conn.QueryFirstOrDefault<BindAcoountStoreManagerViewModel>(sql, new { aspUserId });
                 return profile;
             }

@@ -428,10 +428,10 @@
     <Content Include="Views\Setting\LineBinding.cshtml" />
     <Content Include="Views\Report\GroupOrderList.cshtml" />
     <Content Include="Views\Report\GroupOrderDetailList.cshtml" />
+    <Content Include="Views\LineBind\LineBinding.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\LineBind\" />
     <Folder Include="Views\Orders\" />
     <Folder Include="Views\Product\" />
   </ItemGroup>

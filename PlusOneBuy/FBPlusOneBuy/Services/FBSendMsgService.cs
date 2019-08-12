@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Web;
+using FBPlusOneBuy.DBModels;
 using FBPlusOneBuy.Models;
 using FBPlusOneBuy.Repositories;
 using FBPlusOneBuy.ViewModels;
 using Microsoft.AspNet.Identity;
-using Microsoft.Owin.Security.Provider;
 using Newtonsoft.Json;
 using RestSharp;
 

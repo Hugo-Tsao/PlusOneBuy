@@ -1,4 +1,4 @@
-namespace FBPlusOneBuy.Models
+namespace FBPlusOneBuy.DBModels
 {
     using System;
     using System.Collections.Generic;
@@ -6,24 +6,23 @@ namespace FBPlusOneBuy.Models
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    public partial class Order
+    public partial class SalesOrder
     {
-        public int OrderID { get; set; }
+        public int SalesOrderID { get; set; }
 
         public int ProductID { get; set; }
 
+        [Required]
         [StringLength(30)]
         public string CustomerID { get; set; }
 
-        [Required]
-        [StringLength(50)]
-        public string Keyword { get; set; }
-
-        public DateTime OrderDateTime { get; set; }
+        public DateTime CheckoutDateTime { get; set; }
 
         public int Quantity { get; set; }
 
         public int LiveID { get; set; }
+
+        public decimal Total { get; set; }
 
         public virtual Customer Customer { get; set; }
 

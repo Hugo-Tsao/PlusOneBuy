@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using FBPlusOneBuy.Models;
+using FBPlusOneBuy.DBModels;
 using FBPlusOneBuy.Repositories;
 using FBPlusOneBuy.ViewModels;
 
@@ -52,7 +52,11 @@ namespace FBPlusOneBuy.Services
         {
             try
             {
-                groupOrder_repo.UpdateGroupOrder(GroupOrderID, NumberOfProduct, Amount, isGroup);
+                GroupOrder groupOrder = groupOrder_repo.SearchGroupOrder(GroupOrderID);
+                groupOrder.NumberOfProduct = NumberOfProduct;
+                groupOrder.Amount = Amount;
+                groupOrder.isGroup = isGroup;
+                groupOrder_repo.UpdateGroupOrder(groupOrder);
                 return true;
             }
             catch(Exception e)
@@ -78,13 +82,16 @@ namespace FBPlusOneBuy.Services
             }
             catch (NullReferenceException e)
             {
+                Console.WriteLine(e);
                 return 0;
             }
             
         }
         public void UpdateShipDateTime(int GroupOrderID,DateTime shipDateTime)
         {
-            groupOrder_repo.UpdateGroupOrder(GroupOrderID, shipDateTime);
+            GroupOrder groupOrder = groupOrder_repo.SearchGroupOrder(GroupOrderID);
+            groupOrder.shipDateTime = shipDateTime;
+            groupOrder_repo.UpdateGroupOrder(groupOrder);
         }
     }
 }

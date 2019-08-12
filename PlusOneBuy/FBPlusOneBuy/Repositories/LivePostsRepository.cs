@@ -5,7 +5,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 using Dapper;
-using FBPlusOneBuy.Models;
+using FBPlusOneBuy.DBModels;
 using FBPlusOneBuy.ViewModels;
 using Microsoft.AspNet.Identity;
 

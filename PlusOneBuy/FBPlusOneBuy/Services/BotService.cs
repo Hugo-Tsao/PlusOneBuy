@@ -55,9 +55,6 @@ namespace FBPlusOneBuy.Services
 
         }
         public static bool SearchLineCustomer(string customerId,string customerName,ref LineCustomerViewModel lineCustomer)
-=======
-        public static bool SearchLineCustomer(string customerId, string customerName, ref LineCustomerViewModel lineCustomer)
->>>>>>> 29b74d6618ae72676575cc737cbcb679455e4266
         {
             LineCustomerRepository LineCustomer_repo = new LineCustomerRepository();
             var checkCustomer = LineCustomer_repo.SearchLineCustomer(customerId);

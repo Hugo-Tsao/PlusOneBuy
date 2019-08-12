@@ -138,6 +138,7 @@
                     data: {campaignId:@ViewBag.campaignID}
                 }).done(function(response) {
                     console.log('取貨訊息s發送done!');
+                    window.location.reload();
                 });
             });
 
@@ -152,6 +153,7 @@
                     data: { GroupOrderID: groupOrderID }
                 }).done(function (res) {
                     console.log('訊息發送done!');
+                    window.location.reload();
                 });
             });
 
@@ -163,6 +165,7 @@
                     data: { GroupOrderIDs: [groupOrderID] }                                       
                 }).done(function (res) {
                     console.log('取貨訊息發送done!');
+                    window.location.reload();
                 });
             });
 

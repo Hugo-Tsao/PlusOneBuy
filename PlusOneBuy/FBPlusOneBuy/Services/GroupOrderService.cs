@@ -95,11 +95,15 @@ namespace FBPlusOneBuy.Services
         }
         public void UpdateBtnOrderClickDateTime(int GroupOrderID, DateTime btnOrderClickDateTime)
         {
-            groupOrder_repo.UpdateGroupOrderBtnOrderClickDateTime(GroupOrderID, btnOrderClickDateTime);
+            GroupOrder groupOrder = groupOrder_repo.SearchGroupOrder(GroupOrderID);
+            groupOrder.BtnOrderClickDateTime = btnOrderClickDateTime;
+            groupOrder_repo.UpdateGroupOrder(groupOrder);
         }
         public void UpdateBtnGroupClickDateTime(int GroupOrderID, DateTime btnGroupClickDateTime)
         {
-            groupOrder_repo.UpdateGroupOrderBtnGroupClickDateTime(GroupOrderID, btnGroupClickDateTime);
+            GroupOrder groupOrder = groupOrder_repo.SearchGroupOrder(GroupOrderID);
+            groupOrder.BtnGroupClickDateTime = btnGroupClickDateTime;
+            groupOrder_repo.UpdateGroupOrder(groupOrder);
         }
     }
 }

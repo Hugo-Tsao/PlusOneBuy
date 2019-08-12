@@ -19,7 +19,7 @@ namespace FBPlusOneBuy.Controllers
         [HttpPost]
         public ActionResult SettingCampaign(CampaignViewModel cvm,string LineGroupID)
         {
-            int id = LineBindingService.GGetIdByGroupId(LineGroupID);
+            int id = LineBindingService.GetIdByGroupId(LineGroupID);
             cvm.GroupID = id;
             cvm.PostTime = DateTime.UtcNow.AddHours(8);
             CampaignService campaignService = new CampaignService();

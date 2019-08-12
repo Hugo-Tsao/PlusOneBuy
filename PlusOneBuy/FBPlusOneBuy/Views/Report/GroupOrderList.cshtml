@@ -27,7 +27,6 @@
             <th>@Html.DisplayNameFor(model => model.FirstOrDefault().GroupOrderID)</th>
             <th>@Html.DisplayNameFor(model => model.FirstOrDefault().OrderDateTime)</th>
             <th>@Html.DisplayNameFor(model => model.FirstOrDefault().isGroup)</th>
-            <th>尚缺</th>
             <th>@Html.DisplayNameFor(model => model.FirstOrDefault().Amount)</th>
             <th>明細</th>
             <th>成單</th>
@@ -41,9 +40,17 @@
             <tr>
                 <td>@Html.DisplayFor(model => item.GroupOrderID)</td>
                 <td>@Html.DisplayFor(model => item.OrderDateTime)</td>
+                <td>
+                    @if (item.isGroup == false)
+                    {
+                    <span class="text-danger">尚缺:</span> @(item.ProductGroup - item.NumberOfProduct)
+                    }
+                    else
+                    {
+                        <i class="fas fa-check-circle text-success"></i>
+                    }
 
-                <td>@Html.DisplayFor(model => item.isGroup)</td>
-                <td>@(item.ProductGroup - item.NumberOfProduct)</td>
+                </td>
                 <td>@Html.DisplayFor(model => item.Amount)</td>
                 <td>
                     @Html.ActionLink("...", "GroupOrderDetailList", new { GroupOrderID = item.GroupOrderID, campaignID = ViewBag.campaignID })
@@ -51,7 +58,7 @@
                 <td>
                     @if (item.isGroup == false)
                     {
-                        <button class="btn btn-link">此團成單</button>
+                        <button class="btn btn-link btn_ungroup_order" value="@item.GroupOrderID">此團成單</button>
                     }
                     else
                     {
@@ -60,7 +67,15 @@
 
                 </td>
                 <td>
-                    <button class="btn btn-link btn_group_info" value="@item.GroupOrderID">團單訊息</button>
+                    @if (item.BtnGroupClickDateTime == null)
+                    {
+                        <button class="btn btn-link btn_group_info" value="@item.GroupOrderID">成團訊息</button>
+                    }
+                    else
+                    {
+                        @item.BtnGroupClickDateTime @:已發送
+                    }
+
                 </td>
                 <td>
                     @if (item.shipDateTime == null)
@@ -91,13 +106,27 @@
                 $.ajax({
                     type: "POST",
                     url: "/GroupBuy/GetShoppingCartLink",
-                    data: { campaignId:@ViewBag.campaignID}
+                    data: { campaignId:@ViewBag.campaignID , groupOrderID:"" , productGroup:0}
                 }).done(function(response) {
                     if (response != "nothing") {
                         window.open(response);
                     } else {
                         alert("未有成團訂單");
                     }
+                });
+            });
+
+            $(".btn_ungroup_order").on('click', function () {
+                let btnValue = this.value;
+                $.ajax({
+                    type: "POST",
+                    url: "/GroupBuy/GetShoppingCartLink",
+                    data: { groupOrderID: btnValue,campaignId:@ViewBag.campaignID,productGroup: @ViewBag.productGroup}
+                }).done(function (response) {
+                    if (response != "nothing") {
+                        window.open(response);
+                    }
+
                 });
             });
 

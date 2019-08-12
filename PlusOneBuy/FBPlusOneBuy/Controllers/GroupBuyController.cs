@@ -39,16 +39,28 @@ namespace FBPlusOneBuy.Controllers
             string lineGroupId = string.Empty;
             string msg = BotService.SetMsgFormat(GroupOrderID, ref lineGroupId);
             BotService.BotPushMsg(lineGroupId,msg);
+            GroupOrderService groupOrderService = new GroupOrderService();
+            groupOrderService.UpdateBtnGroupClickDateTime(GroupOrderID, DateTime.UtcNow.AddHours(8));
+
             return Json("OK");
         }
 
         [HttpPost]
-        public ActionResult GetShoppingCartLink(int campaignId)
+        public ActionResult GetShoppingCartLink(int campaignId, string groupOrderID, int productGroup)
         {
             CampaignService campaignService = new CampaignService();
             Product product = campaignService.GetProductByCampaignID(campaignId);
             GroupOrderService groupOrderService = new GroupOrderService();
-            int amount = groupOrderService.GetIsGroupORder(campaignId);
+            int amount = 0;
+            if (string.IsNullOrEmpty(groupOrderID))
+            {
+                amount = groupOrderService.GetIsGroupORder(campaignId);
+            }
+            else
+            {
+                amount = productGroup;
+            }
+
             string url = string.Empty;
             if (amount != 0)
             {
@@ -58,9 +70,10 @@ namespace FBPlusOneBuy.Controllers
             {
                 return Json("nothing");
             }
-            
+
             return Json(url);
         }
+
 
         [HttpPost]
         public ActionResult PushArrivedMessageToLineGroup(List<int> GroupOrderIDs,int campaignId)

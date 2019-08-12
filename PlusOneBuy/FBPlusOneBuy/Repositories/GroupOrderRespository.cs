@@ -41,6 +41,24 @@ namespace FBPlusOneBuy.Repositories
                 conn.Execute(sql, new { isGroup, NumberOfProduct, Amount, GroupOrderID });
             }
         }
+        public void UpdateGroupOrderBtnGroupClickDateTime(int GroupOrderID, DateTime btnGroupClickDateTime)
+        {
+            using (conn = new SqlConnection(connectionString))
+            {
+                string strBtnGroupClickDateTime = btnGroupClickDateTime.ToString("yyyy-MM-dd HH:mm:ss.fff");
+                string sql = "UPDATE GroupOrder SET BtnGroupClickDateTime = @strBtnGroupClickDateTime Where GroupOrderID = @GroupOrderID";
+                conn.Execute(sql, new { strBtnGroupClickDateTime, GroupOrderID });
+            }
+        }
+        public void UpdateGroupOrderBtnOrderClickDateTime(int GroupOrderID, DateTime btnOrderClickDateTime)
+        {
+            using (conn = new SqlConnection(connectionString))
+            {
+                string strBtnOrderClickDateTime = btnOrderClickDateTime.ToString("yyyy-MM-dd HH:mm:ss.fff");
+                string sql = "UPDATE GroupOrder SET BtnOrderClickDateTime = @strBtnOrderClickDateTime Where GroupOrderID = @GroupOrderID";
+                conn.Execute(sql, new { strBtnOrderClickDateTime, GroupOrderID });
+            }
+        }
         public void UpdateGroupOrder(int GroupOrderID, DateTime shipDatetime)
         {
             using (conn = new SqlConnection(connectionString))
@@ -75,7 +93,7 @@ namespace FBPlusOneBuy.Repositories
         {
             using (conn = new SqlConnection(connectionString))
             {
-                string sql = "select GroupOrderID from GroupOrder where CampaignID=@campaignId and isGroup=1;";
+                string sql = "select GroupOrderID from GroupOrder where CampaignID=@campaignId and isGroup=1 and shipDateTime is null;";
                 List<int> groupOrderids = conn.Query<int>(sql, new { campaignId }).ToList();
                 return groupOrderids;
             }

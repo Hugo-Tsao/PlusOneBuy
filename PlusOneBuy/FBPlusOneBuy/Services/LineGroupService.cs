@@ -1,10 +1,5 @@
-﻿using FBPlusOneBuy.Models;
-using FBPlusOneBuy.Repositories;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
+﻿using FBPlusOneBuy.Repositories;
+using FBPlusOneBuy.DBModels;
 
 
 namespace FBPlusOneBuy.Services
@@ -30,6 +25,12 @@ namespace FBPlusOneBuy.Services
             {
                 return false;
             }
+        }
+        public LineGroup GetGroupByID()
+        {
+            LineGroupRepository lineGroup_repo = new LineGroupRepository();
+            LineGroup lineGroup = lineGroup_repo.SearchLineGroup(GroupId);
+            return lineGroup;
         }
 
     }

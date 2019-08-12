@@ -15,7 +15,17 @@ namespace FBPlusOneBuy.Controllers
         {
             string accessToken = LineRequestService.CodeToAccessToken(code);
             var lineProfile = LineRequestService.UseTokenToGetProfile(accessToken);
-            LineBindingService.InsertStoreManager(lineProfile);
+
+            var userId=LineBindingService.SearchLineID(lineProfile.userId);
+            if (userId == 0)
+            {
+                LineBindingService.InsertStoreManager(lineProfile);
+            }
+            else
+            {
+                LineBindingService.UpdateManagerStatus(userId, "True");
+            }
+
 
             return View();
         }
@@ -42,12 +52,14 @@ namespace FBPlusOneBuy.Controllers
         public void UpdateGroupStatus(int groupId,string Status)
         {
             LineBindingService.UpdateGroupStatus(groupId, Status);
+            string LineGroupID = LineBindingService.GetLineGroupIDByID(groupId);
+            BotService.LeaveGroup(LineGroupID);
         }
         [HttpPost]
-        public void DelManager(int StoreManagerID)
+        public void UpdateManagerStatus(int StoreManagerID,string Status)
         {
-            LineBindingService.removeManagerGroup(StoreManagerID);
-            LineBindingService.removeManager(StoreManagerID);
+            LineBindingService.UpdateManagerStatus(StoreManagerID, Status);
+            LineBindingService.UpdateManagerAllGroupStatus(StoreManagerID, Status);
         }
     }
 }

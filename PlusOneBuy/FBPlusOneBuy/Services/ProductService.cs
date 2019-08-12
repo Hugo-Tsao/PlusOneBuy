@@ -1,9 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
 using System.Web;
 using System.Web.Services;
+using FBPlusOneBuy.DBModels;
 using FBPlusOneBuy.Models;
 using FBPlusOneBuy.Repositories;
 using FBPlusOneBuy.ViewModels;

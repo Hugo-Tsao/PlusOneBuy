@@ -4,12 +4,25 @@ using FBPlusOneBuy.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
+using FBPlusOneBuy.DBModels;
 
 namespace FBPlusOneBuy.Services
 {
     public class LineBindingService
     {
+        public static int SearchLineID(string lineID)
+        {
+            LineGroupRepository lineGroup_repo = new LineGroupRepository();
+            int storeManagerId = lineGroup_repo.SearchLineID(lineID);
+            return storeManagerId;
+        }
+        public static string GetLineGroupIDByID(int groupId)
+        {
+            LineGroupRepository lineGroup_repo = new LineGroupRepository();
+            string LineGroupID = lineGroup_repo.GetLineGroupIDByID(groupId);
+            return LineGroupID;
+        }
+
         public static void InsertStoreManager(LineProfile profile)
         {
             var sm_repo = new StoreManagerRepository();
@@ -57,7 +70,7 @@ namespace FBPlusOneBuy.Services
             lineGroup_repo.CompareUpdateGroupid(groupId, storeManagerId, timestampTotime);
 
         }
-        public static int GGetIdByGroupId(string groupId)
+        public static int GetIdByGroupId(string groupId)
         {
             LineGroupRepository lineGroup_repo = new LineGroupRepository();
             int id=lineGroup_repo.GetIdByGroupId(groupId);
@@ -74,15 +87,25 @@ namespace FBPlusOneBuy.Services
             LineGroupRepository lineGroup_repo = new LineGroupRepository();
             lineGroup_repo.UpdateGroupStatus(groupId, status);
         }
-        public static void removeManager(int StoreManagerID)
+        public static void UpdateManagerStatus(int StoreManagerID, string status)
         {
             LineGroupRepository lineGroup_repo = new LineGroupRepository();
-            lineGroup_repo.removeManager(StoreManagerID);
+            lineGroup_repo.UpdateManagerStatus(StoreManagerID, status);
         }
-        public static void removeManagerGroup(int StoreManagerID)
+        public static void UpdateManagerAllGroupStatus(int StoreManagerID, string status)
         {
             LineGroupRepository lineGroup_repo = new LineGroupRepository();
-            lineGroup_repo.removeManagerGroup(StoreManagerID);
+            lineGroup_repo.UpdateManagerAllGroupStatus(StoreManagerID, status);
+        }
+        public static void UpdateBotGroupStatus(int groupId, string status,DateTime time)
+        {
+            LineGroupRepository lineGroup_repo = new LineGroupRepository();
+            lineGroup_repo.UpdateBotGroupStatus(groupId, status, time);
+        }
+        public static void UpdateBotGroup(int groupId, string LineGroupID ,string status, DateTime time)
+        {
+            LineGroupRepository lineGroup_repo = new LineGroupRepository();
+            lineGroup_repo.UpdateBotGroup(groupId, LineGroupID, status, time);
         }
 
     }

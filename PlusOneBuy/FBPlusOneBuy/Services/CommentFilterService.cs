@@ -5,6 +5,7 @@ using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Web;
+using FBPlusOneBuy.DBModels;
 using FBPlusOneBuy.Models;
 using FBPlusOneBuy.Repositories;
 using FBPlusOneBuy.ViewModels;

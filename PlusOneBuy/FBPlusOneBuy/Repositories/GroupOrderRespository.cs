@@ -1,11 +1,10 @@
 ﻿using Dapper;
-using FBPlusOneBuy.Models;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data.SqlClient;
 using System.Linq;
-using System.Web;
+using FBPlusOneBuy.DBModels;
 using FBPlusOneBuy.ViewModels;
 
 namespace FBPlusOneBuy.Repositories
@@ -23,7 +22,16 @@ namespace FBPlusOneBuy.Repositories
                     new {CampaignID = campaignID, RemaningNumber = remaningNumber});
                 return GroupOrderID; 
             }
-
+        }
+        public GroupOrder SearchGroupOrder(int groupOrderId)
+        {
+            using (conn = new SqlConnection(connectionString))
+            {
+                string sql = "SELECT * FROM GroupOrder WHERE GroupOrderID = @GroupOrderID";
+                GroupOrder GroupOrder = conn.QueryFirstOrDefault<GroupOrder>(sql,
+                    new { GroupOrderID = groupOrderId });
+                return GroupOrder;
+            }
         }
         public void InsertGroupOrder(GroupOrderViewModel groupOrder)
         {
@@ -33,41 +41,16 @@ namespace FBPlusOneBuy.Repositories
                 conn.Execute(sql, new { groupOrder.CampaignID, groupOrder.OrderDateTime, groupOrder.isGroup, groupOrder.NumberOfProduct, groupOrder.Amount });
             }
         }
-        public void UpdateGroupOrder(int GroupOrderID,int NumberOfProduct,decimal Amount,bool isGroup)
+
+        public void UpdateGroupOrder(GroupOrder groupOrder)
         {
             using (conn = new SqlConnection(connectionString))
             {
-                string sql = "UPDATE GroupOrder SET isGroup = @isGroup, NumberOfProduct = @NumberOfProduct, Amount = @Amount Where GroupOrderID = @GroupOrderID";
-                conn.Execute(sql, new { isGroup, NumberOfProduct, Amount, GroupOrderID });
+                string sql = "UPDATE GroupOrder  SET isGroup = @isGroup, NumberOfProduct = @NumberOfProduct, Amount = @Amount, shipDateTime = @shipDateTime, BtnOrderClickDateTime = @BtnOrderClickDateTime, BtnGroupClickDateTime = @BtnGroupClickDateTime Where GroupOrderID = @GroupOrderID";
+                conn.Execute(sql, new { groupOrder.isGroup, groupOrder.NumberOfProduct, groupOrder.Amount, groupOrder.shipDateTime,groupOrder.BtnOrderClickDateTime, groupOrder.BtnGroupClickDateTime, groupOrder.GroupOrderID });
             }
         }
-        public void UpdateGroupOrderBtnGroupClickDateTime(int GroupOrderID, DateTime btnGroupClickDateTime)
-        {
-            using (conn = new SqlConnection(connectionString))
-            {
-                string strBtnGroupClickDateTime = btnGroupClickDateTime.ToString("yyyy-MM-dd HH:mm:ss.fff");
-                string sql = "UPDATE GroupOrder SET BtnGroupClickDateTime = @strBtnGroupClickDateTime Where GroupOrderID = @GroupOrderID";
-                conn.Execute(sql, new { strBtnGroupClickDateTime, GroupOrderID });
-            }
-        }
-        public void UpdateGroupOrderBtnOrderClickDateTime(int GroupOrderID, DateTime btnOrderClickDateTime)
-        {
-            using (conn = new SqlConnection(connectionString))
-            {
-                string strBtnOrderClickDateTime = btnOrderClickDateTime.ToString("yyyy-MM-dd HH:mm:ss.fff");
-                string sql = "UPDATE GroupOrder SET BtnOrderClickDateTime = @strBtnOrderClickDateTime Where GroupOrderID = @GroupOrderID";
-                conn.Execute(sql, new { strBtnOrderClickDateTime, GroupOrderID });
-            }
-        }
-        public void UpdateGroupOrder(int GroupOrderID, DateTime shipDatetime)
-        {
-            using (conn = new SqlConnection(connectionString))
-            {
-                string strshipDatetime = shipDatetime.ToString("yyyy-MM-dd HH:mm:ss.fff");
-                string sql = "UPDATE GroupOrder SET shipDateTime = @strshipDatetime Where GroupOrderID = @GroupOrderID";
-                conn.Execute(sql, new { strshipDatetime, GroupOrderID });
-            }
-        }
+
         public List<GroupOrderListGroupOrderViewModel> SelectGroupOrders(int campaignID)
         {
             using (conn = new SqlConnection(connectionString))

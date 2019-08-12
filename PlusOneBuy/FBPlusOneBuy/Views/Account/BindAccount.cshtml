@@ -320,8 +320,8 @@
                 {
                 $.ajax({
                         type: "POST",
-                        url: "/LineBind/DelManager",
-                        data: { StoreManagerID: obj.value },
+                        url: "/LineBind/UpdateManagerStatus",
+                        data: { StoreManagerID: obj.value ,Status:"False"},
                         success: function () {
                             window.location.reload()
                         }

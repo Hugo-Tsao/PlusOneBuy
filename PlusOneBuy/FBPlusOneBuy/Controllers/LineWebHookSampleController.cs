@@ -1,18 +1,13 @@
 using FBPlusOneBuy.Models;
 using FBPlusOneBuy.Services;
 using isRock.LineBot;
-using Microsoft.AspNet.Identity;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Text.RegularExpressions;
-using System.Web;
 using System.Web.Http;
-using FBPlusOneBuy.Repositories;
 using FBPlusOneBuy.ViewModels;
+using FBPlusOneBuy.DBModels;
 
 namespace FBPlusOneBuy.Controllers
 {
@@ -36,19 +31,15 @@ namespace FBPlusOneBuy.Controllers
                 if (LineEvent.replyToken == "00000000000000000000000000000000") return Ok();
 
                 DateTime time = DateTime.UtcNow.AddHours(8);
-                //GroupID暫時先寫死(因為關係到權限和綁定)
-                //CampaignService campaignService = new CampaignService("Cdce46b42293efcd6ff973d08be1e0642");
-                //var result = campaignService.GetAllCampaign(time);
 
-                //Regex re;
                 string userId = LineEvent.source.userId;
                 string groupId = LineEvent.source.groupId;
                 LineUserInfo UserInfo = null;
-                
+
                 //回覆訊息
                 if (LineEvent.type == "message")
                 {
-                    if (LineEvent.message.type=="text" && LineEvent.source.groupId != null)
+                    if (LineEvent.message.type == "text" && LineEvent.source.groupId != null)
                     {
                         UserInfo = isRock.LineBot.Utility.GetGroupMemberProfile(groupId, userId, channelAccessToken);
                         //使用者ID和群組ID
@@ -115,7 +106,7 @@ namespace FBPlusOneBuy.Controllers
 
                                     }
                                     groupOrderService.UpdateGroupOrder(groupOrder.GroupOrderID, currentNumberOfProduct, Amount, isGroup);
-                                    this.ReplyMessage(groupId, "感謝"+ UserInfo.displayName+"的下標!等待活動結束後會一併通知團購成功名單");
+                                    this.ReplyMessage(LineEvent.replyToken, "感謝" + UserInfo.displayName + "的下標!等待活動結束後會一併通知團購成功名單");
                                     break;
                                 }
                             }
@@ -135,17 +126,47 @@ namespace FBPlusOneBuy.Controllers
                     DateTime timestampTotime = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
                     timestampTotime = timestampTotime.AddSeconds(LineEvent.timestamp / 1000).ToLocalTime();
 
-                    List<CompareStoreManager> managerId = LineBindingService.GroupNullCompare();
-                    foreach (var item in managerId)
+                    LineGroupService lineGroupService = new LineGroupService(groupId);
+
+                    var linegroup = lineGroupService.GetGroupByID();
+                    //新的群組
+                    if (linegroup == null)
                     {
-                        StoreMeanger checkProfile = BotService.CheckMeanger(groupId, item.LineID);
-                        if (checkProfile.message != "Not found")
+                        List<CompareStoreManager> managerId = LineBindingService.GroupNullCompare();
+                        foreach (var item in managerId)
                         {
-                            LineBindingService.CompareUpdateGroupid(groupId, item.StoreManagerID, timestampTotime);
+                            StoreMeanger checkProfile = BotService.CheckMeanger(groupId, item.LineID);
+                            if (checkProfile.message != "Not found")
+                            {
+                                LineBindingService.CompareUpdateGroupid(groupId, item.StoreManagerID, timestampTotime);
+                            }
                         }
                     }
-                }
+                    else
+                    {
+                        var nullGroup = LineBindingService.GetNullGroup(linegroup.StoreManagerID);
+                        //群組名字一樣，舊的改狀態新的null刪掉
+                        if (linegroup.GroupName == nullGroup.FirstOrDefault().GroupName)
+                        {
+                            LineBindingService.UpdateBotGroupStatus(linegroup.GroupID, "True", timestampTotime);
+                            LineBindingService.DelNullGroup(nullGroup.FirstOrDefault().GroupID);
+                        }
+                        //群組名字不一樣，新的增加
+                        else if (linegroup.GroupName != nullGroup.FirstOrDefault().GroupName)
+                        {
+                            LineBindingService.UpdateBotGroup(nullGroup.FirstOrDefault().GroupID,groupId, "True", timestampTotime);
+                        }
+                    }
 
+                }
+                if (LineEvent.type == "leave")
+                {
+                    int id = LineBindingService.GetIdByGroupId(groupId);
+                    if (id != 0)
+                    {
+                        LineBindingService.UpdateGroupStatus(id, "False");
+                    }
+                }
                 return Ok();
             }
             catch (Exception ex)

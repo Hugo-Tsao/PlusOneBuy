@@ -1,4 +1,4 @@
-namespace FBPlusOneBuy.Models
+namespace FBPlusOneBuy.DBModels
 {
     using System;
     using System.Data.Entity;
@@ -64,10 +64,6 @@ namespace FBPlusOneBuy.Models
                 .HasMany(e => e.LivePosts)
                 .WithRequired(e => e.FanPage)
                 .WillCascadeOnDelete(false);
-
-            modelBuilder.Entity<GroupOrder>()
-                .Property(e => e.shipDateTime)
-                .IsFixedLength();
 
             modelBuilder.Entity<GroupOrder>()
                 .Property(e => e.Amount)

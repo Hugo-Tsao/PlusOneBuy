@@ -146,7 +146,11 @@ namespace FBPlusOneBuy.Controllers
                     {
                         var nullGroup = LineBindingService.GetNullGroup(linegroup.StoreManagerID);
                         //群組名字一樣，舊的改狀態新的null刪掉
-                        if (linegroup.GroupName == nullGroup.FirstOrDefault().GroupName)
+                        if (nullGroup.Count==0)
+                        {
+                            LineBindingService.UpdateBotGroupStatus(linegroup.GroupID, "True", timestampTotime);
+                        }
+                        else if (linegroup.GroupName == nullGroup.FirstOrDefault().GroupName)
                         {
                             LineBindingService.UpdateBotGroupStatus(linegroup.GroupID, "True", timestampTotime);
                             LineBindingService.DelNullGroup(nullGroup.FirstOrDefault().GroupID);
@@ -154,8 +158,9 @@ namespace FBPlusOneBuy.Controllers
                         //群組名字不一樣，新的增加
                         else if (linegroup.GroupName != nullGroup.FirstOrDefault().GroupName)
                         {
-                            LineBindingService.UpdateBotGroup(nullGroup.FirstOrDefault().GroupID,groupId, "True", timestampTotime);
+                            LineBindingService.UpdateBotGroup(nullGroup.FirstOrDefault().GroupID, groupId, "True", timestampTotime);
                         }
+                        
                     }
 
                 }

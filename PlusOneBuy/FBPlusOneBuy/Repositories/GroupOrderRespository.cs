@@ -76,7 +76,7 @@ namespace FBPlusOneBuy.Repositories
         {
             using (conn = new SqlConnection(connectionString))
             {
-                string sql = "select GroupOrderID from GroupOrder where CampaignID=@campaignId and isGroup=1;";
+                string sql = "select GroupOrderID from GroupOrder where CampaignID=@campaignId and isGroup=1 and shipDateTime is null;";
                 List<int> groupOrderids = conn.Query<int>(sql, new { campaignId }).ToList();
                 return groupOrderids;
             }

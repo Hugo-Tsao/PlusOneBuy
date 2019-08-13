@@ -63,9 +63,15 @@ namespace FBPlusOneBuy.Controllers
         }
         public ActionResult GroupOrderList(int campaignID)
         {
-            ViewBag.campaignID = campaignID;
+            ViewBag.campaignID = campaignID;            
             GroupOrderService groupOrderService = new GroupOrderService();
-            ViewData.Model = groupOrderService.SelectGroupOrders(campaignID);
+            var groupOrders = groupOrderService.SelectGroupOrders(campaignID);
+            ViewData.Model = groupOrders;
+            if (groupOrders.Count > 0)
+            {
+                ViewBag.productGroup = groupOrders.FirstOrDefault().ProductGroup;
+            }
+            
             return View();
         }
         public ActionResult GroupOrderDetailList(int GroupOrderID,int campaignID)

@@ -93,5 +93,17 @@ namespace FBPlusOneBuy.Services
             groupOrder.shipDateTime = shipDateTime;
             groupOrder_repo.UpdateGroupOrder(groupOrder);
         }
+        public void UpdateBtnOrderClickDateTime(int GroupOrderID, DateTime btnOrderClickDateTime)
+        {
+            GroupOrder groupOrder = groupOrder_repo.SearchGroupOrder(GroupOrderID);
+            groupOrder.BtnOrderClickDateTime = btnOrderClickDateTime;
+            groupOrder_repo.UpdateGroupOrder(groupOrder);
+        }
+        public void UpdateBtnGroupClickDateTime(int GroupOrderID, DateTime btnGroupClickDateTime)
+        {
+            GroupOrder groupOrder = groupOrder_repo.SearchGroupOrder(GroupOrderID);
+            groupOrder.BtnGroupClickDateTime = btnGroupClickDateTime;
+            groupOrder_repo.UpdateGroupOrder(groupOrder);
+        }
     }
 }

@@ -16,7 +16,7 @@ namespace FBPlusOneBuy.Services
     public class BotService
     {
         internal static string channelAccessToken = ConfigurationManager.AppSettings["channelAccessToken"];
-        public static async void BotPushMsg(string lineGroupid, string msg)
+        public static void BotPushMsg(string lineGroupid, string msg)
         {
             try
             {

@@ -46,8 +46,15 @@ namespace FBPlusOneBuy.Services
         {
             LivePostsRepository livePost_repo = new LivePostsRepository();
             var liveId = livePost_repo.Select(livePageId);
-            var link = getAddToCartLink(order.Product.Salepage_id, order.Product.SkuId, order.Quantity);
-            string msgText = $"{order.CustomerName}你好，感謝您訂購我們的產品!!\r\n{order.Product.ProductName}-數量{order.Quantity}，請點擊下列連結完成接下來的購物流程!{link}";
+            CartViewModel cart = new CartViewModel()
+            {
+                salepage_id = order.Product.Salepage_id,
+                sku_id = order.Product.SkuId,
+                qty = order.Quantity
+            };
+            var link = getAddToCartLink(cart,livePageId,"FB");
+            string shortlink = ShortenLink(link);
+            string msgText = $"{order.CustomerName}你好，感謝您訂購我們的產品!!\r\n{order.Product.ProductName}-數量{order.Quantity}，請點擊下列連結完成接下來的購物流程!{shortlink}";
             List<string> id = new List<string> { order.CustomerID };
             FBSendMsgService.SendMsg(msgText, id, token);
 
@@ -65,31 +72,42 @@ namespace FBPlusOneBuy.Services
             FBSendMsgService.SendMsg(msgText, id, token);
         }
 
-        public static string getAddToCartLink(int salepage_id, int skuId, int qty)
+        public static string getAddToCartLink(CartViewModel cart,string actNumber,string socialAppName)
         {
-            string link = string.Empty;
-            link = "http://64.selfshop.qa.91dev.tw/v2/ShoppingCart/BatchInsert?data=";
+            string link = "http://64.selfshop.qa.91dev.tw/v2/ShoppingCart/BatchInsert?";
+            string act = "act=";
+            if (socialAppName == "FB")
+            {
+                act += "f1_";
+            }
+            else if (socialAppName == "Line")
+            {
+                act += "l1_";
+            }
+
+            act += actNumber;
+            string fr = "fr=" + socialAppName;
             CartViewModel[] data = new CartViewModel[]
             {
                 new CartViewModel()
                 {
-                    salepage_id = salepage_id,
-                    sku_id = skuId,
-                    qty = qty
+                    salepage_id = cart.salepage_id,
+                    sku_id = cart.sku_id,
+                    qty = cart.qty
                 }
             };
-            var JsonData = Newtonsoft.Json.JsonConvert.SerializeObject(data);
-            var EncodeData = getUrlEncode(JsonData);
-            link += EncodeData;
-            link = ShortenLink(link);
+            var jsonData = Newtonsoft.Json.JsonConvert.SerializeObject(data);
+            var encodeData = GetUrlEncode(jsonData);
+            link += $"{act}&{fr}";
+            link += "&data=" + encodeData;
             return link;
         }
-
-        internal static string getUrlEncode(string JsonData)
+            
+        internal static string GetUrlEncode(string JsonData)
         {
             return WebUtility.UrlEncode(JsonData);
         }
-        internal static string getUrlDecode(string str)
+        internal static string GetUrlDecode(string str)
         {
             return WebUtility.UrlDecode(str);
         }
@@ -100,7 +118,7 @@ namespace FBPlusOneBuy.Services
             request.AddHeader("cache-control", "no-cache");
             request.AddHeader("Content-Type", "application/json");
             IRestResponse response = client.Execute(request);
-            return response.Content.ToString();
+            return response.Content;
         }
     }
 }

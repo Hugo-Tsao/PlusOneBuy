@@ -64,7 +64,13 @@ namespace FBPlusOneBuy.Controllers
             if (amount != 0)
             {
                 DateTime dtNow = DateTime.UtcNow.AddHours(8);
-                url = FBSendMsgService.getAddToCartLink(product.ProductPageID, product.ProductID, amount);
+                CartViewModel cart = new CartViewModel()
+                {
+                    salepage_id = product.ProductPageID,
+                    sku_id = product.ProductID,
+                    qty = amount
+                };
+                url = FBSendMsgService.getAddToCartLink(cart,campaignId.ToString(),"Line");
                 foreach (int id in groupOrderIDs)
                 {
                     groupOrderService.UpdateBtnOrderClickDateTime(id, dtNow);

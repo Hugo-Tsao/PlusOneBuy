@@ -66,7 +66,8 @@ namespace FBPlusOneBuy.Controllers
             ViewBag.campaignID = campaignID;            
             GroupOrderService groupOrderService = new GroupOrderService();
             var groupOrders = groupOrderService.SelectGroupOrders(campaignID);
-            ViewData.Model = groupOrders;
+            ViewData.Model = groupOrders;            
+            
             if (groupOrders.Count > 0)
             {
                 ViewBag.productGroup = groupOrders.FirstOrDefault().ProductGroup;

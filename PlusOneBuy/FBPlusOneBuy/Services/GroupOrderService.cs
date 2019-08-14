@@ -29,9 +29,14 @@ namespace FBPlusOneBuy.Services
                 return true;
             }
         }
-        public List<int> GetGroupOrderIds(int campaignID)
+        public List<int> GetGroupOrderIdsByShipIsNull(int campaignID)
         {
-            List<int> groupOrderids=groupOrder_repo.SelectGroupOrderIDs(campaignID);
+            List<int> groupOrderids=groupOrder_repo.SelectGroupOrderIDsByShipIsNull(campaignID);
+            return groupOrderids;
+        }
+        public List<int> GetGroupOrderIdsByOrderIsNull(int campaignID)
+        {
+            List<int> groupOrderids = groupOrder_repo.SelectGroupOrderIDsByOrderIsNull(campaignID);
             return groupOrderids;
         }
 

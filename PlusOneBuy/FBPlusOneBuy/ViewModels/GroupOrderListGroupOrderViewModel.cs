@@ -50,5 +50,9 @@ namespace FBPlusOneBuy.ViewModels
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd HH:mm:ss}")]
         public DateTime? BtnGroupClickDateTime { get; set; }
+
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd HH:mm:ss}")]
+        public DateTime EndTime { get; set; }
     }
 }

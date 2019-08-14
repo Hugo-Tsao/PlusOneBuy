@@ -320,7 +320,6 @@
     <Content Include="Assets\images\Ig1.png" />
     <Content Include="Assets\images\Line1.png" />
     <Content Include="Assets\js\bootstrap-datetimepicker.min.js" />
-    <Content Include="Assets\js\bootstrap.min.js" />
     <Content Include="Assets\js\jquery-3.4.1.min.js" />
     <Content Include="Content\bootstrap-grid.css" />
     <Content Include="Content\bootstrap-grid.min.css" />

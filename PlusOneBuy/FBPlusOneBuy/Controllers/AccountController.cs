@@ -78,6 +78,11 @@ namespace FBPlusOneBuy.Controllers
             // 這不會計算為帳戶鎖定的登入失敗
             // 若要啟用密碼失敗來觸發帳戶鎖定，請變更為 shouldLockout: true
             ApplicationUser signedUser = UserManager.FindByEmail(model.Email);
+            if (signedUser == null)
+            {
+                ModelState.AddModelError("", "登入嘗試失試。");
+                return View(model);
+            }
             var result = await SignInManager.PasswordSignInAsync(signedUser.UserName, model.Password, model.RememberMe, shouldLockout: false);
             switch (result)
             {

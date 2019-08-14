@@ -46,20 +46,29 @@ namespace FBPlusOneBuy.Controllers
             CampaignService campaignService = new CampaignService();
             Product product = campaignService.GetProductByCampaignID(campaignId);
             GroupOrderService groupOrderService = new GroupOrderService();
+            List<int> groupOrderIDs = new List<int>();
             int amount = 0;
             if (string.IsNullOrEmpty(groupOrderID))
             {
                 amount = groupOrderService.GetIsGroupORder(campaignId);
+                groupOrderIDs= groupOrderService.GetGroupOrderIdsByOrderIsNull(campaignId);
+                
             }
             else
             {
                 amount = productGroup;
+                groupOrderIDs.Add(Convert.ToInt32(groupOrderID));
             }
 
             string url = string.Empty;
             if (amount != 0)
             {
+                DateTime dtNow = DateTime.UtcNow.AddHours(8);
                 url = FBSendMsgService.getAddToCartLink(product.ProductPageID, product.ProductID, amount);
+                foreach (int id in groupOrderIDs)
+                {
+                    groupOrderService.UpdateBtnOrderClickDateTime(id, dtNow);
+                }
             }
             else
             {
@@ -77,8 +86,13 @@ namespace FBPlusOneBuy.Controllers
             GroupOrderService groupOrderService = new GroupOrderService();
             if (GroupOrderIDs==null)
             {
-                GroupOrderIDs = groupOrderService.GetGroupOrderIds(campaignId);
+                GroupOrderIDs = groupOrderService.GetGroupOrderIdsByShipIsNull(campaignId);
+                if (GroupOrderIDs.Count == 0)
+                {
+                    return Json("nothing");
+                }
             }
+            
             foreach (int GroupOrderID in GroupOrderIDs)
             {
                 string msg = BotService.SetArrivedMsgFormat(GroupOrderID, ref lineGroupId);
@@ -86,7 +100,7 @@ namespace FBPlusOneBuy.Controllers
 
                 groupOrderService.UpdateShipDateTime(GroupOrderID, DateTime.UtcNow.AddHours(8));
             }
-
+            
 
             return Json("OK");
         }

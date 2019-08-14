@@ -43,7 +43,7 @@
                 <td>
                     @if (item.isGroup == false)
                     {
-                    <span class="text-danger">尚缺:</span> @(item.ProductGroup - item.NumberOfProduct)
+                        <span class="text-danger">尚缺:</span> @(item.ProductGroup - item.NumberOfProduct)
                     }
                     else
                     {
@@ -56,14 +56,22 @@
                     @Html.ActionLink("...", "GroupOrderDetailList", new { GroupOrderID = item.GroupOrderID, campaignID = ViewBag.campaignID })
                 </td>
                 <td>
-                    @if (item.isGroup == false)
+                    @if (item.BtnOrderClickDateTime == null)
                     {
-                        <button class="btn btn-link btn_ungroup_order" value="@item.GroupOrderID">此團成單</button>
+                        if (item.isGroup == false)
+                        {
+                            <button class="btn btn-link btn_ungroup_order" value="@item.GroupOrderID">此團成單</button>
+                        }
+                        else
+                        {
+                            <span>可一鍵成團</span>
+                        }
                     }
                     else
                     {
-                        <span>可一鍵成團</span>
+                        @item.BtnOrderClickDateTime @:已發送
                     }
+
 
                 </td>
                 <td>
@@ -84,7 +92,7 @@
                     }
                     else
                     {
-                        @item.shipDateTime  @:已發送
+                        @item.shipDateTime @:已發送
                     }
 
                 </td>
@@ -136,9 +144,14 @@
                     type: "POST",
                     url: "@Url.Action("PushArrivedMessageToLineGroup","GroupBuy")",
                     data: {campaignId:@ViewBag.campaignID}
-                }).done(function(response) {
-                    console.log('取貨訊息s發送done!');
-                    window.location.reload();
+                }).done(function (response) {
+                    if (response != "nothing") {
+                        console.log('取貨訊息s發送done!');
+                        window.location.reload();
+                    } else {
+                        alert("沒有!");
+                    }
+
                 });
             });
 
@@ -162,7 +175,7 @@
                 $.ajax({
                     type: "POST",
                     url: '@Url.Action("PushArrivedMessageToLineGroup","GroupBuy")',
-                    data: { GroupOrderIDs: [groupOrderID] }                                       
+                    data: { GroupOrderIDs: [groupOrderID],campaignId:@ViewBag.campaignID }
                 }).done(function (res) {
                     console.log('取貨訊息發送done!');
                     window.location.reload();

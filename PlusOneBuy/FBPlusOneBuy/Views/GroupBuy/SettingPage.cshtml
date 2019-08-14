@@ -33,11 +33,10 @@
             <input id="PeopleGroup" name="ProductGroup" type="text" class="qty" />
             <label>/團</label>
             <br />
-            @*<input id="EndTime" name="EndTime" type="datetime-local" />*@
                 <label for="EndTime" class="mr-3">結束時間:</label>
                 <div class="input-group date form_datetime col-11" data-date-format="dd MM yyyy - HH:ii p" 
                      data-link-field="EndTime">
-                    <input class="form-control "type="text" value="" readonly>
+                    <input class="form-control "type="text" value="">
                     <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
                     <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
                 </div>
@@ -55,7 +54,6 @@
 }
 @section EndJS
 {
-    <script src="~/Assets/js/bootstrap.min.js"></script>
     <script src="~/Assets/js/bootstrap-datetimepicker.min.js"></script>
 
     <script>

@@ -123,8 +123,7 @@ namespace FBPlusOneBuy.Controllers
                 }
                 if (LineEvent.type == "join")
                 {
-                    DateTime timestampTotime = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
-                    timestampTotime = timestampTotime.AddSeconds(LineEvent.timestamp / 1000).ToLocalTime();
+                    DateTime timestampTotime = BotService.TimestampToDateTime(LineEvent.timestamp);
 
                     LineGroupService lineGroupService = new LineGroupService(groupId);
 

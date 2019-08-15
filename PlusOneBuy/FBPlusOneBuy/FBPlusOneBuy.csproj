@@ -246,6 +246,7 @@
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\BitlyJson.cs" />
     <Compile Include="Models\CompareStoreManager.cs" />
     <Compile Include="Models\FbMessage.cs" />
     <Compile Include="Models\IdentityModels.cs" />

@@ -59,7 +59,13 @@ namespace FBPlusOneBuy.Controllers
         public void UpdateManagerStatus(int StoreManagerID,string Status)
         {
             LineBindingService.UpdateManagerStatus(StoreManagerID, Status);
+            var GroupList = LineBindingService.GetGroupList(StoreManagerID);
+            foreach (var item in GroupList)
+            {
+                BotService.LeaveGroup(item.LineGroupID);
+            }
             LineBindingService.UpdateManagerAllGroupStatus(StoreManagerID, Status);
+
         }
     }
 }

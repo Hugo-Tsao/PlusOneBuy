@@ -57,21 +57,23 @@ namespace FBPlusOneBuy.Controllers
         public ActionResult LineList()
         {
             string userId = User.Identity.GetUserId();
-            int storeManagerID=CampaignService.GetStoreManagerID(userId);           
-            ViewData.Model = CampaignService.GetAllCampaigns(storeManagerID);
+            int[] storeManagerIDs=CampaignService.GetStoreManagerIDs(userId);           
+            ViewData.Model = CampaignService.GetAllCampaigns(storeManagerIDs);
             return View();
         }
         public ActionResult GroupOrderList(int campaignID)
         {
             ViewBag.campaignID = campaignID;            
-            GroupOrderService groupOrderService = new GroupOrderService();
+            GroupOrderService groupOrderService = new GroupOrderService();           
             var groupOrders = groupOrderService.SelectGroupOrders(campaignID);
+            CampaignService campaignService = new CampaignService();
+            CampaignViewModel cvm = campaignService.GetCampaign(campaignID);
+            ViewBag.title = cvm.Title;
+            ViewBag.productName = cvm.ProductName;
+            ViewBag.detail = cvm.Detail;
+            ViewBag.productGroup = cvm.ProductGroup;           
             ViewData.Model = groupOrders;            
             
-            if (groupOrders.Count > 0)
-            {
-                ViewBag.productGroup = groupOrders.FirstOrDefault().ProductGroup;
-            }
             
             return View();
         }

@@ -42,13 +42,13 @@ namespace FBPlusOneBuy.Services
             }
         }
 
-        public static int GetStoreManagerID(string userId)
+        public static int[] GetStoreManagerIDs(string userId)
         {
             CampaignRepository campaign_repo = new CampaignRepository();
-            int storeManagerID = campaign_repo.SelectStoreManagerID(userId);
-            return storeManagerID;
+            int[] storeManagerIDs = campaign_repo.SelectStoreManagerIDs(userId);
+            return storeManagerIDs;
         }
-        public static List<LineListCampaignViewModel> GetAllCampaigns(int storeManagerID)
+        public static List<LineListCampaignViewModel> GetAllCampaigns(int[] storeManagerID)
         {
             CampaignRepository campaign_repo = new CampaignRepository();
             var campaigns = campaign_repo.SelectCampaigns(storeManagerID);
@@ -60,5 +60,11 @@ namespace FBPlusOneBuy.Services
             Product product = Campaign_repo.GetProductByCampaignID(campaignId);
             return product;
         }
+        public CampaignViewModel GetCampaign(int campaignId)
+        {
+            CampaignViewModel campaign = Campaign_repo.SelectCampaign(campaignId);
+            return campaign;
+        }
+    
     }
 }

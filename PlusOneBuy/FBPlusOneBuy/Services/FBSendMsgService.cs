@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Net;
 using System.Web;
 using FBPlusOneBuy.DBModels;
+using FBPlusOneBuy.Migrations;
 using FBPlusOneBuy.Models;
 using FBPlusOneBuy.Repositories;
 using FBPlusOneBuy.ViewModels;
@@ -15,6 +17,7 @@ namespace FBPlusOneBuy.Services
 {
     public class FBSendMsgService
     {
+        private readonly string bitlyKey = ConfigurationManager.AppSettings["bitlyKey"];
         public static void SendMsg(string text, List<string> ids, string token)
         {
 
@@ -52,9 +55,8 @@ namespace FBPlusOneBuy.Services
                 sku_id = order.Product.SkuId,
                 qty = order.Quantity
             };
-            var link = getAddToCartLink(cart,livePageId,"FB");
-            string shortlink = ShortenLink(link);
-            string msgText = $"{order.CustomerName}你好，感謝您訂購我們的產品!!\r\n{order.Product.ProductName}-數量{order.Quantity}，請點擊下列連結完成接下來的購物流程!{shortlink}";
+            var link = getAddToCartLink(cart, livePageId, "FB");
+            string msgText = $"{order.CustomerName}你好，感謝您訂購我們的產品!!\r\n{order.Product.ProductName}-數量{order.Quantity}，請點擊下列連結完成接下來的購物流程!{link}";
             List<string> id = new List<string> { order.CustomerID };
             FBSendMsgService.SendMsg(msgText, id, token);
 
@@ -72,7 +74,7 @@ namespace FBPlusOneBuy.Services
             FBSendMsgService.SendMsg(msgText, id, token);
         }
 
-        public static string getAddToCartLink(CartViewModel cart,string actNumber,string socialAppName)
+        public static string getAddToCartLink(CartViewModel cart, string actNumber, string socialAppName)
         {
             string link = "http://64.selfshop.qa.91dev.tw/v2/ShoppingCart/BatchInsert?";
             string act = "act=";
@@ -100,9 +102,11 @@ namespace FBPlusOneBuy.Services
             var encodeData = GetUrlEncode(jsonData);
             link += $"{act}&{fr}";
             link += "&data=" + encodeData;
-            return link;
+            FBSendMsgService service = new FBSendMsgService();
+            string shortlink = service.ShortenLink(link);
+            return shortlink;
         }
-            
+
         internal static string GetUrlEncode(string JsonData)
         {
             return WebUtility.UrlEncode(JsonData);
@@ -111,14 +115,29 @@ namespace FBPlusOneBuy.Services
         {
             return WebUtility.UrlDecode(str);
         }
-        internal static string ShortenLink(string link)
+        internal string ShortenLink(string link)
         {
-            var client = new RestClient("https://api-ssl.bitly.com/v3/shorten?login=o_3888efs55q&apiKey=R_ef7f0de73a5343d1a45acd9c93ce3d9d&longUrl=" + link + "&format=txt");
+            string guid = GetBitlyGuid();
+            var client = new RestClient("https://api-ssl.bitly.com/v4/shorten");
             var request = new RestRequest(Method.POST);
-            request.AddHeader("cache-control", "no-cache");
+            request.AddHeader("Host", "api-ssl.bitly.com");
+            request.AddHeader("Authorization", "Bearer 45601680139604c42cb0a740510c5fb18b37086f");
             request.AddHeader("Content-Type", "application/json");
+            request.AddParameter("undefined", "{\r\n\"group_guid\": \"" + guid + "\",\r\n\"domain\": \"bit.ly\",\r\n\"long_url\": \"" + link + "\"\r\n}", ParameterType.RequestBody);
             IRestResponse response = client.Execute(request);
-            return response.Content;
+            BitShorten bitShorten = JsonConvert.DeserializeObject<BitShorten>(response.Content);
+            return bitShorten.link;
+        }
+
+        internal string GetBitlyGuid()
+        {
+            var client = new RestClient("https://api-ssl.bitly.com/v4/groups");
+            var request = new RestRequest(Method.GET);
+            request.AddHeader("Content-Type", "application/json");
+            request.AddHeader("Authorization", bitlyKey);
+            IRestResponse response = client.Execute(request);
+            BitGroups bitGroups = JsonConvert.DeserializeObject<BitGroups>(response.Content);
+            return bitGroups.groups.FirstOrDefault()?.guid;
         }
     }
 }

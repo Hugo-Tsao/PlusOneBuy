@@ -36,7 +36,7 @@
                 <label for="EndTime" class="mr-3">結束時間:</label>
                 <div class="input-group date form_datetime col-11" data-date-format="dd MM yyyy - HH:ii p" 
                      data-link-field="EndTime">
-                    <input class="form-control "type="text" value="">
+                    <input class="form-control"type="text" value="" readonly>
                     <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
                     <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
                 </div>
@@ -65,7 +65,7 @@
                 todayHighlight: 1,
                 startView: 2,
                 forceParse: 0,
-            }); $('#datetimepicker4').datetimepicker();
+            });
             $("#SearchProduct").on('click', SearchProduct);
             $('button[type="submit"]').click(function () {
                 var now = new Date()

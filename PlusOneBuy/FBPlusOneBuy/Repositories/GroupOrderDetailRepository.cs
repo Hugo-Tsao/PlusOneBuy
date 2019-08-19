@@ -41,5 +41,18 @@ namespace FBPlusOneBuy.Repositories
                 return conn.Query<GroupOrderDetailViewModel>(sql,new { GroupOrderID });
             }
         }
+        public IEnumerable<GroupOrderDetailViewModel> GetDetailByCampaignID(int CampaignID)
+        {
+            using (conn = new SqlConnection(connectionString))
+            {
+                //string sql = "SELECT GroupOrderDetailID,Name,ProductName,UnitPrice,Quantity,MessageDateTime FROM GroupOrderDetail AS Od INNER JOIN LineCustomer AS Lc ON lc.LineCustomerID=Od.LineCustomerID WHERE GroupOrderID=@GroupOrderID";
+                string sql = @"SELECT od.MessageDateTime,od.Quantity,od.UnitPrice,Lc.Name
+                                FROM GroupOrder AS O
+                                INNER JOIN GroupOrderDetail AS Od ON Od.GroupOrderID=o.GroupOrderID
+                                INNER JOIN LineCustomer AS Lc ON lc.LineCustomerID=Od.LineCustomerID
+                                WHERE CampaignID=@CampaignID";
+                return conn.Query<GroupOrderDetailViewModel>(sql, new { CampaignID });
+            }
+        }
     }
 }

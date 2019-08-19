@@ -199,6 +199,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BotController.cs" />
+    <Compile Include="Controllers\ChartController.cs" />
     <Compile Include="Controllers\CommentController.cs" />
     <Compile Include="Controllers\FbWebHookController.cs" />
     <Compile Include="Controllers\GroupBuyController.cs" />
@@ -441,6 +442,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Chart\" />
     <Folder Include="Views\Orders\" />
     <Folder Include="Views\Product\" />
   </ItemGroup>

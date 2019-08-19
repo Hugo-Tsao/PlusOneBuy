@@ -20,5 +20,11 @@ namespace FBPlusOneBuy.Services
             var GroupOrderDetail = groupOrderDetail_repo.GetDetailByGroupOrderID(GroupOrderID).ToList();
             return GroupOrderDetail;
         }
+        public List<GroupOrderDetailViewModel> GetDetailByCampaignID(int CampaignID)
+        {
+            GroupOrderDetailRepository groupOrderDetail_repo = new GroupOrderDetailRepository();
+            var GroupOrderDetail = groupOrderDetail_repo.GetDetailByCampaignID(CampaignID).ToList();
+            return GroupOrderDetail;
+        }
     }
 }

@@ -45,23 +45,32 @@ namespace FBPlusOneBuy.Repositories
             }
         }
 
-        public int SelectStoreManagerID(string userId)
+        public int[] SelectStoreManagerIDs(string userId)
         {
             using (conn=new SqlConnection(connectionString))
             {
-                string sql = "SELECT StoreManagerID FROM StoreManager WHERE AspNetUserId=@AspNetUserId and Status='True';";
-                int storeManagerID = conn.QueryFirstOrDefault<int>(sql, new { AspNetUserId = userId });
+                string sql = "SELECT StoreManagerID FROM StoreManager WHERE AspNetUserId=@AspNetUserId;";
+                int[] storeManagerID = conn.Query<int>(sql, new { AspNetUserId = userId }).ToArray();
                 return storeManagerID;
             }
         }
 
-        public List<LineListCampaignViewModel> SelectCampaigns(int storeManagerID)
+        public List<LineListCampaignViewModel> SelectCampaigns(int[] storeManagerIDs)
         {
             using (conn = new SqlConnection(connectionString))
             {
-                string sql = "SELECT c.CampaignID,l.GroupName,p.ProductName,c.Keyword,c.ProductGroup,c.ProductSet,c.PostTime,c.EndTime,c.Title FROM AspNetUsers u INNER JOIN StoreManager s ON u.Id = s.AspNetUserId INNER JOIN LineGroup l ON s.StoreManagerID = l.StoreManagerID INNER JOIN Campaign c ON l.GroupID = c.GroupID INNER JOIN Products p ON c.ProductID = p.ProductID Where s.StoreManagerID=@storeManagerID;";
-                var campaigns = conn.Query<LineListCampaignViewModel>(sql, new { storeManagerID }).ToList();
-                return campaigns;
+                string sql = "SELECT c.CampaignID,l.GroupName,p.ProductName,c.Keyword,c.ProductGroup,c.ProductSet,c.PostTime,c.EndTime,c.Title FROM AspNetUsers u INNER JOIN StoreManager s ON u.Id = s.AspNetUserId INNER JOIN LineGroup l ON s.StoreManagerID = l.StoreManagerID INNER JOIN Campaign c ON l.GroupID = c.GroupID INNER JOIN Products p ON c.ProductID = p.ProductID Where s.StoreManagerID in @storeManagerIDs;";
+                var campaigns = conn.Query<LineListCampaignViewModel>(sql, new { storeManagerIDs }).ToList();
+                return campaigns; 
+            }
+        }
+        public CampaignViewModel SelectCampaign(int campaignId)
+        {
+            using (conn = new SqlConnection(connectionString))
+            {
+                string sql = "select c.Title,c.ProductID,c.Detail,p.ProductName,c.ProductGroup from Campaign c inner join Products p on c.ProductID=p.ProductID where CampaignID=@campaignId;";
+                var campaign = conn.QueryFirstOrDefault<CampaignViewModel>(sql, new { campaignId });
+                return campaign; 
             }
         }
 

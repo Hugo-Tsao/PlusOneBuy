@@ -85,7 +85,7 @@ namespace FBPlusOneBuy.Services
             LineCustomerRepository lineCustomer_repo = new LineCustomerRepository();
             SendMessageViewModel messageInfo = lineGroup_repo.GetMessageInfoByGroupOrderId(groupOrderId);
             List<NameAndQtyViewModel> customers = lineCustomer_repo.GetCustomersByGroupOrderId(groupOrderId);
-            string message = $"活動名稱:{messageInfo.Title}\n商品名稱:{messageInfo.ProductName}\n活動時間:{messageInfo.PostTime}到{messageInfo.EndTime}\n成團成功!\n";
+            string message = $"!!!成團成功!!!\n活動:{messageInfo.Title}\n商品名稱:{messageInfo.ProductName}\n";
             groupId = messageInfo.LineGroupId;
             foreach (var customer in customers.GroupBy(info => info.Name)
                         .Select(group => new
@@ -105,7 +105,7 @@ namespace FBPlusOneBuy.Services
             LineCustomerRepository lineCustomer_repo = new LineCustomerRepository();
             SendMessageViewModel messageInfo = lineGroup_repo.GetMessageInfoByGroupOrderId(groupOrderId);
             List<NameAndQtyViewModel> customers = lineCustomer_repo.GetCustomersByGroupOrderId(groupOrderId);
-            string message = $"活動名稱:{messageInfo.Title}\n商品名稱:{messageInfo.ProductName}\n商品已經到店囉!\n請一個禮拜內盡快來門市取貨!\n";
+            string message = $"!!!取貨通知!!!\n商品名稱:{messageInfo.ProductName}\n請一個禮拜內盡快來門市取貨!\n";
             groupId = messageInfo.LineGroupId;
 
             foreach (var customer in customers.GroupBy(info => info.Name)

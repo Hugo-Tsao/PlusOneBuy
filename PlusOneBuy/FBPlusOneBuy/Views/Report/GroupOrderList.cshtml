@@ -11,10 +11,10 @@
 
 <div class="row mt-3">
     <div class="col">
-        <p>@Html.DisplayNameFor(model => model.FirstOrDefault().Title) : @Html.DisplayFor(model => model.FirstOrDefault().Title)</p>
-        <p>@Html.DisplayNameFor(model => model.FirstOrDefault().ProductName) : @Html.DisplayFor(model => model.FirstOrDefault().ProductName)</p>
-        <p>@Html.DisplayNameFor(model => model.FirstOrDefault().Detail) : @Html.DisplayFor(model => model.FirstOrDefault().Detail)</p>
-        <p>@Html.DisplayNameFor(model => model.FirstOrDefault().ProductGroup) : @Html.DisplayFor(model => model.FirstOrDefault().ProductGroup)</p>
+        <p>@Html.DisplayNameFor(model => model.FirstOrDefault().Title) : @ViewBag.title</p>
+        <p>@Html.DisplayNameFor(model => model.FirstOrDefault().ProductName) : @ViewBag.productName</p>
+        <p>@Html.DisplayNameFor(model => model.FirstOrDefault().Detail) : @ViewBag.detail</p>
+        <p>@Html.DisplayNameFor(model => model.FirstOrDefault().ProductGroup) : @ViewBag.productGroup</p>
     </div>
 </div>
 <div>
@@ -117,7 +117,9 @@
                     data: { campaignId:@ViewBag.campaignID , groupOrderID:"" , productGroup:0}
                 }).done(function(response) {
                     if (response != "nothing") {
+                        window.location.reload();
                         window.open(response);
+                        
                     } else {
                         alert("未有成團訂單");
                     }
@@ -132,6 +134,7 @@
                     data: { groupOrderID: btnValue,campaignId:@ViewBag.campaignID,productGroup: @ViewBag.productGroup}
                 }).done(function (response) {
                     if (response != "nothing") {
+                        window.location.reload();
                         window.open(response);
                     }
 

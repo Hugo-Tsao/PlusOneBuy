@@ -22,7 +22,7 @@ namespace FBPlusOneBuy.Services
             
             foreach (var data in datas)
             {
-                if (data.from.name == null)
+                if (data.from == null)
                 {
                     continue;
                 }

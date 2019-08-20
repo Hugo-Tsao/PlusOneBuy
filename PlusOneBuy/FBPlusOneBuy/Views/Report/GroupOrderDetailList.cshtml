@@ -11,7 +11,7 @@
 <span>/</span>
 <span class="h4 font-weight-normal text-muted"><strong>明細</strong></span>
 
-<div class="row mt-3">
+<div class="row m-3">
     <div class="col">
         <p>
             @Html.DisplayNameFor(Model => Model.FirstOrDefault().NumberOfProduct):
@@ -21,6 +21,9 @@
             @Html.DisplayNameFor(Model => Model.FirstOrDefault().Amount):
             @Html.DisplayFor(Model => Model.FirstOrDefault().Amount)
         </p>
+    </div>
+    <div class="col">
+        <canvas id="line-chart" width="700" height="200"></canvas>
     </div>
 </div>
 <table id="myTable" class="cell-border compact stripe" style="width:100%">
@@ -72,6 +75,61 @@
             $('#myTable').DataTable({
                 "info": false, "bLengthChange": false, "pageLength": 10
             });
+            $.ajax({
+                type: "POST",
+                url: "/Chart/GroupOrderDetailChart",
+                data: { GroupOrderID: '@ViewBag.GroupOrderID' },
+                success: function (data) {                   
+                    chart(data)
+                }              
+            });
+            function chart(data) {
+                var price = data.price
+                var name = data.name
+                var dateTime=data.dateTime;
+                var qty=data.qty;
+                new Chart(document.getElementById("line-chart"), {
+              type: 'line',
+              data: {
+                labels: dateTime,
+                datasets: [{
+                    data: qty,
+                    borderColor: "#3e95cd",
+                    fill: false
+                  }]
+              },
+              options: {
+                title: {
+                    display: true,
+                    text: '團購數量與金額'
+                  },
+                legend: {
+                     display: false
+                  },
+                  scales: {
+                    xAxes: [{
+                          ticks: {
+                            maxRotation: 0
+                          }
+                        }],
+                      yAxes: [{
+                          ticks: {
+                              min:0,
+                              stepSize: 1
+                          }
+                      }]
+                  },
+                tooltips: {
+                      callbacks: {
+                          label: function (tooltipItem) {
+                              var index = tooltipItem.index;
+                              return "數量:" + Number(tooltipItem.yLabel) + " 金額:$" + price[index] + " 顧客:" + name[index];
+                            }
+                        }
+                  }
+              }
+            });
+            }           
         });
     </script>
 }

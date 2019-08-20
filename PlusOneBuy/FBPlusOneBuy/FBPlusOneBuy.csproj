@@ -282,6 +282,7 @@
     <Compile Include="Services\LineRequestService.cs" />
     <Compile Include="Services\LivePostService.cs" />
     <Compile Include="Services\FBSendMsgService.cs" />
+    <Compile Include="Services\OrderService.cs" />
     <Compile Include="Services\ProductService.cs" />
     <Compile Include="Services\ReCodeService.cs" />
     <Compile Include="Services\SalesOrderListService.cs" />

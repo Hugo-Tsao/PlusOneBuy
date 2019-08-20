@@ -5,7 +5,6 @@
 }
 <div class="container bg-light shadow ">
     <div class="row p-3 ">
-        <div class="col"></div>
         <div class="col-2">
             <div class="card listcard border-secondary shadow">
                 <div class="row no-gutters align-items-center">
@@ -73,8 +72,13 @@
                 </div>
             </div>
         </div>
-        <div class="col"></div>
     </div>
+</div>
+<div class="row">
+    <div class="col">
+        <canvas id="chartjs-0" style="width:80%"></canvas>
+    </div>
+    <div class="col"></div>
 </div>
 <div class="container-fluid">
     <div class="row mt-3">
@@ -141,45 +145,30 @@
                         <tbody></tbody>
                     </table>
                 </div>
+                
             </div>
         </div>
-    </div>
+        
+    </div>   
 
 </div>
+<div style="width:50%;">
+    <canvas id="chartjs-0"></canvas>
+</div>
+
+    @*<canvas id="chartjs-0" class="chartjs" width="150" height="150"
+            style="display: block; height: 200px; width: 150px;"></canvas>*@
+
 
 @section EndJS
 {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0/dist/Chart.min.js"></script>
     <script>
-        $(document).ready(function () {
-            GetData();
-            //$("#btn_endpost").click(endPost);
+        $(document).ready(function () {            
+            GetData();           
             $("#btn_sentMsg").click(sendMsg);
-
-            @*function endPost() {
-                $.ajax({
-                    type: "POST",
-                    url: '@Url.Action("SetPostEndtime", "list")',
-                    data: { livePageID: '@ViewData["livePageID"]' },
-                    success: function() {
-                        alert("success");
-                        $.ajax({
-                            type: "POST",
-                            url: '@Url.Action("ClearProducts", "Product")',
-                        }).done(function(response) {
-                            window.location.href = '@Url.Action("FanPageName", "Setting")';
-                        });
-                    },
-                    error: function() {
-                        alert("error");
-                    }
-
-            }).done(function(response) {
-            alert("done");
-            console.log(response);
-
-        });
-
-        }*@
+            setInterval(DrawOrdersCountLine, 5000);
+            
         function sendMsg() {
             $.ajax({
                 type: "POST",
@@ -187,12 +176,45 @@
                 data: { livePageID: '@ViewData["livePageID"]' }
             }).done(function(response) {
                 console.log(response);
-
             });
         }
         });
+        var countSeconds = 0;
         var num = 0;
         var money = 0;
+        var myChart=new Chart(document.getElementById("chartjs-0"),
+            {
+                "type": "line",
+                "data": {
+                    "labels": [],
+                    "datasets": [{
+                        "label": "留言訂單數量",
+                        "data": [],
+                        "fill": false,
+                        "borderColor": "rgb(75, 192, 192)",
+                        "lineTension": 0.1
+                    },{
+                        "label": "觀看人數",
+                        "data": [],
+                        "fill": false,
+                        "borderColor": "rgb(157, 156, 255)",
+                        "lineTension": 0.1
+                        }
+                    ]
+                },
+                "options": {
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true,
+                                stepSize: 1,
+                                
+
+                            }
+                        }]
+                    }
+                }
+            });
         function GetData() {
             $.ajax({
                 type: 'post',
@@ -202,7 +224,7 @@
                 cache: false,
                 success: function (Result) {
                     var json = JSON.parse(Result);
-                    
+
                     for (var i = 0; i < json.length; i++) {
                         var Time = json[i].OrderDateTime
                         var newDate = Time.substring(0,10)+ " " +Time.substring(11,19);
@@ -218,10 +240,11 @@
                     alert("error");
                 }
             }).then(function () {
-                setTimeout(GetLiveVideoViews, 10000);
+                setTimeout(GetLiveVideoViews, 5000);
                 setTimeout(GetData, 3000);
                 setTimeout(GetROIOrderInfo, 3000);
                 setTimeout(GetQty, 3000);
+                
             })
         }
 
@@ -251,7 +274,10 @@
                 url: '@Url.Action("GetLiveVideoViews","list")',
                 data: { livePageID: '@ViewData["livePageID"]' }
             }).done(function (views) {
-                $('#views').text(views)
+                $('#views').text(views);
+
+                myChart.data.datasets[1].data.push(views);
+                myChart.update();
             })
         }
         function GetQty() {
@@ -261,7 +287,7 @@
             }).done(function (result) {
                 if (result != "") {
                     for (var i = 0; i < result.length; i++)
-                    {             
+                    {
                         var ID = '#s_' + result[i].ID + ' td:nth-child(6)'
                         $(ID).text(result[i].PresetQty)
                         if (result[i].PresetQty == 0) {
@@ -270,6 +296,25 @@
                     }
                 }
             })
+        }
+        function DrawOrdersCountLine()
+        {
+            $.ajax({
+                type: "GET",
+                url: '@Url.Action("GetOrdersCount","List")',
+                data: { livePageID: '@ViewData["livePageID"]' }
+            }).done(function (response) {
+                countSeconds = countSeconds + 5;
+                //if (+response > myChart.options.scales.yAxes[0].ticks.max)
+                //{
+                //    myChart.options.scales.yAxes[0].ticks.max = response;
+                //}
+                myChart.data.labels.push(countSeconds+"秒");
+                myChart.data.datasets[0].data.push(response);
+                myChart.update();
+
+            })
+
         }
     </script>
 }

@@ -8,6 +8,7 @@ using System.Data.SqlClient;
 using System.Data;
 using System.Configuration;
 using FBPlusOneBuy.ViewModels;
+using FBPlusOneBuy.DBModels;
 
 namespace FBPlusOneBuy.Repositories
 {
@@ -95,6 +96,18 @@ namespace FBPlusOneBuy.Repositories
             {
                 string sql = "SELECT o.OrderID, c.CustomerName, p.ProductName, p.UnitPrice, o.Quantity, o.OrderDateTime FROM Orders o INNER JOIN Products p ON p.ProductID = o.ProductID INNER JOIN Customers c ON c.CustomerID = o.CustomerID WHERE o.LiveID = @liveId";
                 List<CommentOrderLIstViewModel> orders = conn.Query<CommentOrderLIstViewModel>(sql, new { liveId }).ToList();
+                return orders;
+            }
+        }
+
+        public List<Order> SelectOrdersByLivePageId(string livePageId)
+        {
+            LivePostsRepository live_repo = new LivePostsRepository();
+            int liveId = live_repo.Select(livePageId);
+            using (conn = new SqlConnection(connectionString))
+            {
+                string sql = "SELECT OrderID,ProductID,CustomerID,Keyword,OrderDateTime,Quantity,LiveID From Orders Where LiveID = @liveId order by OrderDateTime";
+                List<Order> orders = conn.Query<Order>(sql, new { liveId }).ToList();
                 return orders;
             }
         }

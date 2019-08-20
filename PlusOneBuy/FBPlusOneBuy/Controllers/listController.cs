@@ -10,6 +10,7 @@ using Newtonsoft.Json;
 using FBPlusOneBuy.Models;
 using FBPlusOneBuy.ViewModels;
 using Microsoft.AspNet.Identity;
+using FBPlusOneBuy.DBModels;
 
 namespace FBPlusOneBuy.Controllers
 {
@@ -179,6 +180,32 @@ namespace FBPlusOneBuy.Controllers
                 return Json(0, JsonRequestBehavior.AllowGet);
             }
 
+        }
+
+        [HttpGet]
+        public ActionResult GetOrdersCount(string livePageID)
+        {
+            int ordersCount = 0;
+            OrderService orderService = new OrderService();
+            List<Order> orders = orderService.GetOrders(livePageID);
+            DateTime dtNow = DateTime.UtcNow.AddHours(8);
+             
+            if (Session["lastCountTime"] == null)
+            {
+                ordersCount = orders.Count;
+                if (ordersCount!=0)
+                {
+                    Session["lastCountTime"] = orders.Last().OrderDateTime;
+                }                
+            }
+            else
+            {
+                DateTime lastCountTime = (DateTime)Session["lastCountTime"];
+                ordersCount = orders.Where(x=>DateTime.Compare(x.OrderDateTime, lastCountTime) >0).Count();
+                Session["lastCountTime"] = orders.Last().OrderDateTime;
+            }
+
+            return Json(ordersCount, JsonRequestBehavior.AllowGet);
         }
     }
 }

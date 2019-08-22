@@ -28,6 +28,7 @@ namespace FBPlusOneBuy.DBModels
         public virtual DbSet<Product> Products { get; set; }
         public virtual DbSet<SalesOrder> SalesOrders { get; set; }
         public virtual DbSet<StoreManager> StoreManagers { get; set; }
+        public virtual DbSet<Viewer> Viewers { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

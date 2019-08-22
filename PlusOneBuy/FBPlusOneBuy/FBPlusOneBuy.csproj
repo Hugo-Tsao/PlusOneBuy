@@ -207,7 +207,6 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
-    <Compile Include="Controllers\BlobController.cs" />
     <Compile Include="Controllers\BotController.cs" />
     <Compile Include="Controllers\ChartController.cs" />
     <Compile Include="Controllers\CommentController.cs" />
@@ -240,6 +239,7 @@
     <Compile Include="DBModels\Product.cs" />
     <Compile Include="DBModels\SalesOrder.cs" />
     <Compile Include="DBModels\StoreManager.cs" />
+    <Compile Include="DBModels\Viewer.cs" />
     <Compile Include="default.aspx.cs">
       <DependentUpon>default.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -452,7 +452,6 @@
     <Content Include="Views\Report\GroupOrderList.cshtml" />
     <Content Include="Views\Report\GroupOrderDetailList.cshtml" />
     <Content Include="Views\LineBind\LineBinding.cshtml" />
-    <Content Include="Views\Blob\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

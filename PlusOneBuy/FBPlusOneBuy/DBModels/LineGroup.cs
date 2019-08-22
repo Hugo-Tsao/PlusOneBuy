@@ -21,7 +21,7 @@ namespace FBPlusOneBuy.DBModels
         [StringLength(100)]
         public string LineGroupID { get; set; }
 
-        public int StoreManagerID { get; set; }
+        public int? StoreManagerID { get; set; }
 
         [StringLength(50)]
         public string GroupName { get; set; }

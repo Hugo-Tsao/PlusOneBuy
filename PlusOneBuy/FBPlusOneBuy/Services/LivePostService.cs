@@ -22,5 +22,11 @@ namespace FBPlusOneBuy.Services
             };
             livepost_repo.Create(livepost);
         }
+        public static int Select(string livePageID)
+        {
+            LivePostsRepository livepost_repo = new LivePostsRepository();
+            var liveID = livepost_repo.Select(livePageID);
+            return liveID;
+        }
     }
 }

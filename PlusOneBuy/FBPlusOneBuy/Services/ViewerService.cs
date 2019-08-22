@@ -24,5 +24,16 @@ namespace FBPlusOneBuy.Services
             };
             viewerRepository.Create(viewer);
         }
+
+        public Viewer SearchViewerByLiveID(int liveID)
+        {
+            var viewers = viewerRepository.GetAll();
+            Viewer viewer = new Viewer();
+            if (viewers != null)
+            {
+                viewer = viewers.FirstOrDefault(x => x.LiveID == liveID);
+            }
+            return viewer;
+        }
     }
 }

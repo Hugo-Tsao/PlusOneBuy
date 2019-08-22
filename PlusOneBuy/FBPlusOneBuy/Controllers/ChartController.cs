@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using FBPlusOneBuy.DBModels;
 
 namespace FBPlusOneBuy.Controllers
 {
@@ -62,13 +63,27 @@ namespace FBPlusOneBuy.Controllers
                 int liveID = LivePostService.Select(livePageID);
                 ViewerService viewerService = new ViewerService();
                 viewerService.Create(liveID, numberOfViewers);
-                return Json("OK",JsonRequestBehavior.AllowGet);
+                return Json("OK");
+            }
+            catch (Exception e)
+            {
+                return Json("error:" + e);
+            }
+        }
+        [HttpGet]
+        public ActionResult GetViewers(int liveID)
+        {
+            try
+            {
+                Viewer viewer = new Viewer();
+                ViewerService viewerService = new ViewerService();
+                viewer = viewerService.SearchViewerByLiveID(liveID);
+                return Json(viewer.NumberOfViewers,JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
             {
                 return Json("error:" + e, JsonRequestBehavior.AllowGet);
             }
-            
         }
     }
 }

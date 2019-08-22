@@ -21,5 +21,16 @@ namespace FBPlusOneBuy.Repositories
                 conn.Execute(sql, new {LiveID = viewer.LiveID, NumberOfViewers = viewer.NumberOfViewers});
             }
         }
+
+        public IEnumerable<Viewer> GetAll()
+        {
+            using (var conn = new SqlConnection(connectionString))
+            {
+                IEnumerable<Viewer> viewers;
+                string sql = "SELECT * FROM Viewers";
+                viewers = conn.Query<Viewer>(sql);
+                return viewers;
+            }
+        }
     }
 }

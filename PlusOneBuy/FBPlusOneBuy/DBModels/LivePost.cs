@@ -13,6 +13,7 @@ namespace FBPlusOneBuy.DBModels
         {
             Orders = new HashSet<Order>();
             SalesOrders = new HashSet<SalesOrder>();
+            Viewers = new HashSet<Viewer>();
         }
 
         public int ID { get; set; }
@@ -43,5 +44,8 @@ namespace FBPlusOneBuy.DBModels
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SalesOrder> SalesOrders { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Viewer> Viewers { get; set; }
     }
 }

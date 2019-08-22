@@ -13,5 +13,9 @@ namespace FBPlusOneBuy.DBModels
         public DateTime? InfoTime { get; set; }
 
         public string NumberOfViewers { get; set; }
+
+        public int? LiveID { get; set; }
+
+        public virtual LivePost LivePost { get; set; }
     }
 }

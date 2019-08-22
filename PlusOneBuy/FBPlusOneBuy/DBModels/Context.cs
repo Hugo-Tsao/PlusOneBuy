@@ -105,6 +105,11 @@ namespace FBPlusOneBuy.DBModels
                 .HasForeignKey(e => e.LiveID)
                 .WillCascadeOnDelete(false);
 
+            modelBuilder.Entity<LivePost>()
+                .HasMany(e => e.Viewers)
+                .WithOptional(e => e.LivePost)
+                .HasForeignKey(e => e.LiveID);
+
             modelBuilder.Entity<Order>()
                 .Property(e => e.CustomerID)
                 .IsUnicode(false);

@@ -53,5 +53,22 @@ namespace FBPlusOneBuy.Controllers
             }
             return Json(arrayData);
         }
+
+        [HttpPost]
+        public ActionResult ReCordViewers(string livePageID, string numberOfViewers)
+        {
+            try
+            {
+                int liveID = LivePostService.Select(livePageID);
+                ViewerService viewerService = new ViewerService();
+                viewerService.Create(liveID, numberOfViewers);
+                return Json("OK",JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                return Json("error:" + e, JsonRequestBehavior.AllowGet);
+            }
+            
+        }
     }
 }

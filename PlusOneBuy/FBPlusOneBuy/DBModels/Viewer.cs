@@ -14,7 +14,7 @@ namespace FBPlusOneBuy.DBModels
 
         public string NumberOfViewers { get; set; }
 
-        public int? LiveID { get; set; }
+        public int LiveID { get; set; }
 
         public virtual LivePost LivePost { get; set; }
     }

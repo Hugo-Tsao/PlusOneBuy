@@ -81,9 +81,9 @@
             <button id="btn_sentMsg" class="btn btn-primary ">寄送購物車連結</button>
         </div>
         <div class="col">
-            <form method="post" action="/list/SetPostEndtime">
+            <form id="EndPost" method="post" action="/list/SetPostEndtime">
                 <input name="livePageID" value="@ViewData["livePageID"]" type="hidden" />
-                <button type="submit" id="btn_endpost" class="btn btn-dark ">結束本次推播</button>
+                <button type="button" id="btn_endpost" class="btn btn-dark ">結束本次推播</button>
             </form>
         </div>
     </div>
@@ -268,21 +268,20 @@
                 type: "GET",
                 url: '@Url.Action("GetLiveVideoViews","list")',
                 data: { livePageID: '@ViewData["livePageID"]' }
-            }).done(function (views) {
+            }).done(function(views) {
                 $('#views').text(views);
 
                 myChart.data.datasets[1].data.push(views);
                 myChart.update();
-            })
+            });
         }
         function GetQty() {
             $.ajax({
                 type: "GET",
                 url: '@Url.Action("GetPresetQty","Product")'
-            }).done(function (result) {
+            }).done(function(result) {
                 if (result != "") {
-                    for (var i = 0; i < result.length; i++)
-                    {
+                    for (var i = 0; i < result.length; i++) {
                         var ID = '#s_' + result[i].ID + ' td:nth-child(6)'
                         $(ID).text(result[i].PresetQty)
                         if (result[i].PresetQty == 0) {
@@ -290,26 +289,38 @@
                         }
                     }
                 }
-            })
+            });
         }
-        function DrawOrdersCountLine()
-        {
+        function DrawOrdersCountLine() {
             $.ajax({
                 type: "GET",
                 url: '@Url.Action("GetOrdersCount","List")',
                 data: { livePageID: '@ViewData["livePageID"]' }
-            }).done(function (response) {
+            }).done(function(response) {
                 countSeconds = countSeconds + 5;
                 //if (+response > myChart.options.scales.yAxes[0].ticks.max)
                 //{
                 //    myChart.options.scales.yAxes[0].ticks.max = response;
                 //}
-                myChart.data.labels.push(countSeconds+"秒");
+                myChart.data.labels.push(countSeconds + "秒");
                 myChart.data.datasets[0].data.push(response);
                 myChart.update();
 
-            })
-
+            });
         }
+
+        $("#btn_endpost").on('click',
+            function (e) {
+                e.preventDefault();
+                var data = JSON.stringify(myChart.data.datasets[1].data);
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("ReCordViewers","Chart")',
+                    data: { livePageID : "@ViewData["livePageID"]", numberOfViewers: data }
+                }).done(function(response) {
+                    console.log(response);
+                    $("#EndPost").submit();
+                });
+            });
     </script>
 }

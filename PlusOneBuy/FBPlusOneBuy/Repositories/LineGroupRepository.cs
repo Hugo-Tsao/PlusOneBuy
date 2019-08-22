@@ -58,12 +58,12 @@ namespace FBPlusOneBuy.Repositories
             }
         }
         //中台未成團
-        public List<LineGroup> GetNullGroup(int managerId)
+        public IEnumerable<LineGroup> GetNullGroup(int managerId)
         {
             using (conn = new SqlConnection(connectionString))
             {
                 string sql = "SELECT GroupID,GroupName FROM LineGroup WHERE StoreManagerID=@managerId AND Status IS NULL";
-                return conn.Query<LineGroup>(sql,new { managerId }).ToList();
+                return conn.Query<LineGroup>(sql,new { managerId });
             }
         }
         //LineGroupNull比對

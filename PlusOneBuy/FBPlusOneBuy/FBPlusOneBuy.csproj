@@ -280,6 +280,7 @@
     <Compile Include="Repositories\ProductRepositories.cs" />
     <Compile Include="Repositories\SalesOrderRepositories.cs" />
     <Compile Include="Repositories\StoreManagerRepository.cs" />
+    <Compile Include="Repositories\ViewerRepository.cs" />
     <Compile Include="Services\BotService.cs" />
     <Compile Include="Services\CommentFilterService.cs" />
     <Compile Include="Services\CommentListService.cs" />
@@ -297,6 +298,7 @@
     <Compile Include="Services\ProductService.cs" />
     <Compile Include="Services\ReCodeService.cs" />
     <Compile Include="Services\SalesOrderListService.cs" />
+    <Compile Include="Services\ViewerService.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\BindAcoountStoreManagerViewModel.cs" />
     <Compile Include="ViewModels\CartViewModel.cs" />

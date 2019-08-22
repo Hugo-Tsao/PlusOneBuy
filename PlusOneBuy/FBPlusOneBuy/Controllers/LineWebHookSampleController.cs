@@ -143,7 +143,12 @@ namespace FBPlusOneBuy.Controllers
                     }
                     else
                     {
-                        var nullGroup = LineBindingService.GetNullGroup(linegroup.StoreManagerID);
+                        int storeManagerID = 0;
+                        if (linegroup.StoreManagerID != null)
+                        {
+                            storeManagerID = (int)linegroup.StoreManagerID;
+                        }
+                        var nullGroup = LineBindingService.GetNullGroup(storeManagerID);
                         //群組名字一樣，舊的改狀態新的null刪掉
                         if (nullGroup.Count==0)
                         {

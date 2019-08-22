@@ -54,9 +54,14 @@ namespace FBPlusOneBuy.Services
         }
         public static List<LineGroup> GetNullGroup(int managerId)
         {
+            List<LineGroup> result = new List<LineGroup>();
             LineGroupRepository lineGroup_repo = new LineGroupRepository();
-            List<LineGroup> nullGroupName = lineGroup_repo.GetNullGroup(managerId).ToList();
-            return nullGroupName;
+            var nullGroupName = lineGroup_repo.GetNullGroup(managerId);
+            if (nullGroupName != null)
+            {
+                result = nullGroupName.ToList();
+            }
+            return result;
         }
         public static List<CompareStoreManager> GroupNullCompare()
         {

@@ -13,13 +13,16 @@
 <span class="h4 font-weight-normal text-muted"><strong>留言訂單</strong></span>
 
 <div class="row mt-3">
-    <div class="col">
-        <span>直播編號:@LivePost.LivePageID</span>
+    <div class="col-4">
+        <span>直播編號:<br/>@LivePost.LivePageID</span><br />
         <span>直播名稱:@LivePost.LiveName</span><br />
-        <span>開始時間:@LivePost.postTime</span>
+        <span>開始時間:@LivePost.postTime</span><br />
         <span>結束時間:@LivePost.endTime</span><br />
-        <span>收單數量:@LivePost.QtyOfOrders</span>
+        <span>收單數量:@LivePost.QtyOfOrders</span><br />
         <span>收單金額:@String.Format("{0:N0}", @LivePost.Amount)</span>
+    </div>
+    <div class="col-8">
+        <canvas id="line-chart" style="width:100%;height:80%;"></canvas>
     </div>
 </div>
 <table id="myTable" class="cell-border compact stripe" style="width:100%">
@@ -73,9 +76,88 @@
     <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
     <script>
         $(document).ready(function () {
+            var fbchart;
             $('#myTable').DataTable({
                 "info": false, "bLengthChange": false, "pageLength": 10
             });
+            $.ajax({
+                type: "POST",
+                url: "/Chart/FbOrderChart",
+                data: { liveId: '@ViewBag.liveId' },
+                success: function (result) {
+                    chart(result)   
+                }
+            }).done(function () {
+                $.ajax({
+                type: "GET",
+                url: "/Chart/GetViewers",
+                data: { liveID: '@ViewBag.liveId' },
+                success: function (result) {
+                    if (result != null) {
+                             var group = 12; //幾個一組
+                    var parseResult = JSON.parse(result);
+                    var viewChart = [];
+                    var index = 0;
+                    for (var i = 0; i < parseResult.length; i++) {
+                        index = Math.ceil((i + 1) / group) - 1;
+                        if (isNaN(viewChart[index])) {
+                            viewChart[index] = 0;
+                        }
+                        viewChart[index] += parseResult[i];
+                    }
+                    viewChart.unshift(0)
+                        viewChart.forEach(function (element) {
+                            var avg = Math.round(element / group)
+                        fbchart.data.datasets[1].data.push(avg);
+                    });
+                    fbchart.update();
+                         }
+                }
+            });
+            });   
+            
+            function chart(data) {
+                fbchart=new Chart(document.getElementById("line-chart"), {
+                  type: 'line',
+                  data: {
+                    labels: data.datetime,
+                    datasets: [{
+                        data: data.sum,
+                        borderColor: "#F8C471",
+                        fill: false
+                    },{
+                        data: [],
+                        borderColor: "#84c1ff",
+                        fill: false
+                      }
+
+                    ]
+                  },
+              options: {
+                title: {
+                    display: true,
+                    text: '留言數量與觀看人數'
+                  },
+                legend: {
+                     display: false
+                  },
+                  scales: {
+                    xAxes: [{
+                          ticks: {
+                            maxRotation: 0
+                          }
+                        }],
+                      yAxes: [{
+                          ticks: {
+                              min:0,
+                              stepSize: 1
+                          }
+                      }]
+                  },
+              }
+            });
+            }            
         });
+        
     </script>
 }

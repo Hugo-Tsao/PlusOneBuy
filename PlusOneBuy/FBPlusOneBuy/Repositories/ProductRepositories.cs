@@ -40,8 +40,8 @@ namespace FBPlusOneBuy.Repositories
         {
             using (var conn = new SqlConnection(connectionString))
             {
-                string sql = "INSERT INTO Products(ProductID, ProductPageID, UnitPrice, ProductName) VALUES ( @SkuId, @Salepage_id, @UnitPrice,@ProductName)";
-                conn.Execute(sql, new { pvm.SkuId, pvm.Salepage_id, pvm.UnitPrice,pvm.ProductName });
+                string sql = "INSERT INTO Products(ProductID, ProductPageID, UnitPrice, ProductName,Stock) VALUES ( @SkuId, @Salepage_id, @UnitPrice,@ProductName,@Stock)";
+                conn.Execute(sql, new { pvm.SkuId, pvm.Salepage_id, pvm.UnitPrice,pvm.ProductName,pvm.Stock });
             }
         }
         public Product GetProductById(int productID)

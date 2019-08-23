@@ -15,5 +15,7 @@ namespace FBPlusOneBuy.ViewModels
         public string Keyword { get; set; }
         public int Qty { get; set; }
         public int PresetQty { get; set; }
+
+        public int Stock { get; set; }
     }
 }

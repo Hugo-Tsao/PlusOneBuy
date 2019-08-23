@@ -1,4 +1,5 @@
-﻿using FBPlusOneBuy.Repositories;
+﻿using FBPlusOneBuy.DBModels;
+using FBPlusOneBuy.Repositories;
 using FBPlusOneBuy.Services;
 using FBPlusOneBuy.ViewModels;
 using Newtonsoft.Json;
@@ -7,7 +8,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using FBPlusOneBuy.DBModels;
 
 namespace FBPlusOneBuy.Controllers
 {
@@ -73,9 +73,10 @@ namespace FBPlusOneBuy.Controllers
             var sum = new List<int>();
             var datetime = new List<string>();
             var chartData = new { datetime, sum };
-            for (var i = 1; i <= minutes; i++)
+            for (var i = 0; i <= minutes; i++)
             {
-                intervalOrders = orders.Where((x) => x.OrderDateTime.Minute >= post + i && x.OrderDateTime.Minute < post + i + 1).ToList();
+                intervalOrders = orders.Where((x) => post+i <=x.OrderDateTime.Minute  && x.OrderDateTime.Minute < post + i+1).ToList();
+
                 var qty = 0;
                 foreach (var item in intervalOrders)
                 {
@@ -96,12 +97,13 @@ namespace FBPlusOneBuy.Controllers
                 int liveID = LivePostService.Select(livePageID);
                 ViewerService viewerService = new ViewerService();
                 viewerService.Create(liveID, numberOfViewers);
-                return Json("OK");
+                return Json("OK",JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
             {
-                return Json("error:" + e);
+                return Json("error:" + e, JsonRequestBehavior.AllowGet);
             }
+            
         }
         [HttpGet]
         public ActionResult GetViewers(int liveID)
@@ -111,11 +113,11 @@ namespace FBPlusOneBuy.Controllers
                 Viewer viewer = new Viewer();
                 ViewerService viewerService = new ViewerService();
                 viewer = viewerService.SearchViewerByLiveID(liveID);
-                return Json(viewer.NumberOfViewers,JsonRequestBehavior.AllowGet);
+                return Json(viewer.NumberOfViewers, JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
             {
-                return Json("error:" + e, JsonRequestBehavior.AllowGet);
+                return Json(null, JsonRequestBehavior.AllowGet);
             }
         }
     }

@@ -76,21 +76,48 @@
     <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
     <script>
         $(document).ready(function () {
+            var fbchart;
             $('#myTable').DataTable({
                 "info": false, "bLengthChange": false, "pageLength": 10
             });
             $.ajax({
-                    type: "POST",
-                    url: "/Chart/FbOrderChart",
-                    data: { liveId: '@ViewBag.liveId' },
-                    success: function (data) {
-                        console.log(data)
-                        chart(data)
-                    }              
+                type: "POST",
+                url: "/Chart/FbOrderChart",
+                data: { liveId: '@ViewBag.liveId' },
+                success: function (result) {
+                    chart(result)   
+                }
+            }).done(function () {
+                $.ajax({
+                type: "GET",
+                url: "/Chart/GetViewers",
+                data: { liveID: '@ViewBag.liveId' },
+                success: function (result) {
+                    if (result != null) {
+                             var group = 12; //幾個一組
+                    var parseResult = JSON.parse(result);
+                    var viewChart = [];
+                    var index = 0;
+                    for (var i = 0; i < parseResult.length; i++) {
+                        index = Math.ceil((i + 1) / group) - 1;
+                        if (isNaN(viewChart[index])) {
+                            viewChart[index] = 0;
+                        }
+                        viewChart[index] += parseResult[i];
+                    }
+                    viewChart.unshift(0)
+                        viewChart.forEach(function (element) {
+                            var avg = Math.round(element / group)
+                        fbchart.data.datasets[1].data.push(avg);
+                    });
+                    fbchart.update();
+                         }
+                }
             });
+            });   
             
             function chart(data) {
-                new Chart(document.getElementById("line-chart"), {
+                fbchart=new Chart(document.getElementById("line-chart"), {
                   type: 'line',
                   data: {
                     labels: data.datetime,
@@ -98,12 +125,18 @@
                         data: data.sum,
                         borderColor: "#F8C471",
                         fill: false
-                      }]
+                    },{
+                        data: [],
+                        borderColor: "#84c1ff",
+                        fill: false
+                      }
+
+                    ]
                   },
               options: {
                 title: {
                     display: true,
-                    text: '團購數量與金額'
+                    text: '留言數量與觀看人數'
                   },
                 legend: {
                      display: false
@@ -121,17 +154,10 @@
                           }
                       }]
                   },
-                tooltips: {
-                      callbacks: {
-                          //label: function (tooltipItem) {
-                          //    var index = tooltipItem.index;
-                          //    return "數量:" + Number(tooltipItem.yLabel) + " 金額:$" + price[index] + " 顧客:" + name[index];
-                          //  }
-                        }
-                  }
               }
             });
-            } 
+            }            
         });
+        
     </script>
 }

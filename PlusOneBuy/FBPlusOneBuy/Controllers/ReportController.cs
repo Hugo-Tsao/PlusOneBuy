@@ -38,11 +38,11 @@ namespace FBPlusOneBuy.Controllers
         public ActionResult CommentsOrderList(int liveId)
         {
             LivePostsRepository livePost_repo = new LivePostsRepository();
-             ViewData["LivePost"] = livePost_repo.GetLivePost(liveId);
-
-             OrderRepositories order_repo = new OrderRepositories();
-             List<CommentOrderLIstViewModel> orders = order_repo.GetOrders(liveId);
-             ViewData.Model = orders;
+            ViewData["LivePost"] = livePost_repo.GetLivePost(liveId);
+            ViewBag.liveId = liveId;
+            OrderRepositories order_repo = new OrderRepositories();
+            List<CommentOrderLIstViewModel> orders = order_repo.GetOrders(liveId);
+            ViewData.Model = orders;
             return View();
         }
         public ActionResult ROIOrderList(int liveId)

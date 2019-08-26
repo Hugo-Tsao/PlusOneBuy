@@ -298,6 +298,7 @@
     <Compile Include="Services\ProductService.cs" />
     <Compile Include="Services\ReCodeService.cs" />
     <Compile Include="Services\SalesOrderListService.cs" />
+    <Compile Include="Services\StoreManagerService.cs" />
     <Compile Include="Services\ViewerService.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\BindAcoountStoreManagerViewModel.cs" />

@@ -34,6 +34,30 @@ namespace FBPlusOneBuy.Repositories
             }
 
         }
+        public int SearchLineID(string LineID)
+        {
+            using (conn = new SqlConnection(connectionString))
+            {
+                string sql = "SELECT StoreManagerID FROM StoreManager WHERE LineID=@LineID";
+                return conn.QueryFirstOrDefault<int>(sql, new { LineID });
+            }
+        }
+        public int GetMangerIdByAspNetId(string aspNetUserId)
+        {
+            using (conn = new SqlConnection(connectionString))
+            {
+                string sql = "SELECT StoreManagerID FROM StoreManager WHERE AspNetUserId=@aspNetUserId AND Status='True'";
+                return conn.QueryFirstOrDefault<int>(sql, new { aspNetUserId });
+            }
+        }
+        public void UpdateManagerStatus(int StoreManagerID, string status)
+        {
+            using (conn = new SqlConnection(connectionString))
+            {
+                string sql = "UPDATE StoreManager SET Status='" + status + "' WHERE StoreManagerID=@StoreManagerID";
+                conn.Execute(sql, new { StoreManagerID });
+            }
+        }
 
     }
 }

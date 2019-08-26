@@ -16,14 +16,7 @@ namespace FBPlusOneBuy.Repositories
         private string connectionString = ConfigurationManager.ConnectionStrings["Context"].ConnectionString;
         private SqlConnection conn;
 
-        public int SearchLineID(string LineID)
-        {
-            using (conn = new SqlConnection(connectionString))
-            {
-                string sql = "SELECT StoreManagerID FROM StoreManager WHERE LineID=@LineID";
-                return conn.QueryFirstOrDefault<int>(sql, new { LineID });
-            }
-        }
+
         public string GetLineGroupIDByID(int groupId)
         {
             using (conn = new SqlConnection(connectionString))
@@ -32,14 +25,7 @@ namespace FBPlusOneBuy.Repositories
                 return conn.QueryFirstOrDefault<string>(sql, new { groupId });
             }
         }
-        public int GetMangerIdByAspNetId(string aspNetUserId)
-        {
-            using (conn = new SqlConnection(connectionString))
-            {
-                string sql = "SELECT StoreManagerID FROM StoreManager WHERE AspNetUserId=@aspNetUserId AND Status='True'";              
-                return conn.QueryFirstOrDefault<int>(sql, new { aspNetUserId });
-            }
-        }
+
         public void InsertGroupName(int managerId,string groupName)
         {
             using (conn = new SqlConnection(connectionString))
@@ -129,14 +115,7 @@ namespace FBPlusOneBuy.Repositories
                 conn.Execute(sql, new { groupId });
             }
         }
-        public void UpdateManagerStatus(int StoreManagerID, string status)
-        {
-            using (conn = new SqlConnection(connectionString))
-            {
-                string sql = "UPDATE StoreManager SET Status='" + status + "' WHERE StoreManagerID=@StoreManagerID";
-                conn.Execute(sql, new { StoreManagerID });
-            }
-        }
+
         public void UpdateManagerAllGroupStatus(int StoreManagerID, string status)
         {
             using (conn = new SqlConnection(connectionString))

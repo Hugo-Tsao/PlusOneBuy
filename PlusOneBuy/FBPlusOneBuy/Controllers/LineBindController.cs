@@ -16,14 +16,14 @@ namespace FBPlusOneBuy.Controllers
             string accessToken = LineRequestService.CodeToAccessToken(code);
             var lineProfile = LineRequestService.UseTokenToGetProfile(accessToken);
 
-            var userId=LineBindingService.SearchLineID(lineProfile.userId);
+            var userId=StoreManagerService.SearchLineID(lineProfile.userId);
             if (userId == 0)
             {
                 LineBindingService.InsertStoreManager(lineProfile);
             }
             else
             {
-                LineBindingService.UpdateManagerStatus(userId, "True");
+                StoreManagerService.UpdateManagerStatus(userId, "True");
             }
 
 
@@ -39,7 +39,7 @@ namespace FBPlusOneBuy.Controllers
         [HttpPost]
         public void InsertGroupName(string aspNetUserId, string groupName)
         {
-            int managerId = LineBindingService.GetManagerId(aspNetUserId);
+            int managerId = StoreManagerService.GetManagerId(aspNetUserId);
             LineBindingService.InsertGroupName(managerId, groupName);
         }
 
@@ -58,7 +58,7 @@ namespace FBPlusOneBuy.Controllers
         [HttpPost]
         public void UpdateManagerStatus(int StoreManagerID,string Status)
         {
-            LineBindingService.UpdateManagerStatus(StoreManagerID, Status);
+            StoreManagerService.UpdateManagerStatus(StoreManagerID, Status);
             var GroupList = LineBindingService.GetGroupList(StoreManagerID);
             foreach (var item in GroupList)
             {

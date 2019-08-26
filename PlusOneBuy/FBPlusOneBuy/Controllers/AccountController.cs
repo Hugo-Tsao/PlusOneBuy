@@ -106,7 +106,7 @@ namespace FBPlusOneBuy.Controllers
             var fpage_repo = new FanPagesRepository();          
             var fpage=fpage_repo.SelectBinding(userid);
             var profile = LineBindingService.GetBindingStoreMamager(userid);
-            int managerId= LineBindingService.GetManagerId(userid);
+            int managerId= StoreManagerService.GetManagerId(userid);
 
             ViewBag.groupList = LineBindingService.GetGroupList(managerId);
             ViewBag.NullgroupList = LineBindingService.GetNullGroup(managerId);

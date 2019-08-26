@@ -10,12 +10,7 @@ namespace FBPlusOneBuy.Services
 {
     public class LineBindingService
     {
-        public static int SearchLineID(string lineID)
-        {
-            LineGroupRepository lineGroup_repo = new LineGroupRepository();
-            int storeManagerId = lineGroup_repo.SearchLineID(lineID);
-            return storeManagerId;
-        }
+
         public static string GetLineGroupIDByID(int groupId)
         {
             LineGroupRepository lineGroup_repo = new LineGroupRepository();
@@ -35,12 +30,7 @@ namespace FBPlusOneBuy.Services
             return profile;
         }
 
-        public static int GetManagerId(string aspNetUserId)
-        {
-            LineGroupRepository lineGroup_repo = new LineGroupRepository();
-            int managerId = lineGroup_repo.GetMangerIdByAspNetId(aspNetUserId);
-            return managerId;
-        }
+
         public static void InsertGroupName(int managerId, string groupName)
         {
             LineGroupRepository lineGroup_repo = new LineGroupRepository();
@@ -92,11 +82,7 @@ namespace FBPlusOneBuy.Services
             LineGroupRepository lineGroup_repo = new LineGroupRepository();
             lineGroup_repo.UpdateGroupStatus(groupId, status);
         }
-        public static void UpdateManagerStatus(int StoreManagerID, string status)
-        {
-            LineGroupRepository lineGroup_repo = new LineGroupRepository();
-            lineGroup_repo.UpdateManagerStatus(StoreManagerID, status);
-        }
+
         public static void UpdateManagerAllGroupStatus(int StoreManagerID, string status)
         {
             LineGroupRepository lineGroup_repo = new LineGroupRepository();
